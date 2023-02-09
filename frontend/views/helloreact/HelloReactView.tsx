@@ -8,8 +8,6 @@ import {VAADIN_CSRF_HEADER} from "@hilla/frontend/CsrfUtils";
 
 export default function HelloReactView() {
 
-  const [name, setName] = useState('');
-
 
   return (
     <>
@@ -37,7 +35,8 @@ export default function HelloReactView() {
             <br/>
             <input type="checkbox" id="topping" name="topping" value="nonEnglish" /><em>Remove non-English models</em>
             <br/>
-            <Button style={{marginTop: "30px",}} onClick={() => {
+            <Button style={{marginTop: "30px",color:"green",cursor:"pointer"}}
+                    onClick={() => {
                 alert('clicked');
             }}>
                 <em>Inspect!</em>
