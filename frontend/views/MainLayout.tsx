@@ -7,6 +7,7 @@ import { MenuProps, routes, useViewMatches, ViewRouteObject } from 'Frontend/rou
 import { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import css from './MainLayout.module.css';
+import logo from "./../img/logo.png"
 
 type MenuRoute = ViewRouteObject &
   Readonly<{
@@ -26,7 +27,7 @@ export default function MenuOnLeftLayout() {
   return (
     <AppLayout className="block h-full" primarySection="drawer">
       <header slot="drawer">
-        <h1 className="text-l m-0">BPMN Inspector</h1>
+        <h1 className="text-l m-0"><img src={logo} alt="" width="200"/></h1>
       </header>
       <Scroller slot="drawer" scroll-direction="vertical">
         <nav>
