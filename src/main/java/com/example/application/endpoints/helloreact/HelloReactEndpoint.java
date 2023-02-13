@@ -16,6 +16,4 @@ public class HelloReactEndpoint {
             return "Hello " + name;
         }
     }
-
-
 }

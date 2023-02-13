@@ -22,6 +22,7 @@
     "noUnusedParameters": false,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "frontend",
     "paths": {
       "@vaadin/flow-frontend": ["generated/jar-resources"],

@@ -2,6 +2,9 @@ import HelloReactView from 'Frontend/views/helloreact/HelloReactView.js';
 import MainLayout from 'Frontend/views/MainLayout.js';
 import { lazy } from 'react';
 import { createBrowserRouter, IndexRouteObject, NonIndexRouteObject, useMatches } from 'react-router-dom';
+import DocView from "Frontend/views/documentation/DocView";
+import githubView from "Frontend/views/github/GithubView";
+import GithubView from "Frontend/views/github/GithubView";
 
 const AboutView = lazy(async () => import('Frontend/views/about/AboutView.js'));
 export type MenuProps = Readonly<{
@@ -28,13 +31,16 @@ export type ViewRouteMatch = Readonly<Override<RouteMatch, ViewMeta>>;
 
 export const useViewMatches = useMatches as () => readonly ViewRouteMatch[];
 
+
 export const routes: readonly ViewRouteObject[] = [
   {
     element: <MainLayout />,
     handle: { icon: 'null', title: 'Main' },
     children: [
-      { path: '/', element: <HelloReactView />, handle: { icon: 'la la-globe', title: 'Home' } },
-      { path: '/about', element: <AboutView />, handle: { icon: 'la la-file', title: 'About' } },
+      { path: '/', element: <HelloReactView/>, handle: { icon: 'la la-globe', title: 'Home' } },
+      { path: '/documentation', element: <DocView />, handle: { icon: 'la la-file', title: 'Documentation' } },
+      { path: '/about', element: <AboutView />, handle: { icon: 'la la-info-circle', title: 'About' } },
+      { path: '/github', element: <GithubView />, handle: { icon: 'la la-github', title: 'Github' } },
     ],
   },
 ];
