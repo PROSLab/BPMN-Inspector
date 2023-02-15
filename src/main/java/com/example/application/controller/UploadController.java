@@ -1,49 +1,36 @@
 package com.example.application.controller;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import javax.servlet.annotation.MultipartConfig;
 import java.util.List;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.zip.ZipFile;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.ArrayList;
 
-@Controller
+
+@RestController
 public class UploadController {
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src/main/resources/bpmnModels/";
 
-
     @PostMapping("/upload") // //new annotation since 4.3
-    public String multipleFileUpload(@RequestParam("file") List<MultipartFile> files,
-                                   RedirectAttributes redirectAttributes) {
+    public String multipleFileUpload(@RequestParam("file") List<MultipartFile> files) {
 
         if (files.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:upload";
+
+            return "Please upload a file";
         }
         for (MultipartFile file : files) {
-
             String fileExtension = getFileExtension(file.getOriginalFilename());
 
             if (!fileExtension.equals("xml") && !fileExtension.equals("bpmn") && !fileExtension.equals("zip")) {
-                redirectAttributes.addFlashAttribute("message", "File type not supported. Please upload a BPMN or XML file");
-                return "redirect:upload";
+                return "Please upload a valid file (.bpmn, .xml or .zip)";
             }
-
 
             try {
                 // Check if the file is a zip file
@@ -70,45 +57,24 @@ public class UploadController {
                     }
                     zis.close();
 
-                    redirectAttributes.addFlashAttribute("message",
-                            "You successfully uploaded and extracted the contents of '" + file.getOriginalFilename() + "'");
-                } else {
+                     } else {
 
                     // Get the file and save it somewhere
                     byte[] bytes = file.getBytes();
                     Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
                     Files.write(path, bytes);
-
-                    redirectAttributes.addFlashAttribute("message",
-                            "You successfully uploaded '" + file.getOriginalFilename() + "'");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            return "You uploaded a .zip file. All the .bpmn files have been extracted.";
         }
-        return "redirect:/upload";
+        return "File uploaded successfully";
     }
 
     private String getFileExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
         return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
-    }
-
-    @GetMapping("/upload")
-    public String uploadStatus(Model model) {
-        File folder = new File(UPLOADED_FOLDER);
-        File[] listOfFiles = folder.listFiles();
-
-        List<String> fileNames = new ArrayList<>();
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                fileNames.add(file.getName());
-            }
-        }
-
-        model.addAttribute("files", fileNames);
-
-        return "redirect:/";
     }
 
 }

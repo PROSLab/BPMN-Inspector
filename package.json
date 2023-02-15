@@ -28,6 +28,7 @@
     "@vaadin/vaadin-lumo-styles": "23.3.5",
     "@vaadin/vaadin-material-styles": "23.3.5",
     "@vaadin/vaadin-themable-mixin": "23.3.5",
+    "axios": "^1.3.3",
     "classnames": "^2.3.2",
     "construct-style-sheets-polyfill": "3.1.0",
     "line-awesome": "1.3.0",
@@ -88,7 +89,8 @@
     "@vaadin/vaadin-lumo-styles": "$@vaadin/vaadin-lumo-styles",
     "@hilla/generator-typescript-plugin-backbone": "$@hilla/generator-typescript-plugin-backbone",
     "@vaadin/vaadin-material-styles": "$@vaadin/vaadin-material-styles",
-    "@hilla/generator-typescript-cli": "$@hilla/generator-typescript-cli"
+    "@hilla/generator-typescript-cli": "$@hilla/generator-typescript-cli",
+    "axios": "$axios"
   },
   "vaadin": {
     "dependencies": {
@@ -136,6 +138,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "bd88bf2b58a22f818fac3794445e0e519fb67ac913c7bfa943f229d9fc59d331"
+    "hash": "de35d42c3fc1b6463d1bca9e88382e1fa6119221be16f03a7d532a5d85bd18a0"
   }
 }

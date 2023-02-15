@@ -9,11 +9,15 @@ import dev.hilla.Nonnull;
 public class HelloReactEndpoint {
 
     @Nonnull
-    public String sayHello(@Nonnull String name) {
-        if (name.isEmpty()) {
-            return "Hello stranger";
-        } else {
-            return "Hello " + name;
+    public String Duplicate(@Nonnull String duplicate) {
+            return "Hello " + duplicate;
         }
+
+    public String Invalid(@Nonnull String invalid) {
+        return "Hello " + invalid;
     }
-}
+
+    public String nonEnglish(@Nonnull String nonEnglish) {
+        return "Hello " + nonEnglish;
+    }
+    }
