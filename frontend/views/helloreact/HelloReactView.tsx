@@ -6,26 +6,42 @@ import React, {ReactDOM, useState} from "react";
 import { Button } from '@hilla/react-components/Button.js';
 import axios from 'axios';
 import {ConfirmDialog} from "@hilla/react-components/ConfirmDialog";
+import { applyTheme } from 'Frontend/generated/theme';
+import { css, html, LitElement } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import '@vaadin/icon';
+import '@vaadin/icons';
+import '@vaadin/vertical-layout';
+import {Link} from "react-router-dom";
 
 export default function HelloReactView() {
     const [name, setName] = useState('');
     const [duplicate, setDuplicate] = useState('');
     const [invalid, setInvalid] = useState('');
     const [nonEnglish, setNonEnglish] = useState('');
-    const [showResults, setShowResults] = React.useState(true)
+    const [showHome, setShowHome] = React.useState(true)
+    const [showResults, setShowResults] = React.useState(false)
     let selectedFile: any = null;
 
+    // Stampo i files
     const Results = () => {
+            // Se codice di errore 200, allora mostra la pagina dei risultati
+
+            return (
+                <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
+                    <Link to="/">Home!</Link>
+                    <h1>BPMN Models Inspected!</h1>
+                </div>
+            );
+        }
+
+    const Home = () => {
         const onClick = async (e: any) => {
-            setShowResults(false)
+
             e.preventDefault()
 
             const formData = new FormData();
 
-            if(selectedFile == null) {
-                alert("Please insert a file!")
-                return
-            }
 
             Array.from(selectedFile).forEach((file: any) => {
                 formData.append("file", file);
@@ -39,8 +55,12 @@ export default function HelloReactView() {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
             } catch(error) {
-                console.log(error)
+                alert(error)
+                setShowHome(true)
+                setShowResults(false)
             }
+            setShowHome(false)
+           setShowResults(true)
     }
         const handleFileSelect = (event: any) => {
             const files = event.target.files
@@ -78,9 +98,7 @@ export default function HelloReactView() {
                         <input type="submit" value="Inspect!" style={{color: "green", cursor: "pointer"}}/>
                     </form>
                     <tr>
-                        <div id="TestsDiv" style={{display: "none"}}>
-                            tests here!
-                        </div>
+
                     </tr>
                 </section>
 
@@ -101,12 +119,12 @@ export default function HelloReactView() {
             </div>
         )
     }
-    // { showResults ? <Results /> : null }
+    //
+    //
     return (
         <>
-
-            <Results />
-
+            { showHome ? <Home /> : null }
+            { showResults ? <Results /> : null }
 
         </>
     );

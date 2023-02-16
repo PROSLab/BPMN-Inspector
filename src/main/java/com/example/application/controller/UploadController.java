@@ -23,9 +23,11 @@ public class UploadController {
 
         if (files.isEmpty()) {
 
-            return "Please upload a file";
+            return "Please upload a file!";
         }
+
         for (MultipartFile file : files) {
+
             String fileExtension = getFileExtension(file.getOriginalFilename());
 
             if (!fileExtension.equals("xml") && !fileExtension.equals("bpmn") && !fileExtension.equals("zip")) {
