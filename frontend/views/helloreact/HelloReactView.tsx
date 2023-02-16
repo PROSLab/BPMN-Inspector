@@ -5,6 +5,8 @@ import {VAADIN_CSRF_HEADER} from "@hilla/frontend/CsrfUtils";
 import React, {ReactDOM, useState} from "react";
 import { Button } from '@hilla/react-components/Button.js';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {ConfirmDialog} from "@hilla/react-components/ConfirmDialog";
 import { applyTheme } from 'Frontend/generated/theme';
 import { css, html, LitElement } from 'lit';
@@ -23,26 +25,30 @@ export default function HelloReactView() {
     const [showResults, setShowResults] = React.useState(false)
     let selectedFile: any = null;
 
+
     // Stampo i files
     const Results = () => {
             // Se codice di errore 200, allora mostra la pagina dei risultati
 
             return (
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-                    <Link to="/">Home!</Link>
                     <h1>BPMN Models Inspected!</h1>
                 </div>
             );
         }
 
+
     const Home = () => {
         const onClick = async (e: any) => {
 
             e.preventDefault()
+            if(selectedFile === null) {
+                return toast.error('🦄 Wow so easy!', {
+                    position: "bottom-left",
+                });
+            }
 
             const formData = new FormData();
-
-
             Array.from(selectedFile).forEach((file: any) => {
                 formData.append("file", file);
             });
@@ -60,7 +66,8 @@ export default function HelloReactView() {
                 setShowResults(false)
             }
             setShowHome(false)
-           setShowResults(true)
+            setShowResults(true)
+            return null
     }
         const handleFileSelect = (event: any) => {
             const files = event.target.files
@@ -93,6 +100,7 @@ export default function HelloReactView() {
                         </h4>
 
                     </tr>
+
                     <form encType={"multipart/form-data"} onSubmit={onClick}>
                         <input type="file" name="file" id="file" onChange={handleFileSelect} multiple/>
                         <input type="submit" value="Inspect!" style={{color: "green", cursor: "pointer"}}/>
@@ -104,8 +112,6 @@ export default function HelloReactView() {
 
                 <section className="p-m gap-m items-end">
                     <h3>Filtering options:</h3>
-                    <tr>
-
                         <Checkbox value='0' label='Remove Duplicate models'/>
                         <br/>
                         <Checkbox value='1' label='Remove Invalid models'/>
@@ -113,8 +119,6 @@ export default function HelloReactView() {
                         <Checkbox value='2' label='Remove non-English models' disabled checked
                         />
                         <br/>
-                    </tr>
-
                 </section>
             </div>
         )

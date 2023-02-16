@@ -1,0 +1,95 @@
+{
+  "name": "react-keep-alive",
+  "version": "2.5.2",
+  "description": "Package will allow components to maintain their status, to avoid repeated re-rendering.",
+  "author": "Shen Chang",
+  "homepage": "https://github.com/StructureBuilder/react-keep-alive",
+  "keywords": [
+    "react",
+    "react-router",
+    "keep-alive",
+    "cache"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StructureBuilder/react-keep-alive.git"
+  },
+  "bugs": {
+    "url": "https://github.com/StructureBuilder/react-keep-alive/issues"
+  },
+  "main": "cjs/index.js",
+  "module": "es/index.js",
+  "scripts": {
+    "clean:es": "rimraf es",
+    "clean:cjs": "rimraf cjs",
+    "test": "jest",
+    "codecov": "codecov",
+    "build:demo": "webpack",
+    "build:es": "npm run clean:es && tsc",
+    "build:cjs": "npm run clean:cjs && tsc --outDir cjs --module commonjs",
+    "build:dist": "npm run build:es && npm run build:cjs",
+    "publish:patch": "npm version patch && npm publish",
+    "publish:minor": "npm version minor && npm publish",
+    "publish:major": "npm version major && npm publish",
+    "start:demo": "webpack-dev-server --hot --historyApiFallback",
+    "start:es": "npm run clean:es && tsc -w -sourcemap --outDir es"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test"
+    }
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "dependencies": {
+    "@types/js-md5": "^0.4.2",
+    "hoist-non-react-statics": "^3.3.0",
+    "js-md5": "^0.7.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "@types/hoist-non-react-statics": "^3.0.1",
+    "@types/node": "^10.12.21",
+    "@types/react": "^16.8.1",
+    "@types/react-dom": "^16.8.2",
+    "animate.css": "^3.7.0",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.0.5",
+    "codecov": "^3.2.0",
+    "css-loader": "^2.1.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "^1.3.1",
+    "jest": "^24.1.0",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.0",
+    "react-transition-group": "^4.0.1",
+    "redux": "^4.0.1",
+    "rimraf": "^2.6.3",
+    "style-loader": "^0.23.1",
+    "ts-jest": "^23.10.5",
+    "typescript": "^3.3.1",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "peerDependencies": {
+    "react": ">=16.3.0",
+    "react-dom": ">=16.3.0",
+    "react-router-dom": ">=5.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

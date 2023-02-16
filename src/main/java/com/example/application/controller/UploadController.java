@@ -22,7 +22,6 @@ public class UploadController {
     public String multipleFileUpload(@RequestParam("file") List<MultipartFile> files) {
 
         if (files.isEmpty()) {
-
             return "Please upload a file!";
         }
 
