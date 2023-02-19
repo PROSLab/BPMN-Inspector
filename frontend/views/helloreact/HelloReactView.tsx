@@ -7,44 +7,66 @@ import { Button } from '@hilla/react-components/Button.js';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {ConfirmDialog} from "@hilla/react-components/ConfirmDialog";
-import { applyTheme } from 'Frontend/generated/theme';
-import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import {Provider, KeepAlive,} from 'react-keep-alive';
 import '@vaadin/icon';
 import '@vaadin/icons';
 import '@vaadin/vertical-layout';
 import {Link} from "react-router-dom";
 
+
 export default function HelloReactView() {
-    const [name, setName] = useState('');
-    const [duplicate, setDuplicate] = useState('');
-    const [invalid, setInvalid] = useState('');
-    const [nonEnglish, setNonEnglish] = useState('');
+    const [name, setName] = useState('')
+    const [duplicate, setDuplicate] = useState('')
+    const [invalid, setInvalid] = useState('')
+    const [nonEnglish, setNonEnglish] = useState('')
     const [showHome, setShowHome] = React.useState(true)
     const [showResults, setShowResults] = React.useState(false)
     let selectedFile: any = null;
-
+    const [show, setShow] = useState(true)
 
     // Stampo i files
     const Results = () => {
-            // Se codice di errore 200, allora mostra la pagina dei risultati
-
             return (
-                <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-                    <h1>BPMN Models Inspected!</h1>
-                </div>
+                <>
+                    <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
+                        <h1>BPMN Models Inspected!</h1>
+                    </div>
+                </>
             );
         }
-
 
     const Home = () => {
         const onClick = async (e: any) => {
 
             e.preventDefault()
             if(selectedFile === null) {
-                return toast.error('🦄 Wow so easy!', {
+                return toast.error('Insert at least one file!', {
                     position: "bottom-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            }
+
+
+
+            // @ts-ignore
+            if(getExtension(selectedFile[0].name).toLowerCase() !== "zip" && getExtension(selectedFile[0].name).toLowerCase() !== "xml" && getExtension(selectedFile[0].name).toLowerCase() !== "bpmn") {
+               // @ts-ignore
+                console.log(getExtension(selectedFile[0].name).toLowerCase())
+                return toast.error('Insert at least one .bpmn, .xml or .zip!', {
+                    position: "bottom-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
                 });
             }
 
@@ -61,21 +83,36 @@ export default function HelloReactView() {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
             } catch(error) {
-                alert(error)
                 setShowHome(true)
                 setShowResults(false)
             }
             setShowHome(false)
             setShowResults(true)
-            return null
+            return toast.success('File uploaded succesfully!', {
+                position: "bottom-left",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
     }
         const handleFileSelect = (event: any) => {
             const files = event.target.files
             selectedFile = files
         }
 
+        function getExtension(filename: string) {
+            return filename.split('.').pop()
+        }
+
         return (
             <div id={"container"}>
+                <h1>
+                    <td>BPMN Inspector</td>
+                </h1>
                 <section className="flex flex-col h-full items-center p-l text-center box-border" style={{
                     cursor: "pointer",
                     borderStyle: "solid",
@@ -90,24 +127,14 @@ export default function HelloReactView() {
                     border: "3px dashed rgb(0,0,0)",
                     padding: "10em",
                 }}>
-                    <tr>
 
-                        <h1>
-                            <td>BPMN Inspector</td>
-                        </h1>
                         <h4>
                             <td>Import BPMN models</td>
                         </h4>
-
-                    </tr>
-
                     <form encType={"multipart/form-data"} onSubmit={onClick}>
                         <input type="file" name="file" id="file" onChange={handleFileSelect} multiple/>
                         <input type="submit" value="Inspect!" style={{color: "green", cursor: "pointer"}}/>
                     </form>
-                    <tr>
-
-                    </tr>
                 </section>
 
                 <section className="p-m gap-m items-end">
@@ -124,12 +151,11 @@ export default function HelloReactView() {
         )
     }
     //
-    //
+    //{ showResults ? <Results /> : null }
     return (
         <>
             { showHome ? <Home /> : null }
-            { showResults ? <Results /> : null }
-
+                { showResults ? <Results /> : null }
         </>
     );
 }

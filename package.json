@@ -100,7 +100,9 @@
     "bootstrap": "$bootstrap",
     "react-bootstrap": "$react-bootstrap",
     "@vaadin/vaadin-charts": "$@vaadin/vaadin-charts",
-    "@vaadin/charts": "$@vaadin/charts"
+    "@vaadin/charts": "$@vaadin/charts",
+    "react-keep-alive": "$react-keep-alive",
+    "react-toastify": "$react-toastify"
   },
   "vaadin": {
     "dependencies": {
@@ -150,6 +152,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "a86acd062bfd3e36832826d2b219b8c2d6a75c87273d1cc63fd9842ef75002dd"
+    "hash": "9c005b5250d02c87be2fe5b65b3f68333368da8cb1f08993cec14e81ad7b88ea"
   }
 }
