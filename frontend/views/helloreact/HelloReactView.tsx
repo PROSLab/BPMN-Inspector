@@ -52,12 +52,8 @@ export default function HelloReactView() {
                 });
             }
 
-
-
-            // @ts-ignore
-            if(getExtension(selectedFile[0].name).toLowerCase() !== "zip" && getExtension(selectedFile[0].name).toLowerCase() !== "xml" && getExtension(selectedFile[0].name).toLowerCase() !== "bpmn") {
-               // @ts-ignore
-                console.log(getExtension(selectedFile[0].name).toLowerCase())
+                // @ts-ignore
+            if (getExtension(selectedFile[0].name).toLowerCase() !== "zip" && getExtension(selectedFile[0].name).toLowerCase() !== "xml" && getExtension(selectedFile[0].name).toLowerCase() !== "bpmn") {
                 return toast.error('Insert at least one .bpmn, .xml or .zip!', {
                     position: "bottom-left",
                     autoClose: 2000,
@@ -68,7 +64,7 @@ export default function HelloReactView() {
                     progress: undefined,
                     theme: "colored",
                 });
-            }
+                }
 
             const formData = new FormData();
             Array.from(selectedFile).forEach((file: any) => {
