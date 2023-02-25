@@ -49,8 +49,8 @@ export default function MenuOnLeftLayout() {
       </Scroller>
       <footer slot="drawer" />
 
-      <DrawerToggle slot="navbar" aria-label="Menu toggle"></DrawerToggle>
-      <h2 slot="navbar" className="text-l m-0">
+      <DrawerToggle slot="navbar" aria-label="Menu toggle" ></DrawerToggle>
+      <h2 slot="navbar" className="text-l m-0" >
         {currentTitle}
       </h2>
 
