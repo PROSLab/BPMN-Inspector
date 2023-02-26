@@ -3,7 +3,6 @@ import MainLayout from 'Frontend/views/MainLayout.js';
 import { lazy } from 'react';
 import { createBrowserRouter, IndexRouteObject, NonIndexRouteObject, useMatches } from 'react-router-dom';
 import DocView from "Frontend/views/documentation/DocView";
-import githubView from "Frontend/views/github/GithubView";
 import GithubView from "Frontend/views/github/GithubView";
 
 const AboutView = lazy(async () => import('Frontend/views/about/AboutView.js'));

@@ -2,9 +2,8 @@ import { Notification } from '@hilla/react-components/Notification.js';
 import { TextField } from '@hilla/react-components/TextField.js';
 import {Checkbox} from "@hilla/react-components/Checkbox.js";
 import {VAADIN_CSRF_HEADER} from "@hilla/frontend/CsrfUtils";
-import React, {ReactDOM, useState} from "react";
+import React, {ReactDOM, memo, useState, useEffect} from "react";
 import "./uploadtemplate.css";
-import { Button } from '@hilla/react-components/Button.js';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,8 +11,9 @@ import {Provider, KeepAlive,} from 'react-keep-alive';
 import '@vaadin/icon';
 import '@vaadin/icons';
 import '@vaadin/vertical-layout';
+import '@vaadin/tabs';
+import '@vaadin/tabs';
 import {Link} from "react-router-dom";
-
 
 export default function HelloReactView() {
     const [name, setName] = useState('')
@@ -24,13 +24,35 @@ export default function HelloReactView() {
     const [showResults, setShowResults] = React.useState(false)
     let selectedFile: any = null;
     const [show, setShow] = useState(true)
+    const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
 
     // Stampo i files
     const Results = () => {
-            return (
+        const [filesInfo, setFilesInfo] = useState([]);
+
+        useEffect(() => {
+            axios({
+                method: "get",
+                url: "/files",
+                headers: { "Content-Type": "application/json" },
+            }).then((response) => {
+                setFilesInfo(response.data);
+            });
+        }, []);
+
+        // @ts-ignore
+        return (
                 <>
                     <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                         <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
+                        <a style={{fontSize:'20px',color:'black',alignSelf:'left'}}>You have uploaded BPMN models</a>
+
+                        {uploadedFiles.map((file, index) => (
+                            <div key={index}>
+                                <p>File Name: {file.name}</p>
+                                <p>File Size: {file.size}</p>
+                            </div>
+                        ))}
 
                         <section className="p-m gap-m items-end">
                             <h3>Filtering options:</h3>
@@ -82,11 +104,17 @@ export default function HelloReactView() {
                 });
             }
 
+            let fileCount = 0;
             const formData = new FormData();
             Array.from(selectedFile).forEach((file: any) => {
                 formData.append("file", file);
+
+                // @ts-ignore
+                if(getExtension(file.name).toLowerCase() == "zip" && getExtension(file.name).toLowerCase() == "xml" && getExtension(file.name).toLowerCase() == "bpmn")
+                    fileCount++;
             });
 
+            console.log(fileCount)
             try {
                 const response = await axios({
                     method: "post",
@@ -148,18 +176,21 @@ export default function HelloReactView() {
                         <svg className="float-svg-end"></svg>
                         <svg className="float-svg-xor"></svg>
                         <svg className="float-svg-interMsg"></svg>
+                        <svg className="float-svg-endT"></svg>
+                        <svg className="float-svg-data"></svg>
                     </div>
 
 
                     <form encType={"multipart/form-data"} onSubmit={onClick}>
-                        <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}}
+                        <input style={{background:'white', width:'300px', color: '#10ad73', fontSize: '20px', padding: '1px 1px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}}
                                type="file" name="file" id="file" onChange={handleFileSelect} multiple/>
-                        <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}}
+                        <br/>
+                        <input style={{background:'#10ad73',textDecorationStyle:'dashed', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}}
                                type="submit" value="Upload models"/>
                     </form>
                 </section>
             </div>
-                <a style={{fontSize:'15px',color:'black',fontStyle:"italic",marginTop:'1cm'}}>Note: All files not in .bpmn or .xml format will be deleted after the uploading</a>
+                <a style={{fontSize:'15px',color:'black',fontStyle:"italic",marginTop:'1cm'}}>Note: Any files uploaded that are not in the .bpmn or .xml format will be automatically deleted.</a>
 
             </div>
 

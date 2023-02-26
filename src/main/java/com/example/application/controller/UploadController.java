@@ -18,6 +18,10 @@ public class UploadController {
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src/main/resources/bpmnModels/";
 
+    @GetMapping("/fileList")
+    public String index() {
+        return "upload";
+    }
     @PostMapping("/upload") // //new annotation since 4.3
     public String multipleFileUpload(@RequestParam("file") List<MultipartFile> files) {
 

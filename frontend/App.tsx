@@ -3,6 +3,7 @@ import { RouterProvider } from 'react-router-dom';
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
+import {KeepAlive} from "react-keep-alive";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           pauseOnHover
           theme="colored"
       />
+
       </>
   );
 }

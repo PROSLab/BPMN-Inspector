@@ -1302,7 +1302,7 @@
   dependencies:
     "@polymer/polymer" "^3.0.0"
 
-"@polymer/polymer@3.5.1":
+"@polymer/polymer@^3.5.1":
   version "3.5.1"
   resolved "https://registry.npmjs.org/@polymer/polymer/-/polymer-3.5.1.tgz"
   integrity sha512-JlAHuy+1qIC6hL1ojEUfIVD58fzTpJAoCxFwV5yr0mYTXV1H8bz5zy0+rC963Cgr9iNXQ4T9ncSjC2fkF9BQfw==
@@ -1641,7 +1641,7 @@
   dependencies:
     tslib "^2.3.1"
 
-"@vaadin/component-base@~23.3.5", "@vaadin/component-base@23.3.5":
+"@vaadin/component-base@23.3.5":
   version "23.3.5"
   resolved "https://registry.npmjs.org/@vaadin/component-base/-/component-base-23.3.5.tgz"
   integrity sha512-9I3DmXWiyeRqy/P793Y8zAu9HCj6opr1C1Rt5JQgSqAoOH/Rs7Z1H+N2YKcaa3rmVIVqlur4PtDZb/CnEgSOMg==
@@ -3556,6 +3556,11 @@ jsonpointer@^5.0.0:
   version "5.0.1"
   resolved "https://registry.npmjs.org/jsonpointer/-/jsonpointer-5.0.1.tgz"
   integrity sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==
+
+keepalive@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/keepalive/-/keepalive-3.0.0.tgz"
+  integrity sha512-r9JqmrADTkKQRSZo8xWPMz0EISkfAfDtflmUJlAhePrNrIf5b/0EgpWxYvZWkOQjODVjItbD+IR7XMDp+vm2MQ==
 
 kind-of@^6.0.3:
   version "6.0.3"

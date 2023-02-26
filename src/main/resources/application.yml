@@ -1,0 +1,3 @@
+spring:
+  main:
+    package: com.example.application.config
