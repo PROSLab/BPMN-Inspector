@@ -4,6 +4,8 @@ public class fileInfo {
     private String name;
     private long size;
 
+    private boolean isValid;
+
     public fileInfo(String name, long size) {
         this.name = name;
         this.size = size;
@@ -21,7 +23,15 @@ public class fileInfo {
         return size;
     }
 
-    public void setSize(long size) {
-        this.size = size;
+    public void setSize(boolean isValid) {
+        this.isValid = isValid;
+    }
+
+    public boolean getisValid() {
+        return isValid;
+    }
+
+    public void setisValid(boolean isValid) {
+        this.isValid = isValid;
     }
 }

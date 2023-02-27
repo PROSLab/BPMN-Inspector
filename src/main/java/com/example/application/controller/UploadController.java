@@ -90,21 +90,17 @@ public class UploadController {
         return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
     }
 
-    @GetMapping("/upload")
-    public String uploadStatus(Model model) {
+    @DeleteMapping("/deleteAllFiles")
+    public String deleteAllFiles() throws IOException {
         File folder = new File(UPLOADED_FOLDER);
         File[] listOfFiles = folder.listFiles();
 
-        List<String> fileNames = new ArrayList<>();
         for (File file : listOfFiles) {
             if (file.isFile()) {
-                fileNames.add(file.getName());
+                file.delete();
             }
         }
-
-        model.addAttribute("files", fileNames);
-
-        return "redirect:/";
+        return "All files deleted successfully";
     }
 
 }
