@@ -13,7 +13,7 @@ import '@vaadin/icons';
 import '@vaadin/vertical-layout';
 import '@vaadin/tabs';
 import {BsDiagram2} from "react-icons/bs";
-import {Link} from "react-router-dom";
+
 
 export default function HelloReactView() {
     const [name, setName] = useState('')
@@ -22,41 +22,86 @@ export default function HelloReactView() {
     const [nonEnglish, setNonEnglish] = useState('')
     const [showHome, setShowHome] = React.useState(true)
     const [showResults, setShowResults] = React.useState(false)
+
     let selectedFile: any = null;
     const [show, setShow] = useState(true)
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
 
+
     // Stampo i files
-        const Results = () => {
-            const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
+    const Results = () => {
+        const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
+        const [showAllFiles, setShowAllFiles] = useState<boolean>(false);
 
-            interface filesInfo {
-                name: string;
-                size: number;
-            }
-            useEffect(() => {
-                axios({
-                    method: "get",
-                    url: "/files",
-                    headers: { "Content-Type": 'text/event-stream'}
-                }).then((response) => {
-                    setFilesInfo(response.data);
-                    console.log(response.data)
+        interface filesInfo {
+            name: string;
+            size: number;
+        }
+
+        useEffect(() => {
+            axios({
+                method: "get",
+                url: "/files",
+                headers: { "Content-Type": 'text/event-stream'}
+            }).then((response) => {
+                setFilesInfo(response.data);
+                console.log(response.data)
+            });
+        }, []);
+
+        async function deleteFiles() {
+            try {
+                await axios.delete('/deleteAllFiles');
+                toast.success('All files deleted successfully!', {
+                    position: "bottom-center",
+                    autoClose: 1000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
                 });
-            }, []);
+                setUploadedFiles([]);
+                setShowHome(true)
+                setShowResults(false)
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
-        // @ts-ignore
+        let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
+        let displayButton = filesInfo.length >= 10;
+
         return (
-                <>
-                    <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-                        <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                        <a style={{fontSize:'20px',color:'black',alignSelf:'left', marginBottom:'5px'}}>You have uploaded {filesInfo.length} models:</a>
+            <>
+                <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
+                    <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left', marginBottom:'5px'}}>You have uploaded {filesInfo.length} models:</a>
 
-                        {filesInfo.map((file, index) => (
-                            <div key={index} style={{border: '2px solid rgba(0, 0, 0, 0.05)',padding:'1px', borderRadius: '5px',marginBottom:'1px',fontSize:'15px',color:'black'}}>
-                                <p><BsDiagram2 style={{marginTop:'1px'}}/> {file.name} {file.size} kb</p>
-                            </div>
-                        ))}
+                    {displayButton && (
+                        <button style={{backgroundColor: 'white', color: '#10ad73', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0' }} onClick={() => setShowAllFiles(!showAllFiles)}>
+                            {showAllFiles ? `Hide` : `Show all (${filesInfo.length} models)`}
+                        </button>
+                    )}
+
+                    {filesToDisplay.map((file, index) =>
+                            file ? (
+                                <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
+                                    <p>
+                                        <BsDiagram2 style={{ marginTop: "1px" }} /> {file.name} {file.size} kb
+                                    </p>
+                                </div>
+                            ) : (
+                                <div key={index} style={{ border: "none", padding: "1px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
+                                    {index === 1 && !showAllFiles && (
+                                        <p style={{fontSize: "15px", color: "black" }}>
+                                            ... {filesInfo.length - 1} more files
+                                        </p>
+                                    )}
+                                </div>
+                            )
+                        )}
 
                         <section className="p-m gap-m items-end">
                             <h3>Filtering options:</h3>
@@ -68,7 +113,7 @@ export default function HelloReactView() {
                             <br/>
 
                             <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}} type="submit" value="Inspect"/>
-                            <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} type="submit" value="Home"/>
+                            <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
 
                         </section>
                     </div>
