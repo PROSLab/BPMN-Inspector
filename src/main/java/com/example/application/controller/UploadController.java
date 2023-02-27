@@ -1,6 +1,10 @@
 package com.example.application.controller;
+import com.example.application.model.fileInfo;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,12 +21,17 @@ public class UploadController {
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src/main/resources/bpmnModels/";
+    @GetMapping("/files")
+    public List<fileInfo> getFiles() throws IOException {
 
-    @GetMapping("/fileList")
-    public String index() {
-        return "upload";
+        List<fileInfo> fileInfos = new ArrayList<>();
+        Files.list(Paths.get(UPLOADED_FOLDER)).forEach(path -> {
+            File file = path.toFile();
+            fileInfos.add(new fileInfo(file.getName(), file.length()));
+        });
+        return fileInfos;
     }
-    @PostMapping("/upload") // //new annotation since 4.3
+    @PostMapping("/upload")
     public String multipleFileUpload(@RequestParam("file") List<MultipartFile> files) {
 
         if (files.isEmpty()) {
@@ -72,7 +81,6 @@ public class UploadController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return "You uploaded a .zip file. All the .bpmn files have been extracted.";
         }
         return "File uploaded successfully";
     }
@@ -80,6 +88,23 @@ public class UploadController {
     private String getFileExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
         return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
+    }
+
+    @GetMapping("/upload")
+    public String uploadStatus(Model model) {
+        File folder = new File(UPLOADED_FOLDER);
+        File[] listOfFiles = folder.listFiles();
+
+        List<String> fileNames = new ArrayList<>();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                fileNames.add(file.getName());
+            }
+        }
+
+        model.addAttribute("files", fileNames);
+
+        return "redirect:/";
     }
 
 }

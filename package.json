@@ -41,6 +41,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-keep-alive": "^2.5.2",
     "react-router-dom": "^6.4.2",
     "react-toastify": "^9.1.1"
@@ -106,7 +107,8 @@
     "react-keep-alive": "$react-keep-alive",
     "react-toastify": "$react-toastify",
     "@vaadin/component-base": "$@vaadin/component-base",
-    "keepalive": "$keepalive"
+    "keepalive": "$keepalive",
+    "react-icons": "$react-icons"
   },
   "vaadin": {
     "dependencies": {
@@ -156,6 +158,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "4ae6413e1e98e1da9970f5cf462c776c4d1d626f6aa85901a46b965bce7b5ca1"
+    "hash": "eb7016e04e5ac9dc6a81f285fb9f6f84bbc26c0010fa20716fbe1131faeab301"
   }
 }

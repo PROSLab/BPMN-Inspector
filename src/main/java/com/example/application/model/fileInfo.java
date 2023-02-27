@@ -1,8 +1,6 @@
 package com.example.application.model;
 
-import com.example.application.controller.FileController;
-
-public class fileInfo extends FileController {
+public class fileInfo {
     private String name;
     private long size;
 

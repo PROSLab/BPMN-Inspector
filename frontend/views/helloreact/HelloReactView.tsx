@@ -12,7 +12,7 @@ import '@vaadin/icon';
 import '@vaadin/icons';
 import '@vaadin/vertical-layout';
 import '@vaadin/tabs';
-import '@vaadin/tabs';
+import {BsDiagram2} from "react-icons/bs";
 import {Link} from "react-router-dom";
 
 export default function HelloReactView() {
@@ -27,30 +27,34 @@ export default function HelloReactView() {
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
 
     // Stampo i files
-    const Results = () => {
-        const [filesInfo, setFilesInfo] = useState([]);
+        const Results = () => {
+            const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
 
-        useEffect(() => {
-            axios({
-                method: "get",
-                url: "/files",
-                headers: { "Content-Type": "application/json" },
-            }).then((response) => {
-                setFilesInfo(response.data);
-            });
-        }, []);
+            interface filesInfo {
+                name: string;
+                size: number;
+            }
+            useEffect(() => {
+                axios({
+                    method: "get",
+                    url: "/files",
+                    headers: { "Content-Type": 'text/event-stream'}
+                }).then((response) => {
+                    setFilesInfo(response.data);
+                    console.log(response.data)
+                });
+            }, []);
 
         // @ts-ignore
         return (
                 <>
                     <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                         <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                        <a style={{fontSize:'20px',color:'black',alignSelf:'left'}}>You have uploaded BPMN models</a>
+                        <a style={{fontSize:'20px',color:'black',alignSelf:'left', marginBottom:'5px'}}>You have uploaded {filesInfo.length} models:</a>
 
-                        {uploadedFiles.map((file, index) => (
-                            <div key={index}>
-                                <p>File Name: {file.name}</p>
-                                <p>File Size: {file.size}</p>
+                        {filesInfo.map((file, index) => (
+                            <div key={index} style={{border: '2px solid rgba(0, 0, 0, 0.05)',padding:'1px', borderRadius: '5px',marginBottom:'1px',fontSize:'15px',color:'black'}}>
+                                <p><BsDiagram2 style={{marginTop:'1px'}}/> {file.name} {file.size} kb</p>
                             </div>
                         ))}
 
@@ -64,6 +68,7 @@ export default function HelloReactView() {
                             <br/>
 
                             <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}} type="submit" value="Inspect"/>
+                            <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} type="submit" value="Home"/>
 
                         </section>
                     </div>
@@ -104,17 +109,12 @@ export default function HelloReactView() {
                 });
             }
 
-            let fileCount = 0;
             const formData = new FormData();
             Array.from(selectedFile).forEach((file: any) => {
                 formData.append("file", file);
-
-                // @ts-ignore
-                if(getExtension(file.name).toLowerCase() == "zip" && getExtension(file.name).toLowerCase() == "xml" && getExtension(file.name).toLowerCase() == "bpmn")
-                    fileCount++;
             });
 
-            console.log(fileCount)
+            console.log(selectedFile)
             try {
                 const response = await axios({
                     method: "post",
