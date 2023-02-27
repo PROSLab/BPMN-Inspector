@@ -15,24 +15,13 @@
         transform: translate(0, 0);
     }
     50% {
-        transform: translate(0, 0);
+        transform: translate(calc(100% - 70px), calc(100% - 30px));
     }
     100% {
-        transform: translate(calc(100% - 50px), calc(100% - 50px));
+        transform: translate(0, 0);
     }
 }
 
-@keyframes float3 {
-    0% {
-        transform: translate(calc(100% - 50px), calc(100% - 50px));
-    }
-    50% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(0, 0);
-    }
-}
 
 .form-container {
     position: relative;
@@ -57,8 +46,8 @@
     background-image: url("../../img/end.svg");
     top: 80px;
     left: 10px;
-    width: 200px; /* sostituisci con la larghezza dell'immagine */
-    height: 200px; /* sostituisci con l'altezza dell'immagine */
+    width: 200px;
+    height: 200px;
     margin-top: -100px;
     opacity: 0.7;
 }
@@ -71,8 +60,8 @@
     background-image: url("../../img/xor.svg");
     top: 95px;
     left: 20px;
-    width: 200px; /* sostituisci con la larghezza dell'immagine */
-    height: 200px; /* sostituisci con l'altezza dell'immagine */
+    width: 200px;
+    height: 200px;
     margin-top: -100px;
     opacity: 0.7;
 }
@@ -85,8 +74,36 @@
     background-image: url("../../img/interMsg.svg");
     top: 0;
     left: 0;
-    width: 200px; /* sostituisci con la larghezza dell'immagine */
-    height: 200px; /* sostituisci con l'altezza dell'immagine */
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-data {
+    animation: float2 30s ease-in-out infinite;
+    transform: translate(calc(100% - 15px), -10px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/data.svg");
+    top: 40px;
+    left: 0px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-endT {
+    animation: float2 35s ease-in-out infinite;
+    transform: translate(calc(100% - 40px), -70px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/endT.svg");
+    top: 0px;
+    left: 30px;
+    width: 200px;
+    height: 200px;
     margin-top: -100px;
     opacity: 0.7;
 }

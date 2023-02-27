@@ -14,11 +14,12 @@
     "@hilla/generator-typescript-utils": "1.3.5",
     "@hilla/react-components": "1.3.5",
     "@polymer/iron-icon": "3.0.1",
-    "@polymer/polymer": "3.5.1",
+    "@polymer/polymer": "^3.5.1",
     "@vaadin-component-factory/vcf-nav": "1.0.6",
     "@vaadin/bundles": "23.3.5",
     "@vaadin/charts": "23.3.5",
     "@vaadin/common-frontend": "0.0.17",
+    "@vaadin/component-base": "23.3.5",
     "@vaadin/icon": "23.3.5",
     "@vaadin/icons": "23.3.5",
     "@vaadin/polymer-legacy-adapter": "23.3.5",
@@ -34,11 +35,13 @@
     "bootstrap": "^5.2.3",
     "classnames": "^2.3.2",
     "construct-style-sheets-polyfill": "3.1.0",
+    "keepalive": "^3.0.0",
     "line-awesome": "1.3.0",
     "lit": "2.6.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-keep-alive": "^2.5.2",
     "react-router-dom": "^6.4.2",
     "react-toastify": "^9.1.1"
@@ -102,7 +105,10 @@
     "@vaadin/vaadin-charts": "$@vaadin/vaadin-charts",
     "@vaadin/charts": "$@vaadin/charts",
     "react-keep-alive": "$react-keep-alive",
-    "react-toastify": "$react-toastify"
+    "react-toastify": "$react-toastify",
+    "@vaadin/component-base": "$@vaadin/component-base",
+    "keepalive": "$keepalive",
+    "react-icons": "$react-icons"
   },
   "vaadin": {
     "dependencies": {
@@ -152,6 +158,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "d2b5dfe284a090559e0efe4b04c31c2011b7451925144d1f8b47713ff8e5d6b4"
+    "hash": "eb7016e04e5ac9dc6a81f285fb9f6f84bbc26c0010fa20716fbe1131faeab301"
   }
 }
