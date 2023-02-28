@@ -2303,7 +2303,7 @@
     "@polymer/polymer" "^3.0.0"
     "@vaadin/component-base" "~23.3.5"
 
-"@vaadin/vaadin-lumo-styles@23.3.5":
+"@vaadin/vaadin-lumo-styles@^23.3.5":
   version "23.3.5"
   resolved "https://registry.npmjs.org/@vaadin/vaadin-lumo-styles/-/vaadin-lumo-styles-23.3.5.tgz"
   integrity sha512-Dd6kJO+2o65fWJYCBqGZv/A0ELl62BdkeMd9rCPULVRtXBLAliVmMwAq8byK8ytUuCIVa03XSWdltkWJc+KCpw==
