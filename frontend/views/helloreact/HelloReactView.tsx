@@ -111,8 +111,13 @@ export default function HelloReactView() {
                                 </div>
                             </div>
                     )}
-                    <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
 
+                    {filesInfo.length > 2 &&
+                        <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
+                    }
+                    {filesInfo.length === 2 &&
+                        <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
+                    }
                     <div>
                            <p style={{fontSize:'20px',color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left"}}>Filtering options:</p>
                             <Checkbox value='0' label='Remove Duplicate models'/>
