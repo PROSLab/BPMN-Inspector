@@ -1,13 +1,20 @@
 .file-info {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     font-size: 18px;
     color: black;
 }
 
 .file-info-item {
-    width: 33%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-basis: 70px;
+    flex-grow: 1;
+}
+
+.file-info-badge-name {
     box-sizing: border-box;
     white-space: nowrap;
     overflow: hidden;
@@ -15,13 +22,52 @@
 }
 
 .file-info-item-name {
-    width: 63%;
+    width: 40%;
     box-sizing: border-box;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.file-info-value {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
 .file-name {
     font-size: 14px;
+}
+
+.file-name.Invalid {
+    color: hsl(3, 100%, 80%);
+    background-color: hsla(3, 75%, 62%, 0.14);
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: var(--lumo-border-radius-s);
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size-s);
+    line-height: 1;
+    font-weight: 500;
+    text-transform: initial;
+    letter-spacing: initial;
+    padding: 0.25rem 0.5rem;
+    min-width: content-box;
+}
+
+.file-name.Valid {
+    color: hsl(145, 85%, 46%);
+    background-color: hsla(145, 92%, 51%, 0.1);
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-radius: var(--lumo-border-radius-s);
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size-s);
+    line-height: 1;
+    font-weight: 500;
+    text-transform: initial;
+    letter-spacing: initial;
+    padding: 0.25rem 0.5rem;
+    min-width: content-box;
 }

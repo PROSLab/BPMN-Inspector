@@ -17,13 +17,13 @@ import org.xml.sax.SAXException;
 public class bpmnValidator {
     public static void main(String[] args) {
         // Directory contenente i file BPMN da convalidare
-        File bpmnDir = new File("../resources/bpmnModels");
+        File bpmnDir = new File("C:\\Users\\User\\Desktop\\zipinspe\\BPMN-Inspector\\src\\main\\resources\\bpmnModels");
 
         // Directory contenente i file XSD dello schema BPMN
-        File xsdDir = new File("../resources/static/schema");
+        File xsdDir = new File("C:\\Users\\User\\Desktop\\zipinspe\\BPMN-Inspector\\src\\main\\resources\\static\\schema");
 
         // File di output per i risultati della convalida
-        File outputFile = new File("../resources/validationOutput/validationOutput.csv");
+        File outputFile = new File("C:\\Users\\User\\Desktop\\zipinspe\\BPMN-Inspector\\src\\main\\resources\\validationOutput\\validationOutput.csv");
 
         // Elenco dei file XSD dello schema BPMN
         File[] xsdFiles = xsdDir.listFiles();

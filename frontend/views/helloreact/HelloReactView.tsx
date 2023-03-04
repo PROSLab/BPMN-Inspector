@@ -89,7 +89,7 @@ export default function HelloReactView() {
                     <div className="file-info" >
                         <span className="file-info-item-name" style={{ fontSize: '18px', fontWeight:"bold"}}>File name</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>File size</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>isValid</span>
+                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Validation</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>isEnglish</span>
                     </div>
 
@@ -102,8 +102,8 @@ export default function HelloReactView() {
                                     <p className="file-info-item file-name">
                                         {file.size} kb
                                     </p>
-                                    <p className="file-info-item file-name">
-                                        {file.isValid ? "valid" : "invalid"}
+                                    <p className={`file-info-item file-name ${file.isValid ? 'Valid' : 'Invalid'}`}>
+                                        {file.isValid ? "Valid" : "Invalid"}
                                     </p>
                                     <p className="file-info-item file-name">
                                         {file.isValid ? "english" : "noEnglish"}
@@ -127,7 +127,7 @@ export default function HelloReactView() {
                             <Checkbox value='2' label='Remove non-English models' disabled checked/>
                             <br/>
 
-                            <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}} type="submit" value="Inspect"/>
+                            <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} type="submit" value="Inspect"/>
                         <input style={{background:'white', marginLeft:'1cm', border: "1px solid #10ad73", color: '#10ad73', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', cursor: 'pointer', marginTop: '0.42cm'}} type="submit" value="Filter collection"/>
                         <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
                         </div>
