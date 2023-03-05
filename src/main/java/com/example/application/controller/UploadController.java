@@ -39,7 +39,6 @@ public class UploadController {
             boolean isValid;
             try {
                  isValid = validateFile(file);
-                System.out.println("entro");
             } catch (SAXException e) {
                  isValid = false;
                 throw new RuntimeException(e);
@@ -125,13 +124,13 @@ public class UploadController {
 
 
         // Directory contenente i file BPMN da convalidare
-        File bpmnDir = new File("C:\\Users\\User\\Desktop\\zipinspe\\BPMN-Inspector\\src\\main\\resources\\bpmnModels");
+        File bpmnDir = new File("./src/main/resources/bpmnModels/");
 
         // Directory contenente i file XSD dello schema BPMN
-        File xsdDir = new File("C:\\Users\\User\\Desktop\\zipinspe\\BPMN-Inspector\\src\\main\\resources\\static\\schema");
+        File xsdDir = new File("./src/main/resources/static/schema/");
 
         // File di output per i risultati della convalida
-        File outputFile = new File("C:\\Users\\User\\Desktop\\zipinspe\\BPMN-Inspector\\src\\main\\resources\\validationOutput\\validationOutput.csv");
+        File outputFile = new File("./src/main/resources/validationOutput/validationOutput.csv");
 
         // Elenco dei file XSD dello schema BPMN
         File[] xsdFiles = xsdDir.listFiles();
@@ -147,7 +146,7 @@ public class UploadController {
 
         // Creazione dello schema da utilizzare per la convalida
         Schema schema;
-            schema = factory.newSchema(sources.toArray(new Source[0]));
+        schema = factory.newSchema(sources.toArray(new Source[0]));
 
 
         // Creazione del validator per la convalida dei file BPMN
@@ -193,7 +192,7 @@ public class UploadController {
     @GetMapping("/download-validation-report")
     public ResponseEntity<Resource> downloadValidationReport() throws IOException {
         String fileName = "validationOutput.csv";
-        Path path = Paths.get("C:\\Users\\User\\Desktop\\zipinspe\\BPMN-Inspector\\src\\main\\resources\\validationOutput", fileName);
+        Path path = Paths.get("./src/main/resources/validationOutput", fileName);
         Resource resource = new UrlResource(path.toUri());
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
