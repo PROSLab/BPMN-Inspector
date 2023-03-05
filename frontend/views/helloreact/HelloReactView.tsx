@@ -91,7 +91,7 @@ export default function HelloReactView() {
         }
 
         let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
-        let displayButton = filesInfo.length >= 1;
+        let displayButton = filesInfo.length > 1;
 
         const {valid, invalid} = filesInfo.reduce((counts, file) => {
             if (file.isValid) {
