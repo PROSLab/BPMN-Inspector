@@ -10,7 +10,7 @@ import {Provider, KeepAlive,} from 'react-keep-alive';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import '@vaadin/tabs';
 import {BsDiagram2} from "react-icons/bs";
-import {GrDocumentCsv} from "react-icons/gr";
+import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
 import '@polymer/polymer/lib/elements/custom-style.js';
 import '@vaadin/vaadin-lumo-styles/badge.js';
 import '@polymer/polymer/lib/elements/custom-style.js';
@@ -151,15 +151,15 @@ export default function HelloReactView() {
                             <Checkbox value='2' label='Remove non-English models' disabled checked/>
                             <br/>
 
-                            <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} type="submit" value="Inspect"/>
-                        <input style={{background:'white', marginLeft:'1cm', border: "1px solid #10ad73", color: '#10ad73', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', cursor: 'pointer', marginTop: '0.42cm'}} type="submit" value="Filter collection"/>
-                        <br></br>
-                        <button style={{background:'white', border: "1px solid #10ad73", color: '#10ad73', fontSize: '15px', padding: '10px 10px', borderRadius: '5px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={downloadFile}>
-                            <GrDocumentCsv /><a style={{marginRight: '0.5em', color:'#10ad73'}}>Download validation report</a>
+                        <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} type="submit" value="Inspect"/>
+                        <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} >
+                            <GrDocumentDownload /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Filter collection</a>
+                        </button>
+                        <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={downloadFile}>
+                            <GrDocumentCsv /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Validation report</a>
                         </button>
                         <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
-
-                    </div>
+                        </div>
                     </div>
                 </>
             );
