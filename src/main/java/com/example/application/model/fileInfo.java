@@ -6,9 +6,10 @@ public class fileInfo {
 
     private boolean isValid;
 
-    public fileInfo(String name, long size) {
+    public fileInfo(String name, long size, boolean isValid) {
         this.name = name;
         this.size = size;
+        this.isValid = isValid;
     }
 
     public String getName() {

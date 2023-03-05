@@ -10,6 +10,7 @@ import {Provider, KeepAlive,} from 'react-keep-alive';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import '@vaadin/tabs';
 import {BsDiagram2} from "react-icons/bs";
+import {GrDocumentCsv} from "react-icons/gr";
 import '@polymer/polymer/lib/elements/custom-style.js';
 import '@vaadin/vaadin-lumo-styles/badge.js';
 import '@polymer/polymer/lib/elements/custom-style.js';
@@ -72,13 +73,36 @@ export default function HelloReactView() {
         let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
         let displayButton = filesInfo.length >= 1;
 
+        const {valid, invalid} = filesInfo.reduce((counts, file) => {
+            if (file.isValid) {
+                counts.valid++;
+            } else {
+                counts.invalid++;
+            }
+            return counts;
+        }, {valid: 0, invalid: 0});
+
+
+        const downloadFile = () => {
+            axios({
+                url: '/download-validation-report',
+                method: 'GET',
+                responseType: 'blob',
+            }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'validation_report.csv');
+                document.body.appendChild(link);
+                link.click();
+            });
+        };
+
         return (
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                     <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. <a style={{color:'#10ad73',fontWeight:"bold"}}>X</a> of them are valid and <a style={{color:'red',fontWeight:"bold"}}>Y</a> invalid.</a>
-
-
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. <a style={{color:'#10ad73',fontWeight:"bold"}}>{valid}</a> of them are valids and <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids.</a>
 
                     {displayButton && (
                         <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
@@ -129,8 +153,13 @@ export default function HelloReactView() {
 
                             <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} type="submit" value="Inspect"/>
                         <input style={{background:'white', marginLeft:'1cm', border: "1px solid #10ad73", color: '#10ad73', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', cursor: 'pointer', marginTop: '0.42cm'}} type="submit" value="Filter collection"/>
+                        <br></br>
+                        <button style={{background:'white', border: "1px solid #10ad73", color: '#10ad73', fontSize: '15px', padding: '10px 10px', borderRadius: '5px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={downloadFile}>
+                            <GrDocumentCsv /><a style={{marginRight: '0.5em', color:'#10ad73'}}>Download validation report</a>
+                        </button>
                         <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
-                        </div>
+
+                    </div>
                     </div>
                 </>
             );
@@ -168,6 +197,7 @@ export default function HelloReactView() {
                 }
 
             const formData = new FormData();
+            const formDataValidation = new FormData();
             Array.from(selectedFile).forEach((file: any) => {
                 formData.append("file", file);
             });
@@ -180,6 +210,7 @@ export default function HelloReactView() {
                     data: formData,
                     headers: { "Content-Type": "multipart/form-data" },
                 });
+
             } catch(error) {
                 setShowHome(true)
                 setShowResults(false)
