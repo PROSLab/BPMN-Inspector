@@ -1,25 +1,3 @@
 ModelName,Validation,Exception
+Warenversand13_2d121daabba3486ea3752d869f0b5541 - Copia.bpmn,valid,
 Warenversand13_2d121daabba3486ea3752d869f0b5541.bpmn,valid,
-Warenversands_18034ca70a8c4940a637257a44cc4757.bpmn,valid,
-Warenversands_1dd15a5071d64e0f81f1c3dc3e929f9d.bpmn,valid,
-Warenversand_fba2e82fc1da4c5bbced36d59f0a5ea8.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'sequenceFlow'.
-warenversand_fc0520fdc635441cb8af81f5d631cca1.bpmn,valid,
-Warenversand_fc154f2aa8a94221862e8c8946e6802e.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'sequenceFlow'.
-Warenversand_fd126fe0ae854550b53525570c958186.bpmn,valid,
-warenversand_fd2cd98a95544c17a628e7b276949a9e.bpmn,valid,
-warenversand_fd4a513eeaa64ff7a5469fa8fff3a03f.bpmn,valid,
-Warenversand_fd8e48823e444432b5283ac7274845b4.bpmn,valid,
-Warenversand_fdb7c58d4fb34365ac4fb6eab54a15b4.bpmn,valid,
-Warenversand_fdbfe05a9a514ceb8eaabb3e3589852d.bpmn,valid,
-Warenversand_fdd89cdac7b1437fbc121e5a2355c391.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'sequenceFlow'.
-Warenversand_fe27e0737cf242a9b3ca1d55485361a7.bpmn,valid,
-Warenversand_fe6077a2dad8448cb41bc5672bb618ed.bpmn,valid,
-warenversand_fe9c5ccd57514b20a810d495c80f35f5.bpmn,valid,
-warenversand_feca58374fc44d90a738e617f77cd3f9.bpmn,valid,
-Warenversand_fee88c6b940449b0b4fa36ad31dba261.bpmn,valid,
-Warenversand_fefb81c332b243dc94307c9b7e8166b9.bpmn,valid,
-Warenversand_ff1c951aea4941338170f13738f6cebb.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'sequenceFlow'.
-Warenversand_lt_Trainer_b312be054241465182b23d97515366b4.bpmn,valid,
-Warenversand_Teilnehmer2_bd41d6fc90844990a655ea73f03c1233.bpmn,valid,
-Warenversand_vorbereiten_9bdbc931870c48daa9d34a5b91e56c6e.bpmn,valid,
-Warenversand_vorbereiten_e7b6bf08f8b04596a8ca0ff163962d64.bpmn,valid,

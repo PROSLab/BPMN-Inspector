@@ -4,6 +4,7 @@ import React, {ReactDOM, memo, useState, useEffect} from "react";
 import "./uploadtemplate.css";
 import "./fileList.css";
 import axios from 'axios';
+import "axios-progress-bar/dist/nprogress.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Provider, KeepAlive,} from 'react-keep-alive';
@@ -14,18 +15,37 @@ import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
 import '@polymer/polymer/lib/elements/custom-style.js';
 import '@vaadin/vaadin-lumo-styles/badge.js';
 import '@polymer/polymer/lib/elements/custom-style.js';
+import {CheckboxGroup} from "@hilla/react-components/CheckboxGroup.js";
 
 export default function HelloReactView() {
-    const [name, setName] = useState('')
-    const [duplicate, setDuplicate] = useState('')
-    const [invalid, setInvalid] = useState('')
-    const [nonEnglish, setNonEnglish] = useState('')
     const [showHome, setShowHome] = React.useState(true)
     const [showResults, setShowResults] = React.useState(false)
 
     let selectedFile: any = null;
     const [show, setShow] = useState(true)
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
+
+    const filterCollection = () => {
+
+        const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+
+        const filteringArray: string[] = [];
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                filteringArray.push(checkbox.value);
+            }
+        });
+
+        axios({
+            method: "post",
+            url: '/download-filtered-models',
+            data: filteringArray,
+        }).then(response => {
+            console.log(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    };
 
 
     // Stampo i files
@@ -81,7 +101,6 @@ export default function HelloReactView() {
             }
             return counts;
         }, {valid: 0, invalid: 0});
-
 
         const downloadFile = () => {
             axios({
@@ -143,16 +162,21 @@ export default function HelloReactView() {
                         <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
                     }
                     <div>
-                           <p style={{fontSize:'20px',color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left"}}>Filtering options:</p>
-                            <Checkbox value='0' label='Remove Duplicate models'/>
+                           <p style={{fontSize:'20px',color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left", marginBottom:'0.4em'}}>Filtering options:</p>
+                        <CheckboxGroup
+                            theme=''
+                            onValueChanged={({ detail: { value } }) => console.log(value)}
+                        >
+                            <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
                             <br/>
-                            <Checkbox value='1' label='Remove Invalid models'/>
+                            <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
                             <br/>
-                            <Checkbox value='2' label='Remove non-English models' disabled checked/>
+                            <Checkbox value='noEnglish' label='Remove non-English models' name="checkbox3" disabled/>
                             <br/>
-
+                        </CheckboxGroup>
+                        <br></br>
                         <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} type="submit" value="Inspect"/>
-                        <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} >
+                        <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={filterCollection}>
                             <GrDocumentDownload /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Filter collection</a>
                         </button>
                         <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={downloadFile}>
@@ -197,12 +221,10 @@ export default function HelloReactView() {
                 }
 
             const formData = new FormData();
-            const formDataValidation = new FormData();
             Array.from(selectedFile).forEach((file: any) => {
                 formData.append("file", file);
             });
 
-            console.log(selectedFile)
             try {
                 const response = await axios({
                     method: "post",

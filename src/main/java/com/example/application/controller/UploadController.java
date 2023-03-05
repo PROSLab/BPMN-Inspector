@@ -1,5 +1,7 @@
 package com.example.application.controller;
 import com.example.application.model.fileInfo;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
+import java.util.*;
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -16,13 +19,12 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 
 @RestController
@@ -201,5 +203,109 @@ public class UploadController {
                 .contentLength(resource.getFile().length())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
+    }
+
+    @PostMapping("/download-filtered-models")
+    public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException {
+        if (filteringArray == null || filteringArray.length == 0) {
+
+            Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
+            Path zipFilePath = sourceDir.getParent().resolve("bpmnModels.zip");
+
+            // Crea lo stream di output per il file zip
+            FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
+            ZipOutputStream zipOut = new ZipOutputStream(fos);
+
+            // Recupera la lista dei file nella cartella sorgente
+            Files.walk(sourceDir)
+                    .filter(path -> !Files.isDirectory(path))
+                    .forEach(path -> {
+                        try {
+                            // Crea l'entry del file nel file zip
+                            ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
+                            zipOut.putNextEntry(zipEntry);
+
+                            // Scrive il contenuto del file nello stream di output del file zip
+                            Files.copy(path, zipOut);
+
+                            // Chiude l'entry del file
+                            zipOut.closeEntry();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+            // Chiude lo stream di output del file zip e il file zip stesso
+            zipOut.close();
+            fos.close();
+
+            Resource resource = new UrlResource(zipFilePath.toUri());
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(resource.contentLength())
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(resource);
+
+        } else if (filteringArray.length == 1) {
+            if (filteringArray[0].equals("invalid")) {
+                return null;
+            } else if (filteringArray[0].equals("duplicated")) {
+                Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
+                Path zipFilePath = sourceDir.getParent().resolve("bpmnNoDuplicates.zip");
+
+                // Crea lo stream di output per il file zip
+                FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
+                ZipOutputStream zipOut = new ZipOutputStream(fos);
+
+                // Mappa per tenere traccia dei nomi dei file già trovati
+                Map<Long, Path> fileSizes = new HashMap<>();
+                Files.walk(sourceDir)
+                        .filter(path -> !Files.isDirectory(path))
+                        .forEach(path -> {
+                            try {
+                                // Confronta i byte del file con quelli dei file già processati
+                                byte[] fileContent = Files.readAllBytes(path);
+                                Long fileSize = Files.size(path);
+                                if (!fileSizes.containsKey(fileSize) || !Arrays.equals(fileContent, Files.readAllBytes(fileSizes.get(fileSize)))) {
+                                    // Crea l'entry del file nel file zip se il contenuto è diverso dai file già processati
+                                    ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
+                                    zipOut.putNextEntry(zipEntry);
+
+                                    // Scrive il contenuto del file nello stream di output del file zip
+                                    Files.copy(path, zipOut);
+
+                                    // Aggiorna la mappa dei file già processati con il nuovo file
+                                    fileSizes.put(fileSize, path);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                // Chiude lo stream di output del file zip e il file zip stesso
+                zipOut.close();
+                fos.close();
+
+                // Crea un resource dal file zip e restituisce un ResponseEntity per il download
+                String fileName = "zippedFiles.zip";
+                Resource resource = new UrlResource(zipFilePath.toUri());
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentLength(resource.getFile().length())
+                        .contentType(MediaType.parseMediaType("application/octet-stream"))
+                        .body(resource);
+            }
+        } else if (filteringArray.length == 2) {
+            if (Arrays.asList(filteringArray).contains("invalid") && Arrays.asList(filteringArray).contains("duplicated")) {
+                return null;
+            }
+        }
+        return null;
     }
 }
