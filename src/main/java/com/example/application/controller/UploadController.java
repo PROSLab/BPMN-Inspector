@@ -7,6 +7,8 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
@@ -32,6 +34,7 @@ public class UploadController {
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src/main/resources/bpmnModels/";
+    private List<String> validModelFiles = new ArrayList<>();
     @GetMapping("/files")
     public List<fileInfo> getFiles() throws IOException {
 
@@ -41,6 +44,8 @@ public class UploadController {
             boolean isValid;
             try {
                  isValid = validateFile(file);
+                 if(isValid)
+                     validModelFiles.add(file.getName());
             } catch (SAXException e) {
                  isValid = false;
                 throw new RuntimeException(e);
@@ -251,7 +256,43 @@ public class UploadController {
 
         } else if (filteringArray.length == 1) {
             if (filteringArray[0].equals("invalid")) {
-                return null;
+                Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
+                Path zipFilePath = sourceDir.getParent().resolve("bpmnNoInvalids.zip");
+
+                FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
+                ZipOutputStream zipOut = new ZipOutputStream(fos);
+
+                Files.walk(sourceDir)
+                        .filter(path -> !Files.isDirectory(path))
+                        .filter(path -> Arrays.asList(validModelFiles).contains(path.getFileName().toString()))
+                        .forEach(path -> {
+                            try {
+                                // Crea l'entry del file nel file zip
+                                ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
+                                zipOut.putNextEntry(zipEntry);
+
+                                // Scrive il contenuto del file nello stream di output del file zip
+                                Files.copy(path, zipOut);
+
+                                // Chiude l'entry del file
+                                zipOut.closeEntry();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                zipOut.close();
+                fos.close();
+
+                Resource resource = new UrlResource(zipFilePath.toUri());
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.parseMediaType("application/octet-stream"))
+                        .body(resource);
             } else if (filteringArray[0].equals("duplicated")) {
                 Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
                 Path zipFilePath = sourceDir.getParent().resolve("bpmnNoDuplicates.zip");
@@ -290,7 +331,7 @@ public class UploadController {
                 fos.close();
 
                 // Crea un resource dal file zip e restituisce un ResponseEntity per il download
-                String fileName = "zippedFiles.zip";
+                String fileName = "bpmnNoDuplicates.zip";
                 Resource resource = new UrlResource(zipFilePath.toUri());
                 HttpHeaders headers = new HttpHeaders();
                 headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
@@ -303,7 +344,67 @@ public class UploadController {
             }
         } else if (filteringArray.length == 2) {
             if (Arrays.asList(filteringArray).contains("invalid") && Arrays.asList(filteringArray).contains("duplicated")) {
-                return null;
+                Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
+                Path zipFilePath = sourceDir.getParent().resolve("bpmnNoInvalidNoDuplicates.zip");
+
+                // Crea lo stream di output per il file zip
+                FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
+                ZipOutputStream zipOut = new ZipOutputStream(fos);
+
+                // Mappa per tenere traccia dei nomi dei file già trovati
+                Map<Long, Path> fileSizes = new HashMap<>();
+                List<String> invalidFileNames = new ArrayList<>();
+                List<Path> duplicateFiles = new ArrayList<>();
+                Files.walk(sourceDir)
+                        .filter(path -> !Files.isDirectory(path))
+                        .forEach(path -> {
+                            try {
+                                // Verifica se il file è invalido o duplicato
+                                boolean isInvalid = !Arrays.asList(validModelFiles).contains(path.getFileName().toString());
+                                byte[] fileContent = Files.readAllBytes(path);
+                                Long fileSize = Files.size(path);
+                                boolean isDuplicate = fileSizes.containsKey(fileSize) && Arrays.equals(fileContent, Files.readAllBytes(fileSizes.get(fileSize)));
+                                if (isInvalid && isDuplicate) {
+                                    // Aggiunge il nome del file invalido alla lista degli invalidi e il file duplicato alla lista dei duplicati
+                                    invalidFileNames.add(path.getFileName().toString());
+                                    duplicateFiles.add(path);
+                                } else if (!isInvalid && !isDuplicate) {
+                                    // Crea l'entry del file nel file zip se non è né invalido né duplicato
+                                    ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
+                                    zipOut.putNextEntry(zipEntry);
+
+                                    // Scrive il contenuto del file nello stream di output del file zip
+                                    Files.copy(path, zipOut);
+
+                                    // Aggiorna la mappa dei file già processati con il nuovo file
+                                    fileSizes.put(fileSize, path);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                // Chiude lo stream di output del file zip e il file zip stesso
+                zipOut.close();
+                fos.close();
+
+                // Crea un resource dal file zip e restituisce un ResponseEntity per il download
+                String fileName = "bpmnNoInvalidNoDuplicates.zip";
+                Resource resource = new UrlResource(zipFilePath.toUri());
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+
+                // Restituisce una risposta con il file zip e un file con la lista dei nomi dei file invalidi
+                MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+                body.add("zipFile", resource);
+                body.add("invalidFilesList", invalidFileNames);
+                body.add("duplicatesList", duplicateFiles);
+
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .contentLength(resource.getFile().length())
+                        .contentType(MediaType.parseMediaType("application/octet-stream"))
+                        .body((Resource) body);
             }
         }
         return null;
