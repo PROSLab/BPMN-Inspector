@@ -12,6 +12,7 @@ import '@vaadin/vaadin-lumo-styles/badge.js'
 import '@vaadin/tabs';
 import {BsDiagram2} from "react-icons/bs";
 import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
+import {HiDocumentSearch} from "react-icons/hi";
 import '@polymer/polymer/lib/elements/custom-style.js';
 import '@vaadin/vaadin-lumo-styles/badge.js';
 import '@polymer/polymer/lib/elements/custom-style.js';
@@ -40,8 +41,13 @@ export default function HelloReactView() {
             method: "post",
             url: '/download-filtered-models',
             data: filteringArray,
+            responseType: 'blob',
         }).then(response => {
-            console.log(response.data);
+            const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/zip'}));
+            const link = document.createElement('a');
+            link.href = url;
+            document.body.appendChild(link);
+            link.click();
         }).catch(error => {
             console.log(error);
         });
@@ -69,6 +75,28 @@ export default function HelloReactView() {
             });
         }, []);
 
+        const inspectionPage = () => {
+            const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+
+            const filteringArray: string[] = [];
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    filteringArray.push(checkbox.value);
+                }
+            });
+
+            axios({
+                url: '/postProcessingView',
+                method: 'POST',
+                responseType: 'blob',
+                data: filteringArray,
+            }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const newWindow = window.open(url, '_blank');
+                // @ts-ignore
+                newWindow.focus();
+            });
+        }
         async function deleteFiles() {
             try {
                 await axios.delete('/deleteAllFiles');
@@ -175,7 +203,9 @@ export default function HelloReactView() {
                             <br/>
                         </CheckboxGroup>
                         <br></br>
-                        <input style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} type="submit" value="Inspect"/>
+                        <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} onClick={inspectionPage}>
+                            <HiDocumentSearch /><a style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Inspect!</a>
+                        </button>
                         <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={filterCollection}>
                             <GrDocumentDownload /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Filter collection</a>
                         </button>

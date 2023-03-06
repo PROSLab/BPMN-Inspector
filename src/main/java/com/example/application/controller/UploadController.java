@@ -1,14 +1,11 @@
 package com.example.application.controller;
 import com.example.application.model.fileInfo;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
@@ -216,7 +213,7 @@ public class UploadController {
 
             Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
             Path zipFilePath = sourceDir.getParent().resolve("bpmnModels.zip");
-
+            String fileName = "bpmnModels.zip";
             // Crea lo stream di output per il file zip
             FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
             ZipOutputStream zipOut = new ZipOutputStream(fos);
@@ -250,15 +247,15 @@ public class UploadController {
 
             return ResponseEntity.ok()
                     .headers(headers)
-                    .contentLength(resource.contentLength())
-                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .contentLength(resource.getFile().length())
+                    .contentType(MediaType.parseMediaType("application/zip"))
                     .body(resource);
 
         } else if (filteringArray.length == 1) {
             if (filteringArray[0].equals("invalid")) {
                 Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
                 Path zipFilePath = sourceDir.getParent().resolve("bpmnNoInvalids.zip");
-
+                String fileName = "bpmnNoInvalids.zip";
                 FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
                 ZipOutputStream zipOut = new ZipOutputStream(fos);
 
@@ -293,13 +290,13 @@ public class UploadController {
                 return ResponseEntity.ok()
                         .headers(headers)
                         .contentLength(resource.getFile().length())
-                        .contentType(MediaType.parseMediaType("application/octet-stream"))
+                        .contentType(MediaType.parseMediaType("application/zip"))
                         .body(resource);
 
             } else if (filteringArray[0].equals("duplicated")) {
                 Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
                 Path zipFilePath = sourceDir.getParent().resolve("bpmnNoDuplicates.zip");
-
+                String fileName = "bpmnNoDuplicates.zip";
                 // Crea lo stream di output per il file zip
                 FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
                 ZipOutputStream zipOut = new ZipOutputStream(fos);
@@ -334,7 +331,6 @@ public class UploadController {
                 fos.close();
 
                 // Crea un resource dal file zip e restituisce un ResponseEntity per il download
-                String fileName = "bpmnNoDuplicates.zip";
                 Resource resource = new UrlResource(zipFilePath.toUri());
                 HttpHeaders headers = new HttpHeaders();
                 headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
@@ -342,14 +338,14 @@ public class UploadController {
                 return ResponseEntity.ok()
                         .headers(headers)
                         .contentLength(resource.getFile().length())
-                        .contentType(MediaType.parseMediaType("application/octet-stream"))
+                        .contentType(MediaType.parseMediaType("application/zip"))
                         .body(resource);
             }
         } else if (filteringArray.length == 2) {
             if (Arrays.asList(filteringArray).contains("invalid") && Arrays.asList(filteringArray).contains("duplicated")) {
                 Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
                 Path zipFilePath = sourceDir.getParent().resolve("bpmnNoInvalidsNoDuplicates.zip");
-
+                String fileName = "bpmnNoDuplicatesNoInvalids.zip";
                 // Crea lo stream di output per il file zip
                 FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
                 ZipOutputStream zipOut = new ZipOutputStream(fos);
@@ -386,18 +382,24 @@ public class UploadController {
                 fos.close();
 
                 // Crea un resource dal file zip e restituisce un ResponseEntity per il download
-                String fileName = "bpmnNoInvalidsNoDuplicates.zip";
                 Resource resource = new UrlResource(zipFilePath.toUri());
                 HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"bpmnNoDuplicatesNoInvalids.zip\"");
 
                 return ResponseEntity.ok()
                         .headers(headers)
                         .contentLength(resource.getFile().length())
-                        .contentType(MediaType.parseMediaType("application/octet-stream"))
+                        .contentType(MediaType.parseMediaType("application/zip"))
                         .body(resource);
             }
         }
         return null;
     }
+
+    @PostMapping(value="/postProcessingView")
+    public String processFilteredModels(@RequestBody String[] filteringArray, Model model) throws IOException {
+        model.addAttribute("data", Arrays.asList(filteringArray));
+        return "postProcessingView";
+    }
+
 }
