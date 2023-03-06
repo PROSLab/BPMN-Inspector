@@ -275,7 +275,7 @@ export default function HelloReactView() {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "300px",
+                    height: "350px",
                     border: "4px dashed #10ad73",
                     padding: "10em",
                     backgroundRepeat: 'no-repeat',

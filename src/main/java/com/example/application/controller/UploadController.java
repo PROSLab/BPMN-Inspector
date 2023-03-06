@@ -264,23 +264,25 @@ public class UploadController {
 
                 Files.walk(sourceDir)
                         .filter(path -> !Files.isDirectory(path))
-                        .filter(path -> Arrays.asList(validModelFiles).contains(path.getFileName().toString()))
                         .forEach(path -> {
-                            try {
-                                // Crea l'entry del file nel file zip
-                                ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
-                                zipOut.putNextEntry(zipEntry);
 
-                                // Scrive il contenuto del file nello stream di output del file zip
-                                Files.copy(path, zipOut);
+                                if(validModelFiles.contains(path.getFileName().toString())) {
+                                    try {
+                                        // Crea l'entry del file nel file zip
+                                        ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
+                                        zipOut.putNextEntry(zipEntry);
 
-                                // Chiude l'entry del file
-                                zipOut.closeEntry();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                                        // Scrive il contenuto del file nello stream di output del file zip
+                                        Files.copy(path, zipOut);
+
+                                        // Chiude l'entry del file
+                                        zipOut.closeEntry();
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                         });
-
                 zipOut.close();
                 fos.close();
 
@@ -290,9 +292,10 @@ public class UploadController {
 
                 return ResponseEntity.ok()
                         .headers(headers)
-                        .contentLength(resource.contentLength())
+                        .contentLength(resource.getFile().length())
                         .contentType(MediaType.parseMediaType("application/octet-stream"))
                         .body(resource);
+
             } else if (filteringArray[0].equals("duplicated")) {
                 Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
                 Path zipFilePath = sourceDir.getParent().resolve("bpmnNoDuplicates.zip");
