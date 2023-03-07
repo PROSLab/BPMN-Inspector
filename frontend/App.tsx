@@ -5,10 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import KeepAlive, {AliveScope} from 'react-activation'
 import {CheckboxGroup} from "@hilla/react-components/CheckboxGroup.js";
+import PostProcessingView from "Frontend/views/postProcessing/PostProcessingView";
 
 export default function App() {
     return (
         <>
+
             <RouterProvider router={router} />
 
             <ToastContainer

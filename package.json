@@ -2,6 +2,8 @@
   "name": "no-name",
   "license": "UNLICENSED",
   "dependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.21.0",
     "@hilla/form": "1.3.5",
     "@hilla/frontend": "1.3.5",
     "@hilla/generator-typescript-cli": "1.3.5",
@@ -112,7 +114,9 @@
     "keepalive": "$keepalive",
     "react-icons": "$react-icons",
     "axios-progress-bar": "$axios-progress-bar",
-    "react-activation": "$react-activation"
+    "react-activation": "$react-activation",
+    "@babel/plugin-syntax-dynamic-import": "$@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-transform-runtime": "$@babel/plugin-transform-runtime"
   },
   "vaadin": {
     "dependencies": {
@@ -162,6 +166,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "f18e2b222769033843d9b0ebb1f99bf5b9c547dde0c8367afebad447838b45c8"
+    "hash": "941b93d1c06c670ad7886cdc834d58bed1cc65d7d4853f5f53e2000bf99638ad"
   }
 }

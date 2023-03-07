@@ -396,9 +396,29 @@ public class UploadController {
         return null;
     }
 
-    @GetMapping(value="/postProcessingView")
+    @PostMapping(value="/postProcessingView")
     public String processFilteredModels(@RequestBody String[] filteringArray, Model model) throws IOException {
         model.addAttribute("data", Arrays.asList(filteringArray));
+
+        //Inspect models without invalid and duplicated
+        if(filteringArray.length == 2){
+
+        } else if (filteringArray.length == 1) {
+            //Inspect models without invalids only
+            if(filteringArray[0] == "invalid"){
+
+            }
+            //Inspect models without duplicates only
+            else{
+
+            }
+
+        }
+        //Inspect all models
+        else{
+
+        }
+        System.out.println(filteringArray[0]);
         return "postProcessingView";
     }
 

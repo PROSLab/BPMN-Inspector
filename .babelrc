@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    "react-activation/babel",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-transform-runtime"
+  ]
+}

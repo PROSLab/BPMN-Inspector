@@ -18,10 +18,13 @@ import '@polymer/polymer/lib/elements/custom-style.js';
 import {CheckboxGroup} from "@hilla/react-components/CheckboxGroup.js";
 import {Link, RouterProvider} from "react-router-dom";
 import KeepAlive, {AliveScope} from 'react-activation'
+import { Router, Route } from 'react-router-dom';
+
 
 export default function HelloReactView() {
     const [showHome, setShowHome] = React.useState(true)
     const [showResults, setShowResults] = React.useState(false)
+    const [filteredData, setFilteredData] = useState<string[]>([]);
     const filteringArray: string[] = [];
 
     let selectedFile: any = null;
@@ -65,7 +68,7 @@ export default function HelloReactView() {
             size: number;
             isValid: boolean;
         }
-
+    console.log(filesInfo)
         useEffect(() => {
             axios({
                 method: "get",
@@ -79,7 +82,6 @@ export default function HelloReactView() {
         const inspectionPage = () => {
             const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
 
-            const filteringArray: string[] = [];
             checkboxes.forEach((checkbox) => {
                 if (checkbox.checked) {
                     filteringArray.push(checkbox.value);
@@ -88,11 +90,10 @@ export default function HelloReactView() {
 
             axios({
                 url: '/postProcessingView',
-                method: 'GET',
+                method: 'POST',
+                data: filteringArray,
             }).then((response) => {
-                const newWindow = window.open('', '_blank');
-                // @ts-ignore
-                newWindow.document.write(response.data);
+                console.log(response.data);
             });
         }
         async function deleteFiles() {
@@ -203,7 +204,7 @@ export default function HelloReactView() {
                             </CheckboxGroup>
                         
                         <br></br>
-                        <Link to="/inspect" state={{data: filteringArray}}>
+                        <Link to="/inspect" state={{data: filteringArray}} >
                             <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} onClick={inspectionPage}>
                                 <HiDocumentSearch /><a style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Inspect!</a>
                             </button>
@@ -344,8 +345,8 @@ export default function HelloReactView() {
    // { showHome ? <Home /> : null }
     return (
         <>
-                    { showResults ? <Results /> : null }
-                    { showHome ? <Home /> : null }
+                { showHome ? <Home /> : null }
+                { showResults ? <Results /> : null }
         </>
     );
 }
