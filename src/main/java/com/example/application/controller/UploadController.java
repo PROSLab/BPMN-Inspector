@@ -396,7 +396,7 @@ public class UploadController {
         return null;
     }
 
-    @PostMapping(value="/postProcessingView")
+    @GetMapping(value="/postProcessingView")
     public String processFilteredModels(@RequestBody String[] filteringArray, Model model) throws IOException {
         model.addAttribute("data", Arrays.asList(filteringArray));
         return "postProcessingView";

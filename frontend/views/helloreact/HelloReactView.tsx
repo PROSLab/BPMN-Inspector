@@ -7,7 +7,6 @@ import axios from 'axios';
 import "axios-progress-bar/dist/nprogress.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Provider, KeepAlive,} from 'react-keep-alive';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import '@vaadin/tabs';
 import {BsDiagram2} from "react-icons/bs";
@@ -17,10 +16,13 @@ import '@polymer/polymer/lib/elements/custom-style.js';
 import '@vaadin/vaadin-lumo-styles/badge.js';
 import '@polymer/polymer/lib/elements/custom-style.js';
 import {CheckboxGroup} from "@hilla/react-components/CheckboxGroup.js";
+import {Link, RouterProvider} from "react-router-dom";
+import KeepAlive, {AliveScope} from 'react-activation'
 
 export default function HelloReactView() {
     const [showHome, setShowHome] = React.useState(true)
     const [showResults, setShowResults] = React.useState(false)
+    const filteringArray: string[] = [];
 
     let selectedFile: any = null;
     const [show, setShow] = useState(true)
@@ -30,7 +32,6 @@ export default function HelloReactView() {
 
         const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
 
-        const filteringArray: string[] = [];
         checkboxes.forEach((checkbox) => {
             if (checkbox.checked) {
                 filteringArray.push(checkbox.value);
@@ -87,14 +88,11 @@ export default function HelloReactView() {
 
             axios({
                 url: '/postProcessingView',
-                method: 'POST',
-                responseType: 'blob',
-                data: filteringArray,
+                method: 'GET',
             }).then((response) => {
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const newWindow = window.open(url, '_blank');
+                const newWindow = window.open('', '_blank');
                 // @ts-ignore
-                newWindow.focus();
+                newWindow.document.write(response.data);
             });
         }
         async function deleteFiles() {
@@ -173,8 +171,8 @@ export default function HelloReactView() {
                                     <p className="file-info-item file-name">
                                         {file.size} kb
                                     </p>
-                                    <p className={`file-info-item file-name ${file.isValid ? 'Valid' : 'Invalid'}`}>
-                                        {file.isValid ? "Valid" : "Invalid"}
+                                    <p className={`file-info-item file-name`}>
+                                         <span className={`badge badge-pill badge-success ${file.isValid ? 'Valid' : 'Invalid'}`} >{file.isValid ? "Valid" : "Invalid"}</span>
                                     </p>
                                     <p className="file-info-item file-name">
                                         {file.isValid ? "english" : "noEnglish"}
@@ -191,21 +189,25 @@ export default function HelloReactView() {
                     }
                     <div>
                            <p style={{fontSize:'20px',color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left", marginBottom:'0.4em'}}>Filtering options:</p>
-                        <CheckboxGroup
-                            theme=''
-                            onValueChanged={({ detail: { value } }) => console.log(value)}
-                        >
-                            <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
-                            <br/>
-                            <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
-                            <br/>
-                            <Checkbox value='noEnglish' label='Remove non-English models' name="checkbox3" disabled/>
-                            <br/>
-                        </CheckboxGroup>
+                        
+                            <CheckboxGroup
+                                theme=''
+                                onValueChanged={({ detail: { value } }) => console.log(value)}
+                            >
+                                <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
+                                <br/>
+                                <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
+                                <br/>
+                                <Checkbox value='noEnglish' label='Remove non-English models' name="checkbox3" disabled/>
+                                <br/>
+                            </CheckboxGroup>
+                        
                         <br></br>
-                        <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} onClick={inspectionPage}>
-                            <HiDocumentSearch /><a style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Inspect!</a>
-                        </button>
+                        <Link to="/inspect" state={{data: filteringArray}}>
+                            <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} onClick={inspectionPage}>
+                                <HiDocumentSearch /><a style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Inspect!</a>
+                            </button>
+                        </Link>
                         <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={filterCollection}>
                             <GrDocumentDownload /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Filter collection</a>
                         </button>
@@ -339,10 +341,12 @@ export default function HelloReactView() {
     }
     //
     //{ showResults ? <Results /> : null }
+   // { showHome ? <Home /> : null }
     return (
         <>
-            { showHome ? <Home /> : null }
-            { showResults ? <Results /> : null }
+                    { showResults ? <Results /> : null }
+                    { showHome ? <Home /> : null }
         </>
     );
 }
+

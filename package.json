@@ -40,6 +40,7 @@
     "line-awesome": "1.3.0",
     "lit": "2.6.1",
     "react": "^18.2.0",
+    "react-activation": "^0.12.2",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
@@ -110,7 +111,8 @@
     "@vaadin/component-base": "$@vaadin/component-base",
     "keepalive": "$keepalive",
     "react-icons": "$react-icons",
-    "axios-progress-bar": "$axios-progress-bar"
+    "axios-progress-bar": "$axios-progress-bar",
+    "react-activation": "$react-activation"
   },
   "vaadin": {
     "dependencies": {
@@ -160,6 +162,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "832f80e4d07e7c0c0f97dfb701bdcc4b8459c0dbf40e9f21f1da506210995e04"
+    "hash": "f18e2b222769033843d9b0ebb1f99bf5b9c547dde0c8367afebad447838b45c8"
   }
 }

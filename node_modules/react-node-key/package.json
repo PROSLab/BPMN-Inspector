@@ -1,0 +1,59 @@
+{
+  "name": "react-node-key",
+  "version": "0.4.0",
+  "description": "Automatic key-marked for React nodes, generate an unique identifier by render location",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup --config",
+    "format": "prettier --write \"./src/**/*.js\"",
+    "manual:publish": "npm run build && np --no-cleanup --yolo --no-publish"
+  },
+  "keywords": [
+    "node key",
+    "unique",
+    "react node key",
+    "file key",
+    "identifier",
+    "react keep alive",
+    "react activation"
+  ],
+  "author": "CJY0208",
+  "license": "ISC",
+  "homepage": "https://github.com/CJY0208/react-node-key",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CJY0208/react-node-key.git"
+  },
+  "sideEffects": false,
+  "files": [
+    "lib",
+    "babel",
+    "vite",
+    "index.d.ts",
+    "index.js",
+    "package.json",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "dependencies": {
+    "jsx-ast-utils": "^2.2.1",
+    "szfe-tools": "^0.0.0-beta.7"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.3",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-plugin-import": "^1.13.0",
+    "np": "^6.2.5",
+    "prettier": "^2.2.1",
+    "rollup": "^1.11.3",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-uglify": "^6.0.2"
+  }
+}

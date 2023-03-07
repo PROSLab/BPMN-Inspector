@@ -1,0 +1,3317 @@
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = global || self, factory(global.SZFETools = {}));
+}(this, (function (exports) { 'use strict';
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+
+  var arrayLikeToArray = _arrayLikeToArray;
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) return arrayLikeToArray(arr);
+  }
+
+  var arrayWithoutHoles = _arrayWithoutHoles;
+
+  function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  }
+
+  var iterableToArray = _iterableToArray;
+
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
+  }
+
+  var unsupportedIterableToArray = _unsupportedIterableToArray;
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  var nonIterableSpread = _nonIterableSpread;
+
+  function _toConsumableArray(arr) {
+    return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
+  }
+
+  var toConsumableArray = _toConsumableArray;
+
+  function createCommonjsModule(fn, module) {
+  	return module = { exports: {} }, fn(module, module.exports), module.exports;
+  }
+
+  var _typeof_1 = createCommonjsModule(function (module) {
+  function _typeof(obj) {
+    "@babel/helpers - typeof";
+
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+      module.exports = _typeof = function _typeof(obj) {
+        return typeof obj;
+      };
+    } else {
+      module.exports = _typeof = function _typeof(obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+      };
+    }
+
+    return _typeof(obj);
+  }
+
+  module.exports = _typeof;
+  });
+
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
+  var defineProperty = _defineProperty;
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  var arrayWithHoles = _arrayWithHoles;
+
+  function _iterableToArrayLimit(arr, i) {
+    if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  var iterableToArrayLimit = _iterableToArrayLimit;
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  var nonIterableRest = _nonIterableRest;
+
+  function _slicedToArray(arr, i) {
+    return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
+  }
+
+  var slicedToArray = _slicedToArray;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var classCallCheck = _classCallCheck;
+
+  var CombJubge = function CombJubge(list) {
+    var _this = this;
+
+    classCallCheck(this, CombJubge);
+
+    this.have = function (activeAttr) {
+      return Object.values(_this.list).some(function (item) {
+        return Object.entries(activeAttr).every(function (_ref) {
+          var _ref2 = slicedToArray(_ref, 2),
+              key = _ref2[0],
+              val = _ref2[1];
+
+          return item[key] === val;
+        });
+      });
+    };
+
+    this.adaptedAttr = function (activeAttr) {
+      return Object.entries(_this.attr).reduce(function (adaptedAttr, _ref3) {
+        var _ref4 = slicedToArray(_ref3, 2),
+            key = _ref4[0],
+            values = _ref4[1];
+
+        return Object.assign(adaptedAttr, defineProperty({}, key, values.filter(function (val) {
+          return _this.have(Object.assign({}, activeAttr, defineProperty({}, key, val)));
+        })));
+      }, {});
+    };
+
+    this.find = function (activeAttr) {
+      var _loop = function _loop() {
+        var _Object$entries$_i = slicedToArray(_Object$entries[_i], 2),
+            id = _Object$entries$_i[0],
+            item = _Object$entries$_i[1];
+
+        if (Object.entries(activeAttr).every(function (_ref5) {
+          var _ref6 = slicedToArray(_ref5, 2),
+              key = _ref6[0],
+              val = _ref6[1];
+
+          return item[key] === val;
+        }) && Object.keys(item).every(function (key) {
+          return key in activeAttr;
+        })) {
+          return {
+            v: id
+          };
+        }
+      };
+
+      for (var _i = 0, _Object$entries = Object.entries(_this.list); _i < _Object$entries.length; _i++) {
+        var _ret = _loop();
+
+        if (_typeof_1(_ret) === "object") return _ret.v;
+      }
+    };
+
+    this.list = list;
+    this.attr = Object.entries(list).reduce(function (attr, _ref7) {
+      var _ref8 = slicedToArray(_ref7, 2),
+          item = _ref8[1];
+
+      Object.entries(item).forEach(function (_ref9) {
+        var _ref10 = slicedToArray(_ref9, 2),
+            key = _ref10[0],
+            val = _ref10[1];
+
+        attr[key] = attr[key] || [];
+        attr[key] = toConsumableArray(new Set([].concat(toConsumableArray(attr[key]), [val])));
+      });
+      return attr;
+    }, {});
+    this.attrKey = Object.keys(this.attr);
+  };
+
+  var isFunction = function isFunction(value) {
+    return typeof value === 'function';
+  };
+
+  var isUndefined = function isUndefined(value) {
+    return typeof value === 'undefined';
+  };
+
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+  var EventBus = function EventBus() {
+    var _this = this;
+
+    classCallCheck(this, EventBus);
+
+    this.listeners = {};
+
+    this.getEventMap = function (event) {
+      if (!_this.listeners[event]) {
+        _this.listeners[event] = new Map();
+      }
+
+      return _this.listeners[event];
+    };
+
+    this.on = function (event, listener) {
+      var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+          _ref$once = _ref.once,
+          once = _ref$once === void 0 ? false : _ref$once;
+
+      if (!isFunction(listener)) {
+        console.error('[EventBus Error] listener is not a function');
+        return _this;
+      }
+
+      _this.getEventMap(event).set(listener, once ? function () {
+        listener.apply(void 0, arguments);
+
+        _this.off(event, listener);
+      } : listener);
+
+      return _this;
+    };
+
+    this.once = function (event, listener) {
+      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this.on(event, listener, _objectSpread(_objectSpread({}, config), {}, {
+        once: true
+      }));
+    };
+
+    this.off = function (event, listener) {
+      var eventMap = _this.getEventMap(event);
+
+      if (isUndefined(listener)) {
+        eventMap.clear();
+      } else {
+        eventMap.delete(listener);
+      }
+
+      return _this;
+    };
+
+    this.emit = function (event) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      return _this.getEventMap(event).forEach(function (listener) {
+        return listener.apply(void 0, args);
+      });
+    };
+  };
+
+  function isString(value) {
+    return typeof value === 'string';
+  }
+
+  var isNaN$1 = function isNaN(value) {
+    return value !== value;
+  };
+
+  var isNumber = function isNumber(value) {
+    return typeof value === 'number' && !isNaN$1(value);
+  };
+
+  function get(obj) {
+    var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+    var defaultValue = arguments.length > 2 ? arguments[2] : undefined;
+
+    try {
+      if (isNumber(keys)) {
+        keys = String(keys);
+      }
+
+      var result = (isString(keys) ? keys.split('.') : keys).reduce(function (res, key) {
+        return res[key];
+      }, obj);
+      return isUndefined(result) ? defaultValue : result;
+    } catch (e) {
+      return defaultValue;
+    }
+  }
+
+  var run = function run(obj) {
+    var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+    keys = isString(keys) ? keys.split('.') : keys;
+    var func = get(obj, keys);
+    var context = get(obj, keys.slice(0, -1));
+
+    for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      args[_key - 2] = arguments[_key];
+    }
+
+    return isFunction(func) ? func.call.apply(func, [context].concat(args)) : func;
+  };
+
+  /* ts-ignore */
+  var getImplementation = function getImplementation() {
+    if (typeof window !== 'undefined') {
+      return window;
+    }
+
+    if (typeof self !== 'undefined') {
+      return self;
+    } // @ts-ignore
+
+
+    if (typeof global !== 'undefined') {
+      // @ts-ignore
+      return global;
+    }
+
+    return Function('return this')();
+  };
+
+  var implementation = getImplementation();
+
+  var getGlobal = function getGlobal() {
+    if ( // @ts-ignore
+    (typeof global === "undefined" ? "undefined" : _typeof_1(global)) !== 'object' || // @ts-ignore
+    !global || // @ts-ignore
+    global.Math !== Math || // @ts-ignore
+    global.Array !== Array) {
+      return implementation;
+    } // @ts-ignore
+
+
+    return global; // return implementation
+  };
+
+  var globalThis = getGlobal();
+
+  var requestAnimationFrame$1 = globalThis.requestAnimationFrame;
+
+  var Thread = function Thread() {
+    var _this = this;
+
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        _ref$maxTaskCount = _ref.maxTaskCount,
+        maxTaskCount = _ref$maxTaskCount === void 0 ? 20 : _ref$maxTaskCount;
+
+    classCallCheck(this, Thread);
+
+    this.taskList = new Set();
+
+    this.isAvailable = function () {
+      return _this.taskList.size >= _this.maxTaskCount;
+    }; //进程是否正在工作：进程工作过程中若插入新的任务，不会影响目前的工作流程
+
+
+    this.isRunning = false; //帧函数
+
+    this.frame = function () {
+      var frameTime = Date.now(); //执行任务帧
+
+      _this.taskList.forEach(function (_ref2) {
+        var frame = _ref2.frame,
+            startTime = _ref2.startTime;
+        return run(frame, undefined, {
+          runningTime: frameTime - startTime,
+          startTime: startTime,
+          frameTime: frameTime
+        });
+      }); //若有未结束任务，则继续下一帧
+
+
+      if (_this.taskList.size > 0) {
+        requestAnimationFrame$1(_this.frame);
+      } else {
+        _this.isRunning = false;
+      }
+    };
+
+    this.run = function (frame) {
+      var task = {
+        startTime: Date.now(),
+        frame: frame
+      };
+
+      _this.taskList.add(task);
+
+      if (!_this.isRunning) {
+        requestAnimationFrame$1(function () {
+          _this.isRunning = true;
+
+          _this.frame();
+        });
+      }
+
+      return function () {
+        return _this.taskList.delete(task);
+      };
+    };
+
+    this.maxTaskCount = maxTaskCount;
+  };
+
+  /**
+   * 帧任务进程
+   * 作用：为任务分配适宜线程，并控制线程任务总数，以保证执行性能
+   */
+
+  var Process =
+  /** @class */
+  function () {
+    var Process = function Process() {
+      var _this = this;
+
+      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      classCallCheck(this, Process);
+
+      this.threadList = [];
+
+      this.getAvailableThread = function () {
+        var thread = _this.threadList.find(function (thread) {
+          return thread.isAvailable();
+        });
+
+        if (!thread) {
+          thread = new Thread({
+            maxTaskCount: _this.maxTaskCount
+          });
+
+          _this.threadList.push(thread);
+        }
+
+        return thread;
+      };
+
+      this.start = function (frame) {
+        return _this.getAvailableThread().run(frame);
+      };
+
+      this.once = function (frame) {
+        var stop = _this.start(function () {
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          run.apply(void 0, [frame, undefined].concat(args));
+          stop();
+        });
+      };
+
+      var maxTaskCount = config.maxTaskCount;
+      this.maxTaskCount = maxTaskCount;
+    };
+
+    Process.defaultProcess = new Process();
+    return Process;
+  }();
+
+  var defaultProcess = Process.defaultProcess;
+
+  var runtime_1 = createCommonjsModule(function (module) {
+  /**
+   * Copyright (c) 2014-present, Facebook, Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   */
+
+  var runtime = (function (exports) {
+
+    var Op = Object.prototype;
+    var hasOwn = Op.hasOwnProperty;
+    var undefined$1; // More compressible than void 0.
+    var $Symbol = typeof Symbol === "function" ? Symbol : {};
+    var iteratorSymbol = $Symbol.iterator || "@@iterator";
+    var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+    var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+    function wrap(innerFn, outerFn, self, tryLocsList) {
+      // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+      var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+      var generator = Object.create(protoGenerator.prototype);
+      var context = new Context(tryLocsList || []);
+
+      // The ._invoke method unifies the implementations of the .next,
+      // .throw, and .return methods.
+      generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+      return generator;
+    }
+    exports.wrap = wrap;
+
+    // Try/catch helper to minimize deoptimizations. Returns a completion
+    // record like context.tryEntries[i].completion. This interface could
+    // have been (and was previously) designed to take a closure to be
+    // invoked without arguments, but in all the cases we care about we
+    // already have an existing method we want to call, so there's no need
+    // to create a new function object. We can even get away with assuming
+    // the method takes exactly one argument, since that happens to be true
+    // in every case, so we don't have to touch the arguments object. The
+    // only additional allocation required is the completion record, which
+    // has a stable shape and so hopefully should be cheap to allocate.
+    function tryCatch(fn, obj, arg) {
+      try {
+        return { type: "normal", arg: fn.call(obj, arg) };
+      } catch (err) {
+        return { type: "throw", arg: err };
+      }
+    }
+
+    var GenStateSuspendedStart = "suspendedStart";
+    var GenStateSuspendedYield = "suspendedYield";
+    var GenStateExecuting = "executing";
+    var GenStateCompleted = "completed";
+
+    // Returning this object from the innerFn has the same effect as
+    // breaking out of the dispatch switch statement.
+    var ContinueSentinel = {};
+
+    // Dummy constructor functions that we use as the .constructor and
+    // .constructor.prototype properties for functions that return Generator
+    // objects. For full spec compliance, you may wish to configure your
+    // minifier not to mangle the names of these two functions.
+    function Generator() {}
+    function GeneratorFunction() {}
+    function GeneratorFunctionPrototype() {}
+
+    // This is a polyfill for %IteratorPrototype% for environments that
+    // don't natively support it.
+    var IteratorPrototype = {};
+    IteratorPrototype[iteratorSymbol] = function () {
+      return this;
+    };
+
+    var getProto = Object.getPrototypeOf;
+    var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+    if (NativeIteratorPrototype &&
+        NativeIteratorPrototype !== Op &&
+        hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+      // This environment has a native %IteratorPrototype%; use it instead
+      // of the polyfill.
+      IteratorPrototype = NativeIteratorPrototype;
+    }
+
+    var Gp = GeneratorFunctionPrototype.prototype =
+      Generator.prototype = Object.create(IteratorPrototype);
+    GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+    GeneratorFunctionPrototype.constructor = GeneratorFunction;
+    GeneratorFunctionPrototype[toStringTagSymbol] =
+      GeneratorFunction.displayName = "GeneratorFunction";
+
+    // Helper for defining the .next, .throw, and .return methods of the
+    // Iterator interface in terms of a single ._invoke method.
+    function defineIteratorMethods(prototype) {
+      ["next", "throw", "return"].forEach(function(method) {
+        prototype[method] = function(arg) {
+          return this._invoke(method, arg);
+        };
+      });
+    }
+
+    exports.isGeneratorFunction = function(genFun) {
+      var ctor = typeof genFun === "function" && genFun.constructor;
+      return ctor
+        ? ctor === GeneratorFunction ||
+          // For the native GeneratorFunction constructor, the best we can
+          // do is to check its .name property.
+          (ctor.displayName || ctor.name) === "GeneratorFunction"
+        : false;
+    };
+
+    exports.mark = function(genFun) {
+      if (Object.setPrototypeOf) {
+        Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+      } else {
+        genFun.__proto__ = GeneratorFunctionPrototype;
+        if (!(toStringTagSymbol in genFun)) {
+          genFun[toStringTagSymbol] = "GeneratorFunction";
+        }
+      }
+      genFun.prototype = Object.create(Gp);
+      return genFun;
+    };
+
+    // Within the body of any async function, `await x` is transformed to
+    // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+    // `hasOwn.call(value, "__await")` to determine if the yielded value is
+    // meant to be awaited.
+    exports.awrap = function(arg) {
+      return { __await: arg };
+    };
+
+    function AsyncIterator(generator, PromiseImpl) {
+      function invoke(method, arg, resolve, reject) {
+        var record = tryCatch(generator[method], generator, arg);
+        if (record.type === "throw") {
+          reject(record.arg);
+        } else {
+          var result = record.arg;
+          var value = result.value;
+          if (value &&
+              typeof value === "object" &&
+              hasOwn.call(value, "__await")) {
+            return PromiseImpl.resolve(value.__await).then(function(value) {
+              invoke("next", value, resolve, reject);
+            }, function(err) {
+              invoke("throw", err, resolve, reject);
+            });
+          }
+
+          return PromiseImpl.resolve(value).then(function(unwrapped) {
+            // When a yielded Promise is resolved, its final value becomes
+            // the .value of the Promise<{value,done}> result for the
+            // current iteration.
+            result.value = unwrapped;
+            resolve(result);
+          }, function(error) {
+            // If a rejected Promise was yielded, throw the rejection back
+            // into the async generator function so it can be handled there.
+            return invoke("throw", error, resolve, reject);
+          });
+        }
+      }
+
+      var previousPromise;
+
+      function enqueue(method, arg) {
+        function callInvokeWithMethodAndArg() {
+          return new PromiseImpl(function(resolve, reject) {
+            invoke(method, arg, resolve, reject);
+          });
+        }
+
+        return previousPromise =
+          // If enqueue has been called before, then we want to wait until
+          // all previous Promises have been resolved before calling invoke,
+          // so that results are always delivered in the correct order. If
+          // enqueue has not been called before, then it is important to
+          // call invoke immediately, without waiting on a callback to fire,
+          // so that the async generator function has the opportunity to do
+          // any necessary setup in a predictable way. This predictability
+          // is why the Promise constructor synchronously invokes its
+          // executor callback, and why async functions synchronously
+          // execute code before the first await. Since we implement simple
+          // async functions in terms of async generators, it is especially
+          // important to get this right, even though it requires care.
+          previousPromise ? previousPromise.then(
+            callInvokeWithMethodAndArg,
+            // Avoid propagating failures to Promises returned by later
+            // invocations of the iterator.
+            callInvokeWithMethodAndArg
+          ) : callInvokeWithMethodAndArg();
+      }
+
+      // Define the unified helper method that is used to implement .next,
+      // .throw, and .return (see defineIteratorMethods).
+      this._invoke = enqueue;
+    }
+
+    defineIteratorMethods(AsyncIterator.prototype);
+    AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+      return this;
+    };
+    exports.AsyncIterator = AsyncIterator;
+
+    // Note that simple async functions are implemented on top of
+    // AsyncIterator objects; they just return a Promise for the value of
+    // the final result produced by the iterator.
+    exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+      if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+      var iter = new AsyncIterator(
+        wrap(innerFn, outerFn, self, tryLocsList),
+        PromiseImpl
+      );
+
+      return exports.isGeneratorFunction(outerFn)
+        ? iter // If outerFn is a generator, return the full iterator.
+        : iter.next().then(function(result) {
+            return result.done ? result.value : iter.next();
+          });
+    };
+
+    function makeInvokeMethod(innerFn, self, context) {
+      var state = GenStateSuspendedStart;
+
+      return function invoke(method, arg) {
+        if (state === GenStateExecuting) {
+          throw new Error("Generator is already running");
+        }
+
+        if (state === GenStateCompleted) {
+          if (method === "throw") {
+            throw arg;
+          }
+
+          // Be forgiving, per 25.3.3.3.3 of the spec:
+          // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+          return doneResult();
+        }
+
+        context.method = method;
+        context.arg = arg;
+
+        while (true) {
+          var delegate = context.delegate;
+          if (delegate) {
+            var delegateResult = maybeInvokeDelegate(delegate, context);
+            if (delegateResult) {
+              if (delegateResult === ContinueSentinel) continue;
+              return delegateResult;
+            }
+          }
+
+          if (context.method === "next") {
+            // Setting context._sent for legacy support of Babel's
+            // function.sent implementation.
+            context.sent = context._sent = context.arg;
+
+          } else if (context.method === "throw") {
+            if (state === GenStateSuspendedStart) {
+              state = GenStateCompleted;
+              throw context.arg;
+            }
+
+            context.dispatchException(context.arg);
+
+          } else if (context.method === "return") {
+            context.abrupt("return", context.arg);
+          }
+
+          state = GenStateExecuting;
+
+          var record = tryCatch(innerFn, self, context);
+          if (record.type === "normal") {
+            // If an exception is thrown from innerFn, we leave state ===
+            // GenStateExecuting and loop back for another invocation.
+            state = context.done
+              ? GenStateCompleted
+              : GenStateSuspendedYield;
+
+            if (record.arg === ContinueSentinel) {
+              continue;
+            }
+
+            return {
+              value: record.arg,
+              done: context.done
+            };
+
+          } else if (record.type === "throw") {
+            state = GenStateCompleted;
+            // Dispatch the exception by looping back around to the
+            // context.dispatchException(context.arg) call above.
+            context.method = "throw";
+            context.arg = record.arg;
+          }
+        }
+      };
+    }
+
+    // Call delegate.iterator[context.method](context.arg) and handle the
+    // result, either by returning a { value, done } result from the
+    // delegate iterator, or by modifying context.method and context.arg,
+    // setting context.delegate to null, and returning the ContinueSentinel.
+    function maybeInvokeDelegate(delegate, context) {
+      var method = delegate.iterator[context.method];
+      if (method === undefined$1) {
+        // A .throw or .return when the delegate iterator has no .throw
+        // method always terminates the yield* loop.
+        context.delegate = null;
+
+        if (context.method === "throw") {
+          // Note: ["return"] must be used for ES3 parsing compatibility.
+          if (delegate.iterator["return"]) {
+            // If the delegate iterator has a return method, give it a
+            // chance to clean up.
+            context.method = "return";
+            context.arg = undefined$1;
+            maybeInvokeDelegate(delegate, context);
+
+            if (context.method === "throw") {
+              // If maybeInvokeDelegate(context) changed context.method from
+              // "return" to "throw", let that override the TypeError below.
+              return ContinueSentinel;
+            }
+          }
+
+          context.method = "throw";
+          context.arg = new TypeError(
+            "The iterator does not provide a 'throw' method");
+        }
+
+        return ContinueSentinel;
+      }
+
+      var record = tryCatch(method, delegate.iterator, context.arg);
+
+      if (record.type === "throw") {
+        context.method = "throw";
+        context.arg = record.arg;
+        context.delegate = null;
+        return ContinueSentinel;
+      }
+
+      var info = record.arg;
+
+      if (! info) {
+        context.method = "throw";
+        context.arg = new TypeError("iterator result is not an object");
+        context.delegate = null;
+        return ContinueSentinel;
+      }
+
+      if (info.done) {
+        // Assign the result of the finished delegate to the temporary
+        // variable specified by delegate.resultName (see delegateYield).
+        context[delegate.resultName] = info.value;
+
+        // Resume execution at the desired location (see delegateYield).
+        context.next = delegate.nextLoc;
+
+        // If context.method was "throw" but the delegate handled the
+        // exception, let the outer generator proceed normally. If
+        // context.method was "next", forget context.arg since it has been
+        // "consumed" by the delegate iterator. If context.method was
+        // "return", allow the original .return call to continue in the
+        // outer generator.
+        if (context.method !== "return") {
+          context.method = "next";
+          context.arg = undefined$1;
+        }
+
+      } else {
+        // Re-yield the result returned by the delegate method.
+        return info;
+      }
+
+      // The delegate iterator is finished, so forget it and continue with
+      // the outer generator.
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    // Define Generator.prototype.{next,throw,return} in terms of the
+    // unified ._invoke helper method.
+    defineIteratorMethods(Gp);
+
+    Gp[toStringTagSymbol] = "Generator";
+
+    // A Generator should always return itself as the iterator object when the
+    // @@iterator function is called on it. Some browsers' implementations of the
+    // iterator prototype chain incorrectly implement this, causing the Generator
+    // object to not be returned from this call. This ensures that doesn't happen.
+    // See https://github.com/facebook/regenerator/issues/274 for more details.
+    Gp[iteratorSymbol] = function() {
+      return this;
+    };
+
+    Gp.toString = function() {
+      return "[object Generator]";
+    };
+
+    function pushTryEntry(locs) {
+      var entry = { tryLoc: locs[0] };
+
+      if (1 in locs) {
+        entry.catchLoc = locs[1];
+      }
+
+      if (2 in locs) {
+        entry.finallyLoc = locs[2];
+        entry.afterLoc = locs[3];
+      }
+
+      this.tryEntries.push(entry);
+    }
+
+    function resetTryEntry(entry) {
+      var record = entry.completion || {};
+      record.type = "normal";
+      delete record.arg;
+      entry.completion = record;
+    }
+
+    function Context(tryLocsList) {
+      // The root entry object (effectively a try statement without a catch
+      // or a finally block) gives us a place to store values thrown from
+      // locations where there is no enclosing try statement.
+      this.tryEntries = [{ tryLoc: "root" }];
+      tryLocsList.forEach(pushTryEntry, this);
+      this.reset(true);
+    }
+
+    exports.keys = function(object) {
+      var keys = [];
+      for (var key in object) {
+        keys.push(key);
+      }
+      keys.reverse();
+
+      // Rather than returning an object with a next method, we keep
+      // things simple and return the next function itself.
+      return function next() {
+        while (keys.length) {
+          var key = keys.pop();
+          if (key in object) {
+            next.value = key;
+            next.done = false;
+            return next;
+          }
+        }
+
+        // To avoid creating an additional object, we just hang the .value
+        // and .done properties off the next function object itself. This
+        // also ensures that the minifier will not anonymize the function.
+        next.done = true;
+        return next;
+      };
+    };
+
+    function values(iterable) {
+      if (iterable) {
+        var iteratorMethod = iterable[iteratorSymbol];
+        if (iteratorMethod) {
+          return iteratorMethod.call(iterable);
+        }
+
+        if (typeof iterable.next === "function") {
+          return iterable;
+        }
+
+        if (!isNaN(iterable.length)) {
+          var i = -1, next = function next() {
+            while (++i < iterable.length) {
+              if (hasOwn.call(iterable, i)) {
+                next.value = iterable[i];
+                next.done = false;
+                return next;
+              }
+            }
+
+            next.value = undefined$1;
+            next.done = true;
+
+            return next;
+          };
+
+          return next.next = next;
+        }
+      }
+
+      // Return an iterator with no values.
+      return { next: doneResult };
+    }
+    exports.values = values;
+
+    function doneResult() {
+      return { value: undefined$1, done: true };
+    }
+
+    Context.prototype = {
+      constructor: Context,
+
+      reset: function(skipTempReset) {
+        this.prev = 0;
+        this.next = 0;
+        // Resetting context._sent for legacy support of Babel's
+        // function.sent implementation.
+        this.sent = this._sent = undefined$1;
+        this.done = false;
+        this.delegate = null;
+
+        this.method = "next";
+        this.arg = undefined$1;
+
+        this.tryEntries.forEach(resetTryEntry);
+
+        if (!skipTempReset) {
+          for (var name in this) {
+            // Not sure about the optimal order of these conditions:
+            if (name.charAt(0) === "t" &&
+                hasOwn.call(this, name) &&
+                !isNaN(+name.slice(1))) {
+              this[name] = undefined$1;
+            }
+          }
+        }
+      },
+
+      stop: function() {
+        this.done = true;
+
+        var rootEntry = this.tryEntries[0];
+        var rootRecord = rootEntry.completion;
+        if (rootRecord.type === "throw") {
+          throw rootRecord.arg;
+        }
+
+        return this.rval;
+      },
+
+      dispatchException: function(exception) {
+        if (this.done) {
+          throw exception;
+        }
+
+        var context = this;
+        function handle(loc, caught) {
+          record.type = "throw";
+          record.arg = exception;
+          context.next = loc;
+
+          if (caught) {
+            // If the dispatched exception was caught by a catch block,
+            // then let that catch block handle the exception normally.
+            context.method = "next";
+            context.arg = undefined$1;
+          }
+
+          return !! caught;
+        }
+
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          var record = entry.completion;
+
+          if (entry.tryLoc === "root") {
+            // Exception thrown outside of any try block that could handle
+            // it, so set the completion value of the entire function to
+            // throw the exception.
+            return handle("end");
+          }
+
+          if (entry.tryLoc <= this.prev) {
+            var hasCatch = hasOwn.call(entry, "catchLoc");
+            var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+            if (hasCatch && hasFinally) {
+              if (this.prev < entry.catchLoc) {
+                return handle(entry.catchLoc, true);
+              } else if (this.prev < entry.finallyLoc) {
+                return handle(entry.finallyLoc);
+              }
+
+            } else if (hasCatch) {
+              if (this.prev < entry.catchLoc) {
+                return handle(entry.catchLoc, true);
+              }
+
+            } else if (hasFinally) {
+              if (this.prev < entry.finallyLoc) {
+                return handle(entry.finallyLoc);
+              }
+
+            } else {
+              throw new Error("try statement without catch or finally");
+            }
+          }
+        }
+      },
+
+      abrupt: function(type, arg) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.tryLoc <= this.prev &&
+              hasOwn.call(entry, "finallyLoc") &&
+              this.prev < entry.finallyLoc) {
+            var finallyEntry = entry;
+            break;
+          }
+        }
+
+        if (finallyEntry &&
+            (type === "break" ||
+             type === "continue") &&
+            finallyEntry.tryLoc <= arg &&
+            arg <= finallyEntry.finallyLoc) {
+          // Ignore the finally entry if control is not jumping to a
+          // location outside the try/catch block.
+          finallyEntry = null;
+        }
+
+        var record = finallyEntry ? finallyEntry.completion : {};
+        record.type = type;
+        record.arg = arg;
+
+        if (finallyEntry) {
+          this.method = "next";
+          this.next = finallyEntry.finallyLoc;
+          return ContinueSentinel;
+        }
+
+        return this.complete(record);
+      },
+
+      complete: function(record, afterLoc) {
+        if (record.type === "throw") {
+          throw record.arg;
+        }
+
+        if (record.type === "break" ||
+            record.type === "continue") {
+          this.next = record.arg;
+        } else if (record.type === "return") {
+          this.rval = this.arg = record.arg;
+          this.method = "return";
+          this.next = "end";
+        } else if (record.type === "normal" && afterLoc) {
+          this.next = afterLoc;
+        }
+
+        return ContinueSentinel;
+      },
+
+      finish: function(finallyLoc) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.finallyLoc === finallyLoc) {
+            this.complete(entry.completion, entry.afterLoc);
+            resetTryEntry(entry);
+            return ContinueSentinel;
+          }
+        }
+      },
+
+      "catch": function(tryLoc) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.tryLoc === tryLoc) {
+            var record = entry.completion;
+            if (record.type === "throw") {
+              var thrown = record.arg;
+              resetTryEntry(entry);
+            }
+            return thrown;
+          }
+        }
+
+        // The context.catch method must only be called with a location
+        // argument that corresponds to a known catch block.
+        throw new Error("illegal catch attempt");
+      },
+
+      delegateYield: function(iterable, resultName, nextLoc) {
+        this.delegate = {
+          iterator: values(iterable),
+          resultName: resultName,
+          nextLoc: nextLoc
+        };
+
+        if (this.method === "next") {
+          // Deliberately forget the last sent value so that we don't
+          // accidentally pass it on to the delegate.
+          this.arg = undefined$1;
+        }
+
+        return ContinueSentinel;
+      }
+    };
+
+    // Regardless of whether this script is executing as a CommonJS module
+    // or not, return the runtime object so that we can declare the variable
+    // regeneratorRuntime in the outer scope, which allows this module to be
+    // injected easily by `bin/regenerator --include-runtime script.js`.
+    return exports;
+
+  }(
+    // If this script is executing as a CommonJS module, use module.exports
+    // as the regeneratorRuntime namespace. Otherwise create a new empty
+    // object. Either way, the resulting object will be used to initialize
+    // the regeneratorRuntime variable at the top of this file.
+     module.exports 
+  ));
+
+  try {
+    regeneratorRuntime = runtime;
+  } catch (accidentalStrictMode) {
+    // This module should not be running in strict mode, so the above
+    // assignment should always work unless something is misconfigured. Just
+    // in case runtime.js accidentally runs in strict mode, we can escape
+    // strict mode using a global Function call. This could conceivably fail
+    // if a Content Security Policy forbids using Function, but in that case
+    // the proper solution is to fix the accidental strict mode problem. If
+    // you've misconfigured your bundler to force strict mode and applied a
+    // CSP to forbid Function, and you're not willing to fix either of those
+    // problems, please detail your unique predicament in a GitHub issue.
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
+  });
+
+  var regenerator = runtime_1;
+
+  function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+    try {
+      var info = gen[key](arg);
+      var value = info.value;
+    } catch (error) {
+      reject(error);
+      return;
+    }
+
+    if (info.done) {
+      resolve(value);
+    } else {
+      Promise.resolve(value).then(_next, _throw);
+    }
+  }
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var self = this,
+          args = arguments;
+      return new Promise(function (resolve, reject) {
+        var gen = fn.apply(self, args);
+
+        function _next(value) {
+          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+        }
+
+        function _throw(err) {
+          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+        }
+
+        _next(undefined);
+      });
+    };
+  }
+
+  var asyncToGenerator = _asyncToGenerator;
+
+  var isArray = function isArray(value) {
+    return value instanceof Array;
+  };
+
+  var isNull = function isNull(value) {
+    return value === null;
+  };
+
+  var isObject = function isObject(value) {
+    return _typeof_1(value) === 'object' && !(isArray(value) || isNull(value));
+  };
+
+  /**
+   * [缓存函数结果]
+   * @param {Function} func 被处理的函数
+   */
+  var memoize = function memoize(func) {
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        _ref$disable = _ref.disable,
+        disable = _ref$disable === void 0 ? function () {
+      return false;
+    } : _ref$disable;
+
+    var cache = new Map();
+
+    var memoizedFunc = function memoizedFunc(key) {
+      if (cache.has(key)) {
+        return cache.get(key);
+      }
+
+      for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        rest[_key - 1] = arguments[_key];
+      }
+
+      var result = func.call.apply(func, [this, key].concat(rest));
+
+      if (!disable.call(this, {
+        cache: cache,
+        key: key,
+        result: result,
+        drop: function drop() {
+          return cache.delete(key);
+        }
+      })) {
+        cache.set(key, result);
+      }
+
+      return result;
+    };
+
+    memoizedFunc.cache = cache;
+    return memoizedFunc;
+  };
+
+  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  var NSReg = /:/;
+
+  var I18n =
+  /** @class */
+  function () {
+    var I18n = function I18n(config) {
+      var _this = this;
+
+      classCallCheck(this, I18n);
+
+      this.resources = {};
+      this.language = undefined;
+      this.eventBus = new EventBus();
+
+      this.applyLanguage = /*#__PURE__*/function () {
+        var _ref = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee2(language) {
+          return regenerator.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  if (language) {
+                    _context2.next = 2;
+                    break;
+                  }
+
+                  return _context2.abrupt("return");
+
+                case 2:
+                  _context2.next = 4;
+                  return Promise.all(Object.entries(_this.config.types).map( /*#__PURE__*/function () {
+                    var _ref3 = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee(_ref2) {
+                      var _ref4, type, resources;
+
+                      return regenerator.wrap(function _callee$(_context) {
+                        while (1) {
+                          switch (_context.prev = _context.next) {
+                            case 0:
+                              _ref4 = slicedToArray(_ref2, 2), type = _ref4[0], resources = _ref4[1].resources;
+
+                              if (!_this.resources[type]) {
+                                _this.resources[type] = {};
+                              }
+
+                              _context.next = 4;
+                              return run(get(resources, language, resources));
+
+                            case 4:
+                              _this.resources[type][language] = _context.sent;
+
+                            case 5:
+                            case "end":
+                              return _context.stop();
+                          }
+                        }
+                      }, _callee);
+                    }));
+
+                    return function (_x2) {
+                      return _ref3.apply(this, arguments);
+                    };
+                  }()));
+
+                case 4:
+                  _this.language = language;
+
+                  _this.eventBus.emit('change', language);
+
+                case 6:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2);
+        }));
+
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }();
+
+      this.translate = function (str) {
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var useNamespace = NSReg.test(str);
+
+        var _str$split = str.split('@'),
+            _str$split2 = slicedToArray(_str$split, 2),
+            _keys = _str$split2[0],
+            _str$split2$ = _str$split2[1],
+            type = _str$split2$ === void 0 ? _this.config.defaultType || 'default' : _str$split2$;
+
+        var keys = _keys;
+        var namespace;
+
+        if (useNamespace) {
+
+          var _keys$split = _keys.split(':');
+
+          var _keys$split2 = slicedToArray(_keys$split, 2);
+
+          namespace = _keys$split2[0];
+          keys = _keys$split2[1];
+        }
+
+        if (!useNamespace && _this.language) {
+          var format = get(_this.config, "types.".concat(type, ".format.").concat(_this.language), get(_this.config, "types.".concat(type, ".format"), I18n.template));
+          var useResource = get(_this.resources, "".concat(type, ".").concat(_this.language)) !== false;
+
+          if (isFunction(format)) {
+            var res = run(format, undefined, useResource ? get(_this.resources, "".concat(type, ".").concat(_this.language, ".").concat(keys)) : keys, options);
+
+            if (res) {
+              return res;
+            }
+          }
+        }
+
+        return _this.fallbackTranslate("".concat(keys, "@").concat(type), options, namespace) || keys;
+      };
+
+      this.fallbackTranslate = function (str, options, namespace) {
+        if (!isArray(_this.config.fallback) && !isObject(_this.config.fallback)) {
+          return undefined;
+        }
+
+        var fallbackOptions = _objectSpread$1(_objectSpread$1({}, options), {}, {
+          _fbT: true
+        });
+
+        if (namespace) {
+          var res = run(_this.config.fallback, "".concat(namespace, ".t"), str, fallbackOptions);
+
+          if (res) {
+            return res;
+          }
+        } else {
+          for (var _i = 0, _Object$values = Object.values(_this.config.fallback); _i < _Object$values.length; _i++) {
+            var i18n = _Object$values[_i];
+
+            var _res = i18n.t(str, fallbackOptions);
+
+            if (_res) {
+              return _res;
+            }
+          }
+        }
+
+        if (options._fbT) {
+          return undefined;
+        }
+      };
+
+      this.t = this.translate;
+      this.config = config;
+      I18n.instances.push(this);
+
+      if (I18n.language) {
+        this.applyLanguage(I18n.language);
+      } else {
+        I18n.eventBus.once('change', function (language) {
+          _this.applyLanguage(I18n.language);
+        });
+      }
+    };
+
+    I18n.instances = [];
+    I18n.language = undefined;
+    I18n.eventBus = new EventBus();
+    /**
+     * [template 简易字符串模板函数]
+     * e.g: template('hello {{name}}', { name: 'CJY' }) ==> 'hello CJY'
+     * @param  {[字符串]} str  [description]
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
+
+    I18n.template = function () {
+      var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var data = arguments.length > 1 ? arguments[1] : undefined;
+      var exp = /\{\{\s*\w*\s*\}\}/g,
+          keys = str.match(exp) || {};
+      Object.keys(keys).forEach(function (_k) {
+        var key = keys[_k].replace(/\{\{\s*/, '').replace(/\s*\}\}/, '');
+
+        str = str.replace(new RegExp("\\{\\{".concat(key, "\\}\\}"), 'g'), get(data, key));
+      });
+      return str;
+    };
+
+    I18n.load = function () {
+      for (var _len = arguments.length, loaders = new Array(_len), _key = 0; _key < _len; _key++) {
+        loaders[_key] = arguments[_key];
+      }
+
+      return memoize( /*#__PURE__*/asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee4() {
+        return regenerator.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.t0 = Object.assign;
+                _context4.t1 = Object;
+                _context4.t2 = [{}];
+                _context4.t3 = toConsumableArray;
+                _context4.next = 6;
+                return Promise.all(loaders.map( /*#__PURE__*/function () {
+                  var _ref6 = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee3(loader) {
+                    var res;
+                    return regenerator.wrap(function _callee3$(_context3) {
+                      while (1) {
+                        switch (_context3.prev = _context3.next) {
+                          case 0:
+                            _context3.next = 2;
+                            return run(loader);
+
+                          case 2:
+                            res = _context3.sent;
+                            return _context3.abrupt("return", get(res, 'default', res));
+
+                          case 4:
+                          case "end":
+                            return _context3.stop();
+                        }
+                      }
+                    }, _callee3);
+                  }));
+
+                  return function (_x3) {
+                    return _ref6.apply(this, arguments);
+                  };
+                }()));
+
+              case 6:
+                _context4.t4 = _context4.sent;
+                _context4.t5 = (0, _context4.t3)(_context4.t4);
+                _context4.t6 = _context4.t2.concat.call(_context4.t2, _context4.t5);
+                return _context4.abrupt("return", _context4.t0.apply.call(_context4.t0, _context4.t1, _context4.t6));
+
+              case 10:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      })));
+    };
+
+    I18n.applyLanguage = /*#__PURE__*/function () {
+      var _ref7 = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee5(language) {
+        return regenerator.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (language) {
+                  _context5.next = 2;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 2:
+                _context5.next = 4;
+                return Promise.all(I18n.instances.map(function (instance) {
+                  return instance.applyLanguage(language);
+                }));
+
+              case 4:
+                I18n.language = language;
+                I18n.eventBus.emit('change', language);
+
+              case 6:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      return function (_x4) {
+        return _ref7.apply(this, arguments);
+      };
+    }();
+
+    return I18n;
+  }();
+
+  var memoizedFunction = memoize(function (func) {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    return func.call.apply(func, [this].concat(args));
+  });
+  /**
+   * [自锁函数] 函数运行后会立即上锁，显式调用 fn.unlock 来解锁
+   * 已上锁后，后续的函数调用将返回上锁时的调用结果
+   * @param {Function} func 需要自锁的函数
+   * @param {Function} conf.always 总是会调用
+   * @param {Function} conf.locking 自锁时调用
+   */
+
+  var lock = function lock(func) {
+    var conf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var always = conf.always,
+        locking = conf.locking;
+
+    var unlock = function unlock() {
+      return memoizedFunction.cache.delete(func);
+    };
+
+    var isLocked = function isLocked() {
+      return memoizedFunction.cache.has(func);
+    };
+
+    var lockedFunc = function lockedFunc() {
+      run(always);
+
+      if (isLocked()) {
+        run(locking);
+      }
+
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return memoizedFunction.call.apply(memoizedFunction, [this, func].concat(args));
+    };
+
+    return Object.assign(lockedFunc, {
+      unlock: unlock,
+      isLocked: isLocked
+    });
+  };
+
+  lock.memory = memoizedFunction;
+
+  /**
+   * [单咨询服务] Single Advisory Service 同一时刻对同一异步请求进行统一等待，不重复发起
+   * @param {Function} query 异步查询函数，需要返回 Promise
+   */
+
+  var SAS = function SAS(query) {
+    var wrappedFunc = lock(function () {
+      var _this = this;
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return new Promise( /*#__PURE__*/function () {
+        var _ref = asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee(resolve, reject) {
+          var result;
+          return regenerator.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return query.apply(_this, args);
+
+                case 3:
+                  result = _context.sent;
+                  resolve(result);
+                  _context.next = 10;
+                  break;
+
+                case 7:
+                  _context.prev = 7;
+                  _context.t0 = _context["catch"](0);
+                  reject(_context.t0);
+
+                case 10:
+                  _context.prev = 10;
+                  wrappedFunc.unlock();
+                  return _context.finish(10);
+
+                case 13:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[0, 7, 10, 13]]);
+        }));
+
+        return function (_x, _x2) {
+          return _ref.apply(this, arguments);
+        };
+      }());
+    });
+    return wrappedFunc;
+  };
+
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+
+  var createClass = _createClass;
+
+  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  var OUTSIDE = 'OUTSIDE';
+  var INSIDE = 'INSIDE';
+  var DIRECTION_FORWARD = 1;
+  var DIRECTION_BACKWARD = -1;
+  var SCROLL_EVENT_NAME = 'scroll';
+
+  var getEventDistance = function getEventDistance(event) {
+    return isFunction(event.distance) ? event.distance() : event.distance;
+  };
+  /**
+   * 默认使用 requestAnimationFrame 优化 scroll 监听
+   */
+
+
+  var defaultGetScrollHandler = function defaultGetScrollHandler(onScroll) {
+    var rAFLock = false;
+
+    var scrollHandler = function scrollHandler(e) {
+      if (rAFLock) return;
+      requestAnimationFrame(function () {
+        onScroll(e);
+        rAFLock = false;
+      });
+      rAFLock = true;
+    };
+
+    return scrollHandler;
+  };
+
+  var ScrollListener = /*#__PURE__*/function () {
+    function ScrollListener(config) {
+      var _this = this;
+
+      classCallCheck(this, ScrollListener);
+
+      this.destroy = function () {
+        return null;
+      };
+
+      this.dynamicEvents = [];
+      this.staticEvents = [];
+
+      this.walkEvent = function (event, scrollDistance) {
+        var _event$onGoingIn = event.onGoingIn,
+            onGoingIn = _event$onGoingIn === void 0 ? function () {
+          return undefined;
+        } : _event$onGoingIn,
+            _event$onGoingOut = event.onGoingOut,
+            onGoingOut = _event$onGoingOut === void 0 ? function () {
+          return undefined;
+        } : _event$onGoingOut,
+            status = event.status;
+        var distance = getEventDistance(event); // 仅当状态值变更时触发 onGoingIn、onGoingOut 函数
+
+        switch (status) {
+          case INSIDE:
+            {
+              if (scrollDistance > distance) {
+                onGoingOut();
+                event.status = OUTSIDE;
+              }
+
+              break;
+            }
+
+          default:
+          case OUTSIDE:
+            {
+              if (scrollDistance <= distance) {
+                onGoingIn();
+                event.status = INSIDE;
+              }
+
+              break;
+            }
+        }
+
+        return event.status !== status;
+      };
+
+      this.walkStaticEvent = function (_ref) {
+        var direction = _ref.direction,
+            scrollDistance = _ref.scrollDistance;
+        var current = _this.currentStaticEvent;
+
+        if (!current) {
+          return;
+        }
+
+        var prev = current.prevEvent || current.getPrevEvent();
+        var next = current.nextEvent || current.getNextEvent();
+        var target = current;
+
+        if (direction === DIRECTION_FORWARD) {
+          if (current.status === OUTSIDE) {
+            target = next;
+          }
+        } else {
+          if (current.status === INSIDE) {
+            target = prev;
+          }
+        }
+
+        if (target) {
+          var changed = _this.walkEvent(target, scrollDistance); // 若发生状态变迁
+
+
+          if (changed) {
+            _this.currentStaticEvent = (direction === DIRECTION_FORWARD ? next : prev) || current;
+
+            _this.walkStaticEvent({
+              direction: direction,
+              scrollDistance: scrollDistance
+            });
+          }
+        }
+      };
+
+      this.walkDynamicEvents = function (_ref2) {
+        var direction = _ref2.direction,
+            scrollDistance = _ref2.scrollDistance;
+
+        _this.dynamicEvents.sort(function (prev, next) {
+          return (getEventDistance(prev) - getEventDistance(next)) * direction;
+        }).forEach(function (event) {
+          _this.walkEvent(event, scrollDistance);
+        });
+      };
+
+      this.config = config;
+      this.init();
+    }
+
+    createClass(ScrollListener, [{
+      key: "init",
+      value: function init() {
+        var _this2 = this;
+
+        var _this$config = this.config,
+            element = _this$config.element,
+            _this$config$scrollHa = _this$config.scrollHandler,
+            getScrollHandler = _this$config$scrollHa === void 0 ? defaultGetScrollHandler : _this$config$scrollHa,
+            configGetScrollDistance = _this$config.getScrollDistance,
+            _this$config$directio = _this$config.direction,
+            direction = _this$config$directio === void 0 ? 'vertical' : _this$config$directio; // 若无滚动载体，报错并退出
+
+        if (typeof element === 'undefined') {
+          console.error('Need Scroll Container!');
+          return;
+        }
+
+        var getScrollDistance = isFunction(configGetScrollDistance) ? configGetScrollDistance : {
+          vertical: function vertical() {
+            return element.scrollTop;
+          },
+          horizontal: function horizontal() {
+            return element.scrollLeft;
+          }
+        }[direction];
+        this.getScrollDistance = getScrollDistance;
+        this.genDynamicEvents();
+        this.genStaticEvents();
+        var prevScrollDistance = getScrollDistance();
+
+        var onScroll = function onScroll(e) {
+          e.stopPropagation(); // body 元素的 scrollDistance 取值时不同于普通元素
+
+          var scrollDistance = getScrollDistance();
+          var direction = scrollDistance > prevScrollDistance ? DIRECTION_FORWARD : DIRECTION_BACKWARD;
+          var walkParams = {
+            scrollDistance: scrollDistance,
+            direction: direction
+          };
+
+          _this2.walkStaticEvent(walkParams);
+
+          _this2.walkDynamicEvents(walkParams);
+
+          prevScrollDistance = scrollDistance;
+        };
+
+        var scrollHandler = getScrollHandler(onScroll);
+        element.addEventListener(SCROLL_EVENT_NAME, scrollHandler);
+
+        this.destroy = function () {
+          return element.removeEventListener(SCROLL_EVENT_NAME, scrollHandler);
+        };
+
+        return this;
+      }
+    }, {
+      key: "getEndReachedEvent",
+      value: function getEndReachedEvent() {
+        var _this3 = this;
+
+        var _this$config2 = this.config,
+            _this$config2$distanc = _this$config2.distanceToReachEnd,
+            distanceToReachEnd = _this$config2$distanc === void 0 ? 100 : _this$config2$distanc,
+            onEndReached = _this$config2.onEndReached,
+            element = _this$config2.element,
+            _this$config2$directi = _this$config2.direction,
+            direction = _this$config2$directi === void 0 ? 'vertical' : _this$config2$directi;
+        /**
+         * 若使用触底函数，则启用相关逻辑
+         */
+
+        if (!isFunction(onEndReached)) {
+          return;
+        } // 触底函数是否被冻结，将此值置为 true 则停止使用触底函数
+
+
+        var isEndReacherFreeze = false;
+        /**
+         * 每次触发 onEndReached 函数后会自动阻止下一次触发，需要执行 done 函数来释放阻止
+         * （例如滚动到底部后开始做网络请求时，再次滚动到底部不会触发二次请求）
+         * 如果 isOver 为 true 则不会再触发后续的 onEndReached
+         * （例如已经加载了全部数据，不需要再监听触底事件）
+         */
+
+        var done = function done(isOver) {
+          if (!isOver) {
+            isEndReacherFreeze = false;
+            return;
+          } else {
+            if (_this3.staticEvents.length === 0 && _this3.dynamicEvents.length === 1 && _this3.dynamicEvents[0] === endReachedEvent) {
+              _this3.destroy();
+            }
+          }
+        };
+
+        var endReachedEvent = {
+          dynamic: true,
+          distance: {
+            vertical: function vertical() {
+              return element.scrollHeight - element.offsetHeight - distanceToReachEnd;
+            },
+            horizontal: function horizontal() {
+              return element.scrollWidth - element.offsetWidth - distanceToReachEnd;
+            }
+          }[direction],
+          onGoingOut: function onGoingOut() {
+            if (isEndReacherFreeze) return;
+            isEndReacherFreeze = true;
+            onEndReached(done);
+          }
+        };
+        return endReachedEvent;
+      }
+    }, {
+      key: "genDynamicEvents",
+      value: function genDynamicEvents() {
+        var _this$config$distance = this.config.distanceEvents,
+            configDistanceEvents = _this$config$distance === void 0 ? [] : _this$config$distance;
+        var endReachedEvent = this.getEndReachedEvent();
+        var scrollDistance = this.getScrollDistance();
+        var dynamicEvents = [].concat(toConsumableArray(configDistanceEvents), [endReachedEvent]).filter(function (event) {
+          return event && event.dynamic;
+        }).map(function (event) {
+          return _objectSpread$2(_objectSpread$2({}, event), {}, {
+            status: scrollDistance > event.distance ? OUTSIDE : INSIDE
+          });
+        });
+        this.dynamicEvents = dynamicEvents;
+      }
+    }, {
+      key: "genStaticEvents",
+      value: function genStaticEvents() {
+        var _this$config$distance2 = this.config.distanceEvents,
+            configDistanceEvents = _this$config$distance2 === void 0 ? [] : _this$config$distance2;
+        var scrollDistance = this.getScrollDistance();
+        var staticEvents = configDistanceEvents.map(function (event) {
+          return _objectSpread$2(_objectSpread$2({}, event), {}, {
+            distance: getEventDistance(event)
+          });
+        }).filter(function (event) {
+          return event.distance >= 0 && !event.dynamic;
+        }).map(function (event, idx) {
+          var staticEvent = _objectSpread$2(_objectSpread$2({}, event), {}, {
+            prevEvent: undefined,
+            nextEvent: undefined,
+            getPrevEvent: function getPrevEvent() {
+              var prevEvent = staticEvents[idx - 1] || null;
+              staticEvent.prevEvent = prevEvent;
+              return prevEvent;
+            },
+            getNextEvent: function getNextEvent() {
+              var nextEvent = staticEvents[idx + 1] || null;
+              staticEvent.nextEvent = nextEvent;
+              return nextEvent;
+            },
+            status: scrollDistance > event.distance ? OUTSIDE : INSIDE
+          });
+
+          return staticEvent;
+        });
+        this.staticEvents = staticEvents;
+        this.currentStaticEvent = staticEvents.find(function (event) {
+          return event.distance >= scrollDistance;
+        });
+      }
+    }]);
+
+    return ScrollListener;
+  }();
+
+  /**
+   * [钳子] 用来将数字限制在给定范围内
+   * @param {Number} value 被限制值
+   * @param {Number} min 最小值
+   * @param {Number} max 最大值
+   */
+  function clamp(value, min) {
+    var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Number.MAX_VALUE;
+
+    if (value < min) {
+      return min;
+    }
+
+    if (value > max) {
+      return max;
+    }
+
+    return value;
+  }
+
+  var isExist = function isExist(value) {
+    return !(isUndefined(value) || isNull(value));
+  };
+
+  function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+  var pickBy = function pickBy(obj) {
+    var predicate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function (val) {
+      return isExist(val);
+    };
+    return Object.entries(obj).filter(function (_ref) {
+      var _ref2 = slicedToArray(_ref, 2),
+          key = _ref2[0],
+          value = _ref2[1];
+
+      return run(predicate, undefined, value, key);
+    }).reduce(function (res, _ref3) {
+      var _ref4 = slicedToArray(_ref3, 2),
+          key = _ref4[0],
+          value = _ref4[1];
+
+      return _objectSpread$3(_objectSpread$3({}, res), {}, defineProperty({}, key, value));
+    }, {});
+  };
+
+  // 参考 https://github.com/liriliri/licia/blob/master/src/e/easing.js
+
+  /*
+   * export declare const easing: {
+   *     linear(percent: number): number;
+   *     inQuad(percent: number): number;
+   *     outQuad(percent: number): number;
+   *     inOutQuad(percent: number): number;
+   *     outInQuad(percent: number): number;
+   *     inCubic(percent: number): number;
+   *     outCubic(percent: number): number;
+   *     inQuart(percent: number): number;
+   *     outQuart(percent: number): number;
+   *     inQuint(percent: number): number;
+   *     outQuint(percent: number): number;
+   *     inExpo(percent: number): number;
+   *     outExpo(percent: number): number;
+   *     inSine(percent: number): number;
+   *     outSine(percent: number): number;
+   *     inCirc(percent: number): number;
+   *     outCirc(percent: number): number;
+   *     inElastic(percent: number, elasticity?: number): number;
+   *     outElastic(percent: number, elasticity?: number): number;
+   *     inBack(percent: number): number;
+   *     outBack(percent: number): number;
+   *     inOutBack(percent: number): number;
+   *     outInBack(percent: number): number;
+   *     inBounce(percent: number): number;
+   *     outBounce(percent: number): number;
+   * };
+   */
+
+  /**
+   * [缓动公式，网上找的，参考：http://www.cnblogs.com/brainworld/p/7240564.html]
+   * @param  {[type]} pos [动画进行百分比，取值：0 - 1]
+   * @return {[type]}     [description]
+   */
+  function sinusoidal(pos) {
+    return -Math.cos(pos * Math.PI) / 2 + 0.5;
+  }
+
+  function linear(pos) {
+    return pos;
+  }
+
+  var easing = {
+    inQuad: function inQuad(pos) {
+      return Math.pow(pos, 2);
+    },
+    outQuad: function outQuad(pos) {
+      return -(Math.pow(pos - 1, 2) - 1);
+    },
+    inOutQuad: function inOutQuad(pos) {
+      if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 2);
+      return -0.5 * ((pos -= 2) * pos - 2);
+    },
+    inCubic: function inCubic(pos) {
+      return Math.pow(pos, 3);
+    },
+    outCubic: function outCubic(pos) {
+      return Math.pow(pos - 1, 3) + 1;
+    },
+    inOutCubic: function inOutCubic(pos) {
+      if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 3);
+      return 0.5 * (Math.pow(pos - 2, 3) + 2);
+    },
+    inQuart: function inQuart(pos) {
+      return Math.pow(pos, 4);
+    },
+    outQuart: function outQuart(pos) {
+      return -(Math.pow(pos - 1, 4) - 1);
+    },
+    inOutQuart: function inOutQuart(pos) {
+      if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 4);
+      return -0.5 * ((pos -= 2) * Math.pow(pos, 3) - 2);
+    },
+    inQuint: function inQuint(pos) {
+      return Math.pow(pos, 5);
+    },
+    outQuint: function outQuint(pos) {
+      return Math.pow(pos - 1, 5) + 1;
+    },
+    inOutQuint: function inOutQuint(pos) {
+      if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 5);
+      return 0.5 * (Math.pow(pos - 2, 5) + 2);
+    },
+    inSine: function inSine(pos) {
+      return -Math.cos(pos * (Math.PI / 2)) + 1;
+    },
+    outSine: function outSine(pos) {
+      return Math.sin(pos * (Math.PI / 2));
+    },
+    inOutSine: function inOutSine(pos) {
+      return -0.5 * (Math.cos(Math.PI * pos) - 1);
+    },
+    inExpo: function inExpo(pos) {
+      return pos === 0 ? 0 : Math.pow(2, 10 * (pos - 1));
+    },
+    outExpo: function outExpo(pos) {
+      return pos === 1 ? 1 : -Math.pow(2, -10 * pos) + 1;
+    },
+    inOutExpo: function inOutExpo(pos) {
+      if (pos === 0) return 0;
+      if (pos === 1) return 1;
+      if ((pos /= 0.5) < 1) return 0.5 * Math.pow(2, 10 * (pos - 1));
+      return 0.5 * (-Math.pow(2, -10 * --pos) + 2);
+    },
+    inCirc: function inCirc(pos) {
+      return -(Math.sqrt(1 - pos * pos) - 1);
+    },
+    outCirc: function outCirc(pos) {
+      return Math.sqrt(1 - Math.pow(pos - 1, 2));
+    },
+    inOutCirc: function inOutCirc(pos) {
+      if ((pos /= 0.5) < 1) return -0.5 * (Math.sqrt(1 - pos * pos) - 1);
+      return 0.5 * (Math.sqrt(1 - (pos -= 2) * pos) + 1);
+    },
+    outBounce: function outBounce(pos) {
+      if (pos < 1 / 2.75) {
+        return 7.5625 * pos * pos;
+      } else if (pos < 2 / 2.75) {
+        return 7.5625 * (pos -= 1.5 / 2.75) * pos + 0.75;
+      } else if (pos < 2.5 / 2.75) {
+        return 7.5625 * (pos -= 2.25 / 2.75) * pos + 0.9375;
+      } else {
+        return 7.5625 * (pos -= 2.625 / 2.75) * pos + 0.984375;
+      }
+    },
+    inBack: function inBack(pos) {
+      var s = 1.70158;
+      return pos * pos * ((s + 1) * pos - s);
+    },
+    outBack: function outBack(pos) {
+      var s = 1.70158;
+      return (pos = pos - 1) * pos * ((s + 1) * pos + s) + 1;
+    },
+    inOutBack: function inOutBack(pos) {
+      var s = 1.70158;
+      if ((pos /= 0.5) < 1) return 0.5 * (pos * pos * (((s *= 1.525) + 1) * pos - s));
+      return 0.5 * ((pos -= 2) * pos * (((s *= 1.525) + 1) * pos + s) + 2);
+    },
+    elastic: function elastic(pos) {
+      return -1 * Math.pow(4, -8 * pos) * Math.sin((pos * 6 - 1) * (2 * Math.PI) / 2) + 1;
+    },
+    swingFromTo: function swingFromTo(pos) {
+      var s = 1.70158;
+      return (pos /= 0.5) < 1 ? 0.5 * (pos * pos * (((s *= 1.525) + 1) * pos - s)) : 0.5 * ((pos -= 2) * pos * (((s *= 1.525) + 1) * pos + s) + 2);
+    },
+    swingFrom: function swingFrom(pos) {
+      var s = 1.70158;
+      return pos * pos * ((s + 1) * pos - s);
+    },
+    swingTo: function swingTo(pos) {
+      var s = 1.70158;
+      return (pos -= 1) * pos * ((s + 1) * pos + s) + 1;
+    },
+    bounce: function bounce(pos) {
+      if (pos < 1 / 2.75) {
+        return 7.5625 * pos * pos;
+      } else if (pos < 2 / 2.75) {
+        return 7.5625 * (pos -= 1.5 / 2.75) * pos + 0.75;
+      } else if (pos < 2.5 / 2.75) {
+        return 7.5625 * (pos -= 2.25 / 2.75) * pos + 0.9375;
+      } else {
+        return 7.5625 * (pos -= 2.625 / 2.75) * pos + 0.984375;
+      }
+    },
+    bouncePast: function bouncePast(pos) {
+      if (pos < 1 / 2.75) {
+        return 7.5625 * pos * pos;
+      } else if (pos < 2 / 2.75) {
+        return 2 - (7.5625 * (pos -= 1.5 / 2.75) * pos + 0.75);
+      } else if (pos < 2.5 / 2.75) {
+        return 2 - (7.5625 * (pos -= 2.25 / 2.75) * pos + 0.9375);
+      } else {
+        return 2 - (7.5625 * (pos -= 2.625 / 2.75) * pos + 0.984375);
+      }
+    },
+    fromTo: function fromTo(pos) {
+      if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 4);
+      return -0.5 * ((pos -= 2) * Math.pow(pos, 3) - 2);
+    },
+    from: function from(pos) {
+      return Math.pow(pos, 4);
+    },
+    to: function to(pos) {
+      return Math.pow(pos, 0.25);
+    },
+    linear: linear,
+    sinusoidal: sinusoidal,
+    reverse: function reverse(pos) {
+      var transition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : linear;
+      return 1 - transition(pos);
+    },
+    mirror: function mirror(pos) {
+      var transition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : linear;
+      if (pos < 0.5) return transition(pos * 2);else return transition(1 - (pos - 0.5) * 2);
+    },
+    flicker: function flicker(pos) {
+      var transition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : linear;
+      pos = pos + (Math.random() - 0.5) / 5;
+      return transition(pos < 0 ? 0 : pos > 1 ? 1 : pos);
+    },
+    wobble: function wobble(pos) {
+      return -Math.cos(pos * Math.PI * (9 * pos)) / 2 + 0.5;
+    },
+    pulse: function pulse(pos, pulses) {
+      return -Math.cos(pos * ((pulses || 5) - 0.5) * 2 * Math.PI) / 2 + 0.5;
+    },
+    blink: function blink(pos, blinks) {
+      return Math.round(pos * (blinks || 5)) % 2;
+    },
+    spring: function spring(pos) {
+      return 1 - Math.cos(pos * 4.5 * Math.PI) * Math.exp(-pos * 6);
+    },
+    none: function none() {
+      return 0;
+    },
+    full: function full() {
+      return 1;
+    }
+  };
+  var DEFAULT_ELASTICITY = 400;
+  var pow = Math.pow,
+      sqrt = Math.sqrt,
+      sin = Math.sin,
+      min = Math.min,
+      asin = Math.asin,
+      PI = Math.PI;
+  var fns = {
+    sine: function sine(t) {
+      return 1 + sin(PI / 2 * t - PI / 2);
+    },
+    circ: function circ(t) {
+      return 1 - sqrt(1 - t * t);
+    },
+    elastic: function elastic(t, m) {
+      m = m || DEFAULT_ELASTICITY;
+      if (t === 0 || t === 1) return t;
+      var p = 1 - min(m, 998) / 1000,
+          st = t / 1,
+          st1 = st - 1,
+          s = p / (2 * PI) * asin(1);
+      return -(pow(2, 10 * st1) * sin((st1 - s) * (2 * PI) / p));
+    },
+    back: function back(t) {
+      return t * t * (3 * t - 2);
+    },
+    bounce: function bounce(t) {
+      var pow2,
+          bounce = 4;
+      /* eslint-disable no-empty */
+
+      while (t < ((pow2 = pow(2, --bounce)) - 1) / 11) {}
+
+      return 1 / pow(4, 3 - bounce) - 7.5625 * pow((pow2 * 3 - 2) / 22 - t, 2);
+    }
+  };
+  ['quad', 'cubic', 'quart', 'quint', 'expo'].forEach(function (name, i) {
+    fns[name] = function (t) {
+      return pow(t, i + 2);
+    };
+  });
+
+  var upperFirst = function upperFirst(str) {
+    if (str.length < 1) return str;
+    return str[0].toUpperCase() + str.slice(1);
+  };
+
+  Object.entries(fns).forEach(function (_ref) {
+    var _ref2 = slicedToArray(_ref, 2),
+        name = _ref2[0],
+        fn = _ref2[1];
+
+    name = upperFirst(name);
+    easing["in".concat(name)] = fn;
+
+    easing["out".concat(name)] = function (t, m) {
+      return 1 - fn(1 - t, m);
+    };
+
+    easing["inOut".concat(name)] = function (t, m) {
+      return t < 0.5 ? fn(t * 2, m) / 2 : 1 - fn(t * -2 + 2, m) / 2;
+    };
+
+    easing["outIn".concat(name)] = function (t, m) {
+      return t < 0.5 ? (1 - fn(1 - 2 * t, m)) / 2 : (fn(t * 2 - 1, m) + 1) / 2;
+    };
+  });
+
+  function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+  var DEFAULT_CONFIG = {
+    from: 0,
+    to: 1,
+    duration: 1000,
+    ease: 'linear',
+    loop: false
+  };
+
+  var Tween =
+  /** @class */
+  function () {
+    var Tween = function Tween() {
+      var _this = this;
+
+      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_CONFIG;
+
+      classCallCheck(this, Tween);
+
+      this.bus = new EventBus();
+      this.state = {
+        reversed: false,
+        progress: 0,
+        stoped: true,
+        config: DEFAULT_CONFIG
+      };
+
+      this.on = function (event, listeners) {
+        var _this$bus;
+
+        for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+          args[_key - 2] = arguments[_key];
+        }
+
+        (_this$bus = _this.bus).on.apply(_this$bus, [event, listeners].concat(args));
+
+        return _this;
+      };
+
+      this.off = function (event, listeners) {
+        _this.bus.off(event, listeners);
+
+        return _this;
+      };
+
+      this.config = function () {
+        var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_CONFIG;
+        _this.state.config = _objectSpread$4(_objectSpread$4(_objectSpread$4({}, DEFAULT_CONFIG), _this.state.config), pickBy(config, isExist));
+        return _this;
+      };
+
+      this.start = function () {
+        if (_this.isEnded() || !_this.state.stoped) {
+          return _this;
+        }
+
+        _this.state.stoped = false;
+
+        _this.bus.emit('start');
+
+        var prevFrameTime = Date.now();
+        _this.stopRunningFrame = defaultProcess.start(function (_ref) {
+          var frameTime = _ref.frameTime;
+          var frameProgress = (frameTime - prevFrameTime) / clamp(_this.state.config.duration, 16);
+          var direction = _this.state.reversed ? -1 : 1;
+
+          _this.progress(_this.state.progress + frameProgress * direction);
+
+          prevFrameTime = frameTime;
+        });
+        return _this;
+      };
+
+      this.restart = function () {
+        return _this.reset().start();
+      };
+
+      this.reset = function () {
+        var reversed = _this.state.reversed;
+        return _this.stop().progress(reversed ? 1 : 0);
+      };
+
+      this.stop = function () {
+        if (_this.state.stoped) {
+          return _this;
+        }
+
+        _this.state.stoped = true;
+        run(_this.stopRunningFrame);
+
+        _this.bus.emit('stop');
+
+        return _this;
+      };
+
+      this.reverse = function () {
+        _this.state.reversed = !_this.state.reversed;
+
+        _this.bus.emit('reverse');
+
+        return _this;
+      };
+
+      this.progress = function (progress) {
+        var preProgress = _this.state.progress;
+        _this.state.progress = clamp(progress, 0, 1);
+
+        _this.bus.emit('update', _this.value(progress), _this.value(preProgress));
+
+        if (_this.isEnded()) {
+          if (_this.state.config.loop) {
+            _this.state.reversed = !_this.state.reversed;
+          } else {
+            _this.stop();
+
+            _this.bus.emit('end');
+          }
+        }
+
+        return _this;
+      };
+
+      this.value = function () {
+        var progress = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.progress;
+        progress = clamp(progress, 0, 1);
+        var config = _this.state.config;
+        var ease = config.ease,
+            to = config.to,
+            from = config.from;
+        var easeFn = isFunction(ease) ? ease : easing[ease];
+        return (to - from) * easeFn(progress) + from;
+      };
+
+      this.isEnded = function () {
+        var progress = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.progress;
+        var reversed = _this.state.reversed;
+        return reversed ? progress <= 0 : progress >= 1;
+      };
+
+      this.config(config);
+    };
+
+    Tween.easing = easing;
+    Tween.DEFAULT_CONFIG = DEFAULT_CONFIG;
+    return Tween;
+  }();
+
+  var __ = function __(func, context) {
+    return function () {
+      for (var _len = arguments.length, preArgs = new Array(_len), _key = 0; _key < _len; _key++) {
+        preArgs[_key] = arguments[_key];
+      }
+
+      return function () {
+        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        return func.apply(context || this, preArgs.map(function (preArg) {
+          return preArg === __ ? args.shift() : preArg;
+        }).concat(args));
+      };
+    };
+  };
+
+  function capitalize(word) {
+    if (!isString(word)) {
+      return '';
+    }
+
+    if (/\s/.test(word)) {
+      return word.split(' ').map(capitalize).join(' ');
+    }
+
+    return word.split('').map(function (letter, idx) {
+      return idx === 0 ? letter.toUpperCase() : letter;
+    }).join('');
+  }
+
+  var flatten = function flatten(array) {
+    return array.reduce(function (res, item) {
+      return [].concat(toConsumableArray(res), toConsumableArray(isArray(item) ? flatten(item) : [item]));
+    }, []);
+  };
+
+  var mapObjectClassName = function mapObjectClassName(obj) {
+    return Object.entries(obj).filter(function (_ref) {
+      var _ref2 = slicedToArray(_ref, 2),
+          value = _ref2[1];
+
+      return !!value;
+    }).map(function (_ref3) {
+      var _ref4 = slicedToArray(_ref3, 1),
+          key = _ref4[0];
+
+      return key;
+    });
+  };
+
+  var parseClassName = function parseClassName(className) {
+    return /\s/.test(className) ? className.trim().split(' ') : className;
+  };
+
+  var getClassNameArray = function getClassNameArray() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return flatten(args.filter(function (arg) {
+      return !!arg;
+    }).map(function (arg) {
+      if (isObject(arg)) {
+        return mapObjectClassName(arg);
+      }
+
+      if (isArray(arg)) {
+        return getClassNameArray.apply(void 0, toConsumableArray(arg));
+      }
+
+      if (isString(arg)) {
+        return parseClassName(arg);
+      }
+
+      return String(arg);
+    }));
+  };
+
+  function classnames() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return toConsumableArray(new Set(getClassNameArray(args))).join(' ').trim();
+  }
+
+  classnames.bind = function () {
+    var mapper = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    return function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return toConsumableArray(new Set(getClassNameArray(args).map(function (className) {
+        return mapper[className] || className;
+      }))).join(' ').trim();
+    };
+  };
+
+  /**
+   * [复制] 尝试通过 web 本身实现复制功能
+   * @param {String / Number} value 要复制的值
+   */
+
+  var copy = function copy(value) {
+    if (isUndefined(document)) {
+      return console.warn('宿主环境不存在 DOM 对象，无法执行复制操作');
+    }
+
+    var input = document.createElement('input');
+    input.style.cssText = "\n    position: absolute;\n    left: 0;\n    top: 0;\n    z-index: -1;\n    pointer-events: none;\n    opacity: 0;\n  ";
+    document.body.appendChild(input);
+    input.setAttribute('value', value); // input.setAttribute('readonly', false)
+    // execCommand 执行 copy 命令时，页面中需要有一段被选中的文本，此处借用 input 来实现 js 选中文本功能
+
+    input.select();
+    input.setSelectionRange(0, 9999);
+
+    if (document.execCommand('copy', true)) {
+      document.execCommand('copy', true); // 核心这一句
+    }
+
+    document.body.removeChild(input);
+  };
+
+  var curry = function curry(fn) {
+    return function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return args.length < fn.length ? curry(fn.bind.apply(fn, [this].concat(args))) : fn.apply(this, args);
+    };
+  };
+
+  /**
+   * [防抖]
+   * @param {Function} func 执行函数
+   * @param {Number} wait 多少毫秒后运行一次
+   */
+  var debounce = function debounce(func) {
+    var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 16;
+    var timeout;
+    return function () {
+      var _this = this;
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        func.apply(_this, args);
+      }, wait);
+      return timeout;
+    };
+  };
+
+  var delay = function delay(time) {
+    return new Promise(function (resolve) {
+      if (time === Infinity) {
+        // Never resolve
+        return;
+      }
+
+      setTimeout(resolve, time);
+    });
+  };
+
+  /**
+   * [返回数组或对象的首个值]
+   * @param {Array / Object} value 源集合
+   */
+
+  var first = function first(value) {
+    if (isArray(value)) {
+      return value[0];
+    }
+
+    if (isObject(value)) {
+      var keys = Object.keys(value);
+      return value[first(keys)];
+    }
+
+    return undefined;
+  };
+
+  var getFormatter = function getFormatter() {
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        _ref$separator = _ref.separator,
+        separator = _ref$separator === void 0 ? ' ' : _ref$separator,
+        _ref$length = _ref.length,
+        length = _ref$length === void 0 ? 3 : _ref$length,
+        _ref$reverse = _ref.reverse,
+        reverse = _ref$reverse === void 0 ? false : _ref$reverse,
+        _ref$isNumber = _ref.isNumber,
+        isNumberFormat = _ref$isNumber === void 0 ? false : _ref$isNumber;
+
+    return function (text) {
+      if (isNumberFormat) {
+        var hasDot = text.toString().indexOf('.') !== -1;
+
+        if (hasDot) {
+          return text && text.toString().replace(new RegExp("(\\d)(?=(\\d{".concat(length, "})+\\.)"), 'g'), function ($0, $1) {
+            return $1 + separator;
+          });
+        } else {
+          return text && text.toString().replace(new RegExp("\\d{1,".concat(length, "}(?=(\\d{").concat(length, "})+$)"), 'g'), "$&".concat(separator));
+        }
+      }
+
+      text = isNumber(text) ? Math.floor(text) : text;
+
+      if (isUndefined(text)) {
+        return text;
+      }
+
+      var res = String(text).split('');
+
+      if (!reverse) {
+        res = res.reverse();
+      }
+
+      res = res.reduce(function (result, letter, index) {
+        result.unshift(letter, index > 0 && index % length === 0 ? separator : undefined);
+        return result;
+      }, []);
+
+      if (reverse) {
+        res = res.reverse();
+      }
+
+      res = res.join('');
+      return res;
+    };
+  };
+
+  function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$5(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+  var groupBy = function groupBy(namer, list) {
+    return list.reduce(function (res, item) {
+      for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        args[_key - 2] = arguments[_key];
+      }
+
+      var groupName = String(namer.apply(void 0, [item].concat(args)));
+      var group = get(res, groupName, []);
+      return _objectSpread$5(_objectSpread$5({}, res), {}, defineProperty({}, groupName, [].concat(toConsumableArray(group), [item])));
+    }, {});
+  };
+
+  var pipe = function pipe() {
+    for (var _len = arguments.length, handlers = new Array(_len), _key = 0; _key < _len; _key++) {
+      handlers[_key] = arguments[_key];
+    }
+
+    return function (arg) {
+      return handlers.reduce(function (res, handler) {
+        return run(handler, undefined, res);
+      }, arg);
+    };
+  };
+
+  /**
+   * [交集]
+   * 示例：intersection([1, 2], [2, 3]) => [2]
+   */
+
+  var intersection = function intersection() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return pipe(flatten, function (_) {
+      return new Set(_);
+    }, Array.from)(args).filter(function (item) {
+      return args.every(function (arr) {
+        return arr.includes(item);
+      });
+    });
+  };
+
+  var reg = /(Android)/i;
+
+  var isAndroid = function isAndroid() {
+    return reg.test(get(globalThis, 'navigator.userAgent'));
+  };
+
+  var isBoolean = function isBoolean(value) {
+    return typeof value === 'boolean';
+  };
+
+  var isDate = function isDate(value) {
+    return value instanceof Date;
+  };
+
+  var reg$1 = /(Win32|Win64|MacIntel|Linux x86_64)/i;
+
+  var isDesktop = function isDesktop() {
+    return reg$1.test(get(globalThis, 'navigator.platform'));
+  };
+
+  var errorTypes = ['Error', 'EvalError', 'RangeError', 'ReferenceError', 'SyntaxError', 'TypeError', 'URIError'].map(function (key) {
+    return globalThis[key];
+  }).filter(function (type) {
+    return !isUndefined(type);
+  });
+
+  var isError = function isError(value) {
+    return errorTypes.some(function (errorType) {
+      return value instanceof errorType;
+    });
+  };
+
+  var reg$2 = /(iPhone|iPad|iPod|iOS)/i;
+
+  var isIOS = function isIOS() {
+    return reg$2.test(get(globalThis, 'navigator.userAgent'));
+  };
+
+  var isMobile = function isMobile() {
+    return !isDesktop() && (isAndroid() || isIOS());
+  };
+
+  var isPromiseLike = function isPromiseLike(value) {
+    return isExist(value) && isFunction(value.then);
+  };
+
+  var isWKWebview = function isWKWebview() {
+    return isIOS() && isExist(get(globalThis, 'webkit'));
+  };
+
+  /**
+   * [返回数组或对象的末尾值]
+   * @param {Array / Object} value 源集合
+   */
+
+  var last = function last(value) {
+    if (isArray(value)) {
+      return value[value.length - 1];
+    }
+
+    if (isObject(value)) {
+      var keys = Object.keys(value);
+      return value[last(keys)];
+    }
+
+    return undefined;
+  };
+
+  var nextTick = function nextTick(func) {
+    return Promise.resolve().then(func);
+  };
+
+  /**
+   * [过滤对象属性] 挑选处一个对象中的指定属性
+   * @param {Object} obj 数据源对象
+   * @param {Array} keys
+   */
+
+  var pick = function pick(obj) {
+    var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Object.keys(obj);
+    return pickBy(obj, function (value, key) {
+      return keys.includes(key);
+    });
+  };
+
+  var preloadImage = function preloadImage(srcList) {
+    return srcList.forEach(function (src) {
+      var img = new Image();
+      img.src = src;
+    });
+  };
+
+  /**
+   * [用来智能处理Promise类型返回值]
+   * 当值生成过程为 promise 时，将得到 promise 类型返回值，按约定 resolve 最终值
+   * 当过程不为 promise 时将直接得到值
+   * @param {Function} executor 执行过程获取
+   * @param {Function} valuer 值处理过程
+   */
+
+  var promiseGuess = function promiseGuess(executor, valuer) {
+    return function () {
+      var _this = this;
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      var value = executor.apply(this, args);
+      return isPromiseLike(value) ? new Promise(function (resolve) {
+        return value.then(function (value) {
+          return resolve(valuer.call.apply(valuer, [_this, null, value].concat(args)));
+        }).catch(function (err) {
+          return resolve(valuer.call.apply(valuer, [_this, err, undefined].concat(args)));
+        });
+      }) : valuer.call.apply(valuer, [this, null, value].concat(args));
+    };
+  };
+
+  var safeDecode = function safeDecode(value) {
+    var decoders = [globalThis.decodeURIComponent, globalThis.decodeURI, globalThis.unescape];
+
+    for (var _i = 0, _decoders = decoders; _i < _decoders.length; _i++) {
+      var decode = _decoders[_i];
+
+      try {
+        return decode(value);
+      } catch (error) {
+        continue;
+      }
+    }
+
+    return value;
+  };
+
+  var paramEscape = __(param)(__, __, globalThis.unescape);
+  function param(name) {
+    var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : globalThis.location.search;
+    var decode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : safeDecode;
+    var res = get(run(url, 'split', '?'), '1', '').match(new RegExp("(^|&)".concat(name, "=([^&]*)(&|$)")));
+    return isNull(res) ? undefined : decode(res[2]);
+  }
+  var allParamEscape = __(allParam)(__, globalThis.unescape);
+  function allParam() {
+    var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : globalThis.location.search;
+    var decode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : safeDecode;
+    var search = get(url.split('?'), [1], '');
+
+    if (search.length === 0) {
+      return {};
+    }
+
+    return search.split('&').map(function (param) {
+      return param.split('=');
+    }).reduce(function (res, _ref) {
+      var _ref2 = slicedToArray(_ref, 2),
+          key = _ref2[0],
+          value = _ref2[1];
+
+      return Object.assign(res, defineProperty({}, key, decode(value)));
+    }, {});
+  }
+  function generateParamStr(paramObj) {
+    var encode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : globalThis.encodeURIComponent;
+    return "?".concat(Object.entries(paramObj).map(function (_ref3) {
+      var _ref4 = slicedToArray(_ref3, 2),
+          key = _ref4[0],
+          value = _ref4[1];
+
+      return [key, encode(value)].join('=');
+    }).join('&'));
+  }
+  var index = {
+    paramEscape: paramEscape,
+    param: param,
+    allParamEscape: allParamEscape,
+    allParam: allParam,
+    generateParamStr: generateParamStr
+  };
+
+  var parse = function parse(str) {
+    return allParam(str);
+  };
+  var stringify = function stringify() {
+    var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    return generateParamStr(params).replace(/^.?/, '');
+  };
+  var qs = {
+    parse: parse,
+    stringify: stringify
+  };
+
+  /**
+   * [随机函数] 获取 (min, max) 之间的一个随机数
+   * @param {Number} min 最小值
+   * @param {Number} max 最大值
+   */
+  var random = function random(min, max) {
+    var int = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    var value = Math.random() * (max - min) + min;
+    return int ? Math.floor(value) : value;
+  };
+
+  /**
+   * [抽样] 随机获取数组中的一个值
+   * @param {Array} array 抽样数组
+   */
+
+  var sample = function sample(array) {
+    return get(array, random(0, get(array, 'length', 0)));
+  };
+
+  var set = function set() {
+    var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+    var value = arguments.length > 2 ? arguments[2] : undefined;
+    obj = Object.assign({}, obj);
+    keys = isString(keys) ? keys.split('.') : keys;
+    keys.reduce(function (res, key, idx) {
+      var next = idx === keys.length - 1 ? value : get(res, key, {});
+
+      if (isObject(next)) {
+        next = Object.assign({}, next);
+      }
+
+      if (isArray(next)) {
+        next = next.slice();
+      }
+
+      res[key] = next;
+      return res[key];
+    }, obj);
+    return obj;
+  };
+
+  var getExt = curry(function (src, key) {
+    var ext = globalThis[key];
+    !isUndefined(key) && isUndefined(ext) && console.warn("No external named '".concat(key, "' in global after loaded ").concat(src));
+    return ext;
+  });
+
+  var getExternals = function getExternals(src, externals) {
+    return isArray(externals) ? externals.map(getExt(src)) : getExt(src, externals);
+  };
+
+  var cache = {
+    js: [],
+    css: []
+  };
+  var js = function js(src, externals) {
+    if (cache.js.includes(src)) {
+      console.warn("[source.js] ".concat(src, " \u5DF2\u88AB\u52A0\u8F7D"));
+      return Promise.resolve(getExternals(src, externals));
+    }
+
+    return new Promise(function (resolve, reject) {
+      var script = document.createElement('script');
+      script.setAttribute('src', src);
+      script.addEventListener('load', function () {
+        return setTimeout(function () {
+          cache.js.push(src);
+          resolve(getExternals(src, externals));
+        });
+      });
+      script.addEventListener('error', reject);
+      document.body.appendChild(script);
+    });
+  };
+  var css = function css(href) {
+    if (cache.css.includes(href)) {
+      console.warn("[source.css] ".concat(href, " \u5DF2\u88AB\u52A0\u8F7D"));
+      return;
+    }
+
+    if (document.querySelector("link[href=\"".concat(href, "\"]"))) {
+      cache.css.push(href);
+      return;
+    }
+
+    var link = document.createElement('link');
+    link.setAttribute('href', href);
+    link.setAttribute('rel', 'stylesheet');
+    document.body.appendChild(link);
+    cache.css.push(href);
+  };
+  var index$1 = {
+    js: js,
+    css: css
+  };
+
+  var isStorageSupported = true;
+  var TEST_KET = '__testSupportive__';
+  var storage = globalThis.localStorage;
+
+  if (!isExist(storage)) {
+    isStorageSupported = false;
+  }
+
+  try {
+    storage.setItem(TEST_KET, '__testSupportive__');
+    storage.removeItem(TEST_KET);
+  } catch (err) {
+    isStorageSupported = false;
+  }
+
+  function withSupportive(func) {
+    if (!isStorageSupported) {
+      return function () {
+        return console.warn('Storage unsupported');
+      };
+    }
+
+    return func;
+  }
+
+  var getter = function getter(storage) {
+    return withSupportive(function (key) {
+      var data = storage.getItem(key);
+      var result;
+
+      if (data === 'undefined' || isNull(data)) {
+        result = undefined;
+      } else {
+        try {
+          result = JSON.parse(data);
+        } catch (err) {
+          console.error('[ERROR storage.get --> JSON.parse]', err);
+          result = data;
+        }
+      }
+
+      return result;
+    });
+  };
+
+  var setter = function setter(storage) {
+    return withSupportive(function (key, value) {
+      var data;
+
+      try {
+        data = JSON.stringify(value);
+      } catch (err) {
+        console.error('[ERROR storage.set --> JSON.stringify]', err);
+        data = value;
+      }
+
+      storage.setItem(key, data);
+      return data;
+    });
+  };
+
+  var remover = function remover(storage) {
+    return withSupportive(function (key) {
+      storage.removeItem(key);
+    });
+  };
+
+  var get$1 = getter(globalThis.localStorage);
+  var set$1 = setter(globalThis.localStorage);
+  var remove = remover(globalThis.localStorage);
+  var getSession = getter(globalThis.sessionStorage);
+  var setSession = setter(globalThis.sessionStorage);
+  var removeSession = remover(globalThis.sessionStorage);
+  var index$2 = {
+    get: get$1,
+    set: set$1,
+    remove: remove,
+    getSession: getSession,
+    setSession: setSession,
+    removeSession: removeSession
+  };
+
+  /**
+   * [节流]
+   * @param {Function} func 执行函数
+   * @param {Number} wait 多少毫秒内运行一次
+   */
+
+  var throttle = function throttle(func) {
+    var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 16;
+    var locking = false;
+
+    var release = function release() {
+      locking = false;
+    };
+
+    var debounced = debounce(func, wait);
+    return function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      debounced.apply(this, args); // 确保最后一次会执行
+
+      if (locking) {
+        return;
+      }
+
+      locking = true;
+      func.apply(this, args);
+      setTimeout(release, wait);
+    };
+  };
+
+  var uniqByKey = function uniqByKey() {
+    var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var key = arguments.length > 1 ? arguments[1] : undefined;
+    var cache = {};
+    return array.filter(function (item) {
+      if (!(key in item)) {
+        return true;
+      }
+
+      var value = item[key];
+
+      if (value in cache) {
+        return false;
+      }
+
+      cache[value] = true;
+      return true;
+    });
+  };
+
+  var value = function value() {
+    for (var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++) {
+      values[_key] = arguments[_key];
+    }
+
+    return values.reduce(function (value, nextValue) {
+      return isUndefined(value) ? run(nextValue) : run(value);
+    }, undefined);
+  };
+
+  exports.CombJudge = CombJubge;
+  exports.EventBus = EventBus;
+  exports.FrameProcess = Process;
+  exports.I18n = I18n;
+  exports.SAS = SAS;
+  exports.ScrollListener = ScrollListener;
+  exports.Tween = Tween;
+  exports.__ = __;
+  exports.capitalize = capitalize;
+  exports.clamp = clamp;
+  exports.classnames = classnames;
+  exports.copy = copy;
+  exports.curry = curry;
+  exports.debounce = debounce;
+  exports.delay = delay;
+  exports.first = first;
+  exports.flatten = flatten;
+  exports.get = get;
+  exports.getFormatter = getFormatter;
+  exports.globalThis = globalThis;
+  exports.groupBy = groupBy;
+  exports.intersection = intersection;
+  exports.isAndroid = isAndroid;
+  exports.isArray = isArray;
+  exports.isBoolean = isBoolean;
+  exports.isDate = isDate;
+  exports.isDesktop = isDesktop;
+  exports.isError = isError;
+  exports.isExist = isExist;
+  exports.isFunction = isFunction;
+  exports.isIOS = isIOS;
+  exports.isMobile = isMobile;
+  exports.isNaN = isNaN$1;
+  exports.isNull = isNull;
+  exports.isNumber = isNumber;
+  exports.isObject = isObject;
+  exports.isPromiseLike = isPromiseLike;
+  exports.isString = isString;
+  exports.isUndefined = isUndefined;
+  exports.isWKWebview = isWKWebview;
+  exports.last = last;
+  exports.lock = lock;
+  exports.memoize = memoize;
+  exports.nextTick = nextTick;
+  exports.pick = pick;
+  exports.pickBy = pickBy;
+  exports.pipe = pipe;
+  exports.preloadImage = preloadImage;
+  exports.promiseGuess = promiseGuess;
+  exports.qs = qs;
+  exports.random = random;
+  exports.run = run;
+  exports.sample = sample;
+  exports.set = set;
+  exports.source = index$1;
+  exports.storage = index$2;
+  exports.throttle = throttle;
+  exports.uniqByKey = uniqByKey;
+  exports.url = index;
+  exports.value = value;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
+//# sourceMappingURL=index.umd.js.map

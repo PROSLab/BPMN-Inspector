@@ -1,0 +1,33 @@
+{
+  "name": "szfe-tools",
+  "version": "0.0.0-beta.7",
+  "description": "辅助工具库",
+  "main": "lib/index.js",
+  "unpkg": "dist/index.umd.js",
+  "module": "es/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "es",
+    "lib",
+    "dist"
+  ],
+  "scripts": {
+    "build": "father-build",
+    "format": "prettier --write \"./**/*.{ts,json}\""
+  },
+  "homepage": "https://github.com/szfe/szfe-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/szfe/szfe-tools.git"
+  },
+  "author": "CJY0208",
+  "license": "ISC",
+  "devDependencies": {
+    "father-build": "^1.18.0",
+    "prettier": "^2.0.5"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.2"
+  },
+  "sideEffects": false
+}

@@ -19,6 +19,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
 }
 
 .file-info-item-name {
@@ -38,36 +39,14 @@
     font-size: 14px;
 }
 
-.file-name.Invalid {
-    color: hsl(3, 100%, 80%);
+.Invalid {
+    color: hsl(3, 100%, 70%);
     background-color: hsla(3, 75%, 62%, 0.14);
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    border-radius: var(--lumo-border-radius-s);
-    font-family: var(--lumo-font-family);
-    font-size: var(--lumo-font-size-s);
-    line-height: 1;
-    font-weight: 500;
-    text-transform: initial;
-    letter-spacing: initial;
-    padding: 0.25rem 0.5rem;
-    min-width: content-box;
+    font-size: 12px;
 }
 
-.file-name.Valid {
+.Valid {
     color: hsl(145, 85%, 46%);
-    background-color: hsla(145, 92%, 51%, 0.1);
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    border-radius: var(--lumo-border-radius-s);
-    font-family: var(--lumo-font-family);
-    font-size: var(--lumo-font-size-s);
-    line-height: 1;
-    font-weight: 500;
-    text-transform: initial;
-    letter-spacing: initial;
-    padding: 0.25rem 0.5rem;
-    min-width: content-box;
+    background-color: hsla(145, 92%, 51%, 0.14);
+    font-size: 12px;
 }
