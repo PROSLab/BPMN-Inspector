@@ -38,16 +38,18 @@
     "bootstrap": "^5.2.3",
     "classnames": "^2.3.2",
     "construct-style-sheets-polyfill": "3.1.0",
+    "customize-cra": "^0.9.1",
     "keepalive": "^3.0.0",
     "line-awesome": "1.3.0",
     "lit": "2.6.1",
     "react": "^18.2.0",
-    "react-activation": "^0.12.2",
+    "react-activation": "0.12.2",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
+    "react-global-loader": "^1.2.4",
     "react-icons": "^4.7.1",
     "react-keep-alive": "^2.5.2",
-    "react-router-dom": "^6.4.2",
+    "react-router-dom": "^6.8.2",
     "react-toastify": "^9.1.1"
   },
   "devDependencies": {
@@ -116,7 +118,9 @@
     "axios-progress-bar": "$axios-progress-bar",
     "react-activation": "$react-activation",
     "@babel/plugin-syntax-dynamic-import": "$@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-transform-runtime": "$@babel/plugin-transform-runtime"
+    "@babel/plugin-transform-runtime": "$@babel/plugin-transform-runtime",
+    "customize-cra": "$customize-cra",
+    "react-global-loader": "$react-global-loader"
   },
   "vaadin": {
     "dependencies": {
@@ -166,6 +170,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "941b93d1c06c670ad7886cdc834d58bed1cc65d7d4853f5f53e2000bf99638ad"
+    "hash": "34a0d7cef5f4f74c1b41ea69e1006909737f997cf4ad710a6924b7e53025432f"
   }
 }

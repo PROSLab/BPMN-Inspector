@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-toastify
+  C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Java\jdk-11.0.12\bin;C:\Program Files (x86)\MaudeFW\cygwin\bin;C:\Program Files\nodejs\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\User\anaconda3;C:\Users\User\anaconda3\Library\mingw-w64\bin;C:\Users\User\anaconda3\Library\usr\bin;C:\Users\User\anaconda3\Library\bin;C:\Users\User\anaconda3\Scripts;C:\Users\User\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\User\AppData\Local\Programs\Python\Python39\;C:\Python39\Scripts;C:\Users\User\.jdks\openjdk-19.0.2\bin;C:\Users\User\.jdks\openjdk-19.0.2;C:\apache-maven-3.8.5\bin;C:\MinGW\bin;%M2_HOME%\bin;C:\Users\User\.jdks\openjdk-19.0.2\bin;C:\Windows\System32;C:\Users\User\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\bin;C:\Users\User\AppData\Roaming\npm;C:\Users\User\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA 2022.3\bin;C:\Program Files\JetBrains\PyCharm 2022.3\bin;C:\Program Files\JetBrains\DataSpell 2022.3.1\bin;
+  C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Java\jdk-11.0.12\bin;C:\Program Files (x86)\MaudeFW\cygwin\bin;C:\Program Files\nodejs\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\User\anaconda3;C:\Users\User\anaconda3\Library\mingw-w64\bin;C:\Users\User\anaconda3\Library\usr\bin;C:\Users\User\anaconda3\Library\bin;C:\Users\User\anaconda3\Scripts;C:\Users\User\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\User\AppData\Local\Programs\Python\Python39\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Java\jdk-11.0.12\bin;C:\Program Files (x86)\MaudeFW\cygwin\bin;C:\Program Files\nodejs\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Python39\Scripts;C:\Users\User\.jdks\openjdk-19.0.2\bin;C:\Users\User\.jdks\openjdk-19.0.2;C:\apache-maven-3.8.5\bin;C:\MinGW\bin;C:\WINDOWS\system32;%M2_HOME%\bin;C:\Users\User\.jdks\openjdk-19.0.2\bin;C:\Windows\System32;C:\Users\User\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\bin;C:\Users\User\AppData\Roaming\npm;C:\Program Files\nodejs\;C:\Program Files\nodejs;C:\Users\User\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA 2022.3\bin;;C:\Program Files\JetBrains\PyCharm 2022.3\bin;;C:\Program Files\JetBrains\DataSpell 2022.3.1\bin;;C:\Program Files\nodejs\;
 
 Yarn version: 
   1.22.19
@@ -14,13 +14,15 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\User\Desktop\BPMN-Inspector\node_modules\esbuild-windows-64\esbuild.exe'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\User\Desktop\zipinspe\BPMN-Inspector\node_modules\esbuild-windows-64\esbuild.exe'
 
 npm manifest: 
   {
     "name": "no-name",
     "license": "UNLICENSED",
     "dependencies": {
+      "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+      "@babel/plugin-transform-runtime": "^7.21.0",
       "@hilla/form": "1.3.5",
       "@hilla/frontend": "1.3.5",
       "@hilla/generator-typescript-cli": "1.3.5",
@@ -33,11 +35,12 @@ npm manifest:
       "@hilla/generator-typescript-utils": "1.3.5",
       "@hilla/react-components": "1.3.5",
       "@polymer/iron-icon": "3.0.1",
-      "@polymer/polymer": "3.5.1",
+      "@polymer/polymer": "^3.5.1",
       "@vaadin-component-factory/vcf-nav": "1.0.6",
       "@vaadin/bundles": "23.3.5",
       "@vaadin/charts": "23.3.5",
       "@vaadin/common-frontend": "0.0.17",
+      "@vaadin/component-base": "23.3.5",
       "@vaadin/icon": "23.3.5",
       "@vaadin/icons": "23.3.5",
       "@vaadin/polymer-legacy-adapter": "23.3.5",
@@ -46,19 +49,25 @@ npm manifest:
       "@vaadin/vaadin-charts": "23.3.5",
       "@vaadin/vaadin-icon": "23.3.5",
       "@vaadin/vaadin-icons": "23.3.5",
-      "@vaadin/vaadin-lumo-styles": "23.3.5",
+      "@vaadin/vaadin-lumo-styles": "^23.3.5",
       "@vaadin/vaadin-material-styles": "23.3.5",
       "@vaadin/vaadin-themable-mixin": "23.3.5",
       "axios": "^1.3.3",
+      "axios-progress-bar": "^1.2.0",
       "bootstrap": "^5.2.3",
       "classnames": "^2.3.2",
       "construct-style-sheets-polyfill": "3.1.0",
+      "customize-cra": "^0.9.1",
+      "keepalive": "^3.0.0",
       "line-awesome": "1.3.0",
       "lit": "2.6.1",
       "react": "^18.2.0",
+      "react-activation": "0.12.2",
       "react-bootstrap": "^2.7.2",
       "react-dom": "^18.2.0",
-      "react-router-dom": "^6.4.2",
+      "react-icons": "^4.7.1",
+      "react-keep-alive": "^2.5.2",
+      "react-router-dom": "^6.8.2",
       "react-toastify": "^9.1.1"
     },
     "devDependencies": {
@@ -76,7 +85,7 @@ npm manifest:
       "typescript": "4.9.3",
       "vite": "3.2.5",
       "vite-plugin-checker": "0.5.1",
-      "workbox-build": "6.5.4",
+      "workbox-build": "^6.5.4",
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
@@ -118,7 +127,17 @@ npm manifest:
       "bootstrap": "$bootstrap",
       "react-bootstrap": "$react-bootstrap",
       "@vaadin/vaadin-charts": "$@vaadin/vaadin-charts",
-      "@vaadin/charts": "$@vaadin/charts"
+      "@vaadin/charts": "$@vaadin/charts",
+      "react-keep-alive": "$react-keep-alive",
+      "react-toastify": "$react-toastify",
+      "@vaadin/component-base": "$@vaadin/component-base",
+      "keepalive": "$keepalive",
+      "react-icons": "$react-icons",
+      "axios-progress-bar": "$axios-progress-bar",
+      "react-activation": "$react-activation",
+      "@babel/plugin-syntax-dynamic-import": "$@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-transform-runtime": "$@babel/plugin-transform-runtime",
+      "customize-cra": "$customize-cra"
     },
     "vaadin": {
       "dependencies": {
@@ -168,7 +187,7 @@ npm manifest:
         "workbox-core": "6.5.4",
         "workbox-precaching": "6.5.4"
       },
-      "hash": "a86acd062bfd3e36832826d2b219b8c2d6a75c87273d1cc63fd9842ef75002dd"
+      "hash": "6af4733af602c3d6b5530788baad610c4a17efb6fbbb3a64de24f6b5f6925f51"
     }
   }
 
@@ -974,6 +993,18 @@ Lockfile:
     dependencies:
       "@babel/helper-plugin-utils" "^7.18.6"
   
+  "@babel/plugin-transform-runtime@^7.21.0":
+    version "7.21.0"
+    resolved "https://registry.npmjs.org/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.21.0.tgz"
+    integrity sha512-ReY6pxwSzEU0b3r2/T/VhqMKg/AkceBT19X0UptA3/tYi5Pe2eXgEUH+NNMC5nok6c6XQz5tyVTUpuezRfSMSg==
+    dependencies:
+      "@babel/helper-module-imports" "^7.18.6"
+      "@babel/helper-plugin-utils" "^7.20.2"
+      babel-plugin-polyfill-corejs2 "^0.3.3"
+      babel-plugin-polyfill-corejs3 "^0.6.0"
+      babel-plugin-polyfill-regenerator "^0.4.1"
+      semver "^6.3.0"
+  
   "@babel/plugin-transform-shorthand-properties@^7.18.6":
     version "7.18.6"
     resolved "https://registry.npmjs.org/@babel/plugin-transform-shorthand-properties/-/plugin-transform-shorthand-properties-7.18.6.tgz"
@@ -1117,7 +1148,7 @@ Lockfile:
       "@babel/types" "^7.4.4"
       esutils "^2.0.2"
   
-  "@babel/runtime@^7.11.2", "@babel/runtime@^7.17.2", "@babel/runtime@^7.20.7", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+  "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.17.2", "@babel/runtime@^7.20.7", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
     version "7.20.13"
     resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.20.13.tgz"
     integrity sha512-gt3PKXs0DBoL9xCvOIIZ2NEqAGZqHjAnmVbfQtB620V0uReIQutpel14KcneZuer7UioY8ALKZ7iocavvzTNFA==
@@ -1480,7 +1511,7 @@ Lockfile:
     dependencies:
       "@polymer/polymer" "^3.0.0"
   
-  "@polymer/polymer@3.5.1":
+  "@polymer/polymer@^3.5.1":
     version "3.5.1"
     resolved "https://registry.npmjs.org/@polymer/polymer/-/polymer-3.5.1.tgz"
     integrity sha512-JlAHuy+1qIC6hL1ojEUfIVD58fzTpJAoCxFwV5yr0mYTXV1H8bz5zy0+rC963Cgr9iNXQ4T9ncSjC2fkF9BQfw==
@@ -1600,6 +1631,11 @@ Lockfile:
     version "0.0.39"
     resolved "https://registry.npmjs.org/@types/estree/-/estree-0.0.39.tgz"
     integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
+  
+  "@types/js-md5@^0.4.2":
+    version "0.4.3"
+    resolved "https://registry.npmjs.org/@types/js-md5/-/js-md5-0.4.3.tgz"
+    integrity sha512-BIga/WEqTi35ccnGysOuO4RmwVnpajv9oDB/sDQSY2b7/Ac7RyYR30bv7otZwByMvOJV9Vqq6/O1DFAnOzE4Pg==
   
   "@types/minimist@^1.2.2":
     version "1.2.2"
@@ -1814,7 +1850,7 @@ Lockfile:
     dependencies:
       tslib "^2.3.1"
   
-  "@vaadin/component-base@~23.3.5", "@vaadin/component-base@23.3.5":
+  "@vaadin/component-base@23.3.5":
     version "23.3.5"
     resolved "https://registry.npmjs.org/@vaadin/component-base/-/component-base-23.3.5.tgz"
     integrity sha512-9I3DmXWiyeRqy/P793Y8zAu9HCj6opr1C1Rt5JQgSqAoOH/Rs7Z1H+N2YKcaa3rmVIVqlur4PtDZb/CnEgSOMg==
@@ -2476,7 +2512,7 @@ Lockfile:
       "@polymer/polymer" "^3.0.0"
       "@vaadin/component-base" "~23.3.5"
   
-  "@vaadin/vaadin-lumo-styles@23.3.5":
+  "@vaadin/vaadin-lumo-styles@^23.3.5":
     version "23.3.5"
     resolved "https://registry.npmjs.org/@vaadin/vaadin-lumo-styles/-/vaadin-lumo-styles-23.3.5.tgz"
     integrity sha512-Dd6kJO+2o65fWJYCBqGZv/A0ELl62BdkeMd9rCPULVRtXBLAliVmMwAq8byK8ytUuCIVa03XSWdltkWJc+KCpw==
@@ -2656,6 +2692,17 @@ Lockfile:
       leven "2.1.0"
       mri "1.1.4"
   
+  array-includes@^3.1.1:
+    version "3.1.6"
+    resolved "https://registry.npmjs.org/array-includes/-/array-includes-3.1.6.tgz"
+    integrity sha512-sgTbLvL6cNnw24FnbaDyjmvddQ2ML8arZsgaJhoABMoplz/4QRhtrYS+alr1BUM1Bwp6dhx8vVCBSLG+StwOFw==
+    dependencies:
+      call-bind "^1.0.2"
+      define-properties "^1.1.4"
+      es-abstract "^1.20.4"
+      get-intrinsic "^1.1.3"
+      is-string "^1.0.7"
+  
   arrify@^1.0.1:
     version "1.0.1"
     resolved "https://registry.npmjs.org/arrify/-/arrify-1.0.1.tgz"
@@ -2685,6 +2732,11 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.npmjs.org/atomic-sleep/-/atomic-sleep-1.0.0.tgz"
     integrity sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==
+  
+  axios-progress-bar@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.npmjs.org/axios-progress-bar/-/axios-progress-bar-1.2.0.tgz"
+    integrity sha512-PEgWb/b2SMyHnKJ/cxA46OdCuNeVlo8eqL0HxXPtz+6G/Jtpyo49icPbW+jpO1wUeDEjbqpseMoCyWxESxf5pA==
   
   axios@^1.3.3:
     version "1.3.3"
@@ -2967,6 +3019,14 @@ Lockfile:
     dependencies:
       browserslist "^4.21.4"
   
+  create-react-context@^0.3.0:
+    version "0.3.0"
+    resolved "https://registry.npmjs.org/create-react-context/-/create-react-context-0.3.0.tgz"
+    integrity sha512-dNldIoSuNSvlTJ7slIKC/ZFGKexBMBrrcc+TTe1NdmROnaASuLPvqpwj9v4XS4uXZ8+YPu0sNmShX2rXI5LNsw==
+    dependencies:
+      gud "^1.0.0"
+      warning "^4.0.3"
+  
   crypto-random-string@^2.0.0:
     version "2.0.0"
     resolved "https://registry.npmjs.org/crypto-random-string/-/crypto-random-string-2.0.0.tgz"
@@ -2981,6 +3041,13 @@ Lockfile:
     version "3.1.1"
     resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.1.tgz"
     integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
+  
+  customize-cra@^0.9.1:
+    version "0.9.1"
+    resolved "https://registry.npmjs.org/customize-cra/-/customize-cra-0.9.1.tgz"
+    integrity sha512-LISruJ6ak6u+HVQ2vPI+HE4inpPugB73KB9YIpE2J1TW5L1Vrjzm3l2Yupyy+1alJGwAd5GAb5Hfc9qmSUuHow==
+    dependencies:
+      lodash.flow "^3.5.0"
   
   dash-ast@^1.0.0:
     version "1.0.0"
@@ -3377,6 +3444,11 @@ Lockfile:
     resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz"
     integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
   
+  gud@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.npmjs.org/gud/-/gud-1.0.0.tgz"
+    integrity sha512-zGEOVKFM5sVPPrYs7J5/hYEw2Pof8KCyOwyhG8sAF26mCAeUFAcYPu1mwB7hhpIP29zOIBaDqwuHdLp0jvZXjw==
+  
   hard-rejection@^2.1.0:
     version "2.1.0"
     resolved "https://registry.npmjs.org/hard-rejection/-/hard-rejection-2.1.0.tgz"
@@ -3434,6 +3506,13 @@ Lockfile:
     version "9.2.2"
     resolved "https://registry.npmjs.org/highcharts/-/highcharts-9.2.2.tgz"
     integrity sha512-OMEdFCaG626ES1JEcKAvJTpxAOMuchy0XuAplmnOs0Yu7NMd2RMfTLFQ2fCJOxo3ubSdm/RVQwKAWC+5HYThnw==
+  
+  hoist-non-react-statics@^3.3.0:
+    version "3.3.2"
+    resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
+    integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
+    dependencies:
+      react-is "^16.7.0"
   
   hosted-git-info@^4.0.1:
     version "4.1.0"
@@ -3656,6 +3735,11 @@ Lockfile:
     resolved "https://registry.npmjs.org/joycon/-/joycon-3.1.1.tgz"
     integrity sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==
   
+  js-md5@^0.7.3:
+    version "0.7.3"
+    resolved "https://registry.npmjs.org/js-md5/-/js-md5-0.7.3.tgz"
+    integrity sha512-ZC41vPSTLKGwIRjqDh8DfXoCrdQIyBgspJVPXHBGu4nZlAEvG3nf+jO9avM9RmLiGakg7vz974ms99nEV0tmTQ==
+  
   "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
     version "4.0.0"
     resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
@@ -3717,6 +3801,19 @@ Lockfile:
     version "5.0.1"
     resolved "https://registry.npmjs.org/jsonpointer/-/jsonpointer-5.0.1.tgz"
     integrity sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==
+  
+  jsx-ast-utils@^2.2.1:
+    version "2.4.1"
+    resolved "https://registry.npmjs.org/jsx-ast-utils/-/jsx-ast-utils-2.4.1.tgz"
+    integrity sha512-z1xSldJ6imESSzOjd3NNkieVJKRlKYSOtMG8SFyCj2FIrvSaSuli/WjpBkEzCBoR9bYYYFgqJw61Xhu7Lcgk+w==
+    dependencies:
+      array-includes "^3.1.1"
+      object.assign "^4.1.0"
+  
+  keepalive@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.npmjs.org/keepalive/-/keepalive-3.0.0.tgz"
+    integrity sha512-r9JqmrADTkKQRSZo8xWPMz0EISkfAfDtflmUJlAhePrNrIf5b/0EgpWxYvZWkOQjODVjItbD+IR7XMDp+vm2MQ==
   
   kind-of@^6.0.3:
     version "6.0.3"
@@ -3783,6 +3880,11 @@ Lockfile:
     version "4.0.8"
     resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
     integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
+  
+  lodash.flow@^3.5.0:
+    version "3.5.0"
+    resolved "https://registry.npmjs.org/lodash.flow/-/lodash.flow-3.5.0.tgz"
+    integrity sha512-ff3BX/tSioo+XojX4MOsOMhJw0nZoUEF011LX8g8d3gvjVbxd89cCio4BCXronjxcTUIJUoqKEUA+n4CqvvRPw==
   
   lodash.pick@^4.4.0:
     version "4.4.0"
@@ -4016,7 +4118,7 @@ Lockfile:
     resolved "https://registry.npmjs.org/object-keys/-/object-keys-1.1.1.tgz"
     integrity sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==
   
-  object.assign@^4.1.4:
+  object.assign@^4.1.0, object.assign@^4.1.4:
     version "4.1.4"
     resolved "https://registry.npmjs.org/object.assign/-/object.assign-4.1.4.tgz"
     integrity sha512-1mxKf0e58bvyjSCtKYY4sRe9itRk3PJpquJOjeIkz885CczcI4IvJJDLPS72oowuSh+pBxUFROpX+TU++hxhZQ==
@@ -4220,7 +4322,7 @@ Lockfile:
       react-is "^16.3.2"
       warning "^4.0.0"
   
-  prop-types@^15.6.2, prop-types@^15.8.1:
+  prop-types@^15.0.0, prop-types@^15.6.2, prop-types@^15.8.1:
     version "15.8.1"
     resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
     integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -4296,6 +4398,16 @@ Lockfile:
     dependencies:
       quickselect "^2.0.0"
   
+  react-activation@0.11.2:
+    version "0.11.2"
+    resolved "https://registry.npmjs.org/react-activation/-/react-activation-0.11.2.tgz"
+    integrity sha512-UR6rdjgDuNwMc1vszMassV+cxrNr2t62cxBcWZLe/qeTiW6UmcBV7yGF+s2TAS7pT3j45ebC/DPL4VB027t6zA==
+    dependencies:
+      create-react-context "^0.3.0"
+      hoist-non-react-statics "^3.3.0"
+      react-node-key "^0.4.0"
+      szfe-tools "^0.0.0-beta.7"
+  
   react-bootstrap@^2.7.2:
     version "2.7.2"
     resolved "https://registry.npmjs.org/react-bootstrap/-/react-bootstrap-2.7.2.tgz"
@@ -4322,15 +4434,37 @@ Lockfile:
       loose-envify "^1.1.0"
       scheduler "^0.23.0"
   
-  react-is@^16.13.1, react-is@^16.3.2:
+  react-icons@^4.7.1:
+    version "4.7.1"
+    resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.7.1.tgz"
+    integrity sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==
+  
+  react-is@^16.13.1, react-is@^16.3.2, react-is@^16.7.0:
     version "16.13.1"
     resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
     integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+  
+  react-keep-alive@^2.5.2:
+    version "2.5.2"
+    resolved "https://registry.npmjs.org/react-keep-alive/-/react-keep-alive-2.5.2.tgz"
+    integrity sha512-CoEsY5xE6rT31Z4p4UGZ/Crp0nZN+CY61ZflKzBGKB3D315jQMe2l8G5OrSEJ86V4stua7lSeFDIeG3DCuY2Rg==
+    dependencies:
+      "@types/js-md5" "^0.4.2"
+      hoist-non-react-statics "^3.3.0"
+      js-md5 "^0.7.3"
   
   react-lifecycles-compat@^3.0.4:
     version "3.0.4"
     resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
     integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+  
+  react-node-key@^0.4.0:
+    version "0.4.0"
+    resolved "https://registry.npmjs.org/react-node-key/-/react-node-key-0.4.0.tgz"
+    integrity sha512-puiuP2QYEuNBVVvcjpUE8d8/jdAhiXHBHMmjZzQT4+fe276RMYea/tY7JoZoYlrhAX8DORLPvjySjXYJZ1m6/A==
+    dependencies:
+      jsx-ast-utils "^2.2.1"
+      szfe-tools "^0.0.0-beta.7"
   
   react-refresh@^0.14.0:
     version "0.14.0"
@@ -4840,6 +4974,13 @@ Lockfile:
     resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
     integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
   
+  szfe-tools@^0.0.0-beta.7:
+    version "0.0.0-beta.7"
+    resolved "https://registry.npmjs.org/szfe-tools/-/szfe-tools-0.0.0-beta.7.tgz"
+    integrity sha512-/M7+Tel2G8zapfDYZlz17hf9ViqAi/loZMfM81b5iZMyaWL/t5dajBszEBI2kyIDFzlLT4btBcq+BimFgmAHug==
+    dependencies:
+      "@babel/runtime" "^7.10.2"
+  
   temp-dir@^2.0.0:
     version "2.0.0"
     resolved "https://registry.npmjs.org/temp-dir/-/temp-dir-2.0.0.tgz"
@@ -5176,7 +5317,7 @@ Lockfile:
     dependencies:
       workbox-core "6.5.4"
   
-  workbox-build@6.5.4:
+  workbox-build@^6.5.4:
     version "6.5.4"
     resolved "https://registry.npmjs.org/workbox-build/-/workbox-build-6.5.4.tgz"
     integrity sha512-kgRevLXEYvUW9WS4XoziYqZ8Q9j/2ziJYEtTrjdz5/L/cTUa2XfyMP2i7c3p34lgqJ03+mTiz13SdFef2POwbA==

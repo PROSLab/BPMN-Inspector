@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import "./postCss.css";
+import {toast} from "react-toastify";
 
-// @ts-ignore
 export default function PostProcessingView() {
     const [activeTab, setActiveTab] = useState('bpmn-element-usage');
     const location = useLocation()
@@ -97,17 +97,27 @@ export default function PostProcessingView() {
                 ))}
             </ul>
 
+            <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Reset"/>
 
         </div>
     );
 }
 
-async function getServerSideProps() {
-    const response = await axios.post("/process-filtered-models", ["dato1", "dato2"]);
+async function deleteFiles() {
+    try {
+        await axios.delete('/deleteAllFiles');
+        toast.success('All files deleted successfully!', {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+    } catch (error) {
 
-    return {
-        props: {
-            data: response.data,
-        },
-    };
+        console.error(error);
+    }
 }

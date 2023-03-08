@@ -19,6 +19,7 @@ import {CheckboxGroup} from "@hilla/react-components/CheckboxGroup.js";
 import {Link, RouterProvider} from "react-router-dom";
 import KeepAlive, {AliveScope} from 'react-activation'
 import { Router, Route } from 'react-router-dom';
+import {loader} from "react-global-loader";
 
 
 export default function HelloReactView() {
@@ -71,12 +72,16 @@ export default function HelloReactView() {
         }
     console.log(filesInfo)
         useEffect(() => {
+
+            loader.show();
+
             axios({
                 method: "get",
                 url: "/files",
                 headers: { "Content-Type": 'text/event-stream'}
             }).then((response) => {
                 setFilesInfo(response.data);
+                loader.hide();
             });
         }, []);
 
@@ -89,12 +94,14 @@ export default function HelloReactView() {
                 }
             });
 
+            loader.show();
             axios({
                 url: '/postProcessingView',
                 method: 'POST',
                 data: filteringArray,
             }).then((response) => {
                 console.log(response.data);
+                loader.hide();
             });
         }
         async function deleteFiles() {
@@ -122,6 +129,7 @@ export default function HelloReactView() {
         let displayButton = filesInfo.length > 1;
 
         const {valid, invalid} = filesInfo.reduce((counts, file) => {
+            console.log(file.isDuplicated)
             if (file.isValid) {
                 counts.valid++;
             } else {
@@ -131,11 +139,12 @@ export default function HelloReactView() {
         }, {valid: 0, invalid: 0});
 
         const totalDuplicated = filesInfo.reduce((counts, file) => {
+
             if (file.isDuplicated) {
-                counts.duplicated++;
+                counts.duplicated += 1;
             }
             return counts;
-        }, {duplicated: 0});
+        }, {duplicated: 0, total: filesInfo.length});
 
         console.log(totalDuplicated)
         const downloadFile = () => {
@@ -158,7 +167,7 @@ export default function HelloReactView() {
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                     <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. <a style={{color:'red',fontWeight:"bold"}}>{valid}</a> of them are invalids and <a style={{color:'red',fontWeight:"bold"}}></a> duplicated.</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection present <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>X</a> duplicated models.</a>
 
                     {displayButton && (
                         <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
@@ -187,7 +196,9 @@ export default function HelloReactView() {
                                          <span className={`badge badge-pill badge-success ${file.isValid ? 'Valid' : 'Invalid'}`} >{file.isValid ? "Valid" : "Invalid"}</span>
                                     </p>
                                     <p className={`file-info-item file-name`}>
-                                        <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >{file.isDuplicated ? "No" : "Yes"}</span>
+                                       <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
+                                          {file.isDuplicated ? "Yes" : "No"}
+                                       </span>
                                     </p>
                                     <p className="file-info-item file-name">
                                         {file.isValid ? "english" : "noEnglish"}
@@ -354,13 +365,23 @@ export default function HelloReactView() {
 
         )
     }
+    function Counter() {
+        const [count, setCount] = useState(0)
+
+        return (
+            <div>
+                count: {count}
+                <button onClick={() => setCount((count) => count + 1)}>add</button>
+            </div>
+        )
+    }
     //
     //{ showResults ? <Results /> : null }
    // { showHome ? <Home /> : null }
     return (
         <>
-                { showHome ? <Home /> : null }
-                { showResults ? <Results /> : null }
+            { showResults ? <Results /> : null }
+            { showHome ? <Home /> : null }
         </>
     );
 }

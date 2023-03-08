@@ -25,7 +25,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-
 @RestController
 public class UploadController {
 
@@ -40,10 +39,18 @@ public class UploadController {
             File file = path.toFile();
             boolean isValid;
             boolean isDuplicated;
+
             try {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
                 isValid = validateFile(file);
-                isDuplicated = checkIsDuplicated(fileContent);
+                List<String> duplicates = getDuplicateFiles();
+                System.out.println(duplicates.contains(file.getName()));
+                if(duplicates.contains(file.getName())){
+                    isDuplicated=true;
+                }
+               else {
+                    isDuplicated=false;// verifica se il file è duplicato
+                }
                 if (isValid) {
                     validModelFiles.add(file.getName());
                 }
@@ -52,24 +59,46 @@ public class UploadController {
                 isDuplicated = false;
                 throw new RuntimeException(e);
             }
+
             fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated));
         });
+
         return fileInfos;
     }
 
-    private boolean checkIsDuplicated(byte[] fileContent) {
-        Map<Integer, byte[]> seenBytes = new HashMap<>();
-        for (byte b : fileContent) {
-            if (seenBytes.containsKey((int) b) && Arrays.equals(fileContent, seenBytes.get((int) b))) {
-                return true;
-            }
-            seenBytes.putIfAbsent((int) b, fileContent);
-        }
-        return false;
+    private List<String> getDuplicateFiles() throws IOException {
+        Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
+        // Array per tenere traccia dei nomi dei file duplicati
+        List<String> duplicateFileNames = new ArrayList<>();
+
+        // Mappa per tenere traccia dei nomi dei file già trovati
+        Map<Long, Path> fileSizes = new HashMap<>();
+
+        Files.walk(sourceDir)
+                .filter(path -> !Files.isDirectory(path))
+                .forEach(path -> {
+                    try {
+                        // Confronta i byte del file con quelli dei file già processati
+                        byte[] fileContent = Files.readAllBytes(path);
+                        Long fileSize = Files.size(path);
+
+                        // Controlla se il file ha la stessa dimensione e lo stesso contenuto dei file già processati
+                        if (!fileSizes.containsKey(fileSize) || !Arrays.equals(fileContent, Files.readAllBytes(fileSizes.get(fileSize)))) {
+                             fileSizes.put(fileSize, path);
+                        } else {
+                            duplicateFileNames.add(path.getFileName().toString());
+                             // Aggiungi la coppia chiave-valore alla mappa se il file non è duplicato
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+        return duplicateFileNames;
     }
     @PostMapping("/upload")
     public String multipleFileUpload(@RequestParam("file") List<MultipartFile> files) {
-
 
         if (files.isEmpty()) {
             return "Please upload a file!";
@@ -436,7 +465,6 @@ public class UploadController {
         else{
 
         }
-        System.out.println(filteringArray[0]);
         return "postProcessingView";
     }
 
