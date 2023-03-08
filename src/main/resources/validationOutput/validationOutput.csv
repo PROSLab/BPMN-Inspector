@@ -1,10 +1,5 @@
 ModelName,Validation,Exception
-Abstimmung vorbereiten.bpmn,valid,
-Amtl. Information verbreiten.bpmn,valid,
-Anfrage bearbeiten - Eingang Baugesuch (1.2).bpmn,valid,
-Anfrage bearbeiten - Eingang Baugesuch Zentrale Dienste (1.1) .bpmn,valid,
-Anfrage bearbeiten - Eingang VS (1.3).bpmn,valid,
-Antrag erstellen - Baugesuch (7.1).bpmn,valid,
-Antrag für Direktion sichten - Baugesuch (7.5).bpmn,valid,
-Antrag juristisch prüfen - Baugesuch (7.3).bpmn,valid,
-Antrag materiell prüfen - Baugesuch (7.2).bpmn,valid,
+Entscheid versenden - Baugesuch (7.8) - Copia.bpmn,valid,
+Entscheid versenden - Baugesuch (7.8).bpmn,valid,
+Errors - Copia.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.
+Errors.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.

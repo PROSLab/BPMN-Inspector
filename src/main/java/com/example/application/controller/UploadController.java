@@ -39,17 +39,33 @@ public class UploadController {
         Files.list(Paths.get(UPLOADED_FOLDER)).forEach(path -> {
             File file = path.toFile();
             boolean isValid;
+            boolean isDuplicated;
             try {
-                 isValid = validateFile(file);
-                 if(isValid)
-                     validModelFiles.add(file.getName());
-            } catch (SAXException e) {
-                 isValid = false;
+                byte[] fileContent = Files.readAllBytes(file.toPath());
+                isValid = validateFile(file);
+                isDuplicated = checkIsDuplicated(fileContent);
+                if (isValid) {
+                    validModelFiles.add(file.getName());
+                }
+            } catch (SAXException | IOException e) {
+                isValid = false;
+                isDuplicated = false;
                 throw new RuntimeException(e);
             }
-            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid));
+            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated));
         });
         return fileInfos;
+    }
+
+    private boolean checkIsDuplicated(byte[] fileContent) {
+        Map<Integer, byte[]> seenBytes = new HashMap<>();
+        for (byte b : fileContent) {
+            if (seenBytes.containsKey((int) b) && Arrays.equals(fileContent, seenBytes.get((int) b))) {
+                return true;
+            }
+            seenBytes.putIfAbsent((int) b, fileContent);
+        }
+        return false;
     }
     @PostMapping("/upload")
     public String multipleFileUpload(@RequestParam("file") List<MultipartFile> files) {
@@ -123,6 +139,8 @@ public class UploadController {
         }
         return "All files deleted successfully";
     }
+
+
 
     private boolean validateFile(File file) throws SAXException {
 

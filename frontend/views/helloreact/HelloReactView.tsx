@@ -67,6 +67,7 @@ export default function HelloReactView() {
             name: string;
             size: number;
             isValid: boolean;
+            isDuplicated: boolean;
         }
     console.log(filesInfo)
         useEffect(() => {
@@ -129,6 +130,14 @@ export default function HelloReactView() {
             return counts;
         }, {valid: 0, invalid: 0});
 
+        const totalDuplicated = filesInfo.reduce((counts, file) => {
+            if (file.isDuplicated) {
+                counts.duplicated++;
+            }
+            return counts;
+        }, {duplicated: 0});
+
+        console.log(totalDuplicated)
         const downloadFile = () => {
             axios({
                 url: '/download-validation-report',
@@ -144,11 +153,12 @@ export default function HelloReactView() {
             });
         };
 
+        // @ts-ignore
         return (
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                     <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. <a style={{color:'#10ad73',fontWeight:"bold"}}>{valid}</a> of them are valids and <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids.</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. <a style={{color:'red',fontWeight:"bold"}}>{valid}</a> of them are invalids and <a style={{color:'red',fontWeight:"bold"}}></a> duplicated.</a>
 
                     {displayButton && (
                         <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
@@ -160,6 +170,7 @@ export default function HelloReactView() {
                         <span className="file-info-item-name" style={{ fontSize: '18px', fontWeight:"bold"}}>File name</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>File size</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Validation</span>
+                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Duplicated</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>isEnglish</span>
                     </div>
 
@@ -174,6 +185,9 @@ export default function HelloReactView() {
                                     </p>
                                     <p className={`file-info-item file-name`}>
                                          <span className={`badge badge-pill badge-success ${file.isValid ? 'Valid' : 'Invalid'}`} >{file.isValid ? "Valid" : "Invalid"}</span>
+                                    </p>
+                                    <p className={`file-info-item file-name`}>
+                                        <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >{file.isDuplicated ? "No" : "Yes"}</span>
                                     </p>
                                     <p className="file-info-item file-name">
                                         {file.isValid ? "english" : "noEnglish"}
@@ -190,7 +204,7 @@ export default function HelloReactView() {
                     }
                     <div>
                            <p style={{fontSize:'20px',color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left", marginBottom:'0.4em'}}>Filtering options:</p>
-                        
+
                             <CheckboxGroup
                                 theme=''
                                 onValueChanged={({ detail: { value } }) => console.log(value)}
@@ -202,7 +216,7 @@ export default function HelloReactView() {
                                 <Checkbox value='noEnglish' label='Remove non-English models' name="checkbox3" disabled/>
                                 <br/>
                             </CheckboxGroup>
-                        
+
                         <br></br>
                         <Link to="/inspect" state={{data: filteringArray}} >
                             <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} onClick={inspectionPage}>
