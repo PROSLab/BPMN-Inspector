@@ -43,12 +43,39 @@ export default function PostProcessingView() {
         });
     }, []);
 
+    const totalDuplicated = filesInfo.reduce((counts, file) => {
+        if (file.isDuplicated) {
+            counts.totalDuplicated++;
+        }
+        return counts;
+    }, { totalDuplicated: 0});
+
+    const {valid, invalid} = filesInfo.reduce((counts, file) => {
+        if (file.isValid) {
+            counts.valid++;
+        } else {
+            counts.invalid++;
+        }
+        return counts;
+    }, {valid: 0, invalid: 0});
+
+        let total = filesInfo.length;
+
+        if (data.includes("invalid") && data.includes("duplicated")) {
+            total = total - (invalid + totalDuplicated.totalDuplicated);
+        }
+        else if (data.includes("duplicated") && !data.includes("invalid")) {
+            total -= totalDuplicated.totalDuplicated;
+        }
+        else if (!data.includes("duplicated") && data.includes("invalid")) {
+            total -= invalid;
+        }
 
     return (
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold"}}>BPMN models inspected</a>
             <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>
-                <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}  </a> models have been inspected. Models discarded:
+                <a style={{color:'green',fontWeight:"bold"}}>{total}</a> models have been inspected. Models discarded:
                 {data[0] || data[1] ? (
                     <>
                         {data[0] && <a style={{fontWeight:"bold"}}>{ data[0]}</a>}

@@ -37,9 +37,9 @@ public class fileInfo {
         this.isValid = isValid;
     }
 
-    public boolean isDuplicated() {
+    public boolean getisDuplicated() {
         return isDuplicated;
     }
 
-    public void setDuplicated(boolean isDuplicated) {this.isDuplicated = isDuplicated;}
+    public void setisDuplicated(boolean isDuplicated) {this.isDuplicated = isDuplicated;}
 }

@@ -134,13 +134,14 @@ export default function HelloReactView() {
             return counts;
         }, {valid: 0, invalid: 0});
 
-        filesInfo.forEach((file) => {
-            console.log(file)
-            console.log(file.isValid)
-            console.log(file.isDuplicated)
+        const totalDuplicated = filesInfo.reduce((counts, file) => {
+            if (file.isDuplicated) {
+                counts.totalDuplicated++;
+            }
+            return counts;
+        }, { totalDuplicated: 0});
 
-        });
-
+        console.log(totalDuplicated.totalDuplicated)
         const downloadFile = () => {
             axios({
                 url: '/download-validation-report',
@@ -161,7 +162,7 @@ export default function HelloReactView() {
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                     <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection present <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>x</a> duplicated models.</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection present <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>{totalDuplicated.totalDuplicated}</a> duplicated models.</a>
 
                     {displayButton && (
                         <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>

@@ -45,7 +45,7 @@ public class UploadController {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
                 isValid = validateFile(file);
                 List<String> duplicates = getDuplicateFiles();
-                System.out.println(duplicates.contains(file.getName()));
+
                 if(duplicates.contains(file.getName())){
                     isDuplicated=true;
                 }
@@ -62,9 +62,9 @@ public class UploadController {
             }
 
             fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated));
-            System.out.println(fileInfos);
-        });
 
+        });
+        System.out.println(Arrays.toString(fileInfos.toArray()));
         return fileInfos;
     }
 
