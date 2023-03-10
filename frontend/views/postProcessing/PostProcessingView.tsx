@@ -128,12 +128,14 @@ export default function PostProcessingView() {
 
             <div className="tab-content">
                 {activeTab === 'bpmn-element-usage' && (
-                    <div>
-                        <div style={{display:'flex'}}>
-                            <LineChart />
-                            <div>
-                            <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold", display: "block"}}>1. BPMN Collection's Model Size</a>
-                                <a>This is a graph of the average model size of the collection</a>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                <div>
+                                    <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold", display: "block"}}>1. BPMN Collection's Model Size</a>
+                                    <a>This is a graph of the average model size of the collection</a>
+                                </div>
+                                <LineChart options={{responsive:true, height: '100%', width:'100%',maintainAspectRatio:false}}/>
                             </div>
                         </div>
                     </div>

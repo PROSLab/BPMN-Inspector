@@ -19,17 +19,22 @@ const data = {
     ],
 };
 
-const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    height: '60%',
-    width: '30%',
+interface options {
+    responsive: boolean,
+    maintainAspectRatio: boolean,
+    height: string,
+    width: string,
 };
-const LineChart = () => {
+
+interface Props {
+    options?: options;
+    data?: any;
+}
+
+const LineChart : React.FC<Props> = (props:Props) => {
+    const {options} = props;
     return (
-        <div>
-            <Line data={data} options={options}/>
-        </div>
+        <Line data={data} options={options}/>
     );
 };
 
