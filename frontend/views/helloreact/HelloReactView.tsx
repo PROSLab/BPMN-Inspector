@@ -20,6 +20,8 @@ import {Link, RouterProvider} from "react-router-dom";
 import KeepAlive, {AliveScope} from 'react-activation'
 import { Router, Route } from 'react-router-dom';
 import {loader} from "react-global-loader";
+import {AiFillExclamationCircle} from "react-icons/ai";
+import {GiConfirmed} from "react-icons/gi";
 
 
 export default function HelloReactView() {
@@ -27,11 +29,9 @@ export default function HelloReactView() {
     const [showResults, setShowResults] = React.useState(false)
     const [filteredData, setFilteredData] = useState<string[]>([]);
     const filteringArray: string[] = [];
-
-    let selectedFile: any = null;
     const [show, setShow] = useState(true)
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
-
+    let selectedFile: any = null;
     const filterCollection = () => {
 
         const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
@@ -58,7 +58,6 @@ export default function HelloReactView() {
         });
     };
 
-
     // Stampo i files
     const Results = () => {
         const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
@@ -72,9 +71,7 @@ export default function HelloReactView() {
         }
     console.log(filesInfo)
         useEffect(() => {
-
             loader.show();
-
             axios({
                 method: "get",
                 url: "/files",
@@ -129,7 +126,6 @@ export default function HelloReactView() {
         let displayButton = filesInfo.length > 1;
 
         const {valid, invalid} = filesInfo.reduce((counts, file) => {
-            console.log(file.isDuplicated)
             if (file.isValid) {
                 counts.valid++;
             } else {
@@ -138,15 +134,13 @@ export default function HelloReactView() {
             return counts;
         }, {valid: 0, invalid: 0});
 
-        const totalDuplicated = filesInfo.reduce((counts, file) => {
+        filesInfo.forEach((file) => {
+            console.log(file)
+            console.log(file.isValid)
+            console.log(file.isDuplicated)
 
-            if (file.isDuplicated) {
-                counts.duplicated += 1;
-            }
-            return counts;
-        }, {duplicated: 0, total: filesInfo.length});
+        });
 
-        console.log(totalDuplicated)
         const downloadFile = () => {
             axios({
                 url: '/download-validation-report',
@@ -167,7 +161,7 @@ export default function HelloReactView() {
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                     <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection present <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>X</a> duplicated models.</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection present <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>x</a> duplicated models.</a>
 
                     {displayButton && (
                         <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
@@ -197,7 +191,7 @@ export default function HelloReactView() {
                                     </p>
                                     <p className={`file-info-item file-name`}>
                                        <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                          {file.isDuplicated ? "Yes" : "No"}
+                                          {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
                                        </span>
                                     </p>
                                     <p className="file-info-item file-name">

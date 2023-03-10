@@ -41,7 +41,5 @@ public class fileInfo {
         return isDuplicated;
     }
 
-    public void setDuplicated(boolean duplicated) {
-        isDuplicated = duplicated;
-    }
+    public void setDuplicated(boolean isDuplicated) {this.isDuplicated = isDuplicated;}
 }

@@ -35,6 +35,7 @@ public class UploadController {
     public List<fileInfo> getFiles() throws IOException {
 
         List<fileInfo> fileInfos = new ArrayList<>();
+
         Files.list(Paths.get(UPLOADED_FOLDER)).forEach(path -> {
             File file = path.toFile();
             boolean isValid;
@@ -61,6 +62,7 @@ public class UploadController {
             }
 
             fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated));
+            System.out.println(fileInfos);
         });
 
         return fileInfos;

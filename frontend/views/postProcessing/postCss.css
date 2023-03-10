@@ -7,3 +7,56 @@
     border-color: #4bcd0b #16cd2d #fff;
     background-color: hsla(144, 68%, 49%, 0.14);
 }
+
+.file-info {
+    display: flex;
+    align-items: flex-start;
+    font-size: 18px;
+    color: black;
+}
+
+.file-info-item {
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-basis: 70px;
+    flex-grow: 1;
+}
+
+.file-info-badge-name {
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.file-info-item-name {
+    width: 12%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-info-value {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.file-name {
+    font-size: 14px;
+}
+
+.Invalid {
+    color: hsl(3, 100%, 70%);
+    background-color: hsla(3, 75%, 62%, 0.14);
+    font-size: 12px;
+}
+
+.Valid {
+    color: hsl(145, 85%, 46%);
+    background-color: hsla(145, 92%, 51%, 0.14);
+    font-size: 12px;
+}

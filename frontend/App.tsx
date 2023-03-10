@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import React, {ReactDOM} from "react";
 import {DefaultSpinner, LoaderContainer} from "react-global-loader";
 import Loader from "Frontend/components/loader/Loader";
+import LineChart from "Frontend/components/charts/LineChart";
 
 export default function App() {
     return (
@@ -33,6 +34,8 @@ export default function App() {
 
                 <Loader />
             </LoaderContainer>
+
+
 
         </>
     );
