@@ -68,6 +68,7 @@ export default function HelloReactView() {
             size: number;
             isValid: boolean;
             isDuplicated: boolean;
+            modelType: string
         }
     console.log(filesInfo)
         useEffect(() => {
@@ -141,7 +142,22 @@ export default function HelloReactView() {
             return counts;
         }, { totalDuplicated: 0});
 
-        console.log(totalDuplicated.totalDuplicated)
+        const {totalProcess,totalCollab,totalChoreography,totalConversation} = filesInfo.reduce((counts, file) => {
+            if (file.modelType === "Process") {
+                counts.totalProcess++;
+            }
+            if (file.modelType === "Collaboration") {
+                counts.totalCollab++;
+            }
+            if (file.modelType === "Choreography") {
+                counts.totalChoreography++;
+            }
+            if (file.modelType === "Conversation") {
+                counts.totalConversation++;
+            }
+            return counts;
+        }, { totalProcess: 0, totalCollab: 0, totalChoreography: 0, totalConversation: 0});
+
         const downloadFile = () => {
             axios({
                 url: '/download-validation-report',
@@ -162,7 +178,8 @@ export default function HelloReactView() {
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                     <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection present <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>{totalDuplicated.totalDuplicated}</a> duplicated models.</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection present <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>{totalDuplicated.totalDuplicated}</a> duplicated models.</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection is composed by the following process types: Process <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalCollab}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}.</a></a>
 
                     {displayButton && (
                         <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
@@ -175,7 +192,7 @@ export default function HelloReactView() {
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>File size</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Validation</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Duplicated</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>isEnglish</span>
+                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Model Type</span>
                     </div>
 
                     {filesToDisplay.map((file, index) =>
@@ -196,7 +213,7 @@ export default function HelloReactView() {
                                        </span>
                                     </p>
                                     <p className="file-info-item file-name">
-                                        {file.isValid ? "english" : "noEnglish"}
+                                        {file.modelType}
                                     </p>
                                 </div>
                             </div>

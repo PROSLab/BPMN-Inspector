@@ -8,10 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import java.util.*;
 import javax.xml.XMLConstants;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -46,11 +51,10 @@ public class UploadController {
                 isValid = validateFile(file);
                 List<String> duplicates = getDuplicateFiles();
 
-                if(duplicates.contains(file.getName())){
-                    isDuplicated=true;
-                }
-               else {
-                    isDuplicated=false;// verifica se il file è duplicato
+                if (duplicates.contains(file.getName())) {
+                    isDuplicated = true;
+                } else {
+                    isDuplicated = false;// verifica se il file è duplicato
                 }
                 if (isValid) {
                     validModelFiles.add(file.getName());
@@ -61,10 +65,21 @@ public class UploadController {
                 throw new RuntimeException(e);
             }
 
-            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated));
+            String modelType;
+
+            try {
+                modelType = extractModelType(file);
+            } catch (SAXException e) {
+                throw new RuntimeException(e);
+            } catch (IOException | ParserConfigurationException e) {
+                throw new RuntimeException(e);
+            }
+
+            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType));
+            System.out.println(modelType);
 
         });
-        System.out.println(Arrays.toString(fileInfos.toArray()));
+
         return fileInfos;
     }
 
@@ -158,6 +173,37 @@ public class UploadController {
         return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
     }
 
+    private String extractModelType(File file) throws SAXException, IOException, ParserConfigurationException {
+        // replace with the path to your .bpmn or .xml file
+            String modelType = "Undefined";
+
+            // check if the typeLanguage is BPMN
+            File bpmnFile = new File(file.toURI());
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            Document bpmnDoc = dbFactory.newDocumentBuilder().parse(bpmnFile);
+
+            NodeList bpmnProcessNodes = bpmnDoc.getElementsByTagName("process");
+            if (bpmnProcessNodes.getLength() > 0) {
+                modelType = "Process";
+            } else {
+                NodeList bpmnCollaborationNodes = bpmnDoc.getElementsByTagName("collaboration");
+                if (bpmnCollaborationNodes.getLength() > 0) {
+                    modelType = "Collaboration";
+                } else {
+                    NodeList bpmnChoreographyNodes = bpmnDoc.getElementsByTagName("bpmn2:choreography");
+                    if (bpmnChoreographyNodes.getLength() > 0) {
+                        modelType = "Choreography";
+                    } else {
+                        NodeList bpmnConversationNodes = bpmnDoc.getElementsByTagName("conversation");
+                        if (bpmnConversationNodes.getLength() > 0) {
+                            modelType = "Conversation";
+                        }
+                    }
+                }
+            }
+        return modelType;
+    }
+
     @DeleteMapping("/deleteAllFiles")
     public String deleteAllFiles() throws IOException {
         File folder = new File(UPLOADED_FOLDER);
@@ -174,7 +220,6 @@ public class UploadController {
 
 
     private boolean validateFile(File file) throws SAXException {
-
 
         // Directory contenente i file BPMN da convalidare
         File bpmnDir = new File("./src/main/resources/bpmnModels/");

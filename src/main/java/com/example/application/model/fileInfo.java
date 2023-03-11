@@ -5,12 +5,14 @@ public class fileInfo {
     private long size;
     private boolean isValid;
     private boolean isDuplicated;
+    private String modelType;
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated) {
+    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType) {
         this.name = name;
         this.size = size;
         this.isValid = isValid;
         this.isDuplicated = isDuplicated;
+        this.modelType = modelType;
     }
 
     public String getName() {
@@ -42,4 +44,10 @@ public class fileInfo {
     }
 
     public void setisDuplicated(boolean isDuplicated) {this.isDuplicated = isDuplicated;}
+
+    public String getModelType() {
+        return modelType;
+    }
+
+    public void setModelType(String modelType) {this.modelType = modelType;}
 }
