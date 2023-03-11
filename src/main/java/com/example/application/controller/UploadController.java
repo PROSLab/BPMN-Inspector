@@ -74,7 +74,6 @@ public class UploadController {
             } catch (IOException | ParserConfigurationException e) {
                 throw new RuntimeException(e);
             }
-
             fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType));
             System.out.println(modelType);
 
@@ -194,7 +193,7 @@ public class UploadController {
                     if (bpmnChoreographyNodes.getLength() > 0) {
                         modelType = "Choreography";
                     } else {
-                        NodeList bpmnConversationNodes = bpmnDoc.getElementsByTagName("conversation");
+                        NodeList bpmnConversationNodes = bpmnDoc.getElementsByTagName("bpmn2:conversation");
                         if (bpmnConversationNodes.getLength() > 0) {
                             modelType = "Conversation";
                         }
