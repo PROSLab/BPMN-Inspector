@@ -1,11 +1,14 @@
 package com.example.application.model;
 
+import java.util.Map;
+
 public class fileInfo {
     private String name;
     private long size;
     private boolean isValid;
     private boolean isDuplicated;
     private String modelType;
+    private Map<String, Integer> elementMap;
     int nTaskNoneLoopNoneCompensateNoneCallNone=0;
     int nTaskNoneLoopNoneCompensateNoneCall=0;
     int nTaskNoneLoopNoneCompensateCallNone=0;
@@ -299,6 +302,7 @@ public class fileInfo {
     int nGroup=0;
     int nTextAnnotation=0;
     int TotalElements=0;
+
     public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType) {
         this.name = name;
         this.size = size;
@@ -307,442 +311,13 @@ public class fileInfo {
         this.modelType = modelType;
     }
 
-    public fileInfo(String name,String modelType,int nTaskNoneLoopNoneCompensateNoneCallNone, int nTaskNoneLoopNoneCompensateNoneCall, int nTaskNoneLoopNoneCompensateCallNone, int nTaskNoneLoopNoneCompensateCall, int nTaskNoneLoopStandardCompensateNoneCallNone, int nTaskNoneLoopStandardCompensateNoneCall,
-                    int nTaskNoneLoopStandardCompensateCallNone, int nTaskNoneLoopStandardCompensateCall, int nTaskNoneLoopMIParallelCompensateNoneCallNone, int nTaskNoneLoopMIParallelCompensateNoneCall,
-                    int nTaskNoneLoopMIParallelCompensateCallNone, int nTaskNoneLoopMIParallelCompensateCall, int nTaskNoneLoopMISequentialCompensateNoneCallNone, int nTaskNoneLoopMISequentialCompensateNoneCall, int nTaskNoneLoopMISequentialCompensateCallNone,
-                    int nTaskNoneLoopMISequentialCompensateCall, int nTaskSendLoopNoneCompensateNone, int nTaskSendLoopNoneCompensate, int nTaskSendLoopStandardCompensateNone, int nTaskSendLoopStandardCompensate,
-                    int nTaskSendLoopMIParallelCompensateNone, int nTaskSendLoopMIParallelCompensate, int nTaskSendLoopMISequentialCompensateNone, int nTaskSendLoopMISequentialCompensate, int nTaskReceiveLoopNoneCompensateNone,
-                    int nTaskReceiveLoopNoneCompensate, int nTaskReceiveLoopStandardCompensateNone, int nTaskReceiveLoopStandardCompensate, int nTaskReceiveLoopMIParallelCompensateNone, int nTaskReceiveLoopMIParallelCompensate,
-                    int nTaskReceiveLoopMISequentialCompensateNone, int nTaskReceiveLoopMISequentialCompensate, int nTaskUserLoopNoneCompensateNone, int nTaskUserLoopNoneCompensate, int nTaskUserLoopStandardCompensateNone,
-                    int nTaskUserLoopStandardCompensate, int nTaskUserLoopMIParallelCompensateNone, int nTaskUserLoopMIParallelCompensate, int nTaskUserLoopMISequentialCompensateNone, int nTaskUserLoopMISequentialCompensate,
-                    int nTaskManualLoopNoneCompensateNone, int nTaskManualLoopNoneCompensate, int nTaskManualLoopStandardCompensateNone, int nTaskManualLoopStandardCompensate, int nTaskManualLoopMIParallelCompensateNone,
-                    int nTaskManualLoopMIParallelCompensate, int nTaskManualLoopMISequentialCompensateNone, int nTaskManualLoopMISequentialCompensate, int nTaskBusinessRuleLoopNoneCompensateNone, int nTaskBusinessRuleLoopNoneCompensate,
-                    int nTaskBusinessRuleLoopStandardCompensateNone, int nTaskBusinessRuleLoopStandardCompensate, int nTaskBusinessRuleLoopMIParallelCompensateNone, int nTaskBusinessRuleLoopMIParallelCompensate,
-                    int nTaskBusinessRuleLoopMISequentialCompensateNone, int nTaskBusinessRuleLoopMISequentialCompensate, int nTaskServiceLoopNoneCompensateNone, int nTaskServiceLoopNoneCompensate, int nTaskServiceLoopStandardCompensateNone,
-                    int nTaskServiceLoopStandardCompensate, int nTaskServiceLoopMIParallelCompensateNone, int nTaskServiceLoopMIParallelCompensate, int nTaskServiceLoopMISequentialCompensateNone, int nTaskServiceLoopMISequentialCompensate,
-                    int nTaskScriptLoopNoneCompensateNone, int nTaskScriptLoopNoneCompensate, int nTaskScriptLoopStandardCompensateNone, int nTaskScriptLoopStandardCompensate, int nTaskScriptLoopMIParallelCompensateNone,
-                    int nTaskScriptLoopMIParallelCompensate, int nTaskScriptLoopMISequentialCompensateNone, int nTaskScriptLoopMISequentialCompensate, int nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopNoneCompensateNone, int nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopNoneCompensate, int nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopStandardCompensateNone, int nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopStandardCompensate, int nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensateNone,
-                    int nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensate, int nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensateNone, int nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensate,
-                    int nSubProcessExtendedEventNoneAdHocLoopNoneCompensateNone, int nSubProcessExtendedEventNoneAdHocLoopNoneCompensate, int nSubProcessExtendedEventNoneAdHocLoopStandardCompensateNone, int nSubProcessExtendedEventNoneAdHocLoopStandardCompensate, int nSubProcessExtendedEventNoneAdHocLoopMIParallelCompensateNone,
-                    int nSubProcessExtendedEventNoneAdHocLoopMIParallelCompensate, int nSubProcessExtendedEventNoneAdHocLoopMISequentialCompensateNone, int nSubProcessExtendedEventNoneAdHocLoopMISequentialCompensate, int nSubProcessExtendedEventNoneTransactionLoopNoneCompensateNone,
-                    int nSubProcessExtendedEventNoneTransactionLoopNoneCompensate, int nSubProcessExtendedEventNoneTransactionLoopStandardCompensateNone, int nSubProcessExtendedEventNoneTransactionLoopStandardCompensate, int nSubProcessExtendedEventNoneTransactionLoopMIParallelCompensateNone, int nSubProcessExtendedEventNoneTransactionLoopMIParallelCompensate, int nSubProcessExtendedEventNoneTransactionLoopMISequentialCompensateNone,
-                    int nSubProcessExtendedEventNoneTransactionLoopMISequentialCompensate, int nSubProcessExtendedEventLoopNoneCompensateNone, int nSubProcessExtendedEventLoopNoneCompensate, int nSubProcessExtendedEventLoopStandardCompensateNone, int nSubProcessExtendedEventLoopStandardCompensate, int nSubProcessExtendedEventLoopMIParallelCompensateNone, int nSubProcessExtendedEventLoopMIParallelCompensate,
-                    int nSubProcessExtendedEventLoopMISequentialCompensateNone, int nSubProcessExtendedEventLoopMISequentialCompensate, int nSubProcessExtendedEventAdHocLoopNoneCompensateNone, int nSubProcessExtendedEventAdHocLoopNoneCompensate, int nSubProcessExtendedEventAdHocLoopStandardCompensateNone,
-                    int nSubProcessExtendedEventAdHocLoopStandardCompensate,
-                    int nSubProcessExtendedEventAdHocLoopMIParallelCompensateNone,
-                    int nSubProcessExtendedEventAdHocLoopMIParallelCompensate,
-                    int nSubProcessExtendedEventAdHocLoopMISequentialCompensateNone,
-                    int nSubProcessExtendedEventAdHocLoopMISequentialCompensate,
-                    int nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopNoneCompensateNone,
-                    int nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopNoneCompensate,
-                    int nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopStandardCompensateNone,
-                    int nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopStandardCompensate,
-                    int nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensateNone,
-                    int nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensate,
-                    int nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensateNone,
-                    int nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensate,
-                    int nSubProcessCollapsedEventNoneAdHocLoopNoneCompensateNone,
-                    int nSubProcessCollapsedEventNoneAdHocLoopNoneCompensate,
-                    int nSubProcessCollapsedEventNoneAdHocLoopStandardCompensateNone,
-                    int nSubProcessCollapsedEventNoneAdHocLoopStandardCompensate,
-                    int nSubProcessCollapsedEventNoneAdHocLoopMIParallelCompensateNone,
-                    int nSubProcessCollapsedEventNoneAdHocLoopMIParallelCompensate,
-                    int nSubProcessCollapsedEventNoneAdHocLoopMISequentialCompensateNone,
-                    int nSubProcessCollapsedEventNoneAdHocLoopMISequentialCompensate,
-                    int nSubProcessCollapsedEventNoneTransactionLoopNoneCompensateNone,
-                    int nSubProcessCollapsedEventNoneTransactionLoopNoneCompensate,
-                    int nSubProcessCollapsedEventNoneTransactionLoopStandardCompensateNone,
-                    int nSubProcessCollapsedEventNoneTransactionLoopStandardCompensate,
-                    int nSubProcessCollapsedEventNoneTransactionLoopMIParallelCompensateNone,
-                    int nSubProcessCollapsedEventNoneTransactionLoopMIParallelCompensate,
-                    int nSubProcessCollapsedEventNoneTransactionLoopMISequentialCompensateNone,
-                    int nSubProcessCollapsedEventNoneTransactionLoopMISequentialCompensate,
-                    int nSubProcessCollapsedEventLoopNoneCompensateNone,
-                    int nSubProcessCollapsedEventLoopNoneCompensate,
-                    int nSubProcessCollapsedEventLoopStandardCompensateNone,
-                    int nSubProcessCollapsedEventLoopStandardCompensate,
-                    int nSubProcessCollapsedEventLoopMIParallelCompensateNone,
-                    int nSubProcessCollapsedEventLoopMIParallelCompensate,
-                    int nSubProcessCollapsedEventLoopMISequentialCompensateNone,
-                    int nSubProcessCollapsedEventLoopMISequentialCompensate,
-                    int nSubProcessCollapsedEventAdHocLoopNoneCompensateNone,
-                    int nSubProcessCollapsedEventAdHocLoopNoneCompensate,
-                    int nSubProcessCollapsedEventAdHocLoopStandardCompensateNone,
-                    int nSubProcessCollapsedEventAdHocLoopStandardCompensate,
-                    int nSubProcessCollapsedEventAdHocLoopMIParallelCompensateNone,
-                    int nSubProcessCollapsedEventAdHocLoopMIParallelCompensate,
-                    int nSubProcessCollapsedEventAdHocLoopMISequentialCompensateNone,
-                    int nSubProcessCollapsedEventAdHocLoopMISequentialCompensate,
-                    int nDataObject,
-                    int nDataObjectCollection,
-                    int nDataStore,
-                    int nDataInput,
-                    int nDataOutput,
-                    int nMessage,
-                    int nExclusiveGatewayNoMarker,
-                    int nExclusiveGatewayMarker,
-                    int nParallelGateway,
-                    int nInclusiveGateway,
-                    int nEventBasedGateway,
-                    int nEventBasedGatewayExclusiveInstantiation,
-                    int nEventBasedGatewayParallelInstantiation,
-                    int nComplexGateway,
-                    int nStartMultipleParallelEventDefinition,
-                    int nStartMultipleEventDefinition,
-                    int nStartNoneEventDefinition,
-                    int nStartSignalEventDefinition,
-                    int nStartConditionalEventDefinition,
-                    int nStartTimerEventDefinition,
-                    int nStartMessageEventDefinition,
-                    int nStartMessageEventSubProcessInterruptingDefinition,
-                    int nStartTimerEventSubProcessInterruptingDefinition,
-                    int nStartEscalationEventSubProcessInterruptingDefinition,
-                    int nStartConditionalEventSubProcessInterruptingDefinition,
-                    int nStartErrorEventSubProcessInterruptingDefinition,
-                    int nStartCompensateEventSubProcessInterruptingDefinition,
-                    int nStartSignalEventSubProcessInterruptingDefinition,
-                    int nStartMultipleEventSubProcessInterruptingDefinition,
-                    int nStartMultipleParallelEventSubProcessInterruptingDefinition,
-                    int nStartMessageEventSubProcessNonInterruptingDefinition,
-                    int nStartTimerEventSubProcessNonInterruptingDefinition,
-                    int nStartEscalationEventSubProcessNonInterruptingDefinition,
-                    int nStartConditionalEventSubProcessNonInterruptingDefinition,
-                    int nStartSignalEventSubProcessNonInterruptingDefinition,
-                    int nStartMultipleParallelEventSubProcessNonInterruptingDefinition,
-                    int nStartMultipleEventSubProcessNonInterruptingDefinition,
-                    int nEndNoneEventDefinition,
-                    int nEndMultipleEventDefinition ,
-                    int nEndEscalationEventDefinition,
-                    int nEndErrorEventDefinition,
-                    int nEndSignalEventDefinition,
-                    int nEndCompensateEventDefinition,
-                    int nEndCancelEventDefinition,
-                    int nEndMessageEventDefinition,
-                    int nEndTerminateEventDefinition,
-                    int nIntermediateCatchMultipleEventDefinition,
-                    int nIntermediateCatchMultipleParallelEventDefinition,
-                    int nIntermediateCatchMessageEventDefinition,
-                    int nIntermediateCatchTimerEventDefinition,
-                    int nIntermediateCatchConditionalEventDefinition,
-                    int nIntermediateCatchLinkEventDefinition,
-                    int nIntermediateCatchSignalEventDefinition,
-                    int nIntermediateThrowNoneEventDefinition,
-                    int nIntermediateThrowMessageEventDefinition,
-                    int nIntermediateThrowEscalationEventDefinition,
-                    int nIntermediateThrowLinkEventDefinition,
-                    int nIntermediateThrowSignalEventDefinition,
-                    int nIntermediateThrowCompensateEventDefinition,
-                    int nIntermediateThrowMultipleEventDefinition,
-                    int nIntermediateBoundaryMessageEvent,
-                    int nIntermediateBoundaryTimerEvent,
-                    int nIntermediateBoundaryCancelEvent,
-                    int nIntermediateBoundaryConditionalEvent ,
-                    int nIntermediateBoundaryEscalationEvent,
-                    int nIntermediateBoundaryErrorEvent,
-                    int nIntermediateBoundarySignalEvent,
-                    int nIntermediateBoundaryCompensateEvent,
-                    int nIntermediateBoundaryMultipleEvent,
-                    int nIntermediateBoundaryMultipleParallelEvent,
-                    int nIntermediateBoundaryTimerEventNonInterrupting,
-                    int nIntermediateBoundaryEscalationEventNonInterrupting,
-                    int nIntermediateBoundaryConditionalEventNonInterrupting,
-                    int nIntermediateBoundaryMessageEventNonInterrupting,
-                    int nIntermediateBoundarySignalEventNonInterrupting,
-                    int nIntermediateBoundaryMultipleEventNonInterrupting,
-                    int nIntermediateBoundaryMultipleParallelEventNonInterrupting,
-                    int nMessageFlow,
-                    int nSequenceFlow,
-                    int nDefaultFlow,
-                    int nConditionalFlow,
-                    int nLane,
-                    int nPoolCollapsedMultiplicityNone,
-                    int nPoolCollapsedMultiplicity,
-                    int nPoolExpandedMultiplicityNone,
-                    int nPoolExpandedMultiplicity,
-                    int nChoreographyTask,
-                    int nChoreographyTaskSequentialMultipleInstance,
-                    int nChoreographyTaskParallelMultipleInstance,
-                    int nChoreographyTaskLoop,
-                    int nChoreographySubprocessCollapsed,
-                    int nChoreographySubprocessCollapsedParallelMultipleInstance,
-                    int nChoreographySubprocessCollapsedSequentialMultipleInstance,
-                    int nChoreographySubprocessCollapsedLoop,
-                    int nChoreographySubprocessCollapsedCall,
-                    int nChoreographySubprocessCollapsedCallSequentialMultipleInstance,
-                    int nChoreographySubprocessCollapsedCallParallelMultipleInstance,
-                    int nChoreographySubprocessCollapsedCallLoop,
-                    int nChoreographySubprocessExpanded, int nChoreographySubprocessExpandedSequentialMultipleInstance, int nChoreographySubprocessExpandedParallelMultipleInstance, int nChoreographySubprocessExpandedLoop, int nChoreographyParticipant, int nChoreographyParticipantMultiple, int nChoreographyMessage, int nConversationNone, int nConversationSubProcess, int nConversationCall, int nConversationLink, int nAssociationUndirected, int nAssociationUnidirectional, int nAssociationBidirectional, int nAssociationDataOutput, int nAssociationDataInput, int nGroup, int nTextAnnotation, int TotalElements) {
+    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, Map<String, Integer> elementMap) {
         this.name = name;
+        this.size = size;
+        this.isValid = isValid;
+        this.isDuplicated = isDuplicated;
         this.modelType = modelType;
-        this.nTaskNoneLoopNoneCompensateNoneCallNone=this.nTaskNoneLoopNoneCompensateNoneCallNone;
-        this.nTaskNoneLoopNoneCompensateNoneCall=this.nTaskNoneLoopNoneCompensateNoneCall;
-        this.nTaskNoneLoopNoneCompensateCallNone=0;
-        this.nTaskNoneLoopNoneCompensateCall=0;
-        this.nTaskNoneLoopStandardCompensateNoneCallNone=0;
-        this.nTaskNoneLoopStandardCompensateNoneCall=0;
-        this.nTaskNoneLoopStandardCompensateCallNone=0;
-        this.nTaskNoneLoopStandardCompensateCall=0;
-        this.nTaskNoneLoopMIParallelCompensateNoneCallNone=0;
-        this.nTaskNoneLoopMIParallelCompensateNoneCall=0;
-        this.nTaskNoneLoopMIParallelCompensateCallNone=0;
-        this.nTaskNoneLoopMIParallelCompensateCall=0;
-        this.nTaskNoneLoopMISequentialCompensateNoneCallNone=0;
-        this.nTaskNoneLoopMISequentialCompensateNoneCall=0;
-        this.nTaskNoneLoopMISequentialCompensateCallNone=0;
-        this.nTaskNoneLoopMISequentialCompensateCall=0;
-        this.nTaskSendLoopNoneCompensateNone=0;
-        this.nTaskSendLoopNoneCompensate=0;
-        this.nTaskSendLoopStandardCompensateNone=0;
-        this.nTaskSendLoopStandardCompensate=0;
-        this.nTaskSendLoopMIParallelCompensateNone=0;
-        this.nTaskSendLoopMIParallelCompensate=0;
-        this.nTaskSendLoopMISequentialCompensateNone=0;
-        this.nTaskSendLoopMISequentialCompensate=0;
-        this.nTaskReceiveLoopNoneCompensateNone=0;
-        this.nTaskReceiveLoopNoneCompensate=0;
-        this.nTaskReceiveLoopStandardCompensateNone=0;
-        this.nTaskReceiveLoopStandardCompensate=0;
-        this.nTaskReceiveLoopMIParallelCompensateNone=0;
-        this.nTaskReceiveLoopMIParallelCompensate=0;
-        this.nTaskReceiveLoopMISequentialCompensateNone=0;
-        this.nTaskReceiveLoopMISequentialCompensate=0;
-        this.nTaskUserLoopNoneCompensateNone=0;
-        this.nTaskUserLoopNoneCompensate=0;
-        this.nTaskUserLoopStandardCompensateNone=0;
-        this.nTaskUserLoopStandardCompensate=0;
-        this.nTaskUserLoopMIParallelCompensateNone=0;
-        this.nTaskUserLoopMIParallelCompensate=0;
-        this.nTaskUserLoopMISequentialCompensateNone=0;
-        this.nTaskUserLoopMISequentialCompensate=0;
-        this.nTaskManualLoopNoneCompensateNone=0;
-        this.nTaskManualLoopNoneCompensate=0;
-        this.nTaskManualLoopStandardCompensateNone=0;
-        this.nTaskManualLoopStandardCompensate=0;
-        this.nTaskManualLoopMIParallelCompensateNone=0;
-        this.nTaskManualLoopMIParallelCompensate=0;
-        this.nTaskManualLoopMISequentialCompensateNone=0;
-        this.nTaskManualLoopMISequentialCompensate=0;
-        this.nTaskBusinessRuleLoopNoneCompensateNone=0;
-        this.nTaskBusinessRuleLoopNoneCompensate=0;
-        this.nTaskBusinessRuleLoopStandardCompensateNone=0;
-        this.nTaskBusinessRuleLoopStandardCompensate=0;
-        this.nTaskBusinessRuleLoopMIParallelCompensateNone=0;
-        this.nTaskBusinessRuleLoopMIParallelCompensate=0;
-        this.nTaskBusinessRuleLoopMISequentialCompensateNone=0;
-        this.nTaskBusinessRuleLoopMISequentialCompensate=0;
-        this.nTaskServiceLoopNoneCompensateNone=0;
-        this.nTaskServiceLoopNoneCompensate=0;
-        this.nTaskServiceLoopStandardCompensateNone=0;
-        this.nTaskServiceLoopStandardCompensate=0;
-        this.nTaskServiceLoopMIParallelCompensateNone=0;
-        this.nTaskServiceLoopMIParallelCompensate=0;
-        this.nTaskServiceLoopMISequentialCompensateNone=0;
-        this.nTaskServiceLoopMISequentialCompensate=0;
-        this.nTaskScriptLoopNoneCompensateNone=0;
-        this.nTaskScriptLoopNoneCompensate=0;
-        this.nTaskScriptLoopStandardCompensateNone=0;
-        this.nTaskScriptLoopStandardCompensate=0;
-        this.nTaskScriptLoopMIParallelCompensateNone=0;
-        this.nTaskScriptLoopMIParallelCompensate=0;
-        this.nTaskScriptLoopMISequentialCompensateNone=0;
-        this.nTaskScriptLoopMISequentialCompensate=0;
-        this.nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopNoneCompensateNone=0;
-        this.nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopNoneCompensate=0;
-        this.nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopStandardCompensateNone=0;
-        this.nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopStandardCompensate=0;
-        this.nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensateNone=0;
-        this.nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensate=0;
-        this.nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensateNone=0;
-        this.nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensate=0;
-        this.nSubProcessExtendedEventNoneAdHocLoopNoneCompensateNone=0;
-        this.nSubProcessExtendedEventNoneAdHocLoopNoneCompensate=0;
-        this.nSubProcessExtendedEventNoneAdHocLoopStandardCompensateNone=0;
-        this.nSubProcessExtendedEventNoneAdHocLoopStandardCompensate=0;
-        this.nSubProcessExtendedEventNoneAdHocLoopMIParallelCompensateNone=0;
-        this.nSubProcessExtendedEventNoneAdHocLoopMIParallelCompensate=0;
-        this.nSubProcessExtendedEventNoneAdHocLoopMISequentialCompensateNone=0;
-        this.nSubProcessExtendedEventNoneAdHocLoopMISequentialCompensate=0;
-        this.nSubProcessExtendedEventNoneTransactionLoopNoneCompensateNone=0;
-        this.nSubProcessExtendedEventNoneTransactionLoopNoneCompensate=0;
-        this.nSubProcessExtendedEventNoneTransactionLoopStandardCompensateNone=0;
-        this.nSubProcessExtendedEventNoneTransactionLoopStandardCompensate=0;
-        this.nSubProcessExtendedEventNoneTransactionLoopMIParallelCompensateNone=0;
-        this.nSubProcessExtendedEventNoneTransactionLoopMIParallelCompensate=0;
-        this.nSubProcessExtendedEventNoneTransactionLoopMISequentialCompensateNone=0;
-        this.nSubProcessExtendedEventNoneTransactionLoopMISequentialCompensate=0;
-        this.nSubProcessExtendedEventLoopNoneCompensateNone= 0;
-        this.nSubProcessExtendedEventLoopNoneCompensate= 0;
-        this.nSubProcessExtendedEventLoopStandardCompensateNone= 0;
-        this.nSubProcessExtendedEventLoopStandardCompensate= 0;
-        this.nSubProcessExtendedEventLoopMIParallelCompensateNone= 0;
-        this.nSubProcessExtendedEventLoopMIParallelCompensate= 0;
-        this.nSubProcessExtendedEventLoopMISequentialCompensateNone= 0;
-        this.nSubProcessExtendedEventLoopMISequentialCompensate= 0;
-        this.nSubProcessExtendedEventAdHocLoopNoneCompensateNone=0;
-        this.nSubProcessExtendedEventAdHocLoopNoneCompensate=0;
-        this.nSubProcessExtendedEventAdHocLoopStandardCompensateNone=0;
-        this.nSubProcessExtendedEventAdHocLoopStandardCompensate=0;
-        this.nSubProcessExtendedEventAdHocLoopMIParallelCompensateNone=0;
-        this.nSubProcessExtendedEventAdHocLoopMIParallelCompensate=0;
-        this.nSubProcessExtendedEventAdHocLoopMISequentialCompensateNone=0;
-        this.nSubProcessExtendedEventAdHocLoopMISequentialCompensate=0;
-        this.nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopNoneCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopNoneCompensate=0;
-        this.nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopStandardCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopStandardCompensate=0;
-        this.nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensate=0;
-        this.nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensate=0;
-        this.nSubProcessCollapsedEventNoneAdHocLoopNoneCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneAdHocLoopNoneCompensate=0;
-        this.nSubProcessCollapsedEventNoneAdHocLoopStandardCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneAdHocLoopStandardCompensate=0;
-        this.nSubProcessCollapsedEventNoneAdHocLoopMIParallelCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneAdHocLoopMIParallelCompensate=0;
-        this.nSubProcessCollapsedEventNoneAdHocLoopMISequentialCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneAdHocLoopMISequentialCompensate=0;
-        this.nSubProcessCollapsedEventNoneTransactionLoopNoneCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneTransactionLoopNoneCompensate=0;
-        this.nSubProcessCollapsedEventNoneTransactionLoopStandardCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneTransactionLoopStandardCompensate=0;
-        this.nSubProcessCollapsedEventNoneTransactionLoopMIParallelCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneTransactionLoopMIParallelCompensate=0;
-        this.nSubProcessCollapsedEventNoneTransactionLoopMISequentialCompensateNone=0;
-        this.nSubProcessCollapsedEventNoneTransactionLoopMISequentialCompensate=0;
-        this.nSubProcessCollapsedEventLoopNoneCompensateNone= 0;
-        this.nSubProcessCollapsedEventLoopNoneCompensate= 0;
-        this.nSubProcessCollapsedEventLoopStandardCompensateNone= 0;
-        this.nSubProcessCollapsedEventLoopStandardCompensate= 0;
-        this.nSubProcessCollapsedEventLoopMIParallelCompensateNone= 0;
-        this.nSubProcessCollapsedEventLoopMIParallelCompensate= 0;
-        this.nSubProcessCollapsedEventLoopMISequentialCompensateNone= 0;
-        this.nSubProcessCollapsedEventLoopMISequentialCompensate= 0;
-        this.nSubProcessCollapsedEventAdHocLoopNoneCompensateNone=0;
-        this.nSubProcessCollapsedEventAdHocLoopNoneCompensate=0;
-        this.nSubProcessCollapsedEventAdHocLoopStandardCompensateNone=0;
-        this.nSubProcessCollapsedEventAdHocLoopStandardCompensate=0;
-        this.nSubProcessCollapsedEventAdHocLoopMIParallelCompensateNone=0;
-        this.nSubProcessCollapsedEventAdHocLoopMIParallelCompensate=0;
-        this.nSubProcessCollapsedEventAdHocLoopMISequentialCompensateNone=0;
-        this.nSubProcessCollapsedEventAdHocLoopMISequentialCompensate=0;
-        this.nDataObject=0;
-        this.nDataObjectCollection=0;
-        this.nDataStore=0;
-        this.nDataInput=0;
-        this.nDataOutput=0;
-        this.nMessage=0;
-        this.nExclusiveGatewayNoMarker=0;
-        this.nExclusiveGatewayMarker=0;
-        this.nParallelGateway=0;
-        this.nInclusiveGateway=0;
-        this.nEventBasedGateway=0;
-        this.nEventBasedGatewayExclusiveInstantiation=0;
-        this.nEventBasedGatewayParallelInstantiation=0;
-        this.nComplexGateway=0;
-        this.nStartMultipleParallelEventDefinition=0;
-        this.nStartMultipleEventDefinition=0;
-        this.nStartNoneEventDefinition=0;
-        this.nStartSignalEventDefinition=0;
-        this.nStartConditionalEventDefinition=0;
-        this.nStartTimerEventDefinition=0;
-        this.nStartMessageEventDefinition=0;
-        this.nStartMessageEventSubProcessInterruptingDefinition=0;
-        this.nStartTimerEventSubProcessInterruptingDefinition=0;
-        this.nStartEscalationEventSubProcessInterruptingDefinition=0;
-        this.nStartConditionalEventSubProcessInterruptingDefinition=0;
-        this.nStartErrorEventSubProcessInterruptingDefinition=0;
-        this.nStartCompensateEventSubProcessInterruptingDefinition=0;
-        this.nStartSignalEventSubProcessInterruptingDefinition=0;
-        this.nStartMultipleEventSubProcessInterruptingDefinition=0;
-        this.nStartMultipleParallelEventSubProcessInterruptingDefinition=0;
-        this.nStartMessageEventSubProcessNonInterruptingDefinition=0;
-        this.nStartTimerEventSubProcessNonInterruptingDefinition=0;
-        this.nStartEscalationEventSubProcessNonInterruptingDefinition=0;
-        this.nStartConditionalEventSubProcessNonInterruptingDefinition=0;
-        this.nStartSignalEventSubProcessNonInterruptingDefinition=0;
-        this.nStartMultipleParallelEventSubProcessNonInterruptingDefinition=0;
-        this.nStartMultipleEventSubProcessNonInterruptingDefinition=0;
-        this.nEndNoneEventDefinition = 0;
-        this.nEndMultipleEventDefinition = 0;
-        this.nEndEscalationEventDefinition= 0;
-        this.nEndErrorEventDefinition= 0;
-        this.nEndSignalEventDefinition=  0;
-        this.nEndCompensateEventDefinition=  0;
-        this.nEndCancelEventDefinition=  0;
-        this.nEndMessageEventDefinition=  0;
-        this.nEndTerminateEventDefinition=  0;
-        this.nIntermediateCatchMultipleEventDefinition=0;
-        this.nIntermediateCatchMultipleParallelEventDefinition=0;
-        this.nIntermediateCatchMessageEventDefinition=0;
-        this.nIntermediateCatchTimerEventDefinition=0;
-        this.nIntermediateCatchConditionalEventDefinition=0;
-        this.nIntermediateCatchLinkEventDefinition=0;
-        this.nIntermediateCatchSignalEventDefinition=0;
-        this.nIntermediateThrowNoneEventDefinition=0;
-        this.nIntermediateThrowMessageEventDefinition=0;
-        this.nIntermediateThrowEscalationEventDefinition=0;
-        this.nIntermediateThrowLinkEventDefinition=0;
-        this.nIntermediateThrowSignalEventDefinition=0;
-        this.nIntermediateThrowCompensateEventDefinition=0;
-        this.nIntermediateThrowMultipleEventDefinition=0;
-        this.nIntermediateBoundaryMessageEvent=0;
-        this.nIntermediateBoundaryTimerEvent=0;
-        this.nIntermediateBoundaryCancelEvent=0;
-        this.nIntermediateBoundaryConditionalEvent =0;
-        this.nIntermediateBoundaryEscalationEvent=0;
-        this.nIntermediateBoundaryErrorEvent=0;
-        this.nIntermediateBoundarySignalEvent=0;
-        this.nIntermediateBoundaryCompensateEvent=0;
-        this.nIntermediateBoundaryMultipleEvent=0;
-        this.nIntermediateBoundaryMultipleParallelEvent=0;
-        this.nIntermediateBoundaryTimerEventNonInterrupting=0;
-        this.nIntermediateBoundaryEscalationEventNonInterrupting=0;
-        this.nIntermediateBoundaryConditionalEventNonInterrupting=0;
-        this.nIntermediateBoundaryMessageEventNonInterrupting=0;
-        this.nIntermediateBoundarySignalEventNonInterrupting=0;
-        this.nIntermediateBoundaryMultipleEventNonInterrupting=0;
-        this.nIntermediateBoundaryMultipleParallelEventNonInterrupting=0;
-        this.nMessageFlow=0;
-        this.nSequenceFlow=0;
-        this.nDefaultFlow=0;
-        this.nConditionalFlow=0;
-        this.nLane=0;
-        this.nPoolCollapsedMultiplicityNone=0;
-        this.nPoolCollapsedMultiplicity=0;
-        this.nPoolExpandedMultiplicityNone=0;
-        this.nPoolExpandedMultiplicity=0;
-        this.nChoreographyTask=0;
-        this.nChoreographyTaskSequentialMultipleInstance=0;
-        this.nChoreographyTaskParallelMultipleInstance=0;
-        this.nChoreographyTaskLoop=0;
-        this.nChoreographySubprocessCollapsed=0;
-        this.nChoreographySubprocessCollapsedParallelMultipleInstance=0;
-        this.nChoreographySubprocessCollapsedSequentialMultipleInstance=0;
-        this.nChoreographySubprocessCollapsedLoop=0;
-        this.nChoreographySubprocessCollapsedCall=0;
-        this.nChoreographySubprocessCollapsedCallSequentialMultipleInstance=0;
-        this.nChoreographySubprocessCollapsedCallParallelMultipleInstance=0;
-        this.nChoreographySubprocessCollapsedCallLoop=0;
-        this.nChoreographySubprocessExpanded=0;
-        this.nChoreographySubprocessExpandedSequentialMultipleInstance=0;
-        this.nChoreographySubprocessExpandedParallelMultipleInstance=0;
-        this.nChoreographySubprocessExpandedLoop=0;
-        this.nChoreographyParticipant=0;
-        this.nChoreographyParticipantMultiple=0;
-        this.nChoreographyMessage=0;
-        this.nConversationNone=0;
-        this.nConversationSubProcess=0;
-        this.nConversationCall=0;
-        this.nConversationLink=0;
-        this.nAssociationUndirected=0;
-        this.nAssociationUnidirectional=0;
-        this.nAssociationBidirectional=0;
-        this.nAssociationDataOutput=0;
-        this.nAssociationDataInput=0;
-        this.nGroup=0;
-        this.nTextAnnotation=0;
-        this.TotalElements=0;
+        this.elementMap = elementMap;
     }
 
     public String getName() {
@@ -781,10 +356,12 @@ public class fileInfo {
 
     public void setModelType(String modelType) {this.modelType = modelType;}
 
-    public int getnTaskNoneLoopNoneCompensateNoneCallNone() {
-        return nTaskNoneLoopNoneCompensateNoneCallNone;
+    public Map<String, Integer> getElementMap() {
+        return elementMap;
     }
 
-    public void setnTaskNoneLoopNoneCompensateNoneCallNone(int nTaskNoneLoopNoneCompensateNoneCallNone) {this.nTaskNoneLoopNoneCompensateNoneCallNone = nTaskNoneLoopNoneCompensateNoneCallNone;}
+    public void setElementMap(Map<String, Integer> elementMap) {
+        this.elementMap = elementMap;
+    }
 
 }
