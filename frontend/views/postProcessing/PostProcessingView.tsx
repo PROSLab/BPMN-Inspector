@@ -13,6 +13,7 @@ import {BsDiagram2} from "react-icons/bs";
 import {loader} from "react-global-loader";
 import {GiConfirmed} from "react-icons/gi";
 import {AiFillExclamationCircle} from "react-icons/ai";
+import {resolve} from "chart.js/helpers";
 
 interface filesInfoFiltered {
     name: string;
@@ -45,15 +46,34 @@ export default function PostProcessingView() {
     useEffect(() => {
         loader.show();
         axios({
-            method: "get",
+            method: "post",
             url: "/files",
-            headers: { "Content-Type": 'text/event-stream'},
-            data: filteringArray,
+            data: data,
         }).then((response) => {
             setFilesInfo(response.data);
+            console.log(response.data)
             loader.hide();
         });
     }, []);
+
+    async function deleteFiles() {
+        try {
+            await axios.delete('/deleteAllFiles');
+            toast.success('All files deleted successfully!', {
+                position: "bottom-left",
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            window.location.href = '/';
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const totalDuplicated = filesInfo.reduce((counts, file) => {
         if (file.isDuplicated) {
@@ -427,22 +447,5 @@ export default function PostProcessingView() {
     );
 }
 
-async function deleteFiles() {
-    try {
-        await axios.delete('/deleteAllFiles');
-        toast.success('All files deleted successfully!', {
-            position: "bottom-right",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-        });
-    } catch (error) {
 
-        console.error(error);
-    }
-}
 

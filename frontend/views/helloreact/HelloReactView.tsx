@@ -32,6 +32,8 @@ export default function HelloReactView() {
     const [show, setShow] = useState(true)
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
     let selectedFile: any = null;
+
+
     const filterCollection = () => {
 
         const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
@@ -41,6 +43,7 @@ export default function HelloReactView() {
                 filteringArray.push(checkbox.value);
             }
         });
+
 
         axios({
             method: "post",
@@ -72,14 +75,15 @@ export default function HelloReactView() {
         }
 
         useEffect(() => {
+
             loader.show();
             axios({
-                method: "get",
+                method: "post",
                 url: "/files",
                 data: filteringArray,
-                headers: { "Content-Type": 'text/event-stream'}
             }).then((response) => {
                 setFilesInfo(response.data);
+                console.log(response.data)
                 loader.hide();
             });
         }, []);

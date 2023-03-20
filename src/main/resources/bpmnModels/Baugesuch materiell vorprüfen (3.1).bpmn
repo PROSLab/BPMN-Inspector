@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="14.7.1" expressionLanguage="http://www.w3.org/TR/XPath" id="sid-f67a8115-8a52-49b1-9a43-f140c160268e" targetNamespace="http://www.signavio.com" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+   <collaboration id="sid-a122a1a4-3515-4f79-a86b-b6950e0a52db">
+      <extensionElements>
+         <signavio:signavioDiagramMetaData metaKey="processowner" metaValue="Markus Hofmann, Leiter Ressort Baugesuche"/>
+         <signavio:signavioDiagramMetaData metaKey="processgoal" metaValue="Baugesuch (soweit möglich) auf die Einhaltung der gesetzlichen Bestimmungen vorprüfen als Grundlage für die Vernehmlassung."/>
+         <signavio:signavioDiagramMetaData metaKey="revisionid" metaValue="6bc56da972e5431fac32c079847f2c58"/>
+      </extensionElements>
+      <participant id="sid-A464A0A9-AE22-4712-9B50-BABDD5940378" name="Städtebau (SBA) Baugesuche (BG) Sachbearbeiter/in (SB)" processRef="sid-1D0F9880-16B7-4FD4-A7D1-3CA4311EEB7A">
+         <extensionElements>
+            <signavio:signavioDictionaryLink propertyId="name">
+               <signavio:dictionaryLink>/glossary/b71b3f0e13be48559555efbaf16abf06</signavio:dictionaryLink>
+            </signavio:signavioDictionaryLink>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+      </participant>
+      <participant id="sid-100189E2-2EF2-46D6-AD65-FD1A553A64FE" name="Städtebau (SBA) Zentrale Dienste (ZD) Sachbearbeiter/in (SB)">
+         <extensionElements>
+            <signavio:signavioDictionaryLink propertyId="name">
+               <signavio:dictionaryLink>/glossary/0a091ebd8b4048d4b5dfa3c018e0cf5e</signavio:dictionaryLink>
+            </signavio:signavioDictionaryLink>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+      </participant>
+      <participant id="sid-BE7B7E5B-6384-4E95-A8F5-4EB8DA1226F5" name="Gesuchsteller Baugesuch">
+         <extensionElements>
+            <signavio:signavioDictionaryLink propertyId="name">
+               <signavio:dictionaryLink>/glossary/82e2ddca2a7f4d08a95ad1809c9f6861</signavio:dictionaryLink>
+            </signavio:signavioDictionaryLink>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+      </participant>
+      <messageFlow id="sid-9736A8C4-1B71-4C00-B440-4D540072BB75" name="Einforderung" sourceRef="sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF" targetRef="sid-BE7B7E5B-6384-4E95-A8F5-4EB8DA1226F5">
+         <extensionElements>
+            <signavio:signavioLabel align="right" bold="" distance="8.80849" fill="" fontFamily="" fontSize="" from="0" italic="" orientation="ur" ref="text_name" to="1" valign="top" x="353.80848956481174" y="151.99999999999997"/>
+         </extensionElements>
+      </messageFlow>
+      <messageFlow id="sid-A615539B-C8CD-4124-B0EB-3808523DAFE4" name="Unterlagen" sourceRef="sid-BE7B7E5B-6384-4E95-A8F5-4EB8DA1226F5" targetRef="sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF">
+         <extensionElements>
+            <signavio:signavioLabel align="left" bold="" distance="7.858177" fill="" fontFamily="" fontSize="" from="0" italic="" orientation="ul" ref="text_name" to="1" valign="top" x="387.141822898145" y="148.0"/>
+         </extensionElements>
+      </messageFlow>
+      <messageFlow id="sid-53BF8AB2-5F23-4BD9-AD0F-A080366F2575" name="Eröffnungsmeldung&#10;Baugesuchverfahren" sourceRef="sid-100189E2-2EF2-46D6-AD65-FD1A553A64FE" targetRef="sid-DBBAAFD2-731B-477E-9E44-4D53A3DB4E83">
+         <extensionElements>
+            <signavio:signavioLabel align="center" bold="" distance="-3.7581935" fill="" fontFamily="" fontSize="" from="0" italic="" ref="text_name" to="1" valign="middle" x="188.24180645701168" y="517.5"/>
+         </extensionElements>
+      </messageFlow>
+   </collaboration>
+   <process id="sid-1D0F9880-16B7-4FD4-A7D1-3CA4311EEB7A" isClosed="false" isExecutable="false" name="Städtebau (SBA) Baugesuche (BG) Sachbearbeiter/in (SB)" processType="None">
+      <extensionElements/>
+      <laneSet id="sid-dafaf56a-2cc8-4134-8067-b1cb39234d75">
+         <lane id="sid-D1FA6D8A-1F97-42EF-84EC-B6C5649A0271">
+            <extensionElements>
+               <signavio:signavioMetaData metaKey="bgcolor" metaValue=""/>
+            </extensionElements>
+            <flowNodeRef>sid-DBBAAFD2-731B-477E-9E44-4D53A3DB4E83</flowNodeRef>
+            <flowNodeRef>sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF</flowNodeRef>
+            <flowNodeRef>sid-83EA4A81-010A-498C-953C-C5E093048A22</flowNodeRef>
+            <flowNodeRef>sid-D23C23CF-D603-478F-874D-022C51DEC55E</flowNodeRef>
+         </lane>
+      </laneSet>
+      <startEvent id="sid-DBBAAFD2-731B-477E-9E44-4D53A3DB4E83" isInterrupting="true" name="Baugesuch als &#10;eröffnet gemeldet">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+            <signavio:signavioMetaData metaKey="viaitsystem" metaValue=""/>
+         </extensionElements>
+         <outgoing>sid-230F1B1E-FAD5-4988-B943-5A5D6C48DAA5</outgoing>
+         <messageEventDefinition id="sid-f70b6493-e27c-430b-98c5-5dc73b4b66f1"/>
+      </startEvent>
+      <manualTask completionQuantity="1" id="sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF" isForCompensation="false" name="Baugesuch auf Einhaltung gesetzlicher Bestimmungen vorprüfen" startQuantity="1">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
+            <signavio:signavioMetaData metaKey="risklevel" metaValue=""/>
+            <signavio:signavioMetaData metaKey="externaldocuments" metaValue="[]"/>
+         </extensionElements>
+         <incoming>sid-230F1B1E-FAD5-4988-B943-5A5D6C48DAA5</incoming>
+         <outgoing>sid-B2CDB7B5-6955-4006-8C0A-40AC165F46F8</outgoing>
+      </manualTask>
+      <task completionQuantity="1" id="sid-83EA4A81-010A-498C-953C-C5E093048A22" isForCompensation="false" name="Prüfungsergebnis festhalten" startQuantity="1">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
+            <signavio:signavioMetaData metaKey="risklevel" metaValue=""/>
+            <signavio:signavioMetaData metaKey="externaldocuments" metaValue="[]"/>
+         </extensionElements>
+         <incoming>sid-B2CDB7B5-6955-4006-8C0A-40AC165F46F8</incoming>
+         <outgoing>sid-FDEC5999-4E2A-41D5-A1E5-C198C6CDA3ED</outgoing>
+      </task>
+      <endEvent id="sid-D23C23CF-D603-478F-874D-022C51DEC55E" name="Baugesuch &#10;materiell &#10;vorgeprüft">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+         <incoming>sid-FDEC5999-4E2A-41D5-A1E5-C198C6CDA3ED</incoming>
+      </endEvent>
+      <sequenceFlow id="sid-230F1B1E-FAD5-4988-B943-5A5D6C48DAA5" isImmediate="true" name="" sourceRef="sid-DBBAAFD2-731B-477E-9E44-4D53A3DB4E83" targetRef="sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF"/>
+      <sequenceFlow id="sid-B2CDB7B5-6955-4006-8C0A-40AC165F46F8" isImmediate="true" name="" sourceRef="sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF" targetRef="sid-83EA4A81-010A-498C-953C-C5E093048A22"/>
+      <sequenceFlow id="sid-FDEC5999-4E2A-41D5-A1E5-C198C6CDA3ED" isImmediate="true" name="" sourceRef="sid-83EA4A81-010A-498C-953C-C5E093048A22" targetRef="sid-D23C23CF-D603-478F-874D-022C51DEC55E"/>
+      <association associationDirection="None" id="sid-822B50B1-7427-4C9E-9B3E-8F58EC4551D7" sourceRef="sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF" targetRef="sid-A1705CE9-2A58-43FB-A9F1-36881138B31E"/>
+      <association associationDirection="None" id="sid-DF9AD0AE-9114-4945-967E-6ACB85336221" sourceRef="sid-83EA4A81-010A-498C-953C-C5E093048A22" targetRef="sid-405DDDDA-7933-4F2C-BF1F-FC96B56EE696"/>
+      <association associationDirection="None" id="sid-6844B79B-6892-4966-88FB-ABF36B666DBA" sourceRef="sid-AC461699-7A2A-48A1-9CD4-881E80C71875" targetRef="sid-A615539B-C8CD-4124-B0EB-3808523DAFE4"/>
+      <association associationDirection="None" id="sid-EBB66352-D18D-4115-A95C-7AC4C88CB1B4" sourceRef="sid-AC461699-7A2A-48A1-9CD4-881E80C71875" targetRef="sid-9736A8C4-1B71-4C00-B440-4D540072BB75"/>
+      <textAnnotation id="sid-A1705CE9-2A58-43FB-A9F1-36881138B31E" signavio:alignment="left" textFormat="text/plain">
+         <text>Input aus Prüfblatt und Grundsatzendscheiden</text>
+      </textAnnotation>
+      <textAnnotation id="sid-405DDDDA-7933-4F2C-BF1F-FC96B56EE696" signavio:alignment="left" textFormat="text/plain">
+         <text>Prüfungsergebnis im Geschäftsdossier festhalten</text>
+      </textAnnotation>
+      <textAnnotation id="sid-AC461699-7A2A-48A1-9CD4-881E80C71875" signavio:alignment="left" textFormat="text/plain">
+         <text>Fehlende oder falsch eingereichte Unterlagen oder Pläne korrigieren</text>
+      </textAnnotation>
+   </process>
+   <bpmndi:BPMNDiagram documentation="                                                  Kunden&#10;    Alle  externen Personen (natürliche Person) und/oder Organisation (juristische  Person) welche ein besonderes Interesse an der Prüfung des Baugesuches haben  und die Vernehmlassungsstellen &#10;    &#10;Kundenanforderungen&#10;    Materielle Vorprüfung  des Baugesuches gemäss den gesetzlichen Bestimmungenen aus der Sicht des  Ressort Baugesuche&#10; &#10;    Menge/Periodizität&#10;    350 bis 400  Baugesuche pro Jahr&#10;  80 bis 100 Reklamegesuche pro Jahr &#10;    Prozesskennzahlen  (KPI)&#10; &#10;Rechtsgrundlagen  / Rahmenbedingungen &#10;    Bau- und Zonenreglement der Stadt Luzern / Littau (BZR)&#10;Reglement und Verordnung über die Nutzung des öffentlichen Grundes (RNöG, VNöG)&#10;Planungs- und Baugesetz des Kantons Luzern (PBG)&#10;Planungs- und Bauverordnung des Kantons Luzern (PBV)&#10;Reklameverordnung des Kantons Luzern (RV)&#10;weitere für die Auskunft relevante gesetzliche Bestimmungen&#10;  " id="sid-437448cd-7daa-4de2-80f9-b2164715a834">
+      <bpmndi:BPMNPlane bpmnElement="sid-a122a1a4-3515-4f79-a86b-b6950e0a52db" id="sid-c84a2254-b642-473a-961c-a6e847cfbb27">
+         <bpmndi:BPMNShape bpmnElement="sid-A464A0A9-AE22-4712-9B50-BABDD5940378" id="sid-A464A0A9-AE22-4712-9B50-BABDD5940378_gui" isHorizontal="true">
+            <omgdc:Bounds height="250.0" width="744.0342252958208" x="60.0" y="226.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-50a583f3-ca9a-4600-ab4c-fc1f7af52856">
+               <omgdc:Bounds height="191.3142852783203" width="24.000000000000043" x="58.999999999999986" y="255.34285736083984"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-100189E2-2EF2-46D6-AD65-FD1A553A64FE" id="sid-100189E2-2EF2-46D6-AD65-FD1A553A64FE_gui" isHorizontal="true">
+            <omgdc:Bounds height="59.999999999999886" width="739.1742272045915" x="64.85999809122916" y="584.9149852070267"/>
+            <bpmndi:BPMNLabel labelStyle="sid-50a583f3-ca9a-4600-ab4c-fc1f7af52856">
+               <omgdc:Bounds height="20.0" width="570.8570861816406" x="149.01846061564322" y="601.9149852070267"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-BE7B7E5B-6384-4E95-A8F5-4EB8DA1226F5" id="sid-BE7B7E5B-6384-4E95-A8F5-4EB8DA1226F5_gui" isHorizontal="true">
+            <omgdc:Bounds height="60.0" width="741.0342252958208" x="63.0" y="43.292507396486656"/>
+            <bpmndi:BPMNLabel labelStyle="sid-50a583f3-ca9a-4600-ab4c-fc1f7af52856">
+               <omgdc:Bounds height="20.0" width="226.28573608398438" x="320.37413024902344" y="60.292507396486656"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-D1FA6D8A-1F97-42EF-84EC-B6C5649A0271" id="sid-D1FA6D8A-1F97-42EF-84EC-B6C5649A0271_gui" isHorizontal="true">
+            <omgdc:Bounds height="250.0" width="714.0342252958208" x="90.0" y="226.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-DBBAAFD2-731B-477E-9E44-4D53A3DB4E83" id="sid-DBBAAFD2-731B-477E-9E44-4D53A3DB4E83_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="173.24180645701168" y="353.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-92bb63e5-4a95-4cbd-b2d7-afa2c4ecd74a">
+               <omgdc:Bounds height="22.0" width="88.39286041259766" x="144.04537625071285" y="385.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF" id="sid-2A91A67F-5FF3-4677-A4DF-45354E93C3DF_gui">
+            <omgdc:Bounds height="80.0" width="99.99999999999989" x="320.4751562314784" y="328.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-50a583f3-ca9a-4600-ab4c-fc1f7af52856">
+               <omgdc:Bounds height="60.0" width="81.0" x="329.9751562314784" y="336.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-83EA4A81-010A-498C-953C-C5E093048A22" id="sid-83EA4A81-010A-498C-953C-C5E093048A22_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="497.7085060059452" y="328.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-50a583f3-ca9a-4600-ab4c-fc1f7af52856">
+               <omgdc:Bounds height="24.0" width="86.39999389648438" x="504.508509057703" y="354.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-D23C23CF-D603-478F-874D-022C51DEC55E" id="sid-D23C23CF-D603-478F-874D-022C51DEC55E_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="693.0876891137455" y="353.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-92bb63e5-4a95-4cbd-b2d7-afa2c4ecd74a">
+               <omgdc:Bounds height="33.0" width="54.44999694824219" x="679.8626906396244" y="383.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-A1705CE9-2A58-43FB-A9F1-36881138B31E" id="sid-A1705CE9-2A58-43FB-A9F1-36881138B31E_gui">
+            <omgdc:Bounds height="50.0" width="99.99999999999994" x="446.329322898145" y="250.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-405DDDDA-7933-4F2C-BF1F-FC96B56EE696" id="sid-405DDDDA-7933-4F2C-BF1F-FC96B56EE696_gui">
+            <omgdc:Bounds height="50.0" width="122.0" x="624.6626562314782" y="250.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-AC461699-7A2A-48A1-9CD4-881E80C71875" id="sid-AC461699-7A2A-48A1-9CD4-881E80C71875_gui">
+            <omgdc:Bounds height="50.0" width="184.37918310780037" x="537.7085060059451" y="114.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNEdge bpmnElement="sid-230F1B1E-FAD5-4988-B943-5A5D6C48DAA5" id="sid-230F1B1E-FAD5-4988-B943-5A5D6C48DAA5_gui">
+            <omgdi:waypoint x="203.24180645701168" y="368.0"/>
+            <omgdi:waypoint x="320.4751562314784" y="368.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-B2CDB7B5-6955-4006-8C0A-40AC165F46F8" id="sid-B2CDB7B5-6955-4006-8C0A-40AC165F46F8_gui">
+            <omgdi:waypoint x="420.47515623147837" y="368.0"/>
+            <omgdi:waypoint x="497.7085060059452" y="368.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-FDEC5999-4E2A-41D5-A1E5-C198C6CDA3ED" id="sid-FDEC5999-4E2A-41D5-A1E5-C198C6CDA3ED_gui">
+            <omgdi:waypoint x="597.7085060059452" y="368.0"/>
+            <omgdi:waypoint x="693.0876891137455" y="368.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-822B50B1-7427-4C9E-9B3E-8F58EC4551D7" id="sid-822B50B1-7427-4C9E-9B3E-8F58EC4551D7_gui">
+            <omgdi:waypoint x="403.1790569406982" y="328.0"/>
+            <omgdi:waypoint x="446.329322898145" y="275.22309568988885"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-DF9AD0AE-9114-4945-967E-6ACB85336221" id="sid-DF9AD0AE-9114-4945-967E-6ACB85336221_gui">
+            <omgdi:waypoint x="580.9741018465976" y="328.0"/>
+            <omgdi:waypoint x="624.6626562314782" y="275.4669810886226"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-9736A8C4-1B71-4C00-B440-4D540072BB75" id="sid-9736A8C4-1B71-4C00-B440-4D540072BB75_gui">
+            <omgdi:waypoint x="353.80848956481174" y="328.0"/>
+            <omgdi:waypoint x="353.80848956481174" y="103.29250739648663"/>
+            <bpmndi:BPMNLabel labelStyle="sid-63b75a60-ca6c-4ce0-87b8-21512e7a3d63">
+               <omgdc:Bounds height="12.0" width="70.20001220703125" x="274.79998779296875" y="152.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-6844B79B-6892-4966-88FB-ABF36B666DBA" id="sid-6844B79B-6892-4966-88FB-ABF36B666DBA_gui">
+            <omgdi:waypoint x="537.7085060059451" y="137.77316157496747"/>
+            <omgdi:waypoint x="387.141822898145" y="103.61885231642486"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-A615539B-C8CD-4124-B0EB-3808523DAFE4" id="sid-A615539B-C8CD-4124-B0EB-3808523DAFE4_gui">
+            <omgdi:waypoint x="387.141822898145" y="103.29250739648666"/>
+            <omgdi:waypoint x="387.141822898145" y="328.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-63b75a60-ca6c-4ce0-87b8-21512e7a3d63">
+               <omgdc:Bounds height="12.0" width="58.628570556640625" x="395.0" y="148.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-EBB66352-D18D-4115-A95C-7AC4C88CB1B4" id="sid-EBB66352-D18D-4115-A95C-7AC4C88CB1B4_gui">
+            <omgdi:waypoint x="537.7085060059451" y="138.9864637784945"/>
+            <omgdi:waypoint x="353.80848956481174" y="320.3971688622189"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-53BF8AB2-5F23-4BD9-AD0F-A080366F2575" id="sid-53BF8AB2-5F23-4BD9-AD0F-A080366F2575_gui">
+            <omgdi:waypoint x="188.24180645701168" y="584.9149852070267"/>
+            <omgdi:waypoint x="188.24180645701168" y="383.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-63b75a60-ca6c-4ce0-87b8-21512e7a3d63">
+               <omgdc:Bounds height="24.0" width="111.08572387695312" x="136.45713806152344" y="503.5"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+      <bpmndi:BPMNLabelStyle id="sid-92bb63e5-4a95-4cbd-b2d7-afa2c4ecd74a">
+         <omgdc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="11.0"/>
+      </bpmndi:BPMNLabelStyle>
+      <bpmndi:BPMNLabelStyle id="sid-50a583f3-ca9a-4600-ab4c-fc1f7af52856">
+         <omgdc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="12.0"/>
+      </bpmndi:BPMNLabelStyle>
+      <bpmndi:BPMNLabelStyle id="sid-63b75a60-ca6c-4ce0-87b8-21512e7a3d63">
+         <omgdc:Font isBold="false" isItalic="false"/>
+      </bpmndi:BPMNLabelStyle>
+   </bpmndi:BPMNDiagram>
+</definitions>
