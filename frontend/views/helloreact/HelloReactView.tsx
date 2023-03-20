@@ -147,7 +147,7 @@ export default function HelloReactView() {
         }, { totalDuplicated: 0});
 
         const {totalProcess,totalChoreography,totalConversation} = filesInfo.reduce((counts, file) => {
-            if (file.modelType === "Process") {
+            if (file.modelType === "Process Collaboration") {
                 counts.totalProcess++;
             }
             if (file.modelType === "Choreography") {

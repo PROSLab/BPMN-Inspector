@@ -41,7 +41,7 @@ export default function PostProcessingView() {
         isDuplicated: boolean;
     }
 
-    console.log(filesInfo)
+    console.log(data)
 
     useEffect(() => {
         loader.show();
@@ -177,9 +177,9 @@ export default function PostProcessingView() {
                         <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold"}}>BPMN Element Combined use</a>
                         <div style={{display:'flex'}}>
 
-                            <ChartVenn />
-                            <ChartVenn />
-                            <ChartVenn />
+                            <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
+                            <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
+                            <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
 
                         </div>
                     </div>
@@ -189,8 +189,8 @@ export default function PostProcessingView() {
                         <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold"}}>BPMN Syntactic Validation</a>
                         <div style={{display:'flex'}}>
 
-                            <BarChart ></BarChart>
-                            <PieChart></PieChart>
+                            <BarChart options={{responsive:false, height: '20%', width:'30%',maintainAspectRatio:false}}></BarChart>
+                            <PieChart ></PieChart>
 
 
                         </div>

@@ -1,15 +1,16 @@
 import React from "react";
 import Chart from "chart.js/auto";
-import { Pie } from "react-chartjs-2";
+import {Line, Pie} from "react-chartjs-2";
 const labels = ["January", "February", "March", "April", "May", "June"];
+
 const data = {
     labels: labels,
     datasets: [
         {
             label: "My First dataset",
             data: [0, 10, 5, 2, 20, 30, 45],
-            width:"49%",
-            height:"50%",
+            width:"30%",
+            height:"20%",
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -30,18 +31,23 @@ const data = {
     ],
 };
 
-const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    height: '60%',
-    width: '30%',
+interface options {
+    responsive: boolean,
+    maintainAspectRatio: boolean,
+    height: string,
+    width: string,
 };
 
-const PieChart = () => {
+interface Props {
+    options?: options;
+    data?: any;
+}
+
+const PieChart : React.FC<Props> = (props:Props) => {
+    const {options} = props;
     return (
-        <div>
             <Pie data={data} options={options}/>
-        </div>
     );
 };
 export default PieChart;
+

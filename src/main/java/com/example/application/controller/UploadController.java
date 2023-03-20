@@ -79,6 +79,7 @@ public class UploadController {
 
             fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType));
         });
+
         try {
             getFilteredFiles(data, fileInfos);
         } catch (IOException e) {
