@@ -11,9 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
+
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+
 import java.util.*;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,6 +36,7 @@ public class UploadController {
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src/main/resources/bpmnModels/";
     private List<String> validModelFiles = new ArrayList<>();
+
     @GetMapping("/files")
     public List<fileInfo> getFiles() throws IOException {
 
@@ -54,8 +55,9 @@ public class UploadController {
                 if (duplicates.contains(file.getName())) {
                     isDuplicated = true;
                 } else {
-                    isDuplicated = false;// verifica se il file è duplicato
+                    isDuplicated = false;
                 }
+
                 if (isValid) {
                     validModelFiles.add(file.getName());
                 }
@@ -74,14 +76,76 @@ public class UploadController {
             } catch (IOException | ParserConfigurationException e) {
                 throw new RuntimeException(e);
             }
+
             fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType));
-            System.out.println(modelType);
-
         });
+        try {
+            String[] filteringArray = new String[1];
+            //filteringArray[0] = "invalid";
+            getFilteredFiles(filteringArray, fileInfos);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        return fileInfos;
+        List<fileInfo> newFileInfoFiltered = new ArrayList<>();
+        for (fileInfo fileInfo : fileInfos) {
+            if(fileInfo.elementMap !=  null){
+                newFileInfoFiltered.add(fileInfo);
+            }
+        }
+        return newFileInfoFiltered;
     }
 
+    private void getFilteredFiles(String[] filteringArray, List<fileInfo> fileInfos) throws IOException {
+        List<fileInfo> filteredFileInfos = new ArrayList<>(fileInfos);
+
+        if (Arrays.asList(filteringArray).contains("invalid")) {
+            filteredFileInfos.removeIf(fileInfo -> !fileInfo.isValid);
+        }
+        if (Arrays.asList(filteringArray).contains("duplicated")) {
+            filteredFileInfos.removeIf(fileInfo -> fileInfo.isDuplicated);
+        }
+
+        String[] elementNotation = {"nTaskNoneLoopNoneCompensateNoneCallNone",
+                "nTaskNoneLoopNoneCompensateNoneCall",
+                "nTaskNoneLoopNoneCompensateCallNone"};
+
+        HashMap<String, Integer> elementCount = new HashMap<>();
+        for (String element : elementNotation) {
+            elementCount.put(element, 0);
+        }
+
+        for (fileInfo fileInfo : filteredFileInfos) {
+            fileInfo.setElementMap(elementCount);
+        }
+    }
+
+
+    private String extractModelType(File file) throws SAXException, IOException, ParserConfigurationException {
+        // replace with the path to your .bpmn or .xml file
+            String modelType = "Undefined";
+
+            // check if the typeLanguage is BPMN
+            File bpmnFile = new File(file.toURI());
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            Document bpmnDoc = dbFactory.newDocumentBuilder().parse(bpmnFile);
+
+            NodeList bpmnProcessNodes = bpmnDoc.getElementsByTagName("process");
+            if (bpmnProcessNodes.getLength() > 0) {
+                modelType = "Process Collaboration";
+            } else {
+                    NodeList bpmnChoreographyNodes = bpmnDoc.getElementsByTagName("bpmn2:choreography");
+                    if (bpmnChoreographyNodes.getLength() > 0) {
+                        modelType = "Choreography";
+                    } else {
+                        NodeList bpmnConversationNodes = bpmnDoc.getElementsByTagName("bpmn2:conversation");
+                        if (bpmnConversationNodes.getLength() > 0) {
+                            modelType = "Conversation";
+                        }
+                    }
+                }
+        return modelType;
+    }
     private List<String> getDuplicateFiles() throws IOException {
         Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
         // Array per tenere traccia dei nomi dei file duplicati
@@ -100,10 +164,10 @@ public class UploadController {
 
                         // Controlla se il file ha la stessa dimensione e lo stesso contenuto dei file già processati
                         if (!fileSizes.containsKey(fileSize) || !Arrays.equals(fileContent, Files.readAllBytes(fileSizes.get(fileSize)))) {
-                             fileSizes.put(fileSize, path);
+                            fileSizes.put(fileSize, path);
                         } else {
                             duplicateFileNames.add(path.getFileName().toString());
-                             // Aggiungi la coppia chiave-valore alla mappa se il file non è duplicato
+                            // Aggiungi la coppia chiave-valore alla mappa se il file non è duplicato
                         }
 
                     } catch (IOException e) {
@@ -153,7 +217,7 @@ public class UploadController {
                     }
                     zis.close();
 
-                     } else {
+                } else {
 
                     // Get the file and save it somewhere
                     byte[] bytes = file.getBytes();
@@ -166,43 +230,10 @@ public class UploadController {
         }
         return "File uploaded successfully";
     }
-
     private String getFileExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
         return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
     }
-
-    private String extractModelType(File file) throws SAXException, IOException, ParserConfigurationException {
-        // replace with the path to your .bpmn or .xml file
-            String modelType = "Undefined";
-
-            // check if the typeLanguage is BPMN
-            File bpmnFile = new File(file.toURI());
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            Document bpmnDoc = dbFactory.newDocumentBuilder().parse(bpmnFile);
-
-            NodeList bpmnProcessNodes = bpmnDoc.getElementsByTagName("process");
-            if (bpmnProcessNodes.getLength() > 0) {
-                modelType = "Process";
-            } else {
-                NodeList bpmnCollaborationNodes = bpmnDoc.getElementsByTagName("collaboration");
-                if (bpmnCollaborationNodes.getLength() > 0) {
-                    modelType = "Collaboration";
-                } else {
-                    NodeList bpmnChoreographyNodes = bpmnDoc.getElementsByTagName("bpmn2:choreography");
-                    if (bpmnChoreographyNodes.getLength() > 0) {
-                        modelType = "Choreography";
-                    } else {
-                        NodeList bpmnConversationNodes = bpmnDoc.getElementsByTagName("bpmn2:conversation");
-                        if (bpmnConversationNodes.getLength() > 0) {
-                            modelType = "Conversation";
-                        }
-                    }
-                }
-            }
-        return modelType;
-    }
-
     @DeleteMapping("/deleteAllFiles")
     public String deleteAllFiles() throws IOException {
         File folder = new File(UPLOADED_FOLDER);
@@ -215,9 +246,6 @@ public class UploadController {
         }
         return "All files deleted successfully";
     }
-
-
-
     private boolean validateFile(File file) throws SAXException {
 
         // Directory contenente i file BPMN da convalidare
@@ -285,7 +313,6 @@ public class UploadController {
         }
         return isValid;
     }
-
     @GetMapping("/download-validation-report")
     public ResponseEntity<Resource> downloadValidationReport() throws IOException {
         String fileName = "validationOutput.csv";
@@ -299,7 +326,6 @@ public class UploadController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
-
     @PostMapping("/download-filtered-models")
     public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException {
         if (filteringArray == null || filteringArray.length == 0) {
@@ -488,30 +514,4 @@ public class UploadController {
         }
         return null;
     }
-
-    @PostMapping(value="/postProcessingView")
-    public String processFilteredModels(@RequestBody String[] filteringArray, Model model) throws IOException {
-        model.addAttribute("data", Arrays.asList(filteringArray));
-
-        //Inspect models without invalid and duplicated
-        if(filteringArray.length == 2){
-
-        } else if (filteringArray.length == 1) {
-            //Inspect models without invalids only
-            if(filteringArray[0] == "invalid"){
-
-            }
-            //Inspect models without duplicates only
-            else{
-
-            }
-
-        }
-        //Inspect all models
-        else{
-
-        }
-        return "postProcessingView";
-    }
-
 }

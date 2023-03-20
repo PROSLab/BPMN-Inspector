@@ -13,14 +13,23 @@ import {BsDiagram2} from "react-icons/bs";
 import {loader} from "react-global-loader";
 import {GiConfirmed} from "react-icons/gi";
 import {AiFillExclamationCircle} from "react-icons/ai";
+
+interface filesInfoFiltered {
+    name: string;
+    size: number;
+    isValid: boolean;
+    isDuplicated: boolean;
+}
+
 export default function PostProcessingView() {
     const [activeTab, setActiveTab] = useState('bpmn-element-usage');
     const location = useLocation()
+    const filteringArray: string[] = [];
     const {data} = location.state
     Chart.register(...registerables);
-    console.log(data)
 
     const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
+    const [filesInfoFiltered, setFilesInfoFiltered] = useState<Array<filesInfoFiltered>>([]);
     const [showAllFiles, setShowAllFiles] = useState<boolean>(false);
     let displayButton = filesInfo.length > 1;
     let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
@@ -30,13 +39,16 @@ export default function PostProcessingView() {
         isValid: boolean;
         isDuplicated: boolean;
     }
+
     console.log(filesInfo)
+
     useEffect(() => {
         loader.show();
         axios({
             method: "get",
             url: "/files",
-            headers: { "Content-Type": 'text/event-stream'}
+            headers: { "Content-Type": 'text/event-stream'},
+            data: filteringArray,
         }).then((response) => {
             setFilesInfo(response.data);
             loader.hide();
@@ -135,7 +147,7 @@ export default function PostProcessingView() {
                                     <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold", display: "block"}}>1. BPMN Collection's Model Size</a>
                                     <a>This is a graph of the average model size of the collection</a>
                                 </div>
-                                <LineChart options={{responsive:true, height: '100%', width:'100%',maintainAspectRatio:false}}/>
+                                <LineChart options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             </div>
                         </div>
                     </div>
