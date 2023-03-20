@@ -94,7 +94,6 @@ public class UploadController {
         }
         return newFileInfoFiltered;
     }
-
     private void getFilteredFiles(String[] filteringArray, List<fileInfo> fileInfos) throws IOException {
         List<fileInfo> filteredFileInfos = new ArrayList<>(fileInfos);
 
@@ -377,12 +376,15 @@ public class UploadController {
 
         HashMap<String, Integer> elementCount = new HashMap<>();
         for (String element : elementNotation) {
-            elementCount.put(element, 0);
+            int random =  (int)(Math.random()*100);
+            System.out.println(random);
+            elementCount.put(element, random);
         }
 
         for (fileInfo fileInfo : filteredFileInfos) {
             fileInfo.setElementMap(elementCount);
         }
+
     }
     private String extractModelType(File file) throws SAXException, IOException, ParserConfigurationException {
         // replace with the path to your .bpmn or .xml file

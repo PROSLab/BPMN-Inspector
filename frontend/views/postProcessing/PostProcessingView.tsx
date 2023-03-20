@@ -14,6 +14,7 @@ import {loader} from "react-global-loader";
 import {GiConfirmed} from "react-icons/gi";
 import {AiFillExclamationCircle} from "react-icons/ai";
 import {resolve} from "chart.js/helpers";
+import {GrDocumentCsv} from "react-icons/gr";
 
 interface filesInfoFiltered {
     name: string;
@@ -104,6 +105,7 @@ export default function PostProcessingView() {
         }
 
     return (
+
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold"}}>BPMN models inspected</a>
             <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>
@@ -434,12 +436,9 @@ export default function PostProcessingView() {
                                 <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
                             }
 
-
                     </div>
                 )}
                </div>
-
-
 
             <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Reset"/>
 
