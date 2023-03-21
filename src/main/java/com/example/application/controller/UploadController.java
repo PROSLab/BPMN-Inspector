@@ -11,9 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
-
+import java.io.File;
+import java.util.HashMap;
 import java.util.*;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -377,7 +377,6 @@ public class UploadController {
         HashMap<String, Integer> elementCount = new HashMap<>();
         for (String element : elementNotation) {
             int random =  (int)(Math.random()*100);
-            System.out.println(random);
             elementCount.put(element, random);
         }
 

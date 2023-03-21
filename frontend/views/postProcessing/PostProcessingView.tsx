@@ -5,6 +5,7 @@ import "./postCss.css";
 import {toast} from "react-toastify";
 import LineChart from "Frontend/components/charts/LineChart";
 import { Chart, registerables } from 'chart.js';
+import '@vaadin/vaadin-lumo-styles/badge.js'
 import BarChart from "Frontend/components/charts/BarChart";
 import PieChart from "Frontend/components/charts/PieChart";
 // @ts-ignore
@@ -36,6 +37,7 @@ export default function PostProcessingView() {
     let displayButton = filesInfo.length > 1;
     let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
     interface filesInfo {
+        modelType: string;
         name: string;
         size: number;
         isValid: boolean;
@@ -76,6 +78,19 @@ export default function PostProcessingView() {
         }
     }
 
+    const {totalProcess,totalChoreography,totalConversation} = filesInfo.reduce((counts, file) => {
+        if (file.modelType === "Process Collaboration") {
+            counts.totalProcess++;
+        }
+        if (file.modelType === "Choreography") {
+            counts.totalChoreography++;
+        }
+        if (file.modelType === "Conversation") {
+            counts.totalConversation++;
+        }
+        return counts;
+    }, { totalProcess: 0, totalChoreography: 0, totalConversation: 0});
+    
     const totalDuplicated = filesInfo.reduce((counts, file) => {
         if (file.isDuplicated) {
             counts.totalDuplicated++;
@@ -107,18 +122,23 @@ export default function PostProcessingView() {
     return (
 
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-            <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold"}}>BPMN models inspected</a>
+            <a style={{fontSize:'40px',color:'black',fontWeight:"bold"}}>BPMN Models inspected</a>
             <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>
-                <a style={{color:'green',fontWeight:"bold"}}>{total}</a> models have been inspected. Models discarded:
+                <a style={{color:'green',fontWeight:"bold"}}>{total}</a> models have been inspected. <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection inspected is composed by the following process types: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}.</a></a>
+
+                <br></br> <a style={{marginRight:'10px'}}>Active filters:</a>
                 {data[0] || data[1] ? (
                     <>
-                        {data[0] && <a style={{fontWeight:"bold"}}>{ data[0]}</a>}
+
+                        {data[0] && <span className='badge bg-success'>{"   "+data[0]}</span>}
                         {data[0] && data[1] && " "}
-                        {data[1] && <a style={{fontWeight:"bold"}}>{ data[1]}</a>}
+                        {data[1] && <span className='badge bg-success'>{data[1]}</span>}
+
                     </>
                 ) : (
-                    "none"
+                    <span className='badge bg-secondary'>No filter</span>
                 )}
+
             </a>
 
             <ul className="nav nav-tabs nav-fill">
@@ -162,17 +182,13 @@ export default function PostProcessingView() {
 
             <div className="tab-content">
                 {activeTab === 'bpmn-element-usage' && (
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-12">
+                            <div className="col">
                                 <div>
                                     <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold", display: "block"}}>1. BPMN Collection's Model Size</a>
                                     <a>This is a graph of the average model size of the collection</a>
                                 </div>
-                                <LineChart options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
+                                <LineChart options={{responsive:false, height: '10%', width:'50%',maintainAspectRatio:false}}/>
                             </div>
-                        </div>
-                    </div>
                 )}
                 {activeTab === 'bpmn-element-combined-use' && (
                     <div>

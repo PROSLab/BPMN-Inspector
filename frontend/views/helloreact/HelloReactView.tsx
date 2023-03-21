@@ -13,7 +13,6 @@ import {BsDiagram2} from "react-icons/bs";
 import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
 import {HiDocumentSearch} from "react-icons/hi";
 import '@polymer/polymer/lib/elements/custom-style.js';
-import '@vaadin/vaadin-lumo-styles/badge.js';
 import '@polymer/polymer/lib/elements/custom-style.js';
 import {CheckboxGroup} from "@hilla/react-components/CheckboxGroup.js";
 import {Link, RouterProvider} from "react-router-dom";
