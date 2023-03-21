@@ -41,6 +41,8 @@ export default function PostProcessingView() {
         name: string;
         size: number;
         isValid: boolean;
+
+        isEnglish: string;
         isDuplicated: boolean;
     }
 

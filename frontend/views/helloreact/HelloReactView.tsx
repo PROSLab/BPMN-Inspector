@@ -70,6 +70,7 @@ export default function HelloReactView() {
             size: number;
             isValid: boolean;
             isDuplicated: boolean;
+            isEnglish: string;
             modelType: string
         }
 
@@ -189,23 +190,25 @@ export default function HelloReactView() {
 
                     <div className="file-info" >
                         <span className="file-info-item-name" style={{ fontSize: '18px', fontWeight:"bold"}}>File name</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>File size</span>
+                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Model Type</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Validation</span>
                         <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Duplicated</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Model Type</span>
+                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Model Language</span>
+                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>File size</span>
+
                     </div>
 
                     {filesToDisplay.map((file, index) =>
                             <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
                                 <div className="file-info">
                                     <p className="file-info-item-name file-name">
-                                        <BsDiagram2 style={{}} /> {file.name}
+                                        <BsDiagram2 /> {file.name}
                                     </p>
                                     <p className="file-info-item file-name">
-                                        {file.size} kb
+                                        {file.modelType}
                                     </p>
                                     <p className={`file-info-item file-name`}>
-                                         <span className={`badge badge-pill badge-success ${file.isValid ? 'Valid' : 'Invalid'}`} >{file.isValid ? "Valid" : "Invalid"}</span>
+                                        <span className={`badge badge-pill badge-success ${file.isValid ? 'Valid' : 'Invalid'}`} >{file.isValid ? "Valid" : "Invalid"}</span>
                                     </p>
                                     <p className={`file-info-item file-name`}>
                                        <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
@@ -213,8 +216,12 @@ export default function HelloReactView() {
                                        </span>
                                     </p>
                                     <p className="file-info-item file-name">
-                                        {file.modelType}
+                                        {file.isEnglish}
                                     </p>
+                                    <p className="file-info-item file-name">
+                                        {file.size} kb
+                                    </p>
+
                                 </div>
                             </div>
                     )}
@@ -236,7 +243,7 @@ export default function HelloReactView() {
                                 <br/>
                                 <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
                                 <br/>
-                                <Checkbox value='noEnglish' label='Remove non-English models' name="checkbox3" disabled/>
+                                <Checkbox value='english' label='Remove non-English models' name="checkbox3"/>
                                 <br/>
                             </CheckboxGroup>
 

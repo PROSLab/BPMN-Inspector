@@ -1,5 +1,6 @@
 package com.example.application.controller;
 import com.example.application.model.fileInfo;
+import opennlp.tools.langdetect.Language;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -8,8 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import java.io.File;
@@ -29,7 +34,14 @@ import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import opennlp.tools.langdetect.LanguageDetectorME;
+import opennlp.tools.langdetect.LanguageDetectorModel;
+import opennlp.tools.langdetect.LanguageSample;
+import java.io.IOException;
 @RestController
 public class UploadController {
 
@@ -46,9 +58,11 @@ public class UploadController {
             File file = path.toFile();
             boolean isValid;
             boolean isDuplicated;
+            String isEnglish;
 
             try {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
+                isEnglish = detectLanguage(file);
                 isValid = validateFile(file);
                 List<String> duplicates = getDuplicateFiles();
 
@@ -61,7 +75,7 @@ public class UploadController {
                 if (isValid) {
                     validModelFiles.add(file.getName());
                 }
-            } catch (SAXException | IOException e) {
+            } catch (SAXException | IOException | ParserConfigurationException e) {
                 isValid = false;
                 isDuplicated = false;
                 throw new RuntimeException(e);
@@ -76,8 +90,7 @@ public class UploadController {
             } catch (IOException | ParserConfigurationException e) {
                 throw new RuntimeException(e);
             }
-
-            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType));
+            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType, isEnglish));
         });
 
         try {
@@ -94,6 +107,47 @@ public class UploadController {
         }
         return newFileInfoFiltered;
     }
+
+    public static String detectLanguage(File file) throws IOException, ParserConfigurationException, SAXException {
+            InputStream modelIn = new FileInputStream("src/main/resources/static/language/langdetect-183.bin");
+            LanguageDetectorModel model = new LanguageDetectorModel(modelIn);
+            LanguageDetectorME detector = new LanguageDetectorME(model);
+
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(file);
+
+            NodeList nodes = doc.getElementsByTagName("*");
+            String text = "";
+            boolean hasName = false;
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node node = nodes.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    if (element.hasAttribute("name")) {
+                        String name = element.getAttribute("name");
+                        if (!name.isEmpty()) {
+                            text += name + " ";
+                            hasName = true;
+                        }
+                    }
+                }
+            }
+
+            if (hasName) {
+                Language language = detector.predictLanguage(text);
+                String languageCode = language.getLang();
+                if (languageCode.equals("deu")) {
+                    languageCode = "de";
+                }
+                Locale englishLocale = new Locale("en");
+                String languageName = new Locale(languageCode).getDisplayName(englishLocale);
+                return languageName;
+            } else {
+                return "No labels";
+            }
+    }
+
     private void getFilteredFiles(String[] filteringArray, List<fileInfo> fileInfos) throws IOException {
         List<fileInfo> filteredFileInfos = new ArrayList<>(fileInfos);
 

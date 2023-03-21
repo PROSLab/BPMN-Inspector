@@ -7,24 +7,27 @@ public class fileInfo {
     public long size;
     public boolean isValid;
     public boolean isDuplicated;
+    public String isEnglish;
     public String modelType;
     public Map<String, Integer> elementMap;
 
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType) {
+    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish) {
         this.name = name;
         this.size = size;
         this.isValid = isValid;
         this.isDuplicated = isDuplicated;
         this.modelType = modelType;
+        this.isEnglish = isEnglish;
     }
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, Map<String, Integer> elementMap) {
+    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap) {
         this.name = name;
         this.size = size;
         this.isValid = isValid;
         this.isDuplicated = isDuplicated;
         this.modelType = modelType;
+        this.isEnglish = isEnglish;
         this.elementMap = elementMap;
     }
 
@@ -63,6 +66,12 @@ public class fileInfo {
     }
 
     public void setModelType(String modelType) {this.modelType = modelType;}
+
+    public String getisEnglish() {
+        return isEnglish;
+    }
+
+    public void setisEnglish(String isEnglish) {this.isEnglish = isEnglish;}
 
     public Map<String, Integer> getElementMap() {
         return elementMap;
