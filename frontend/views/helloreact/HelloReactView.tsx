@@ -177,9 +177,9 @@ export default function HelloReactView() {
         return (
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-                    <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>List of BPMN Models Uploaded</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection present <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>{totalDuplicated.totalDuplicated}</a> duplicated models.</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection is composed by the following process types: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}.</a></a>
+                    <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>Preview of BPMN Models Uploaded</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection contains <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>{totalDuplicated.totalDuplicated}</a> duplicated models.</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection is composed by the following process types: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
 
                     {displayButton && (
                         <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
@@ -387,7 +387,7 @@ export default function HelloReactView() {
             </div>
         )
     }
-    //
+
     //{ showResults ? <Results /> : null }
    // { showHome ? <Home /> : null }
     return (
