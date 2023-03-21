@@ -26,16 +26,14 @@ export default function App() {
             />
 
             <LoaderContainer
-            opacity={0.74}
-            backgroundColor={'white'}
-            justify={'center'}
-            align={'center'}
+                opacity={0.74}
+                backgroundColor={'white'}
+                justify={'center'}
+                align={'center'}
             >
+                <Loader ></Loader>
 
-                <Loader />
             </LoaderContainer>
-
-
 
         </>
     );
