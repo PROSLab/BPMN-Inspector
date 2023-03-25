@@ -1,10 +1,8 @@
 .loader {
     position : fixed;
     z-index: 9999;
-    background : url("/img/inspectFile.gif") 50% 50% no-repeat;
-    top : 0px;
-    left : 0px;
-    height : 100%;
-    width : 100%;
+    background : url("/img/inspect.gif") 50% 50% no-repeat;
+    height : 30%;
+    width : 60%;
     cursor : wait;
 }

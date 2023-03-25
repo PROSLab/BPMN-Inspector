@@ -121,21 +121,24 @@ export default function PostProcessingView() {
             total -= invalid;
         }
 
-    return (
+    const uniqueData = Array.from(new Set(data));
 
+    // @ts-ignore
+    return (
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <a style={{fontSize:'40px',color:'black',fontWeight:"bold"}}>BPMN Models inspected</a>
             <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>
                 <a style={{color:'green',fontWeight:"bold"}}>{total}</a> models have been inspected. <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection inspected is composed by the following process types: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
 
                 <br></br> <a style={{marginRight:'10px'}}>Active filters:</a>
-                {data[0] || data[1] ? (
+
+                {uniqueData[0] || uniqueData[1] || uniqueData[2] ? (
                     <>
-
-                        {data[0] && <span className='badge bg-success'>{"   "+data[0]}</span>}
-                        {data[0] && data[1] && " "}
-                        {data[1] && <span className='badge bg-success'>{data[1]}</span>}
-
+                        {uniqueData[0] && <span className='badge bg-success'>{"   "+uniqueData[0]}</span>}
+                        {uniqueData[0] && uniqueData[1] && " "}
+                        {uniqueData[1] && <span className='badge bg-success'>{"   "+uniqueData[1]}</span>}
+                        {(uniqueData[0] || uniqueData[1]) && uniqueData[2] && " "}
+                        {uniqueData[2] && <span className='badge bg-success'>{"   "+uniqueData[2]}</span>}
                     </>
                 ) : (
                     <span className='badge bg-secondary'>No filter</span>

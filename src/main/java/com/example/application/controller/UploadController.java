@@ -53,12 +53,15 @@ public class UploadController {
     public List<fileInfo> getFiles(@RequestBody String[] data) throws IOException {
 
         List<fileInfo> fileInfos = new ArrayList<>();
+        List<fileInfo> fileInfosBackup = new ArrayList<>();
 
         Files.list(Paths.get(UPLOADED_FOLDER)).forEach(path -> {
             File file = path.toFile();
             boolean isValid;
             boolean isDuplicated;
             String isEnglish;
+
+
 
             try {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
@@ -104,10 +107,18 @@ public class UploadController {
             if(fileInfo.elementMap !=  null){
                 newFileInfoFiltered.add(fileInfo);
             }
+            for (String elemento : data) {
+                System.out.println(elemento);
+            }
+            if(data == null){
+                System.out.println("entro");
+                fileInfosBackup = fileInfos;
+                return fileInfosBackup;
+            }
         }
+
         return newFileInfoFiltered;
     }
-
     public static String detectLanguage(File file) throws IOException, ParserConfigurationException, SAXException {
             InputStream modelIn = new FileInputStream("src/main/resources/static/language/langdetect-183.bin");
             LanguageDetectorModel model = new LanguageDetectorModel(modelIn);
@@ -147,7 +158,6 @@ public class UploadController {
                 return "No labels";
             }
     }
-
     private void getFilteredFiles(String[] filteringArray, List<fileInfo> fileInfos) throws IOException {
         List<fileInfo> filteredFileInfos = new ArrayList<>(fileInfos);
 
@@ -156,6 +166,9 @@ public class UploadController {
         }
         if (Arrays.asList(filteringArray).contains("duplicated")) {
             filteredFileInfos.removeIf(fileInfo -> fileInfo.isDuplicated);
+        }
+        if (Arrays.asList(filteringArray).contains("english")) {
+            filteredFileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
         }
 
         String[] elementNotation = {"nTaskNoneLoopNoneCompensateNoneCallNone",
@@ -433,11 +446,9 @@ public class UploadController {
             int random =  (int)(Math.random()*100);
             elementCount.put(element, random);
         }
-
         for (fileInfo fileInfo : filteredFileInfos) {
             fileInfo.setElementMap(elementCount);
         }
-
     }
     private String extractModelType(File file) throws SAXException, IOException, ParserConfigurationException {
         // replace with the path to your .bpmn or .xml file
@@ -689,7 +700,7 @@ public class UploadController {
                     .body(resource);
 
         } else if (filteringArray.length == 1) {
-            if (filteringArray[0].equals("invalid")) {
+            if (Arrays.asList(filteringArray).contains("invalid")) {
                 Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
                 Path zipFilePath = sourceDir.getParent().resolve("bpmnNoInvalids.zip");
                 String fileName = "bpmnNoInvalids.zip";
@@ -730,7 +741,7 @@ public class UploadController {
                         .contentType(MediaType.parseMediaType("application/zip"))
                         .body(resource);
 
-            } else if (filteringArray[0].equals("duplicated")) {
+            } else if (Arrays.asList(filteringArray).contains("duplicated")) {
                 Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
                 Path zipFilePath = sourceDir.getParent().resolve("bpmnNoDuplicates.zip");
                 String fileName = "bpmnNoDuplicates.zip";
@@ -832,4 +843,37 @@ public class UploadController {
         }
         return null;
     }
+    @PostMapping("/download-filtered-models-due")
+    public ResponseEntity<Resource> downloadFilteredModelsDue(@RequestBody String[] filteringArray) throws IOException {
+
+        List<fileInfo> filteredFileInfos = getFiles(filteringArray);
+
+        // Crea il file zip contenente i file filtrati
+        Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
+        Path zipFilePath = sourceDir.getParent().resolve("bpmnNoDuplicatesNoInvalids.zip");
+        ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(zipFilePath.toFile()));
+
+        // Aggiungi i file filtrati al file zip
+        for (fileInfo file : filteredFileInfos) {
+            Path filePath = sourceDir.resolve(file.getName());
+            ZipEntry zipEntry = new ZipEntry(file.getName());
+            zipOut.putNextEntry(zipEntry);
+            Files.copy(filePath, zipOut);
+            zipOut.closeEntry();
+        }
+
+        zipOut.close();
+
+        // Crea un resource dal file zip e restituisce un ResponseEntity per il download
+        Resource resource = new UrlResource(zipFilePath.toUri());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"bpmnNoDuplicatesNoInvalids.zip\"");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(resource.getFile().length())
+                .contentType(MediaType.parseMediaType("application/zip"))
+                .body(resource);
+    }
+
 }

@@ -43,7 +43,7 @@ export default function HelloReactView() {
             }
         });
 
-
+        loader.show();
         axios({
             method: "post",
             url: '/download-filtered-models',
@@ -55,6 +55,7 @@ export default function HelloReactView() {
             link.href = url;
             document.body.appendChild(link);
             link.click();
+            loader.hide();
         }).catch(error => {
             console.log(error);
         });
