@@ -60,3 +60,29 @@
     background-color: hsla(145, 92%, 51%, 0.14);
     font-size: 12px;
 }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container img {
+    width: 10%;
+    height: 15%;
+    align-self: center;
+}
+
+.container p {
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.container a {
+    font-size: 20px;
+    cursor: pointer;
+}

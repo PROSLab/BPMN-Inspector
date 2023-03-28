@@ -64,7 +64,7 @@ export default function PostProcessingView() {
     async function deleteFiles() {
         try {
             await axios.delete('/deleteAllFiles');
-            toast.success('All files deleted successfully!', {
+            toast.success('Back to the Home Page!', {
                 position: "bottom-left",
                 autoClose: 1000,
                 hideProgressBar: true,
@@ -121,7 +121,33 @@ export default function PostProcessingView() {
             total -= invalid;
         }
 
+    const downloadFile = () => {
+        axios({
+            url: '/download-validation-report',
+            method: 'GET',
+            responseType: 'blob',
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'validation_report.csv');
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
     const uniqueData = Array.from(new Set(data));
+
+    let displayMsgSyntactic = "";
+    let displayMsgGoodModeling = "";
+
+    if (data.includes('invalid')) {
+        displayMsgSyntactic = "You filtered the models for valid, so the analysis on invalids is empty.";
+    }
+
+    if (totalProcess===0) {
+        displayMsgGoodModeling = "The evaluation of good modeling practices is supported on Process Collaboration models only.";
+    }
 
     // @ts-ignore
     return (
@@ -183,6 +209,15 @@ export default function PostProcessingView() {
                         BPMN Good Modeling Practices
                     </a>
                 </li>
+                <li className="nav-item" style={{padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', fontWeight: "bold", fontSize:'15px' }}>
+                    <a
+                        className={`nav-link ${activeTab === 'bpmn-model-list' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('bpmn-model-list')}
+                        style={{color: '#10ad73'}}
+                    >
+                        BPMN List (Test)
+                    </a>
+                </li>
             </ul>
 
             <div className="tab-content">
@@ -203,261 +238,117 @@ export default function PostProcessingView() {
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
+                            <BarChart options={{responsive:false, height: '20%', width:'30%',maintainAspectRatio:false}}></BarChart>
+                            <PieChart ></PieChart>
 
                         </div>
                     </div>
                 )}
                 {activeTab === 'bpmn-syntactic-validation' && (
                     <div>
-                        <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold"}}>BPMN Syntactic Validation</a>
-                        <div style={{display:'flex'}}>
+                        {displayMsgSyntactic ? (
+                            <div className="container">
+                                <img src="../../img/denied.png" />
+                                <p>{displayMsgSyntactic}</p>
+                                <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload invalid models</a> for inspecting validation errors.</a>
+                            </div>
+                        ) : (
+                            <div>
+                                <a style={{ fontSize: '25px', color: 'black', alignSelf: 'left', fontWeight: 'bold' }}>BPMN Syntactic Validation</a>
+                                <div style={{ display: 'flex' }}>
+                                    {filesToDisplay.map((file, index) =>
+                                        <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
+                                            <div className="file-info">
+                                                <p className="file-info-item-name file-name">
+                                                    <BsDiagram2 style={{}} /> {file.name}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
 
-                            <BarChart options={{responsive:false, height: '20%', width:'30%',maintainAspectRatio:false}}></BarChart>
-                            <PieChart ></PieChart>
+                                    <button style={{ marginLeft: '2%', background: 'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadFile}>
+                                        <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Validation report</a>
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+                {activeTab === 'bpmn-model-list' && (
+                    <div className="col">
+                        {displayButton && (
+                            <button style={{ backgroundColor: 'white', alignItems:"right", color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
+                                {showAllFiles ? `Hide list` : `Click here to show all (${filesInfo.length} models)`}
+                            </button>
+                        )}
 
-
+                        <div className="file-info" >
+                            <span className="file-info-item-name" style={{ fontSize: '18px', fontWeight:"bold"}}>File name</span>
                         </div>
+                        {filesToDisplay.map((file, index) =>
+                            <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
+                                <div className="file-info">
+                                    <p className="file-info-item-name file-name">
+                                        <BsDiagram2 style={{}} /> {file.name}
+                                    </p>
+                                    <p className={`file-info-item file-name`}>
+
+                                    </p>
+
+                                </div>
+                            </div>
+                        )}
+
+                        {filesInfo.length > 2 &&
+                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
+                        }
+                        {filesInfo.length === 2 &&
+                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
+                        }
                     </div>
                 )}
                 {activeTab === 'bpmn-good-modeling-practices' && (
                     <div>
-                        <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold"}}>BPMN Good Modeling Practices</a>
-                        <div style={{display:'flex'}}>
+                        {displayMsgGoodModeling ? (
+                            <div className="container">
+                                <img src="../../img/denied.png" />
+                                <p>{displayMsgGoodModeling}</p>
+                                <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload Process Collaboration models</a> for inspecting good modeling practices.</a>
+                            </div>
+                        ) : (
+                            <>
+                                <a style={{fontSize: "25px", color: "black", alignSelf: "left", fontWeight: "bold",}}>BPMN Good Modeling Practices</a>
 
-                            {displayButton && (
-                                <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
-                                    {showAllFiles ? `Hide list` : `Click here to show all (${filesInfo.length} models)`}
-                                </button>
-                            )}
-
-
-                        </div>
-                        <div className="file-info" >
-                            <span className="file-info-item-name" style={{ fontSize: '18px', fontWeight:"bold"}}>File name</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G1</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G2</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G3</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G4</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G5</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G6</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G7</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G8</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G9</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G10</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G11</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G12</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G13</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G14</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G15</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G16</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G17</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G18</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G19</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G20</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G21</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G22</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G23</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G24</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G25</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G26</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G27</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G28</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G29</span>
-                            <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G30</span>
-                        </div>
-                            {filesToDisplay.map((file, index) =>
-                                <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
-                                    <div className="file-info">
-                                        <p className="file-info-item-name file-name">
-                                            <BsDiagram2 style={{}} /> {file.name}
-                                        </p>
-                                        <p className={`file-info-item file-name`}>
-                                        <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-                                            <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                            {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                        </span>
-
-                                        </p>
-
-                                    </div>
+                                {displayButton && (
+                                    <button style={{backgroundColor: "white", alignSelf: "right", color: "#10ad73", padding: "5px 20px", border: "none", borderBottom: "1px solid #10ad73", cursor: "pointer", right: "0", bottom: "0", fontWeight: "bold", fontSize: "12px",}} onClick={() => setShowAllFiles(!showAllFiles)}>
+                                        {showAllFiles ? `Hide list` : `Click here to show all (${filesInfo.length} models)`}
+                                    </button>
+                                )}
+                                <div className="file-info">
+                                    <span className="file-info-item-name" style={{ fontSize: "18px", fontWeight: "bold" }}>File name</span>
+                                    <span className="file-info-item" style={{ fontSize: "15px", fontWeight: "bold" }}>G1</span>
                                 </div>
-                            )}
 
-                            {filesInfo.length > 2 &&
-                                <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
-                            }
-                            {filesInfo.length === 2 &&
-                                <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
-                            }
+                                {filesToDisplay.map((file, index) => (
+                                    <div key={index} style={{border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black",}}>
+                                        <div className="file-info">
+                                            <p className="file-info-item-name file-name">
+                                                <BsDiagram2 style={{}} /> {file.name}
+                                            </p>
+                                            <p className={`file-info-item file-name`}>
+              <span className={`badge badge-pill ${file.isDuplicated ? "badge-danger" : "badge-success"}`}>
+                {file.isDuplicated ? (<AiFillExclamationCircle />) : (<GiConfirmed />)}
+              </span></p></div></div>))}
 
+                                {filesInfo.length > 1 && (
+                                    <p style={{ fontSize: "17px", marginLeft: "0.5cm" }}>
+                                        ... {filesInfo.length - 1} more {filesInfo.length === 2 ? "file" : "files"}.
+                                    </p>
+                                )}
+                            </>
+                        )}
                     </div>
+
                 )}
                </div>
 
