@@ -46,8 +46,6 @@ export default function PostProcessingView() {
         isDuplicated: boolean;
     }
 
-    console.log(data)
-
     useEffect(() => {
         loader.show();
         axios({
@@ -136,6 +134,21 @@ export default function PostProcessingView() {
         });
     };
 
+    const downloadInspectionFile = () => {
+        axios({
+            url: '/download-inspection-report',
+            method: 'GET',
+            responseType: 'blob',
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'bpmn_elements.csv');
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
     const uniqueData = Array.from(new Set(data));
 
     let displayMsgSyntactic = "";
@@ -154,7 +167,7 @@ export default function PostProcessingView() {
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <a style={{fontSize:'40px',color:'black',fontWeight:"bold"}}>BPMN Models inspected</a>
             <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>
-                <a style={{color:'green',fontWeight:"bold"}}>{total}</a> models have been inspected. <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection inspected is composed by the following process types: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
+                <a style={{color:'green',fontWeight:"bold"}}>{total}</a> models have been inspected. <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection inspected is composed by: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
 
                 <br></br> <a style={{marginRight:'10px'}}>Active filters:</a>
 
@@ -228,6 +241,10 @@ export default function PostProcessingView() {
                                     <a>This is a graph of the average model size of the collection</a>
                                 </div>
                                 <LineChart options={{responsive:false, height: '10%', width:'50%',maintainAspectRatio:false}}/>
+
+                                <button style={{ marginLeft: '2%', background: 'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadInspectionFile}>
+                                    <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Inspection report</a>
+                                </button>
                             </div>
                 )}
                 {activeTab === 'bpmn-element-combined-use' && (
@@ -326,7 +343,36 @@ export default function PostProcessingView() {
                                 )}
                                 <div className="file-info">
                                     <span className="file-info-item-name" style={{ fontSize: "18px", fontWeight: "bold" }}>File name</span>
-                                    <span className="file-info-item" style={{ fontSize: "15px", fontWeight: "bold" }}>G1</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G1</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G2</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G3</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G4</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G5</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G6</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G7</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G8</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G9</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G10</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G11</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G12</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G13</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G14</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G15</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G16</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G17</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G18</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G19</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G20</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G21</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G22</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G23</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G24</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G25</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G26</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G27</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G28</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G29</span>
+                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G30</span>
                                 </div>
 
                                 {filesToDisplay.map((file, index) => (

@@ -175,13 +175,28 @@ export default function HelloReactView() {
             });
         };
 
+        const downloadInspectionFile = () => {
+            axios({
+                url: '/download-inspection-report',
+                method: 'GET',
+                responseType: 'blob',
+            }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'bpmn_elements.csv');
+                document.body.appendChild(link);
+                link.click();
+            });
+        };
+
         // @ts-ignore
         return (
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
                     <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>Preview of BPMN Models Uploaded</a>
                     <a style={{fontSize:'20px',color:'black',alignSelf:'left'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection contains <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>{totalDuplicated.totalDuplicated}</a> duplicated models.</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection is composed by the following process types: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
+                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection is composed by: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
 
                     {displayButton && (
                         <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
@@ -190,12 +205,12 @@ export default function HelloReactView() {
                     )}
 
                     <div className="file-info" >
-                        <span className="file-info-item-name" style={{ fontSize: '18px', fontWeight:"bold"}}>File name</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Model Type</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Validation</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Duplicated</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>Model Language</span>
-                        <span className="file-info-item" style={{ fontSize: '18px', fontWeight:"bold"}}>File size</span>
+                        <span className="file-info-item-name" style={{ fontSize: '15px', fontWeight:"bold"}}>File name</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Model Type</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Validation</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Duplicated</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Model Language</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>File size</span>
 
                     </div>
 
@@ -259,6 +274,9 @@ export default function HelloReactView() {
                         </button>
                         <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={downloadFile}>
                             <GrDocumentCsv /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Validation report</a>
+                        </button>
+                        <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={downloadInspectionFile}>
+                            <GrDocumentCsv /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Inspection report</a>
                         </button>
                         <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
                         </div>
@@ -383,16 +401,6 @@ export default function HelloReactView() {
 
             </div>
 
-        )
-    }
-    function Counter() {
-        const [count, setCount] = useState(0)
-
-        return (
-            <div>
-                count: {count}
-                <button onClick={() => setCount((count) => count + 1)}>add</button>
-            </div>
         )
     }
 
