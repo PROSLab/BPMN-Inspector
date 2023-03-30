@@ -41,7 +41,6 @@ export default function PostProcessingView() {
         name: string;
         size: number;
         isValid: boolean;
-
         isEnglish: string;
         isDuplicated: boolean;
     }
@@ -375,22 +374,28 @@ export default function PostProcessingView() {
                                     <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G30</span>
                                 </div>
 
-                                {filesToDisplay.map((file, index) => (
-                                    <div key={index} style={{border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black",}}>
+                                {filesToDisplay.filter(file => file.modelType === "Process Collaboration").map((file, index) => (
+                                    <div key={index} style={{border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black"}}>
                                         <div className="file-info">
                                             <p className="file-info-item-name file-name">
                                                 <BsDiagram2 style={{}} /> {file.name}
                                             </p>
                                             <p className={`file-info-item file-name`}>
-              <span className={`badge badge-pill ${file.isDuplicated ? "badge-danger" : "badge-success"}`}>
-                {file.isDuplicated ? (<AiFillExclamationCircle />) : (<GiConfirmed />)}
-              </span></p></div></div>))}
+                                              <span className={`badge badge-pill ${file.isDuplicated ? "badge-danger" : "badge-success"}`}>
+                                                {file.isDuplicated ? (<AiFillExclamationCircle />) : (<GiConfirmed />)}
+                                              </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
 
-                                {filesInfo.length > 1 && (
-                                    <p style={{ fontSize: "17px", marginLeft: "0.5cm" }}>
-                                        ... {filesInfo.length - 1} more {filesInfo.length === 2 ? "file" : "files"}.
-                                    </p>
-                                )}
+
+                                {filesInfo.length > 2 &&
+                                    <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
+                                }
+                                {filesInfo.length === 2 &&
+                                    <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
+                                }
                             </>
                         )}
                     </div>

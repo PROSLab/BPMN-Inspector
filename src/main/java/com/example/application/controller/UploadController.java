@@ -2,6 +2,8 @@ package com.example.application.controller;
 import com.example.application.model.fileInfo;
 import opennlp.tools.langdetect.Language;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -621,278 +623,6 @@ public class UploadController {
             filteredFileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
         }
 
-        String[] elementNotation = {"nTaskNoneLoopNoneCompensateNoneCallNone",
-                "nTaskNoneLoopNoneCompensateNoneCall",
-                "nTaskNoneLoopNoneCompensateCallNone",
-                "nTaskNoneLoopNoneCompensateCall",
-                "nTaskNoneLoopStandardCompensateNoneCallNone",
-                "nTaskNoneLoopStandardCompensateNoneCall",
-                "nTaskNoneLoopStandardCompensateCallNone",
-                "nTaskNoneLoopStandardCompensateCall",
-                "nTaskNoneLoopMIParallelCompensateNoneCallNone",
-                "nTaskNoneLoopMIParallelCompensateNoneCall",
-                "nTaskNoneLoopMIParallelCompensateCallNone",
-                "nTaskNoneLoopMIParallelCompensateCall",
-                "nTaskNoneLoopMISequentialCompensateNoneCallNone",
-                "nTaskNoneLoopMISequentialCompensateNoneCall",
-                "nTaskNoneLoopMISequentialCompensateCallNone",
-                "nTaskNoneLoopMISequentialCompensateCall",
-                "nTaskSendLoopNoneCompensateNone",
-                "nTaskSendLoopNoneCompensate",
-                "nTaskSendLoopStandardCompensateNone",
-                "nTaskSendLoopStandardCompensate",
-                "nTaskSendLoopMIParallelCompensateNone",
-                "nTaskSendLoopMIParallelCompensate",
-                "nTaskSendLoopMISequentialCompensateNone",
-                "nTaskSendLoopMISequentialCompensate",
-                "nTaskReceiveLoopNoneCompensateNone",
-                "nTaskReceiveLoopNoneCompensate",
-                "nTaskReceiveLoopStandardCompensateNone",
-                "nTaskReceiveLoopStandardCompensate",
-                "nTaskReceiveLoopMIParallelCompensateNone",
-                "nTaskReceiveLoopMIParallelCompensate",
-                "nTaskReceiveLoopMISequentialCompensateNone",
-                "nTaskReceiveLoopMISequentialCompensate",
-                "nTaskUserLoopNoneCompensateNone",
-                "nTaskUserLoopNoneCompensate",
-                "nTaskUserLoopStandardCompensateNone",
-                "nTaskUserLoopStandardCompensate",
-                "nTaskUserLoopMIParallelCompensateNone",
-                "nTaskUserLoopMIParallelCompensate",
-                "nTaskUserLoopMISequentialCompensateNone",
-                "nTaskUserLoopMISequentialCompensate",
-                "nTaskManualLoopNoneCompensateNone",
-                "nTaskManualLoopNoneCompensate",
-                "nTaskManualLoopStandardCompensateNone",
-                "nTaskManualLoopStandardCompensate",
-                "nTaskManualLoopMIParallelCompensateNone",
-                "nTaskManualLoopMIParallelCompensate",
-                "nTaskManualLoopMISequentialCompensateNone",
-                "nTaskManualLoopMISequentialCompensate",
-                "nTaskBusinessRuleLoopNoneCompensateNone",
-                "nTaskBusinessRuleLoopNoneCompensate",
-                "nTaskBusinessRuleLoopStandardCompensateNone",
-                "nTaskBusinessRuleLoopStandardCompensate",
-                "nTaskBusinessRuleLoopMIParallelCompensateNone",
-                "nTaskBusinessRuleLoopMIParallelCompensate",
-                "nTaskBusinessRuleLoopMISequentialCompensateNone",
-                "nTaskBusinessRuleLoopMISequentialCompensate",
-                "nTaskServiceLoopNoneCompensateNone",
-                "nTaskServiceLoopNoneCompensate",
-                "nTaskServiceLoopStandardCompensateNone",
-                "nTaskServiceLoopStandardCompensate",
-                "nTaskServiceLoopMIParallelCompensateNone",
-                "nTaskServiceLoopMIParallelCompensate",
-                "nTaskServiceLoopMISequentialCompensateNone",
-                "nTaskServiceLoopMISequentialCompensate",
-                "nTaskScriptLoopNoneCompensateNone",
-                "nTaskScriptLoopNoneCompensate",
-                "nTaskScriptLoopStandardCompensateNone",
-                "nTaskScriptLoopStandardCompensate",
-                "nTaskScriptLoopMIParallelCompensateNone",
-                "nTaskScriptLoopMIParallelCompensate",
-                "nTaskScriptLoopMISequentialCompensateNone",
-                "nTaskScriptLoopMISequentialCompensate",
-                "nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopNoneCompensateNone",
-                "nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopNoneCompensate",
-                "nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopStandardCompensateNone",
-                "nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopStandardCompensate",
-                "nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensateNone",
-                "nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensate",
-                "nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensateNone",
-                "nSubProcessExtendedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensate",
-                "nSubProcessExtendedEventNoneAdHocLoopNoneCompensateNone",
-                "nSubProcessExtendedEventNoneAdHocLoopNoneCompensate",
-                "nSubProcessExtendedEventNoneAdHocLoopStandardCompensateNone",
-                "nSubProcessExtendedEventNoneAdHocLoopStandardCompensate",
-                "nSubProcessExtendedEventNoneAdHocLoopMIParallelCompensateNone",
-                "nSubProcessExtendedEventNoneAdHocLoopMIParallelCompensate",
-                "nSubProcessExtendedEventNoneAdHocLoopMISequentialCompensateNone",
-                "nSubProcessExtendedEventNoneAdHocLoopMISequentialCompensate",
-                "nSubProcessExtendedEventNoneTransactionLoopNoneCompensateNone",
-                "nSubProcessExtendedEventNoneTransactionLoopNoneCompensate",
-                "nSubProcessExtendedEventNoneTransactionLoopStandardCompensateNone",
-                "nSubProcessExtendedEventNoneTransactionLoopStandardCompensate",
-                "nSubProcessExtendedEventNoneTransactionLoopMIParallelCompensateNone",
-                "nSubProcessExtendedEventNoneTransactionLoopMIParallelCompensate",
-                "nSubProcessExtendedEventNoneTransactionLoopMISequentialCompensateNone",
-                "nSubProcessExtendedEventNoneTransactionLoopMISequentialCompensate",
-                "nSubProcessExtendedEventLoopNoneCompensateNone",
-                "nSubProcessExtendedEventLoopNoneCompensate",
-                "nSubProcessExtendedEventLoopStandardCompensateNone",
-                "nSubProcessExtendedEventLoopStandardCompensate",
-                "nSubProcessExtendedEventLoopMIParallelCompensateNone",
-                "nSubProcessExtendedEventLoopMIParallelCompensate",
-                "nSubProcessExtendedEventLoopMISequentialCompensateNone",
-                "nSubProcessExtendedEventLoopMISequentialCompensate",
-                "nSubProcessExtendedEventAdHocLoopNoneCompensateNone",
-                "nSubProcessExtendedEventAdHocLoopNoneCompensate",
-                "nSubProcessExtendedEventAdHocLoopStandardCompensateNone",
-                "nSubProcessExtendedEventAdHocLoopStandardCompensate",
-                "nSubProcessExtendedEventAdHocLoopMIParallelCompensateNone",
-                "nSubProcessExtendedEventAdHocLoopMIParallelCompensate",
-                "nSubProcessExtendedEventAdHocLoopMISequentialCompensateNone",
-                "nSubProcessExtendedEventAdHocLoopMISequentialCompensate",
-                "nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopNoneCompensateNone",
-                "nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopNoneCompensate",
-                "nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopStandardCompensateNone",
-                "nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopStandardCompensate",
-                "nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensateNone",
-                "nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMIParallelCompensate",
-                "nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensateNone",
-                "nSubProcessCollapsedEventNoneAdHocNoneTransactionNoneLoopMISequentialCompensate",
-                "nSubProcessCollapsedEventNoneAdHocLoopNoneCompensateNone",
-                "nSubProcessCollapsedEventNoneAdHocLoopNoneCompensate",
-                "nSubProcessCollapsedEventNoneAdHocLoopStandardCompensateNone",
-                "nSubProcessCollapsedEventNoneAdHocLoopStandardCompensate",
-                "nSubProcessCollapsedEventNoneAdHocLoopMIParallelCompensateNone",
-                "nSubProcessCollapsedEventNoneAdHocLoopMIParallelCompensate",
-                "nSubProcessCollapsedEventNoneAdHocLoopMISequentialCompensateNone",
-                "nSubProcessCollapsedEventNoneAdHocLoopMISequentialCompensate",
-                "nSubProcessCollapsedEventNoneTransactionLoopNoneCompensateNone",
-                "nSubProcessCollapsedEventNoneTransactionLoopNoneCompensate",
-                "nSubProcessCollapsedEventNoneTransactionLoopStandardCompensateNone",
-                "nSubProcessCollapsedEventNoneTransactionLoopStandardCompensate",
-                "nSubProcessCollapsedEventNoneTransactionLoopMIParallelCompensateNone",
-                "nSubProcessCollapsedEventNoneTransactionLoopMIParallelCompensate",
-                "nSubProcessCollapsedEventNoneTransactionLoopMISequentialCompensateNone",
-                "nSubProcessCollapsedEventNoneTransactionLoopMISequentialCompensate",
-                "nSubProcessCollapsedEventLoopNoneCompensateNone",
-                "nSubProcessCollapsedEventLoopNoneCompensate",
-                "nSubProcessCollapsedEventLoopStandardCompensateNone",
-                "nSubProcessCollapsedEventLoopStandardCompensate",
-                "nSubProcessCollapsedEventLoopMIParallelCompensateNone",
-                "nSubProcessCollapsedEventLoopMIParallelCompensate",
-                "nSubProcessCollapsedEventLoopMISequentialCompensateNone",
-                "nSubProcessCollapsedEventLoopMISequentialCompensate",
-                "nSubProcessCollapsedEventAdHocLoopNoneCompensateNone",
-                "nSubProcessCollapsedEventAdHocLoopNoneCompensate",
-                "nSubProcessCollapsedEventAdHocLoopStandardCompensateNone",
-                "nSubProcessCollapsedEventAdHocLoopStandardCompensate",
-                "nSubProcessCollapsedEventAdHocLoopMIParallelCompensateNone",
-                "nSubProcessCollapsedEventAdHocLoopMIParallelCompensate",
-                "nSubProcessCollapsedEventAdHocLoopMISequentialCompensateNone",
-                "nSubProcessCollapsedEventAdHocLoopMISequentialCompensate",
-                "nDataObject",
-                "nDataObjectCollection",
-                "nDataStore",
-                "nDataInput",
-                "nDataOutput",
-                "nMessage",
-                "nExclusiveGatewayNoMarker",
-                "nExclusiveGatewayMarker",
-                "nParallelGateway",
-                "nInclusiveGateway",
-                "nEventBasedGateway",
-                "nEventBasedGatewayExclusiveInstantiation",
-                "nEventBasedGatewayParallelInstantiation",
-                "nComplexGateway",
-                "nStartMultipleParallelEventDefinition",
-                "nStartMultipleEventDefinition",
-                "nStartNoneEventDefinition",
-                "nStartSignalEventDefinition",
-                "nStartConditionalEventDefinition",
-                "nStartTimerEventDefinition",
-                "nStartMessageEventDefinition",
-                "nStartMessageEventSubProcessInterruptingDefinition",
-                "nStartTimerEventSubProcessInterruptingDefinition",
-                "nStartEscalationEventSubProcessInterruptingDefinition",
-                "nStartConditionalEventSubProcessInterruptingDefinition",
-                "nStartErrorEventSubProcessInterruptingDefinition",
-                "nStartCompensateEventSubProcessInterruptingDefinition",
-                "nStartSignalEventSubProcessInterruptingDefinition",
-                "nStartMultipleEventSubProcessInterruptingDefinition",
-                "nStartMultipleParallelEventSubProcessInterruptingDefinition",
-                "nStartMessageEventSubProcessNonInterruptingDefinition",
-                "nStartTimerEventSubProcessNonInterruptingDefinition",
-                "nStartEscalationEventSubProcessNonInterruptingDefinition",
-                "nStartConditionalEventSubProcessNonInterruptingDefinition",
-                "nStartSignalEventSubProcessNonInterruptingDefinition",
-                "nStartMultipleParallelEventSubProcessNonInterruptingDefinition",
-                "nStartMultipleEventSubProcessNonInterruptingDefinition",
-                "nEndNoneEventDefinition",
-                "nEndMultipleEventDefinition",
-                "nEndEscalationEventDefinition",
-                "nEndErrorEventDefinition",
-                "nEndSignalEventDefinition",
-                "nEndCompensateEventDefinition",
-                "nEndCancelEventDefinition",
-                "nEndMessageEventDefinition",
-                "nEndTerminateEventDefinition",
-                "nIntermediateCatchMultipleEventDefinition",
-                "nIntermediateCatchMultipleParallelEventDefinition",
-                "nIntermediateCatchMessageEventDefinition",
-                "nIntermediateCatchTimerEventDefinition",
-                "nIntermediateCatchConditionalEventDefinition",
-                "nIntermediateCatchLinkEventDefinition",
-                "nIntermediateCatchSignalEventDefinition",
-                "nIntermediateThrowNoneEventDefinition",
-                "nIntermediateThrowMessageEventDefinition",
-                "nIntermediateThrowEscalationEventDefinition",
-                "nIntermediateThrowLinkEventDefinition",
-                "nIntermediateThrowSignalEventDefinition",
-                "nIntermediateThrowCompensateEventDefinition",
-                "nIntermediateThrowMultipleEventDefinition",
-                "nIntermediateBoundaryMessageEvent",
-                "nIntermediateBoundaryTimerEvent",
-                "nIntermediateBoundaryCancelEvent",
-                "nIntermediateBoundaryConditionalEvent ",
-                "nIntermediateBoundaryEscalationEvent",
-                "nIntermediateBoundaryErrorEvent",
-                "nIntermediateBoundarySignalEvent",
-                "nIntermediateBoundaryCompensateEvent",
-                "nIntermediateBoundaryMultipleEvent",
-                "nIntermediateBoundaryMultipleParallelEvent",
-                "nIntermediateBoundaryTimerEventNonInterrupting",
-                "nIntermediateBoundaryEscalationEventNonInterrupting",
-                "nIntermediateBoundaryConditionalEventNonInterrupting",
-                "nIntermediateBoundaryMessageEventNonInterrupting",
-                "nIntermediateBoundarySignalEventNonInterrupting",
-                "nIntermediateBoundaryMultipleEventNonInterrupting",
-                "nIntermediateBoundaryMultipleParallelEventNonInterrupting",
-                "nMessageFlow",
-                "nSequenceFlow",
-                "nDefaultFlow",
-                "nConditionalFlow",
-                "nLane",
-                "nPoolCollapsedMultiplicityNone",
-                "nPoolCollapsedMultiplicity",
-                "nPoolExpandedMultiplicityNone",
-                "nPoolExpandedMultiplicity",
-                "nChoreographyTask",
-                "nChoreographyTaskSequentialMultipleInstance",
-                "nChoreographyTaskParallelMultipleInstance",
-                "nChoreographyTaskLoop",
-                "nChoreographySubprocessCollapsed",
-                "nChoreographySubprocessCollapsedParallelMultipleInstance",
-                "nChoreographySubprocessCollapsedSequentialMultipleInstance",
-                "nChoreographySubprocessCollapsedLoop",
-                "nChoreographySubprocessCollapsedCall",
-                "nChoreographySubprocessCollapsedCallSequentialMultipleInstance",
-                "nChoreographySubprocessCollapsedCallParallelMultipleInstance",
-                "nChoreographySubprocessCollapsedCallLoop",
-                "nChoreographySubprocessExpanded",
-                "nChoreographySubprocessExpandedSequentialMultipleInstance",
-                "nChoreographySubprocessExpandedParallelMultipleInstance",
-                "nChoreographySubprocessExpandedLoop",
-                "nChoreographyParticipant",
-                "nChoreographyParticipantMultiple",
-                "nChoreographyMessage",
-                "nConversationNone",
-                "nConversationSubProcess",
-                "nConversationCall",
-                "nConversationLink",
-                "nAssociationUndirected",
-                "nAssociationUnidirectional",
-                "nAssociationBidirectional",
-                "nAssociationDataOutput",
-                "nAssociationDataInput",
-                "nGroup",
-                "nTextAnnotation",
-                "TotalElements"};
-
-        HashMap<String, Integer> elementCount = new HashMap<>();
-
         try{
         String path = "src/main/resources/bpmnCounterOutput/bpmn_elements.csv";
 
@@ -1168,10 +898,10 @@ public class UploadController {
         bw.write("nTextAnnotation;");
         bw.write("TotalElements;");
         bw.write("Practical Complexity;");
-        bw.write("Labels Separated by (^^^);");
-        bw.write("Concatenated Labels;");
         bw.write("Total number of words;");
         bw.write("Total number of characters;");
+        bw.write("Labels Separated by (^^^);");
+        bw.write("Concatenated Labels;");
         bw.write("\n");
 
         List<File> filesToInspect = new ArrayList<>();
@@ -5444,10 +5174,11 @@ SUBPROCESS Collapsed EVENT + ADHOC
             bw.write(nTextAnnotation + ";");
             bw.write(TotalElements + ";");
             bw.write(pComplexity + ";");
-            bw.write(modelStampSeparated.toString() + ";");
-            bw.write(modelStamp.toString() + ";");
             bw.write(Nofwords + ";");
-            bw.write(Nofcharater + "\n");
+            bw.write(Nofcharater + ";");
+            bw.write(modelStampSeparated.toString() + ";");
+            bw.write(modelStamp.toString() + "\n");
+
 
             } catch(Exception e){
 
@@ -5466,14 +5197,55 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
         System.out.println("\n=========== :: Inspection succesfully DONE. The .csv file is ready :: ===========");
 
-        for (String element : elementNotation) {
-            int random = (int) (Math.random() * 100);
-            elementCount.put(element, random);
-        }
 
-            for (fileInfo fileInfo : filteredFileInfos) {
-                fileInfo.setElementMap(elementCount);
+        FileReader fileReader = new FileReader("src/main/resources/bpmnCounterOutput/bpmn_elements.csv");
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(fileReader);
+
+        // Leggi la prima riga del file e salvala in un array
+        Map<String, Integer> elementNotation = new HashMap<>();
+        int rowIndex = 0;
+        for (CSVRecord record : records) {
+            Map<String, Integer> elementCount = new HashMap<>(); // crea una nuova istanza della mappa per ogni file
+
+            String[] elements = record.get(0).split(";");
+            String modelName = elements[0];
+            if (rowIndex == 0) {
+                // Prima riga del file
+                for (int i = 2; i < elements.length; i++) {
+                    String value = elements[i].trim();
+                    if (!value.isEmpty()) {
+                        elementNotation.put(value, i);
+                    }
+                }
+            } else {
+                // Altre righe del file
+
+                for (int i = 2; i < elementNotation.size()-2; i++) {
+                    String element = null;
+
+                    for (Map.Entry<String, Integer> entry : elementNotation.entrySet()) {
+                        if (entry.getValue() == i) {
+                            element = entry.getKey();
+                            break;
+                        }
+                    }
+
+                    String[] values = record.get(0).split(";"); // sposta l'indice di 3 posizioni a destra
+                    int value = Integer.parseInt(values[i]); // estrai il primo valore come intero
+                   // System.out.println("element: "+element+" value: "+value);
+                    elementCount.put(element, value);
+                }
+
+                for (fileInfo fileInfo : filteredFileInfos) {
+                    if (Objects.equals(fileInfo.getName(), modelName)) {
+                        System.out.println(modelName);
+                        System.out.println(elementCount);
+                        fileInfo.setElementMap(elementCount);
+                        break;
+                    }
+                }
             }
+            rowIndex++;
         }
-
+     }
     }
