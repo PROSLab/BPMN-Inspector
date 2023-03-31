@@ -17,6 +17,7 @@ import {AiFillExclamationCircle} from "react-icons/ai";
 import {resolve} from "chart.js/helpers";
 import {GrDocumentCsv} from "react-icons/gr";
 import { Line } from "react-chartjs-2";
+import { CiCircleQuestion } from "react-icons/ci";
 
 interface filesInfoFiltered {
     name: string;
@@ -181,7 +182,7 @@ export default function PostProcessingView() {
             labels.push(`${i}`);
         }
 
-        const dataLinear = {
+        const dataTotalElements = {
             labels: labels,
             datasets: [
                 {
@@ -189,25 +190,48 @@ export default function PostProcessingView() {
                     backgroundColor: "rgb(16,173,115)",
                     borderColor: "rgb(8,59,12)",
                     data: arrayLength,
-                    width:"49%",
-                    height:"20%",
                     color: "rgb(8,59,12)",
-                    scales: {
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Your Title'
-                            }
-                        }
-                    }
                 },
             ],
         };
-        return dataLinear;
+        return dataTotalElements;
     }
 
+    function countPracticalLengths(files: filesInfo[]) {
+        const arrayLength: number[] = Array(91).fill(0); // Inizializza un array di 91 elementi con tutti 0
 
-    const dataLinear = countTotalLengths(filesInfo);
+        for (const file of files) {
+            // @ts-ignore
+            const TotalElements = file.elementMap["Practical Complexity"];
+
+            if (TotalElements >= 0 && TotalElements <= 90) {
+                arrayLength[TotalElements]++;
+            }
+        }
+        console.log(arrayLength)
+
+        const labels = [];
+        for (let i = 0; i <= 90; i++) {
+            labels.push(`${i}`);
+        }
+
+        const dataPC = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "# of models with this size",
+                    backgroundColor: "rgb(16,173,115)",
+                    borderColor: "rgb(8,59,12)",
+                    data: arrayLength,
+                    color: "rgb(8,59,12)",
+                },
+            ],
+        };
+        return dataPC;
+    }
+
+    const dataPC = countPracticalLengths(filesInfo);
+    const dataTotalElements = countTotalLengths(filesInfo);
 
     // @ts-ignore
     return (
@@ -215,21 +239,6 @@ export default function PostProcessingView() {
             <a style={{fontSize:'40px',color:'black',fontWeight:"bold"}}>BPMN Models inspected</a>
             <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>
                 <a style={{color:'green',fontWeight:"bold"}}>{total}</a> models have been inspected. <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection inspected is composed by: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
-
-                <br></br> <a style={{marginRight:'10px'}}>Active filters:</a>
-
-                {uniqueData[0] || uniqueData[1] || uniqueData[2] ? (
-                    <>
-                        {uniqueData[0] && <span className='badge bg-success'>{"   "+uniqueData[0]}</span>}
-                        {uniqueData[0] && uniqueData[1] && " "}
-                        {uniqueData[1] && <span className='badge bg-success'>{"   "+uniqueData[1]}</span>}
-                        {(uniqueData[0] || uniqueData[1]) && uniqueData[2] && " "}
-                        {uniqueData[2] && <span className='badge bg-success'>{"   "+uniqueData[2]}</span>}
-                    </>
-                ) : (
-                    <span className='badge bg-secondary'>No filter</span>
-                )}
-
             </a>
 
             <ul className="nav nav-tabs nav-fill">
@@ -282,18 +291,20 @@ export default function PostProcessingView() {
 
             <div className="tab-content">
                 {activeTab === 'bpmn-element-usage' && (
-                            <div className="col">
-                                <div>
-                                    <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold", display: "block"}}>1. BPMN Collection's Model Size</a>
-                                    <a>This is a graph of the average model size of the collection</a>
-                                </div>
-
-                                <Line data={dataLinear} options={{responsive:false,maintainAspectRatio:false}}/>
-
-                                <button style={{ marginLeft: '2%', background: 'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadInspectionFile}>
-                                    <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Inspection report</a>
-                                </button>
+                    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                        <div style={{ width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8" }}>
+                            <div style={{ textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px" }}>
+                                <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>BPMN Collection's Model Size</a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"This is a graph of the model size of the collection"}/>
                             </div>
+                            <Line data={dataTotalElements} options={{ responsive: false, maintainAspectRatio: false }} />
+                        </div>
+                        <div style={{ width: "50%", paddingLeft: "10px" }}>
+                            <div style={{ textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px" }}>
+                                <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>BPMN Collection's Practical Complexity</a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"This is a graph of the practical complexity of the collection"}/>
+                            </div>
+                            <Line data={dataPC} options={{ responsive: false, maintainAspectRatio: false }} />
+                        </div>
+                    </div>
                 )}
                 {activeTab === 'bpmn-element-combined-use' && (
                     <div>
