@@ -5238,8 +5238,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
                 for (fileInfo fileInfo : filteredFileInfos) {
                     if (Objects.equals(fileInfo.getName(), modelName)) {
-                        System.out.println(modelName);
-                        System.out.println(elementCount);
                         fileInfo.setElementMap(elementCount);
                         break;
                     }

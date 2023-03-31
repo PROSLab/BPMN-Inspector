@@ -16,12 +16,14 @@ import {GiConfirmed} from "react-icons/gi";
 import {AiFillExclamationCircle} from "react-icons/ai";
 import {resolve} from "chart.js/helpers";
 import {GrDocumentCsv} from "react-icons/gr";
+import { Line } from "react-chartjs-2";
 
 interface filesInfoFiltered {
     name: string;
     size: number;
     isValid: boolean;
     isDuplicated: boolean;
+    elementMap: any;
 }
 
 export default function PostProcessingView() {
@@ -43,6 +45,7 @@ export default function PostProcessingView() {
         isValid: boolean;
         isEnglish: string;
         isDuplicated: boolean;
+        elementMap: Map<string, number>;
     }
 
     useEffect(() => {
@@ -53,7 +56,6 @@ export default function PostProcessingView() {
             data: data,
         }).then((response) => {
             setFilesInfo(response.data);
-            console.log(response.data)
             loader.hide();
         });
     }, []);
@@ -161,6 +163,52 @@ export default function PostProcessingView() {
         displayMsgGoodModeling = "The evaluation of good modeling practices is supported on Process Collaboration models only.";
     }
 
+    function countTotalLengths(files: filesInfo[]) {
+        const arrayLength: number[] = Array(91).fill(0); // Inizializza un array di 91 elementi con tutti 0
+
+        for (const file of files) {
+            // @ts-ignore
+            const TotalElements = file.elementMap["TotalElements"];
+
+            if (TotalElements >= 0 && TotalElements <= 90) {
+                arrayLength[TotalElements]++;
+            }
+        }
+        console.log(arrayLength)
+
+        const labels = [];
+        for (let i = 0; i <= 90; i++) {
+            labels.push(`${i}`);
+        }
+
+        const dataLinear = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "# of models with this size",
+                    backgroundColor: "rgb(16,173,115)",
+                    borderColor: "rgb(8,59,12)",
+                    data: arrayLength,
+                    width:"49%",
+                    height:"20%",
+                    color: "rgb(8,59,12)",
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Your Title'
+                            }
+                        }
+                    }
+                },
+            ],
+        };
+        return dataLinear;
+    }
+
+
+    const dataLinear = countTotalLengths(filesInfo);
+
     // @ts-ignore
     return (
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -239,7 +287,8 @@ export default function PostProcessingView() {
                                     <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold", display: "block"}}>1. BPMN Collection's Model Size</a>
                                     <a>This is a graph of the average model size of the collection</a>
                                 </div>
-                                <LineChart options={{responsive:false, height: '10%', width:'50%',maintainAspectRatio:false}}/>
+
+                                <Line data={dataLinear} options={{responsive:false,maintainAspectRatio:false}}/>
 
                                 <button style={{ marginLeft: '2%', background: 'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadInspectionFile}>
                                     <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Inspection report</a>

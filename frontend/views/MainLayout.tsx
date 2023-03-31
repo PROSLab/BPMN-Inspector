@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import css from './MainLayout.module.css';
 import logo from "./../img/logo.png"
+import {MdAlternateEmail, MdOutlineMarkEmailUnread} from "react-icons/all";
 
 type MenuRoute = ViewRouteObject &
   Readonly<{
@@ -46,7 +47,14 @@ export default function MenuOnLeftLayout() {
             </NavLink>
           ))}
         </nav>
-      </Scroller>
+          <div style={{position: 'absolute', bottom: '20px', left: '0', width: '100%', margin: '0 auto'}}>
+              <hr style={{color: 'red', backgroundColor:'#5b5b65', border:'none', height: '1px', margin: '10px 5%', width: '90%'}} />
+              <div style={{textAlign: 'center'}}>
+                  <p style={{fontSize:"15px", color: '#5b5b65', margin: '0'}}>Version: 0.5.0</p>
+                  <p style={{fontSize:'14px', margin: '5px 0'}}> <MdAlternateEmail style={{marginBottom:"0.1cm"}}/> <a style={{marginLeft:"1%", fontSize:"14px"}} href="mailto:ivan.compagnucci@unicam.it"> Contact</a></p>
+              </div>
+          </div>
+          </Scroller>
       <footer slot="drawer" />
 
       <DrawerToggle slot="navbar" aria-label="Menu toggle" ></DrawerToggle>
@@ -54,9 +62,11 @@ export default function MenuOnLeftLayout() {
         {currentTitle}
       </h2>
 
+
       <Suspense fallback={<Placeholder />}>
         <Outlet />
       </Suspense>
+
     </AppLayout>
   );
 }
