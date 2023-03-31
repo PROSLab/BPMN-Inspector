@@ -41,7 +41,7 @@ export const routes: readonly ViewRouteObject[] = [
       { path: '/documentation', element: <DocView />, handle: { icon: 'la la-file', title: 'Documentation' } },
       { path: '/about', element: <AboutView />, handle: { icon: 'la la-info-circle', title: 'About' } },
       { path: '/github', element: <GithubView />, handle: { icon: 'la la-github', title: 'Github' } },
-      { path: '/inspect', element: <PostProcessingView />, handle: {  title: 'Inspect' } },
+      { path: '/inspect', element: <PostProcessingView />, handle: {  title: 'BPMN Models Inspection Dashboard' } },
     ],
   },
 ];

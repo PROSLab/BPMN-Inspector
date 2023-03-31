@@ -15,9 +15,10 @@ import {loader} from "react-global-loader";
 import {GiConfirmed} from "react-icons/gi";
 import {AiFillExclamationCircle} from "react-icons/ai";
 import {resolve} from "chart.js/helpers";
-import {GrDocumentCsv} from "react-icons/gr";
-import { Line } from "react-chartjs-2";
+import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
+import {Bar, Line } from "react-chartjs-2";
 import { CiCircleQuestion } from "react-icons/ci";
+import { FaRegImage } from "react-icons/fa";
 
 interface filesInfoFiltered {
     name: string;
@@ -165,20 +166,26 @@ export default function PostProcessingView() {
     }
 
     function countTotalLengths(files: filesInfo[]) {
-        const arrayLength: number[] = Array(91).fill(0); // Inizializza un array di 91 elementi con tutti 0
+        let maxLength = 0;
+        const arrayLength: number[] = [];
 
         for (const file of files) {
             // @ts-ignore
-            const TotalElements = file.elementMap["TotalElements"];
+            const totalElements = file.elementMap["TotalElements"];
 
-            if (TotalElements >= 0 && TotalElements <= 90) {
-                arrayLength[TotalElements]++;
+            if (totalElements !== undefined && totalElements >= 0) {
+                if (totalElements > maxLength) {
+                    maxLength = totalElements;
+                }
+                while (arrayLength.length <= totalElements) {
+                    arrayLength.push(0);
+                }
+                arrayLength[totalElements]++;
             }
         }
-        console.log(arrayLength)
 
         const labels = [];
-        for (let i = 0; i <= 90; i++) {
+        for (let i = 0; i <= maxLength; i++) {
             labels.push(`${i}`);
         }
 
@@ -198,20 +205,26 @@ export default function PostProcessingView() {
     }
 
     function countPracticalLengths(files: filesInfo[]) {
-        const arrayLength: number[] = Array(91).fill(0); // Inizializza un array di 91 elementi con tutti 0
+        let maxLength = 0;
+        const arrayLength: number[] = [0];
 
         for (const file of files) {
             // @ts-ignore
-            const TotalElements = file.elementMap["Practical Complexity"];
+            const practicalComplexity = file.elementMap["Practical Complexity"];
 
-            if (TotalElements >= 0 && TotalElements <= 90) {
-                arrayLength[TotalElements]++;
+            if (practicalComplexity !== undefined && practicalComplexity >= 0) {
+                if (practicalComplexity > maxLength) {
+                    maxLength = practicalComplexity;
+                }
+                while (arrayLength.length <= practicalComplexity) {
+                    arrayLength.push(0);
+                }
+                arrayLength[practicalComplexity]++;
             }
         }
-        console.log(arrayLength)
 
         const labels = [];
-        for (let i = 0; i <= 90; i++) {
+        for (let i = 0; i <= maxLength; i++) {
             labels.push(`${i}`);
         }
 
@@ -230,9 +243,89 @@ export default function PostProcessingView() {
         return dataPC;
     }
 
+    function countElementDistr(files: filesInfo[]) {
+        const elementCounts = {};
+
+        // Loop through each file
+        for (const file of files) {
+            // Loop through each element in the file's elementMap
+            for (const element in file.elementMap) {
+                if (file.elementMap.hasOwnProperty(element)) {
+                    // @ts-ignore
+                    const value = file.elementMap[element];
+                    if (value > 0) {
+                        if (!elementCounts.hasOwnProperty(element)) {
+                            // @ts-ignore
+                            elementCounts[element] = 0;
+                        }
+                        // @ts-ignore
+                        elementCounts[element]++;
+                    }
+                }
+            }
+        }
+
+        // Convert the elementCounts object to arrays for chart data
+        const labels = Object.keys(elementCounts);
+        const data = Object.values(elementCounts);
+
+        // Create the chart data object
+        const dataElementDistr = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "# of files with this element",
+                    backgroundColor: "rgb(16,173,115)",
+                    borderColor: "rgb(8,59,12)",
+                    data: data,
+                    color: "rgb(8,59,12)",
+                },
+            ],
+        };
+
+        return dataElementDistr;
+    }
+
+    function countElementUsage(files: filesInfo[]) {
+        const sumMap: Record<string, number> = {};
+        for (const file of files) {
+            for (const key in file.elementMap) {
+                if (key === "TotalElements" || key === "Practical Complexity") {
+                    continue;
+                }
+                // @ts-ignore
+                const value = file.elementMap[key];
+                if (!sumMap.hasOwnProperty(key)) {
+                    sumMap[key] = value;
+                } else {
+                    sumMap[key] += value;
+                }
+            }
+        }
+
+        const sortedKeys = Object.keys(sumMap)
+            .filter((key) => sumMap[key] >= 1) // filtra gli elementi che hanno valore 0 o inferiore
+            .sort((a, b) => sumMap[b] - sumMap[a]);
+
+        const dataElementUsage = {
+            labels: sortedKeys,
+            datasets: [
+                {
+                    label: "# of this element in the collection",
+                    backgroundColor: "rgb(16,173,115)",
+                    borderColor: "rgb(8,59,12)",
+                    data: sortedKeys.map((key) => sumMap[key]),
+                    color: "rgb(8,59,12)",
+                },
+            ],
+        };
+        return dataElementUsage;
+    }
+
     const dataPC = countPracticalLengths(filesInfo);
     const dataTotalElements = countTotalLengths(filesInfo);
-
+    const dataElementDistr = countElementDistr(filesInfo);
+    const dataElementUsage = countElementUsage(filesInfo);
     // @ts-ignore
     return (
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -291,20 +384,71 @@ export default function PostProcessingView() {
 
             <div className="tab-content">
                 {activeTab === 'bpmn-element-usage' && (
-                    <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                        <div style={{ width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8" }}>
-                            <div style={{ textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px" }}>
-                                <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>BPMN Collection's Model Size</a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"This is a graph of the model size of the collection"}/>
+                    <>
+                        <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
+                            <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
+                                <div style={{
+                                    textAlign: "center",
+                                    borderBottom: "1px solid #d8d8d8",
+                                    paddingBottom: "1px"
+                                }}>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
+                                        Model Size</a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                      title={"This is a graph of the model size of the collection"}/>
+                                    <button style={{marginLeft:'2%',background:'white', color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer', marginTop: '0.42cm'}}>
+                                        <FaRegImage style={{fontSize:"30px", alignSelf:"right"}}/>
+                                    </button>
+
+                                </div>
+                                <Line data={dataTotalElements}
+                                      options={{responsive: false, maintainAspectRatio: false}}/>
                             </div>
-                            <Line data={dataTotalElements} options={{ responsive: false, maintainAspectRatio: false }} />
-                        </div>
-                        <div style={{ width: "50%", paddingLeft: "10px" }}>
-                            <div style={{ textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px" }}>
-                                <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>BPMN Collection's Practical Complexity</a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"This is a graph of the practical complexity of the collection"}/>
+                            <div style={{width: "50%", paddingLeft: "10px"}}>
+                                <div style={{
+                                    textAlign: "center",
+                                    borderBottom: "1px solid #d8d8d8",
+                                    paddingBottom: "1px"
+                                }}>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
+                                        Practical Complexity</a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                      title={"This is a graph of the practical complexity of the collection"}/>
+                                    <button style={{marginLeft:'2%',background:'white', color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer', marginTop: '0.42cm'}}>
+                                    <FaRegImage style={{fontSize:"30px", alignSelf:"right"}}/>
+                                </button>
+                                </div>
+                                <Line data={dataPC} options={{responsive: false, maintainAspectRatio: false}}/>
                             </div>
-                            <Line data={dataPC} options={{ responsive: false, maintainAspectRatio: false }} />
                         </div>
-                    </div>
+                        <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
+                            <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
+                                <div style={{textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px"}}>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's usage</a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                      title={"This is a graph of the element usage"}/>
+                                    <button style={{marginLeft:'2%',background:'white', color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer', marginTop: '0.42cm'}}>
+                                        <FaRegImage style={{fontSize:"30px", alignSelf:"right"}}/>
+                                    </button>
+                                </div>
+
+                                <Line data={dataElementUsage} options={{responsive: false, maintainAspectRatio: false}}/>
+                            </div>
+                            <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
+                                <div style={{textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px"}}>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                      title={"This is a graph of the element distribution"}/>
+                                    <button style={{marginLeft:'2%',background:'white', color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer', marginTop: '0.42cm'}}>
+                                        <FaRegImage style={{fontSize:"30px", alignSelf:"right"}}/>
+                                    </button>
+                                </div>
+
+                                <Line data={dataElementDistr} options={{responsive: false, maintainAspectRatio: false}}/>
+                            </div>
+                        </div>
+                    </>
+
                 )}
                 {activeTab === 'bpmn-element-combined-use' && (
                     <div>
@@ -314,7 +458,7 @@ export default function PostProcessingView() {
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
-                            <BarChart options={{responsive:false, height: '20%', width:'30%',maintainAspectRatio:false}}></BarChart>
+                            <BarChart options={{responsive:false,height: '10%', width:'30%',maintainAspectRatio:false}} data={data}></BarChart>
                             <PieChart ></PieChart>
 
                         </div>

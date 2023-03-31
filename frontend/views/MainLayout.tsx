@@ -52,7 +52,7 @@ export default function MenuOnLeftLayout() {
         </nav>
 
           {data && (
-              <div style={{position: 'absolute', bottom: '130px',height: "10%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
+              <div style={{position: 'absolute', bottom: '100px',height: "10%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
 
                   <a style={{marginLeft:'27%',fontWeight:"bold"}}>Active filters </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are the filters activated for the inspection"}/>
                   <br/>
