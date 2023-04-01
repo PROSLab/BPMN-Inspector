@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import "./postCss.css";
@@ -19,6 +19,9 @@ import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
 import {Bar, Line } from "react-chartjs-2";
 import { CiCircleQuestion } from "react-icons/ci";
 import { FaRegImage } from "react-icons/fa";
+import { Canvg } from 'canvg';
+import html2canvas from 'html2canvas';
+git
 
 interface filesInfoFiltered {
     name: string;
@@ -165,6 +168,21 @@ export default function PostProcessingView() {
         displayMsgGoodModeling = "The evaluation of good modeling practices is supported on Process Collaboration models only.";
     }
 
+    function downloadSvg() {
+        const chart = document.querySelector('#chart');
+        if (chart) {
+            html2canvas(chart as HTMLElement).then((canvas) => {
+                const url = canvas.toDataURL('image/png');
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = 'chart.png';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            });
+        }
+    }
+
     function countTotalLengths(files: filesInfo[]) {
         let maxLength = 0;
         const arrayLength: number[] = [];
@@ -265,9 +283,13 @@ export default function PostProcessingView() {
             }
         }
 
-        // Convert the elementCounts object to arrays for chart data
-        const labels = Object.keys(elementCounts);
-        const data = Object.values(elementCounts);
+        // Convert the elementCounts object to an array of [key, value] pairs and sort by value in descending order
+        // @ts-ignore
+        const sortedCounts = Object.entries(elementCounts).sort((a, b) => b[1] - a[1]);
+
+        // Extract labels and data from the sortedCounts array
+        const labels = sortedCounts.map((count) => count[0]);
+        const data = sortedCounts.map((count) => count[1]);
 
         // Create the chart data object
         const dataElementDistr = {
@@ -326,6 +348,7 @@ export default function PostProcessingView() {
     const dataTotalElements = countTotalLengths(filesInfo);
     const dataElementDistr = countElementDistr(filesInfo);
     const dataElementUsage = countElementUsage(filesInfo);
+    // @ts-ignore
     // @ts-ignore
     return (
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -396,13 +419,14 @@ export default function PostProcessingView() {
                                         Model Size</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
-                                    <button style={{marginLeft:'2%',background:'white', color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer', marginTop: '0.42cm'}}>
-                                        <FaRegImage style={{fontSize:"30px", alignSelf:"right"}}/>
+                                    <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                        <FaRegImage onClick={downloadSvg} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
 
                                 </div>
-                                <Line data={dataTotalElements}
-                                      options={{responsive: false, maintainAspectRatio: false}}/>
+                                    <div id="chart">
+                                        <Line data={dataTotalElements} options={{responsive: false, maintainAspectRatio: false}}/>
+                                    </div>
                             </div>
                             <div style={{width: "50%", paddingLeft: "10px"}}>
                                 <div style={{
@@ -414,11 +438,13 @@ export default function PostProcessingView() {
                                         Practical Complexity</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the practical complexity of the collection"}/>
-                                    <button style={{marginLeft:'2%',background:'white', color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer', marginTop: '0.42cm'}}>
-                                    <FaRegImage style={{fontSize:"30px", alignSelf:"right"}}/>
-                                </button>
+                                    <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                        <FaRegImage onClick={downloadSvg} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                    </button>
                                 </div>
-                                <Line data={dataPC} options={{responsive: false, maintainAspectRatio: false}}/>
+                                <div id="chart">
+                                    <Line data={dataPC} options={{responsive: false, maintainAspectRatio: false}}/>
+                                </div>
                             </div>
                         </div>
                         <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
@@ -427,24 +453,27 @@ export default function PostProcessingView() {
                                     <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's usage</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element usage"}/>
-                                    <button style={{marginLeft:'2%',background:'white', color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer', marginTop: '0.42cm'}}>
-                                        <FaRegImage style={{fontSize:"30px", alignSelf:"right"}}/>
+                                    <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                        <FaRegImage onClick={downloadSvg} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
                                 </div>
-
-                                <Line data={dataElementUsage} options={{responsive: false, maintainAspectRatio: false}}/>
+                                <div id="chart">
+                                    <Line data={dataElementUsage} options={{responsive: false, maintainAspectRatio: false}}/>
+                                </div>
                             </div>
                             <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
                                 <div style={{textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px"}}>
                                     <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element distribution"}/>
-                                    <button style={{marginLeft:'2%',background:'white', color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer', marginTop: '0.42cm'}}>
-                                        <FaRegImage style={{fontSize:"30px", alignSelf:"right"}}/>
+                                    <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                        <FaRegImage onClick={downloadSvg} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
                                 </div>
+                                <div id="chart">
+                                    <Line data={dataElementDistr} options={{responsive: false, maintainAspectRatio: false}}/>
+                                </div>
 
-                                <Line data={dataElementDistr} options={{responsive: false, maintainAspectRatio: false}}/>
                             </div>
                         </div>
                     </>
