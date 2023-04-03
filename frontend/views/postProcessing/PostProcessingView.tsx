@@ -155,8 +155,6 @@ export default function PostProcessingView() {
         });
     };
 
-    const uniqueData = Array.from(new Set(data));
-
     let displayMsgSyntactic = "";
     let displayMsgGoodModeling = "";
 
@@ -271,6 +269,9 @@ export default function PostProcessingView() {
         for (const file of files) {
             // Loop through each element in the file's elementMap
             for (const element in file.elementMap) {
+                if (element === "TotalElements" || element === "Practical Complexity") {
+                    continue;
+                }
                 if (file.elementMap.hasOwnProperty(element)) {
                     // @ts-ignore
                     const value = file.elementMap[element];
@@ -483,6 +484,7 @@ export default function PostProcessingView() {
                                     </tbody>
                                 </table>
                             </div>
+
                             <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
                                 <div style={{textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px"}}>
                                     <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
@@ -499,7 +501,7 @@ export default function PostProcessingView() {
                                     <thead>
                                     <tr>
                                         <th>Element</th>
-                                        <th># of files with this element</th>
+                                        <th># of this element in the collection</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -511,7 +513,6 @@ export default function PostProcessingView() {
                                     ))}
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </>

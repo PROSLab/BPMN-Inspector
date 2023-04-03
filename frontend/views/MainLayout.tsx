@@ -4,12 +4,24 @@ import { Item } from '@hilla/react-components/Item.js';
 import { Scroller } from '@hilla/react-components/Scroller.js';
 import Placeholder from 'Frontend/components/placeholder/Placeholder.js';
 import { MenuProps, routes, useViewMatches, ViewRouteObject } from 'Frontend/routes.js';
-import React, { Suspense } from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import {NavLink, Outlet, useLocation} from 'react-router-dom';
 import css from './MainLayout.module.css';
 import logo from "./../img/logo.png"
 import {MdAlternateEmail, MdOutlineMarkEmailUnread} from "react-icons/all";
 import {CiCircleQuestion} from "react-icons/ci";
+import {loader} from "react-global-loader";
+import axios from "axios";
+
+interface filesInfo {
+    modelType: string;
+    name: string;
+    size: number;
+    isValid: boolean;
+    isEnglish: string;
+    isDuplicated: boolean;
+    elementMap: Map<string, number>;
+}
 
 type MenuRoute = ViewRouteObject &
   Readonly<{
@@ -19,6 +31,7 @@ type MenuRoute = ViewRouteObject &
 
 export default function MenuOnLeftLayout() {
   const matches = useViewMatches();
+  const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
   const currentTitle = matches[matches.length - 1]?.handle?.title ?? 'Unknown';
   const menuRoutes = (routes[0]?.children || []).filter(
     (route) => route.path && route.handle && route.handle.icon && route.handle.title
@@ -27,6 +40,49 @@ export default function MenuOnLeftLayout() {
   const location = useLocation()
     const { data } = location.state || {};
   const uniqueData = Array.from(new Set(data));
+
+    useEffect(() => {
+        axios({
+            method: "post",
+            url: "/files",
+            data: data,
+        }).then((response) => {
+            setFilesInfo(response.data);
+        });
+    }, []);
+
+    console.log(filesInfo)
+
+    const {totalProcess,totalChoreography,totalConversation} = filesInfo.reduce((counts, file) => {
+        if (file.modelType === "Process Collaboration") {
+            counts.totalProcess++;
+        }
+        if (file.modelType === "Choreography") {
+            counts.totalChoreography++;
+        }
+        if (file.modelType === "Conversation") {
+            counts.totalConversation++;
+        }
+        return counts;
+    }, { totalProcess: 0, totalChoreography: 0, totalConversation: 0});
+
+    const totalDuplicated = filesInfo.reduce((counts, file) => {
+        if (file.isDuplicated) {
+            counts.totalDuplicated++;
+        }
+        return counts;
+    }, { totalDuplicated: 0});
+
+    const {valid, invalid} = filesInfo.reduce((counts, file) => {
+        if (file.isValid) {
+            counts.valid++;
+        } else {
+            counts.invalid++;
+        }
+        return counts;
+    }, {valid: 0, invalid: 0});
+
+    let total = totalProcess+totalChoreography+totalConversation;
 
   return (
     <AppLayout className="block h-full" primarySection="drawer">
@@ -52,9 +108,21 @@ export default function MenuOnLeftLayout() {
         </nav>
 
           {data && (
-              <div style={{position: 'absolute', bottom: '100px',height: "10%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
 
-                  <a style={{marginLeft:'27%',fontWeight:"bold"}}>Active filters </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are the filters activated for the inspection"}/>
+              <div style={{position: 'absolute', bottom: '110px',height: "33%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
+
+                  <a style={{marginLeft:'5%',fontWeight:"bold"}}>Model Dashboard </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are information about the collection of models inspected"}/>
+                  <br/>
+                  <a style={{marginLeft:'5%'}}>Total models inspected: </a><a style={{color:'green',fontWeight:"bold", marginLeft:"13%"}}>{total}</a>
+                  <br/>
+                  <a style={{marginLeft:'5%'}}># Process Collaboration: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"11%"}}>{totalProcess}</a>
+                  <br/>
+                  <a style={{marginLeft:'5%'}}># Choreography: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"33%"}}>{totalChoreography}</a>
+                  <br/>
+                  <a style={{marginLeft:'5%'}}># Conversation: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"36.5%"}}>{totalConversation}</a>
+                  <br/>
+                  <br/>
+                  <a style={{marginLeft:'5%',fontWeight:"bold"}}>Active Filters </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are the filters activated for the inspection"}/>
                   <br/>
                   {uniqueData[0] || uniqueData[1] || uniqueData[2] ? (
                       <>
@@ -64,12 +132,11 @@ export default function MenuOnLeftLayout() {
                           {(uniqueData[0] || uniqueData[1]) && uniqueData[2] && " "}
                           {uniqueData[2] && <span style={{marginLeft:'0px'}} className='badge bg-success'>{"   "+uniqueData[2]}</span>}
                       </>
-                  ) : <span style={{marginLeft:'38%'}} className='badge bg-secondary'>No filter</span>}
+                  ) : <span style={{marginLeft:'10px'}} className='badge bg-secondary'>No filter</span>}
               </div>
           )}
 
           <div style={{position: 'absolute', bottom: '20px', left: '0', width: '100%', margin: '0 auto'}}>
-
               <hr style={{color: 'red', backgroundColor:'#5b5b65', border:'none', height: '1px', margin: '10px 5%', width: '90%'}} />
               <div style={{textAlign: 'center'}}>
                   <p style={{fontSize:"15px", color: '#eae9e9"', margin: '0'}}>Version: 0.5.0</p>

@@ -84,7 +84,6 @@ export default function HelloReactView() {
                 data: filteringArray,
             }).then((response) => {
                 setFilesInfo(response.data);
-                console.log(response.data)
                 loader.hide();
             });
         }, []);
