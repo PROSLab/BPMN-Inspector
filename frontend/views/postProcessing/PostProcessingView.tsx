@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {ReactNode, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import "./postCss.css";
@@ -21,7 +21,7 @@ import { CiCircleQuestion } from "react-icons/ci";
 import { FaRegImage } from "react-icons/fa";
 import { Canvg } from 'canvg';
 import html2canvas from 'html2canvas';
-git
+import { Table } from 'react-bootstrap';
 
 interface filesInfoFiltered {
     name: string;
@@ -168,14 +168,14 @@ export default function PostProcessingView() {
         displayMsgGoodModeling = "The evaluation of good modeling practices is supported on Process Collaboration models only.";
     }
 
-    function downloadSvg() {
-        const chart = document.querySelector('#chart');
-        if (chart) {
-            html2canvas(chart as HTMLElement).then((canvas) => {
+    function downloadSvg(diagramId: string) {
+        const diagram = document.querySelector(`#${diagramId}`);
+        if (diagram) {
+            html2canvas(diagram as HTMLElement).then((canvas) => {
                 const url = canvas.toDataURL('image/png');
                 const downloadLink = document.createElement('a');
                 downloadLink.href = url;
-                downloadLink.download = 'chart.png';
+                downloadLink.download = `${diagramId}.png`;
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
@@ -221,6 +221,9 @@ export default function PostProcessingView() {
         };
         return dataTotalElements;
     }
+
+
+
 
     function countPracticalLengths(files: filesInfo[]) {
         let maxLength = 0;
@@ -329,8 +332,10 @@ export default function PostProcessingView() {
             .filter((key) => sumMap[key] >= 1) // filtra gli elementi che hanno valore 0 o inferiore
             .sort((a, b) => sumMap[b] - sumMap[a]);
 
+        const labels = sortedKeys.map((key) => key);
+
         const dataElementUsage = {
-            labels: sortedKeys,
+            labels: labels,
             datasets: [
                 {
                     label: "# of this element in the collection",
@@ -420,11 +425,11 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={downloadSvg} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        <FaRegImage onClick={() => downloadSvg('chartMS')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
 
                                 </div>
-                                    <div id="chart">
+                                    <div id="chartMS">
                                         <Line data={dataTotalElements} options={{responsive: false, maintainAspectRatio: false}}/>
                                     </div>
                             </div>
@@ -439,10 +444,10 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the practical complexity of the collection"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={downloadSvg} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        <FaRegImage onClick={() => downloadSvg('chartPC')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
                                 </div>
-                                <div id="chart">
+                                <div id="chartPC">
                                     <Line data={dataPC} options={{responsive: false, maintainAspectRatio: false}}/>
                                 </div>
                             </div>
@@ -454,12 +459,29 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element usage"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={downloadSvg} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        <FaRegImage onClick={() => downloadSvg('chartEU')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
                                 </div>
-                                <div id="chart">
+                                <div id="chartEU">
                                     <Line data={dataElementUsage} options={{responsive: false, maintainAspectRatio: false}}/>
                                 </div>
+
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Element</th>
+                                        <th># of this element in the collection</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {dataElementUsage.labels.map((label, index) => (
+                                        <tr key={index}>
+                                            <td>{label}</td>
+                                            <td>{dataElementUsage.datasets[0].data[index]}</td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
                             </div>
                             <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
                                 <div style={{textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px"}}>
@@ -467,12 +489,28 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element distribution"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={downloadSvg} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        <FaRegImage onClick={() => downloadSvg('chartED')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
                                 </div>
-                                <div id="chart">
+                                <div id="chartED">
                                     <Line data={dataElementDistr} options={{responsive: false, maintainAspectRatio: false}}/>
                                 </div>
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Element</th>
+                                        <th># of files with this element</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {dataElementDistr.labels.map((label, index) => (
+                                        <tr key={index}>
+                                            <td>{label}</td>
+                                            <td>{dataElementDistr.datasets[0].data[index] as ReactNode}</td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
 
                             </div>
                         </div>
