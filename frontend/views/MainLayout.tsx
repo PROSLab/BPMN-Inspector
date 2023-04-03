@@ -100,20 +100,14 @@ export default function MenuOnLeftLayout() {
         datasets: [
             {
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
+                    'rgba(8,59,12, 0.2)',
+                    'rgba(75, 192, 126, 0.2)',
+                    'rgba(44, 147, 40, 0.2)',
                 ],
                 borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
+                    'rgb(8,59,12, 1)',
+                    'rgb(75,192,126)',
+                    'rgb(44,147,40, 1)'
                 ],
                 data: typeCounts,
                 color: "rgb(8,59,12)",
@@ -122,7 +116,7 @@ export default function MenuOnLeftLayout() {
     };
 
     const options = {
-        responsive:false,
+        responsive:true,
         maintainAspectRatio:false,
         plugins: {
             legend: {
@@ -162,7 +156,7 @@ export default function MenuOnLeftLayout() {
 
           {data && (
 
-              <div style={{position: 'absolute', bottom: '85px',height: "55%", width: "90%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
+              <div style={{position: 'absolute', bottom: '10%',height: "55%", width: "90%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
 
                   <a style={{marginLeft:'5%',fontWeight:"bold"}}>Model Dashboard </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are information about the collection of models inspected"}/>
                   <br/>
@@ -175,11 +169,11 @@ export default function MenuOnLeftLayout() {
                   <a style={{marginLeft:'5%'}}># Conversation: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"36.5%"}}>{totalConversation}</a>
                   <br/>
                   <br/>
-                  <div style={{marginLeft:"-39px"}}>
+                  <div style={{marginLeft:""}}>
                     <Pie options={options} data={dataModels}></Pie>
                   </div>
                   <br/>
-                  <a style={{marginLeft:'5%',fontWeight:"bold"}}>Active Filters </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are the filters activated for the inspection"}/>
+                  <a style={{marginLeft:'6%',fontWeight:"bold"}}>Active Filters </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are the filters activated for the inspection"}/>
                   <br/>
                   {uniqueData[0] || uniqueData[1] || uniqueData[2] ? (
                       <>
