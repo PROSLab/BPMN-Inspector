@@ -356,8 +356,8 @@ export default function PostProcessingView() {
     const dataElementUsage = countElementUsage(filesInfo);
 
     return (
-        <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-            <ul className="nav nav-tabs nav-fill">
+        <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
+            <ul style={{background:"#fafafb"}} className="nav nav-tabs nav-fill">
                 <li className="nav-item" style={{padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', fontWeight: "bold", fontSize:'15px' }}>
                     <a
                         className={`nav-link ${activeTab === 'bpmn-element-usage' ? 'active' : ''}`}
@@ -405,17 +405,12 @@ export default function PostProcessingView() {
                 </li>
             </ul>
 
-            <div className="tab-content">
+            <div style={{background:"#fafafb"}} className="tab-content">
                 {activeTab === 'bpmn-element-usage' && (
                     <>
-                        <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
-                            <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
-                                <div style={{
-                                    textAlign: "center",
-                                    borderBottom: "1px solid #d8d8d8",
-                                    paddingBottom: "1px"
-                                }}>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
+                        <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
+                            <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
                                         Model Size</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
@@ -423,40 +418,33 @@ export default function PostProcessingView() {
                                         <FaRegImage onClick={() => downloadSvg('chartMS')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
 
-                                </div>
+
                                     <div id="chartMS">
                                         <Line data={dataTotalElements} options={{responsive: false, maintainAspectRatio: false}}/>
                                     </div>
                             </div>
-                            <div style={{width: "50%", paddingLeft: "10px"}}>
-                                <div style={{
-                                    textAlign: "center",
-                                    borderBottom: "1px solid #d8d8d8",
-                                    paddingBottom: "1px"
-                                }}>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
+                            <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
                                         Practical Complexity</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the practical complexity of the collection"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartPC')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
-                                </div>
                                 <div id="chartPC">
                                     <Line data={dataPC} options={{responsive: false, maintainAspectRatio: false}}/>
                                 </div>
                             </div>
                         </div>
-                        <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
-                            <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
-                                <div style={{textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px"}}>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's usage</a>
+                        <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
+                            <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", borderRadius: "12px 12px 12px 12px",padding: "5px 15px 15px 15px",marginRight:"10px", lineHeight: "1.5714285714285714"}}>
+                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's usage</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element usage"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartEU')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
-                                </div>
+
                                 <div id="chartEU">
                                     <Line data={dataElementUsage} options={{responsive: false, maintainAspectRatio: false}}/>
                                 </div>
@@ -479,18 +467,19 @@ export default function PostProcessingView() {
                                 </table>
                             </div>
 
-                            <div style={{width: "50%", paddingRight: "10px", borderRight: "1px solid #d8d8d8"}}>
-                                <div style={{textAlign: "center", borderBottom: "1px solid #d8d8d8", paddingBottom: "1px"}}>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
+                            <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white",marginRight:"10px", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element distribution"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartED')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
-                                </div>
+
+
                                 <div id="chartED">
                                     <Line data={dataElementDistr} options={{responsive: false, maintainAspectRatio: false}}/>
                                 </div>
+
                                 <table>
                                     <thead>
                                     <tr>
@@ -507,7 +496,7 @@ export default function PostProcessingView() {
                                     ))}
                                     </tbody>
                                 </table>
-                            </div>
+                                </div>
                         </div>
                     </>
 
@@ -521,8 +510,6 @@ export default function PostProcessingView() {
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             <BarChart options={{responsive:false,height: '10%', width:'30%',maintainAspectRatio:false}} data={data}></BarChart>
-                            <PieChart options={{responsive:false,height: '10%', width:'30%',maintainAspectRatio:false}} data={data}></PieChart>
-
                         </div>
                     </div>
                 )}

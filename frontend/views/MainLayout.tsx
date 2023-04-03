@@ -106,8 +106,6 @@ export default function MenuOnLeftLayout() {
                 ],
                 borderColor: [
                     'rgb(8,59,12, 1)',
-                    'rgb(75,192,126)',
-                    'rgb(44,147,40, 1)'
                 ],
                 data: typeCounts,
                 color: "rgb(8,59,12)",

@@ -629,7 +629,7 @@ public class UploadController {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
             bw.write("fileName;");
             bw.write("bpmnModeler;");
-            bw.write("Normal Task;");
+            bw.write("Task;");
             bw.write("Call Activity;");
             bw.write("Task Compensate;");
             bw.write("Call Activity Compensate;");
