@@ -354,15 +354,9 @@ export default function PostProcessingView() {
     const dataTotalElements = countTotalLengths(filesInfo);
     const dataElementDistr = countElementDistr(filesInfo);
     const dataElementUsage = countElementUsage(filesInfo);
-    // @ts-ignore
-    // @ts-ignore
+
     return (
         <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-            <a style={{fontSize:'40px',color:'black',fontWeight:"bold"}}>BPMN Models inspected</a>
-            <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>
-                <a style={{color:'green',fontWeight:"bold"}}>{total}</a> models have been inspected. <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection inspected is composed by: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
-            </a>
-
             <ul className="nav nav-tabs nav-fill">
                 <li className="nav-item" style={{padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', fontWeight: "bold", fontSize:'15px' }}>
                     <a
@@ -527,7 +521,7 @@ export default function PostProcessingView() {
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
                             <BarChart options={{responsive:false,height: '10%', width:'30%',maintainAspectRatio:false}} data={data}></BarChart>
-                            <PieChart ></PieChart>
+                            <PieChart options={{responsive:false,height: '10%', width:'30%',maintainAspectRatio:false}} data={data}></PieChart>
 
                         </div>
                     </div>

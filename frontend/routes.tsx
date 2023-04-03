@@ -6,6 +6,7 @@ import DocView from "Frontend/views/documentation/DocView";
 import GithubView from "Frontend/views/github/GithubView";
 import PostProcessingView from "Frontend/views/postProcessing/PostProcessingView";
 
+// @ts-ignore
 const AboutView = lazy(async () => import('Frontend/views/about/AboutView.js'));
 export type MenuProps = Readonly<{
   icon?: string;
@@ -39,7 +40,6 @@ export const routes: readonly ViewRouteObject[] = [
     children: [
       { path: '/', element: <HelloReactView/>, handle: { icon: 'la la-globe', title: 'Home' } },
       { path: '/documentation', element: <DocView />, handle: { icon: 'la la-file', title: 'Documentation' } },
-      { path: '/about', element: <AboutView />, handle: { icon: 'la la-info-circle', title: 'About' } },
       { path: '/github', element: <GithubView />, handle: { icon: 'la la-github', title: 'Github' } },
       { path: '/inspect', element: <PostProcessingView />, handle: {  title: 'BPMN Models Inspection Dashboard' } },
     ],

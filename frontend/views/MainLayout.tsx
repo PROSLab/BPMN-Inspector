@@ -12,6 +12,8 @@ import {MdAlternateEmail, MdOutlineMarkEmailUnread} from "react-icons/all";
 import {CiCircleQuestion} from "react-icons/ci";
 import {loader} from "react-global-loader";
 import axios from "axios";
+import PieChart from "Frontend/components/charts/PieChart";
+import {Pie} from "react-chartjs-2";
 
 interface filesInfo {
     modelType: string;
@@ -51,8 +53,6 @@ export default function MenuOnLeftLayout() {
         });
     }, []);
 
-    console.log(filesInfo)
-
     const {totalProcess,totalChoreography,totalConversation} = filesInfo.reduce((counts, file) => {
         if (file.modelType === "Process Collaboration") {
             counts.totalProcess++;
@@ -84,7 +84,60 @@ export default function MenuOnLeftLayout() {
 
     let total = totalProcess+totalChoreography+totalConversation;
 
-  return (
+    const types = ["Process Collaboration", "Choreography", "Conversation"];
+
+    const typeCounts = types.map((type) =>
+        filesInfo.reduce((count, file) => {
+            if (file.modelType === type) {
+                count++;
+            }
+            return count;
+        }, 0)
+    );
+
+    const dataModels = {
+        labels: types,
+        datasets: [
+            {
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                data: typeCounts,
+                color: "rgb(8,59,12)",
+            },
+        ],
+    };
+
+    const options = {
+        responsive:false,
+        maintainAspectRatio:false,
+        plugins: {
+            legend: {
+                display: false,
+                position: 'top' as const,
+            },
+            title: {
+                display: false,
+                text: 'Chart.js Bar Chart',
+            },
+        }
+    };
+
+    // @ts-ignore
+    return (
     <AppLayout className="block h-full" primarySection="drawer">
       <header slot="drawer">
         <h1 className="text-l m-0"><img src={logo} alt="" width="200"/></h1>
@@ -109,18 +162,22 @@ export default function MenuOnLeftLayout() {
 
           {data && (
 
-              <div style={{position: 'absolute', bottom: '110px',height: "33%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
+              <div style={{position: 'absolute', bottom: '85px',height: "55%", width: "90%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
 
                   <a style={{marginLeft:'5%',fontWeight:"bold"}}>Model Dashboard </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are information about the collection of models inspected"}/>
                   <br/>
-                  <a style={{marginLeft:'5%'}}>Total models inspected: </a><a style={{color:'green',fontWeight:"bold", marginLeft:"13%"}}>{total}</a>
+                  <a style={{marginLeft:'5%'}}>Total models inspected: </a><a style={{color:'green',fontWeight:"bold", marginLeft:"12%"}}>{total}</a>
                   <br/>
-                  <a style={{marginLeft:'5%'}}># Process Collaboration: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"11%"}}>{totalProcess}</a>
+                  <a style={{marginLeft:'5%'}}># Process Collaboration: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"10%"}}>{totalProcess}</a>
                   <br/>
                   <a style={{marginLeft:'5%'}}># Choreography: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"33%"}}>{totalChoreography}</a>
                   <br/>
                   <a style={{marginLeft:'5%'}}># Conversation: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"36.5%"}}>{totalConversation}</a>
                   <br/>
+                  <br/>
+                  <div style={{marginLeft:"-39px"}}>
+                    <Pie options={options} data={dataModels}></Pie>
+                  </div>
                   <br/>
                   <a style={{marginLeft:'5%',fontWeight:"bold"}}>Active Filters </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are the filters activated for the inspection"}/>
                   <br/>
@@ -136,11 +193,11 @@ export default function MenuOnLeftLayout() {
               </div>
           )}
 
-          <div style={{position: 'absolute', bottom: '20px', left: '0', width: '100%', margin: '0 auto'}}>
+          <div style={{position: 'absolute', bottom: '5px', left: '0', width: '100%', margin: '0 auto'}}>
               <hr style={{color: 'red', backgroundColor:'#5b5b65', border:'none', height: '1px', margin: '10px 5%', width: '90%'}} />
               <div style={{textAlign: 'center'}}>
                   <p style={{fontSize:"15px", color: '#eae9e9"', margin: '0'}}>Version: 0.5.0</p>
-                  <p style={{fontSize:'14px', margin: '5px 0'}}> <MdAlternateEmail style={{marginBottom:"0.1cm"}}/> <a style={{marginLeft:"1%", fontSize:"14px"}} href="mailto:ivan.compagnucci@unicam.it"> Contact</a></p>
+                  <p style={{fontSize:'14px', margin: '0'}}> <MdAlternateEmail style={{marginBottom:"0.1cm"}}/> <a style={{marginLeft:"1%", fontSize:"14px"}} href="mailto:ivan.compagnucci@unicam.it"> Contact</a></p>
               </div>
           </div>
           </Scroller>
