@@ -22,6 +22,7 @@ import { FaRegImage } from "react-icons/fa";
 import { Canvg } from 'canvg';
 import html2canvas from 'html2canvas';
 import { Table } from 'react-bootstrap';
+import {BiDownArrowAlt, BiUpArrowAlt} from "react-icons/all";
 
 interface filesInfoFiltered {
     name: string;
@@ -33,6 +34,8 @@ interface filesInfoFiltered {
 
 export default function PostProcessingView() {
     const [activeTab, setActiveTab] = useState('bpmn-element-usage');
+    const [showTableEU, setShowTableEU] = useState(true);
+    const [showTableED, setShowTableED] = useState(true);
     const location = useLocation()
     const filteringArray: string[] = [];
     const {data} = location.state
@@ -52,6 +55,13 @@ export default function PostProcessingView() {
         isDuplicated: boolean;
         elementMap: Map<string, number>;
     }
+    const toggleTableEU = () => {
+        setShowTableEU(!showTableEU);
+    };
+
+    const toggleTableED = () => {
+        setShowTableED(!showTableED);
+    };
 
     useEffect(() => {
         loader.show();
@@ -170,10 +180,10 @@ export default function PostProcessingView() {
         const diagram = document.querySelector(`#${diagramId}`);
         if (diagram) {
             html2canvas(diagram as HTMLElement).then((canvas) => {
-                const url = canvas.toDataURL('image/png');
+                const url = canvas.toDataURL('image/jpeg');
                 const downloadLink = document.createElement('a');
                 downloadLink.href = url;
-                downloadLink.download = `${diagramId}.png`;
+                downloadLink.download = `${diagramId}.jpeg`;
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
@@ -300,7 +310,7 @@ export default function PostProcessingView() {
             labels: labels,
             datasets: [
                 {
-                    label: "# of files with this element",
+                    label: "# of models with this element",
                     backgroundColor: "rgb(16,173,115)",
                     borderColor: "rgb(8,59,12)",
                     data: data,
@@ -410,45 +420,53 @@ export default function PostProcessingView() {
                     <>
                         <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                             <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
+                                <div style={{display:"flex"}}>
+                                <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
                                         Model Size</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
-                                    <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                    <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartMS')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
-
-
-                                    <div id="chartMS">
-                                        <Line data={dataTotalElements} options={{responsive: false, maintainAspectRatio: false}}/>
+                                </div>
+                                    <div id="chartMS" style={{position: "relative", height:"35vh", width:"100%"}}>
+                                        <Line data={dataTotalElements} options={{responsive: true, maintainAspectRatio: false}}/>
                                     </div>
+
                             </div>
                             <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
+                                <div style={{display:"flex"}}>
+                                <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
                                         Practical Complexity</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the practical complexity of the collection"}/>
-                                    <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                    <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartPC')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
-                                <div id="chartPC">
-                                    <Line data={dataPC} options={{responsive: false, maintainAspectRatio: false}}/>
+                                </div>
+                                <div id="chartPC" style={{position: "relative", height:"38vh", width:"100%"}}>
+                                    <Line data={dataPC} options={{responsive: true, maintainAspectRatio: false}}/>
                                 </div>
                             </div>
                         </div>
                         <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                             <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", borderRadius: "12px 12px 12px 12px",padding: "5px 15px 15px 15px",marginRight:"10px", lineHeight: "1.5714285714285714"}}>
-                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's usage</a>
+                                <div style={{display:"flex"}}>
+                                <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's usage</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element usage"}/>
-                                    <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                    <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartEU')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
-
-                                <div id="chartEU">
-                                    <Line data={dataElementUsage} options={{responsive: false, maintainAspectRatio: false}}/>
+                                    <button style={{border:"none", background:"white", color:"#10ad73",fontSize:"17px"}}  onClick={toggleTableEU}>
+                                        {showTableEU ? <BiUpArrowAlt /> : <BiDownArrowAlt />}
+                                    </button>
+                            </div>
+                                <div id="chartEU" style={{position: "relative", height:"40vh", width:"100%"}}>
+                                    <Line data={dataElementUsage} options={{responsive: true, maintainAspectRatio: false}}/>
                                 </div>
 
+                                {showTableEU && (
                                 <table>
                                     <thead>
                                     <tr>
@@ -465,37 +483,45 @@ export default function PostProcessingView() {
                                     ))}
                                     </tbody>
                                 </table>
+                                )}
                             </div>
 
                             <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white",marginRight:"10px", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
+                                <div style={{display:"flex"}}>
+                                <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element distribution"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartED')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
-
-
-                                <div id="chartED">
-                                    <Line data={dataElementDistr} options={{responsive: false, maintainAspectRatio: false}}/>
+                                    <button style={{border:"none", background:"white", color:"#10ad73",fontSize:"17px"}}  onClick={toggleTableED}>
+                                        {showTableED ? <BiUpArrowAlt /> : <BiDownArrowAlt />}
+                                    </button>
                                 </div>
 
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Element</th>
-                                        <th># of this element in the collection</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {dataElementDistr.labels.map((label, index) => (
-                                        <tr key={index}>
-                                            <td>{label}</td>
-                                            <td>{dataElementDistr.datasets[0].data[index] as ReactNode}</td>
+                                <div id="chartED" style={{position: "relative", height:"40vh", width:"100%"}}>
+                                    <Line data={dataElementDistr} options={{responsive: true, maintainAspectRatio: false}}/>
+                                </div>
+
+
+                                {showTableED && (
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Element</th>
+                                            <th># of this element in the collection</th>
                                         </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        {dataElementDistr.labels.map((label, index) => (
+                                            <tr key={index}>
+                                                <td>{label}</td>
+                                                <td>{dataElementDistr.datasets[0].data[index] as ReactNode}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                )}
                                 </div>
                         </div>
                     </>

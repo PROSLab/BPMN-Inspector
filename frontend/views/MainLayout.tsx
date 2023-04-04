@@ -14,6 +14,7 @@ import {loader} from "react-global-loader";
 import axios from "axios";
 import PieChart from "Frontend/components/charts/PieChart";
 import {Pie} from "react-chartjs-2";
+import {marginRight} from "html2canvas/dist/types/css/property-descriptors/margin";
 
 interface filesInfo {
     modelType: string;
