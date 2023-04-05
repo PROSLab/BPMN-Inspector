@@ -16,7 +16,7 @@ import {GiConfirmed} from "react-icons/gi";
 import {AiFillExclamationCircle} from "react-icons/ai";
 import {resolve} from "chart.js/helpers";
 import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
-import {Bar, Line } from "react-chartjs-2";
+import {Bar, Line, Radar} from "react-chartjs-2";
 import { CiCircleQuestion } from "react-icons/ci";
 import { FaRegImage } from "react-icons/fa";
 import { Canvg } from 'canvg';
@@ -149,6 +149,52 @@ export default function PostProcessingView() {
             link.click();
         });
     };
+
+    function calculateRho(files: filesInfo[]) {
+        // Creo un array con tutti gli elementi dell'hashmap
+        // @ts-ignore
+        const elements = Object.values(filesInfo.elementMap);
+        const rhoValues = [];
+        const rhoArray = []; // array vuoto per i valori RHO
+        const elementPairs = []; // array vuoto per le coppie di elementi
+
+        // Itero su tutte le coppie di elementi
+        for (let i = 0; i < elements.length - 1; i++) {
+            for (let j = i + 1; j < elements.length; j++) {
+                const elementA = elements[i];
+                const elementB = elements[j];
+
+                // Calcolo il coefficiente RHO tra gli elementi
+                // @ts-ignore
+                const intersection = elementA.incoming.filter(id => elementB.outgoing.includes(id)).length;
+                // @ts-ignore
+                const union = new Set([...elementA.incoming, ...elementB.outgoing]).size;
+                const rho = intersection / union;
+
+                // Aggiungo il valore di RHO all'array
+                rhoValues.push(rho);
+                rhoArray.push(rho); // aggiungi il valore RHO all'array rhoArray
+                elementPairs.push([elementA, elementB]); // aggiungi la coppia di elementi all'array elementPairs
+            }
+        }
+
+        // Ordino l'array in ordine decrescente
+        rhoValues.sort((a, b) => b - a);
+
+        const dataVennAll= {
+            labels: elementPairs,
+            datasets: [
+                {
+                    label: "# of models with this size",
+                    backgroundColor: "rgb(16,173,115)",
+                    borderColor: "rgb(8,59,12)",
+                    data: rhoValues.slice(0, 10),
+                    color: "rgb(8,59,12)",
+                },
+            ],
+        };
+        return dataVennAll;
+    }
 
     const downloadInspectionFile = () => {
         axios({
@@ -364,6 +410,7 @@ export default function PostProcessingView() {
     const dataTotalElements = countTotalLengths(filesInfo);
     const dataElementDistr = countElementDistr(filesInfo);
     const dataElementUsage = countElementUsage(filesInfo);
+    //const dataVennAll = calculateRho(filesInfo);
 
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -402,15 +449,6 @@ export default function PostProcessingView() {
                         style={{color: '#10ad73'}}
                     >
                         BPMN Good Modeling Practices
-                    </a>
-                </li>
-                <li className="nav-item" style={{padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', fontWeight: "bold", fontSize:'15px' }}>
-                    <a
-                        className={`nav-link ${activeTab === 'bpmn-model-list' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('bpmn-model-list')}
-                        style={{color: '#10ad73'}}
-                    >
-                        BPMN List (Test)
                     </a>
                 </li>
             </ul>
@@ -458,10 +496,11 @@ export default function PostProcessingView() {
                                     <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartEU')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                     </button>
+
                                     <button style={{border:"none", background:"white", color:"#10ad73",fontSize:"17px"}}  onClick={toggleTableEU}>
                                         {showTableEU ? <BiUpArrowAlt /> : <BiDownArrowAlt />}
                                     </button>
-                            </div>
+                                </div>
                                 <div id="chartEU" style={{position: "relative", height:"40vh", width:"100%"}}>
                                     <Line data={dataElementUsage} options={{responsive: true, maintainAspectRatio: false}}/>
                                 </div>
@@ -471,7 +510,7 @@ export default function PostProcessingView() {
                                     <thead>
                                     <tr>
                                         <th>Element</th>
-                                        <th># of this element in the collection</th>
+                                        <th># of Elements</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -509,7 +548,7 @@ export default function PostProcessingView() {
                                         <thead>
                                         <tr>
                                             <th>Element</th>
-                                            <th># of this element in the collection</th>
+                                            <th># of Models</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -528,14 +567,61 @@ export default function PostProcessingView() {
 
                 )}
                 {activeTab === 'bpmn-element-combined-use' && (
-                    <div>
-                        <a style={{fontSize:'25px',color:'black',alignSelf:'left',fontWeight:"bold"}}>BPMN Element Combined use</a>
-                        <div style={{display:'flex'}}>
 
-                            <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
-                            <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
-                            <ChartVenn options={{responsive:false, height: '10%', width:'30%',maintainAspectRatio:false}}/>
-                            <BarChart options={{responsive:false,height: '10%', width:'30%',maintainAspectRatio:false}} data={data}></BarChart>
+                    <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
+                        <div style={{display:'flex',width: "100%",flexDirection: "column"}}>
+                            <div style={{marginBottom:"10px",marginRight:"10px",  border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                    <div style={{display:"flex"}}>
+                                        <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Process Collaboration</a>
+                                        <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                          title={"This is a graph of the model size of the collection"}/>
+                                        <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                            <FaRegImage onClick={() => downloadSvg('chartVPC')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        </button>
+                                    </div>
+                                    <div id="chartVPC" style={{position: "relative", height:"30vh", width:"100%"}}>
+                                        <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
+                                    </div>
+                            </div>
+                            <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                Tabella Process Collaboration Rho
+                            </div>
+                        </div>
+                        <div style={{display:"flex",width: "100%",flexDirection: "column"}}>
+                                <div style={{marginBottom:"10px",marginRight:"10px",  paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                    <div style={{display:"flex"}}>
+                                        <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Choreography</a>
+                                        <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                          title={"This is a graph of the model size of the collection"}/>
+                                        <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                            <FaRegImage onClick={() => downloadSvg('chartVCOR')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        </button>
+                                    </div>
+                                    <div id="chartVCOR" style={{position: "relative", height:"30vh", width:"100%"}}>
+                                        <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
+                                    </div>
+                                </div>
+                                <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                    Tabella Choreography Rho
+                                </div>
+                        </div>
+                        <div style={{display:'flex',width: "100%",flexDirection: "column"}}>
+                            <div style={{marginBottom:"10px", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                <div style={{display:"flex"}}>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Conversation</a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                      title={"This is a graph of the model size of the collection"}/>
+                                    <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                        <FaRegImage onClick={() => downloadSvg('chartVCON')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                    </button>
+                                </div>
+                                <div id="chartVCON" style={{position: "relative", height:"30vh", width:"100%"}}>
+                                    <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
+                                </div>
+                            </div>
+                            <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                Tabella Conversation Rho
+                            </div>
                         </div>
                     </div>
                 )}
@@ -548,58 +634,51 @@ export default function PostProcessingView() {
                                 <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload invalid models</a> for inspecting validation errors.</a>
                             </div>
                         ) : (
-                            <div>
-                                <a style={{ fontSize: '25px', color: 'black', alignSelf: 'left', fontWeight: 'bold' }}>BPMN Syntactic Validation</a>
-                                <div style={{ display: 'flex' }}>
-                                    {filesToDisplay.map((file, index) =>
-                                        <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
-                                            <div className="file-info">
-                                                <p className="file-info-item-name file-name">
-                                                    <BsDiagram2 style={{}} /> {file.name}
-                                                </p>
-                                            </div>
+                            <div style={{display: "flex", flexDirection: "column", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
+                                <div style={{ display: 'flex',width: "100%",flexDirection: "column" }}>
+                                    <div style={{marginBottom:"10px", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <div style={{display:"flex"}}>
+                                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Syntactical errors</a>
+                                            <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                              title={"This is a graph of the model size of the collection"}/>
+                                            <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                                <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                            </button>
                                         </div>
-                                    )}
-
-                                    <button style={{ marginLeft: '2%', background: 'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadFile}>
-                                        <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Validation report</a>
-                                    </button>
+                                        <div id="chartSE" style={{position: "relative", height:"50vh", width:"100%"}}>
+                                            <Bar options={{responsive:true,maintainAspectRatio:false}}  data={dataElementDistr}></Bar>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
-                )}
-                {activeTab === 'bpmn-model-list' && (
-                    <div className="col">
-                        {displayButton && (
-                            <button style={{ backgroundColor: 'white', alignItems:"right", color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
-                                {showAllFiles ? `Hide list` : `Click here to show all (${filesInfo.length} models)`}
-                            </button>
-                        )}
+                                <div style={{display: "flex", flexDirection: "row"}}>
+                                    <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <div style={{display:"flex",flexDirection: "column"}}>
+                                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Invalid BPMN Models</a>
+                                            {filesToDisplay.filter(file => file.isValid == false).map((file, index) =>
+                                                <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
+                                                    <div className="file-info">
+                                                        <p className="file-info-item-name file-name">
+                                                            <BsDiagram2 style={{}} /> {file.name}
+                                                        </p>
+                                                    </div>
 
-                        <div className="file-info" >
-                            <span className="file-info-item-name" style={{ fontSize: '18px', fontWeight:"bold"}}>File name</span>
-                        </div>
-                        {filesToDisplay.map((file, index) =>
-                            <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
-                                <div className="file-info">
-                                    <p className="file-info-item-name file-name">
-                                        <BsDiagram2 style={{}} /> {file.name}
-                                    </p>
-                                    <p className={`file-info-item file-name`}>
-
-                                    </p>
-
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <div style={{display:"flex"}}>
+                                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Number of Errors</a>
+                                        </div>
+                                    </div>
                                 </div>
+                                <button style={{ background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadFile}>
+                                    <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Validation report</a>
+                                </button>
                             </div>
+
                         )}
 
-                        {filesInfo.length > 2 &&
-                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
-                        }
-                        {filesInfo.length === 2 &&
-                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
-                        }
                     </div>
                 )}
                 {activeTab === 'bpmn-good-modeling-practices' && (
@@ -612,69 +691,125 @@ export default function PostProcessingView() {
                             </div>
                         ) : (
                             <>
-                                <a style={{fontSize: "25px", color: "black", alignSelf: "left", fontWeight: "bold",}}>BPMN Good Modeling Practices</a>
+                                <div style={{display: "flex", flexDirection: "column", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
+                                    <div style={{display: "flex", flexDirection: "row"}}>
+                                        <div style={{width: "100%", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                            <div style={{display:"flex"}}>
+                                                <a style={{fontSize: '25px',color: 'black', fontWeight: "bold"}}>Radar Guidelines</a>
+                                                <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                                  title={"This is a graph of the model size of the collection"}/>
+                                                <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
+                                                    <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                                </button>
+                                            </div>
+                                            <div id="chartSE" style={{position: "relative", height:"50vh", width:"100%"}}>
+                                                <Radar options={{responsive:true,maintainAspectRatio:false}}  data={dataElementDistr}></Radar>
+                                            </div>
+                                        </div>
 
-                                {displayButton && (
-                                    <button style={{backgroundColor: "white", alignSelf: "right", color: "#10ad73", padding: "5px 20px", border: "none", borderBottom: "1px solid #10ad73", cursor: "pointer", right: "0", bottom: "0", fontWeight: "bold", fontSize: "12px",}} onClick={() => setShowAllFiles(!showAllFiles)}>
-                                        {showAllFiles ? `Hide list` : `Click here to show all (${filesInfo.length} models)`}
-                                    </button>
-                                )}
-                                <div className="file-info">
-                                    <span className="file-info-item-name" style={{ fontSize: "18px", fontWeight: "bold" }}>File name</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G1</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G2</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G3</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G4</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G5</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G6</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G7</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G8</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G9</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G10</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G11</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G12</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G13</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G14</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G15</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G16</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G17</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G18</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G19</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G20</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G21</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G22</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G23</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G24</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G25</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G26</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G27</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G28</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G29</span>
-                                    <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>G30</span>
+                                        <div style={{width: "100%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>% of Guidelines Satisfaction</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
+                                            <div style={{display:"flex", flexDirection: "column"}}>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G1</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G2</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G3</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G4</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G5</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G6</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G7</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G8</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G9</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G10</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G11</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G12</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G13</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G14</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G15</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G16</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G17</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G18</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G19</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G20</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G21</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G22</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G23</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G24</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G25</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G26</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G27</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G28</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G29</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G30</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                {filesToDisplay.filter(file => file.modelType === "Process Collaboration").map((file, index) => (
-                                    <div key={index} style={{border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black"}}>
+                                <div style={{ display: 'flex',width: "100%",flexDirection: "column" }}>
+                                    <div style={{width: "100%", display: 'flex',flexDirection: "column",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        {displayButton && (
+                                            <button style={{backgroundColor: "white", alignSelf: "right", color: "#10ad73", padding: "5px 20px", border: "none", borderBottom: "1px solid #10ad73", cursor: "pointer", right: "0", bottom: "0", fontWeight: "bold", fontSize: "12px",}} onClick={() => setShowAllFiles(!showAllFiles)}>
+                                                {showAllFiles ? `Hide list` : `Click here to show all (${filesInfo.length} models)`}
+                                            </button>
+                                        )}
                                         <div className="file-info">
-                                            <p className="file-info-item-name file-name">
-                                                <BsDiagram2 style={{}} /> {file.name}
-                                            </p>
-                                            <p className={`file-info-item file-name`}>
+                                            <span className="file-info-item-name" style={{ fontSize: "15px", fontWeight: "bold" }}>File name</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G1</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G2</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G3</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G4</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G5</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G6</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G7</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G8</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G9</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G10</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G11</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G12</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G13</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G14</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G15</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G16</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G17</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G18</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G19</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G20</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G21</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G22</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G23</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G24</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G25</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G26</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G27</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G28</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G29</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G30</span>
+                                        </div>
+
+                                        {filesToDisplay.filter(file => file.modelType === "Process Collaboration").map((file, index) => (
+                                            <div key={index} style={{border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black"}}>
+                                                <div className="file-info">
+                                                    <p className="file-info-item-name file-name" style={{width:"15%"}}>
+                                                        <BsDiagram2 style={{}} /> {file.name}
+                                                    </p>
+                                                    <p className={`file-info-item file-name`}>
                                               <span className={`badge badge-pill ${file.isDuplicated ? "badge-danger" : "badge-success"}`}>
                                                 {file.isDuplicated ? (<AiFillExclamationCircle />) : (<GiConfirmed />)}
                                               </span>
-                                            </p>
-                                        </div>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {filesInfo.length > 2 &&
+                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
+                                        }
+                                        {filesInfo.length === 2 &&
+                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
+                                        }
                                     </div>
-                                ))}
-
-
-                                {filesInfo.length > 2 &&
-                                    <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
-                                }
-                                {filesInfo.length === 2 &&
-                                    <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
-                                }
+                                    <button style={{ background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadFile}>
+                                        <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Good Modeling Practice report</a>
+                                    </button>
+                                </div>
                             </>
                         )}
                     </div>

@@ -133,7 +133,7 @@ export default function MenuOnLeftLayout() {
     return (
     <AppLayout className="block h-full" primarySection="drawer">
       <header slot="drawer">
-        <h1 className="text-l m-0"><img src={logo} alt="" width="200"/></h1>
+        <h1 className="text-l m-0 center"><img src={logo} alt="" width="180"/></h1>
       </header>
       <Scroller slot="drawer" scroll-direction="vertical">
         <nav>

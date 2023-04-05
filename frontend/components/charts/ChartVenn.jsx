@@ -17,7 +17,7 @@ const ChartVenn = () => {
                 { label: "Volleyball", values: ["drew", "glen", "jade", "hunter"] }
             ],
             {
-                label: "Sports dỉagram"
+                label: ""
             }
         ),
         options: {
@@ -40,41 +40,6 @@ const ChartVenn = () => {
             ]
         }
     };
-
-    // const config = {
-    //   type: "venn",
-    //   data: {
-    //     labels: [
-    //       "Soccer",
-    //       "Tennis",
-    //       "Volleyball",
-    //       "Soccer ∩ Tennis",
-    //       "Soccer ∩ Volleyball",
-    //       "Tennis ∩ Volleyball",
-    //       "Soccer ∩ Tennis ∩ Volleyball"
-    //     ],
-    //     datasets: [
-    //       {
-    //         // label: "Sports",
-    //         data: [
-    //           { sets: ["Soccer"], value: 3 },
-    //           { sets: ["Tennis"], value: 2 },
-    //           { sets: ["Volleyball"], value: ["LAK2011", "LAK2011"] },
-    //           { sets: ["Soccer", "Tennis"], value: "a" },
-    //           { sets: ["Soccer", "Volleyball"], value: 0 },
-    //           { sets: ["Tennis", "Volleyball"], value: "a" },
-    //           { sets: ["Soccer", "Tennis", "Volleyball"], value: "a" }
-    //         ]
-    //       }
-    //     ]
-    //   },
-    //   options: {
-    //     title: {
-    //       display: true,
-    //       text: "Chart.js Venn Diagram Chart"
-    //     }
-    //   }
-    // };
 
     useEffect(() => {
         new VennDiagramChart(canvasRef.current, config);
