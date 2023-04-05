@@ -156,7 +156,6 @@ export default function MenuOnLeftLayout() {
           {data && (
 
               <div style={{position: 'absolute', bottom: '10%',height: "55%", width: "90%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
-
                   <a style={{marginLeft:'5%',fontWeight:"bold"}}>Model Dashboard </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are information about the collection of models inspected"}/>
                   <br/>
                   <a style={{marginLeft:'5%'}}>Total models inspected: </a><a style={{color:'green',fontWeight:"bold", marginLeft:"12%"}}>{total}</a>

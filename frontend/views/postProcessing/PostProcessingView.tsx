@@ -562,6 +562,12 @@ export default function PostProcessingView() {
                                     </table>
                                 )}
                                 </div>
+
+                        </div>
+                        <div style={{display:"flex"}} >
+                            <button style={{ background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadInspectionFile}>
+                                <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Inspection report</a>
+                            </button>
                         </div>
                     </>
 
