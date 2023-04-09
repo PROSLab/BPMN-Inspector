@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="112"
+   height="92"
+   viewBox="344 224 112 92"
+   version="1.1"
+   id="svg23"
+   sodipodi:docname="task.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <metadata
+     id="metadata27">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     id="namedview25"
+     showgrid="false"
+     inkscape:zoom="8.9130435"
+     inkscape:cx="56"
+     inkscape:cy="46"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg23"
+     inkscape:document-rotation="0" />
+  <defs
+     id="defs5">
+    <pattern
+       id="djs-grid-pattern-999296"
+       width="10"
+       height="10"
+       patternUnits="userSpaceOnUse">
+      <circle
+         cx="0.5"
+         cy="0.5"
+         r="0.5"
+         style="fill: rgb(204, 204, 204);"
+         id="circle2" />
+    </pattern>
+  </defs>
+  <g
+     class="djs-group"
+     id="g21">
+    <g
+       class="djs-element djs-shape selected"
+       data-element-id="Activity_1dfxdaj"
+       transform="matrix(1 0 0 1 350 230)"
+       style="display: block;"
+       id="g19">
+      <g
+         class="djs-visual"
+         id="g13">
+        <rect
+           x="-0.48736575"
+           y="-0.48736575"
+           width="51.945465"
+           height="40.472294"
+           rx="5.1945462"
+           ry="5.0590367"
+           style="fill:#ffffff;fill-opacity:0.95;stroke:#22242a;stroke-width:1.02527px;stroke-linecap:round;stroke-linejoin:round"
+           id="rect7" />
+        <text
+           lineHeight="1.2"
+           class="djs-label"
+           style="font-family: Arial, sans-serif; font-size: 12px; font-weight: normal; fill: rgb(34, 36, 42);"
+           id="text11"><tspan
+             x="50"
+             y="43.599999999999994"
+             id="tspan9" /></text>
+      </g>
+      <rect
+         class="djs-hit djs-hit-all"
+         x="0"
+         y="0"
+         width="100"
+         height="80"
+         style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"
+         id="rect15" />
+      <rect
+         x="-6"
+         y="-6"
+         rx="4"
+         width="112"
+         height="92"
+         class="djs-outline"
+         style="fill: none;"
+         id="rect17" />
+    </g>
+  </g>
+</svg>

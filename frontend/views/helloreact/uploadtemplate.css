@@ -1,12 +1,18 @@
 @keyframes float1 {
     0% {
-        transform: translate(0, 0);
+        transform: translate(0, 0) scale(1) rotate(0);
+    }
+    25% {
+        transform: translate(calc(100% - 150px), calc(100% - 150px)) rotate(-45deg);
     }
     50% {
-        transform: translate(calc(100% - 50px), calc(100% - 50px));
+        transform: translate(calc(100% - 100px), calc(100% - 100px)) rotate(0);
+    }
+    75% {
+        transform: translate(calc(100% - 150px), calc(100% - 150px)) rotate(45deg);
     }
     100% {
-        transform: translate(0, 0);
+        transform: translate(0, 0) rotate(0);
     }
 }
 
@@ -15,13 +21,44 @@
         transform: translate(0, 0);
     }
     50% {
-        transform: translate(calc(100% - 70px), calc(100% - 30px));
+        transform: translate(calc(100% - 140px), calc(100% - 60px));
+        animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
     }
     100% {
         transform: translate(0, 0);
     }
 }
 
+@keyframes float3 {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0);
+    }
+    25% {
+        transform: translate(calc(100% - 100px), calc(100% - 100px)) rotate(-45deg);
+    }
+    50% {
+        transform: translate(calc(100% - 60px), calc(100% - 60px)) rotate(0);
+    }
+    75% {
+        transform: translate(calc(100% - 100px), calc(100% - 100px)) rotate(45deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0);
+    }
+}
+
+@keyframes float4 {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(calc(100% - 80px), calc(100% - 20px));
+        animation-timing-function: cubic-bezier(0.9, 0.1, 0.5, 1);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
 
 .form-container {
     position: relative;
@@ -52,13 +89,13 @@
     opacity: 0.7;
 }
 
-.float-svg-xor {
+.float-svg-xorGateway {
     animation: float1 40s ease-in-out infinite;
     transform: translate(calc(100% - 30px), -15px);
     position: absolute;
     background-repeat: no-repeat;
-    background-image: url("../../img/xor.svg");
-    top: 95px;
+    background-image: url("../../img/xorGateway.svg");
+    top: 80px;
     left: 20px;
     width: 200px;
     height: 200px;
@@ -67,8 +104,8 @@
 }
 
 .float-svg-interMsg {
-    animation: float1 30s ease-in-out infinite;
-    transform: translate(calc(100% - 50px), -50px);
+    animation: float2 27s ease-in-out infinite;
+    transform: translate(calc(50% - 50px), -50px);
     position: absolute;
     background-repeat: no-repeat;
     background-image: url("../../img/interMsg.svg");
@@ -81,8 +118,8 @@
 }
 
 .float-svg-data {
-    animation: float2 30s ease-in-out infinite;
-    transform: translate(calc(100% - 15px), -10px);
+    animation: float2 35s ease-in-out infinite;
+    transform: translate(calc(100% - 35px), -30px);
     position: absolute;
     background-repeat: no-repeat;
     background-image: url("../../img/data.svg");
@@ -94,14 +131,126 @@
     opacity: 0.7;
 }
 
-.float-svg-endT {
-    animation: float2 35s ease-in-out infinite;
+.float-svg-endTerminate {
+    animation: float3 17s ease-in-out infinite;
     transform: translate(calc(100% - 40px), -70px);
     position: absolute;
     background-repeat: no-repeat;
-    background-image: url("../../img/endT.svg");
+    background-image: url("../../img/endTerminate.svg");
     top: 0px;
     left: 30px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-dataStore {
+    animation: float3 21s ease-in-out infinite;
+    transform: translate(calc(100% - 84px), -70px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/dataStore.svg");
+    top: 100px;
+    left: 30px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-endError {
+    animation: float4 26s ease-in-out infinite;
+    transform: translate(calc(100% - 10px), -30px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/endError.svg");
+    top: 60px;
+    left: 20px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-endMessage {
+    animation: float4 55s ease-in-out infinite;
+    transform: translate(calc(100% - 30px), -10px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/endMessage.svg");
+    top: 100px;
+    left: 100px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-intCatchTimer {
+    animation: float1 15s ease-in-out infinite;
+    transform: translate(calc(100% - 30px), -10px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/intCatchTimer.svg");
+    top: 34px;
+    left: 31px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-intThrowEscalation {
+    animation: float1 23s ease-in-out infinite;
+    transform: translate(calc(100% - 30px), -10px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/intThrowEscalation.svg");
+    top: 80px;
+    left: 80px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-parallelGateway {
+    animation: float2 30s ease-in-out infinite;
+    transform: translate(calc(100% - 30px), -10px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/parallelGateway.svg");
+    top: 20px;
+    left: 10px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-startSignal {
+    animation: float3 32s ease-in-out infinite;
+    transform: translate(calc(100% - 30px), -10px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/startSignal.svg");
+    top: 60px;
+    left: 60px;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    opacity: 0.7;
+}
+
+.float-svg-task {
+    animation: float4 20s ease-in-out infinite;
+    transform: translate(calc(100% - 35px), -0px);
+    position: absolute;
+    background-repeat: no-repeat;
+    background-image: url("../../img/task.svg");
+    top: 100px;
+    left: 80px;
     width: 200px;
     height: 200px;
     margin-top: -100px;
@@ -141,3 +290,4 @@ input {
     border-radius: 5px;
     transition: all 0.5s ease;
 }
+

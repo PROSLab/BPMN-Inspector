@@ -1,6 +1,6 @@
 import {Checkbox} from "@hilla/react-components/Checkbox.js";
 import {VAADIN_CSRF_HEADER} from "@hilla/frontend/CsrfUtils";
-import React, {ReactDOM, memo, useState, useEffect} from "react";
+import React, {ReactDOM, memo, useState, useEffect, ReactNode} from "react";
 import "./uploadtemplate.css";
 import "./fileList.css";
 import axios from 'axios';
@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import '@vaadin/tabs';
+import { Slide } from 'react-slideshow-image';
 import {BsDiagram2} from "react-icons/bs";
 import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
 import {HiDocumentSearch} from "react-icons/hi";
@@ -21,9 +22,15 @@ import { Router, Route } from 'react-router-dom';
 import {loader} from "react-global-loader";
 import {AiFillExclamationCircle} from "react-icons/ai";
 import {GiConfirmed} from "react-icons/gi";
+import {Tab, Tabs} from "react-bootstrap";
+import {CiCircleQuestion} from "react-icons/ci";
+import {FaRegImage} from "react-icons/fa";
+import {Line} from "react-chartjs-2";
+import {BiDownArrowAlt, BiUpArrowAlt} from "react-icons/all";
 
 
 export default function HelloReactView() {
+    const [activeTab, setActiveTab] = useState('filtering');
     const [showHome, setShowHome] = React.useState(true)
     const [showResults, setShowResults] = React.useState(false)
     const [filteredData, setFilteredData] = useState<string[]>([]);
@@ -354,57 +361,156 @@ export default function HelloReactView() {
             return filename.split('.').pop()
         }
 
+        const spanStyle = {
+            padding: '20px',
+            background: '#efefef',
+            color: '#000000'
+        }
+
+        const divStyle = {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundSize: 'cover',
+            height: '400px'
+        }
+
+        const slideTexts = [
+            {
+                title: 'Prima slide',
+                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                icon: 'fa fa-check'
+            },
+            {
+                title: 'Seconda slide',
+                text: 'Praesent et lorem ac nisi lobortis commodo non ac quam.',
+                icon: 'fa fa-star'
+            },
+            {
+                title: 'Terza slide',
+                text: 'Donec nec purus sed neque fermentum feugiat. ',
+                icon: 'fa fa-heart'
+            }
+        ]
+
+        const iconStyle = {
+            fontSize: '48px',
+            marginBottom: '16px'
+        };
+
+
         return (
-            <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-
-                <a style={{fontSize:'40px',color:'black',alignSelf:'center',fontWeight:"bold"}}>BPMN Models Inspector</a>
-                <a style={{fontSize:'20px',color:'black',alignSelf:'center'}}>Upload one or more .bpmn, .xml or .zip files.</a>
-                <div className="form-container">
-                <section className="flex flex-col h-full items-center p-l text-center box-border" style={{
-                    cursor: "pointer",
-                    borderStyle: "solid",
-                    marginLeft: "10%",
-                    marginRight: "10%",
-                    marginTop: "2em",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "350px",
-                    border: "4px dashed #10ad73",
-                    padding: "10em",
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
-                }}>
-
-
-                    <div className="image-container">
-                        <svg className="float-svg-end"></svg>
-                        <svg className="float-svg-xor"></svg>
-                        <svg className="float-svg-interMsg"></svg>
-                        <svg className="float-svg-endT"></svg>
-                        <svg className="float-svg-data"></svg>
+            <div style={{display: "flex", flexDirection: "row", height: "100%"}}>
+                <div style={{flexDirection:"column"}} className="flex h-full items-left justify-left p-l text-left box-border">
+                    <div>
+                        <a style={{fontSize:'40px',color:'black',marginLeft: "8%",fontWeight:"bold"}}>BPMN Models Inspector</a>
+                        <br />
+                        <a style={{fontSize:'20px',color:'black',marginLeft: "11%"}}>Upload one or more .bpmn, .xml or .zip files.</a>
+                        <div className="form-container">
+                            <section className="flex flex-col h-full items-center p-l text-center box-border" style={{
+                                cursor: "pointer",
+                                borderStyle: "solid",
+                                marginLeft: "3%",
+                                marginRight: "60%",
+                                marginTop: "2em",
+                                marginBottom: "10px",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "380px",
+                                width: "500px",
+                                border: "4px dashed #10ad73",
+                                padding: "10em",
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center',
+                            }}>
+                                <div className="image-container">
+                                    <svg className="float-svg-data"></svg>
+                                    <svg className="float-svg-dataStore"></svg>
+                                    <svg className="float-svg-end"></svg>
+                                    <svg className="float-svg-endError"></svg>
+                                    <svg className="float-svg-endMessage"></svg>
+                                    <svg className="float-svg-endTerminate"></svg>
+                                    <svg className="float-svg-interMsg"></svg>
+                                    <svg className="float-svg-intThrowEscalation"></svg>
+                                    <svg className="float-svg-intCatchTimer"></svg>
+                                    <svg className="float-svg-parallelGateway"></svg>
+                                    <svg className="float-svg-startSignal"></svg>
+                                    <svg className="float-svg-task"></svg>
+                                    <svg className="float-svg-xorGateway"></svg>
+                                </div>
+                                <form encType={"multipart/form-data"} onSubmit={onClick}>
+                                    <input style={{background:'white', width:'200px', color: '#10ad73', fontSize: '15px', padding: '1px 1px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}}
+                                           type="file" name="file" id="file" onChange={handleFileSelect} multiple/>
+                                    <br/>
+                                    <input style={{background:'#10ad73',textDecorationStyle:'dashed', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}} type="submit" value="Upload models"/>
+                                </form>
+                            </section>
+                            <a style={{fontSize:'14px',marginLeft: "7%",color:'black',fontStyle:"italic",marginTop:'4cm',padding:"10px" }}>Note: Files not in the .bpmn or .xml format will be automatically deleted.</a>
+                        </div>
                     </div>
+                </div>
+                <div style={{width:"100%",marginLeft:"80px",marginRight:"80px", marginTop:"160px"}}>
+                    <br />
+                    <ul className="nav nav-tabs nav-fill">
+                        <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>
+                            <a
+                                className={`nav-link ${activeTab === 'filtering' ? 'active' : ''}`}
+                                onClick={(e) => {e.preventDefault(); setActiveTab('filtering');}}
+                                style={{ color: '#10ad73'}}>
+                                Filter Models
+                            </a>
+                        </li>
+                        <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>    <a
+                                className={`nav-link ${activeTab === 'inspection' ? 'active' : ''}`}
+                                onClick={(e) => {e.preventDefault(); setActiveTab('inspection');}}
+                                style={{color: '#10ad73'}}>
+                                Inspect Models
+                            </a>
+                        </li>
+                        <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>    <a
+                                className={`nav-link ${activeTab === 'validation' ? 'active' : ''}`}
+                                onClick={(e) => {e.preventDefault(); setActiveTab('validation');}}
+                                style={{color: '#10ad73'}}>
+                                Validate Models
+                            </a>
+                        </li>
+                    </ul>
+
+                    {activeTab === 'filtering' && (
+                        <>
+                            TEST 1
 
 
-                    <form encType={"multipart/form-data"} onSubmit={onClick}>
-                        <input style={{background:'white', width:'300px', color: '#10ad73', fontSize: '20px', padding: '1px 1px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}}
-                               type="file" name="file" id="file" onChange={handleFileSelect} multiple/>
-                        <br/>
-                        <input style={{background:'#10ad73',textDecorationStyle:'dashed', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}}
-                               type="submit" value="Upload models"/>
-                    </form>
-                </section>
+                        </>
+
+                    )}
+                    {activeTab === 'inspection' && (
+                        <>
+                            TEST 2
+
+
+                        </>
+
+                    )}
+                    {activeTab === 'validation' && (
+                        <>
+                            TEST 3
+
+
+                        </>
+
+                    )}
+                </div>
             </div>
-                <a style={{fontSize:'15px',color:'black',fontStyle:"italic",marginTop:'1cm'}}>Note: Any files uploaded that are not in the .bpmn or .xml format will be automatically deleted.</a>
 
-            </div>
 
-        )
+                    )
     }
 
     //{ showResults ? <Results /> : null }
-   // { showHome ? <Home /> : null }
+    //{ showHome ? <Home /> : null }
     return (
         <>
             { showResults ? <Results /> : null }
