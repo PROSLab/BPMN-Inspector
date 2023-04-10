@@ -22,15 +22,10 @@ import { Router, Route } from 'react-router-dom';
 import {loader} from "react-global-loader";
 import {AiFillExclamationCircle} from "react-icons/ai";
 import {GiConfirmed} from "react-icons/gi";
-import {Tab, Tabs} from "react-bootstrap";
-import {CiCircleQuestion} from "react-icons/ci";
-import {FaRegImage} from "react-icons/fa";
-import {Line} from "react-chartjs-2";
-import {BiDownArrowAlt, BiUpArrowAlt} from "react-icons/all";
-
 
 export default function HelloReactView() {
     const [activeTab, setActiveTab] = useState('filtering');
+    const [tabIndex, setTabIndex] = useState(0);
     const [showHome, setShowHome] = React.useState(true)
     const [showResults, setShowResults] = React.useState(false)
     const [filteredData, setFilteredData] = useState<string[]>([]);
@@ -38,6 +33,17 @@ export default function HelloReactView() {
     const [show, setShow] = useState(true)
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
     let selectedFile: any = null;
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const tabs = ['filtering', 'inspection', 'validation'];
+            const nextIndex = (tabIndex + 1) % tabs.length;
+            setActiveTab(tabs[nextIndex]);
+            setTabIndex(nextIndex);
+        }, 10000);
+
+        return () => clearInterval(interval);
+    }, [tabIndex]);
 
 
     const filterCollection = () => {
@@ -451,7 +457,7 @@ export default function HelloReactView() {
                         </div>
                     </div>
                 </div>
-                <div style={{width:"100%",marginLeft:"80px",marginRight:"80px", marginTop:"160px"}}>
+                <div style={{width:"100%",marginLeft:"80px",marginRight:"80px", marginTop:"110px"}}>
                     <br />
                     <ul className="nav nav-tabs nav-fill">
                         <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>
@@ -480,33 +486,34 @@ export default function HelloReactView() {
 
                     {activeTab === 'filtering' && (
                         <>
-                            TEST 1
-
-
+                            <div className="icon-text-container">
+                                <img style={{marginTop:"50px"}} src={"../../img/filtering.gif"} alt="" width="140" height="140"/>
+                                <p style={{marginTop:"50px", fontSize:"20px",fontWeight:"bold"}} >Filter, organize, and clean your sample of BPMN models easily and effectively.</p>
+                            </div>
                         </>
 
                     )}
                     {activeTab === 'inspection' && (
                         <>
-                            TEST 2
-
-
+                            <div className="icon-text-container">
+                                <img style={{marginTop:"50px"}} src={"../../img/inspection.gif"} alt="" width="140" height="140"/>
+                                <p style={{marginTop:"50px", fontSize:"20px",fontWeight:"bold"}} >Inspect your BPMN model to obtain a comprehensive understanding of your process and identify up to 267 different elements.</p>
+                            </div>
                         </>
 
                     )}
                     {activeTab === 'validation' && (
                         <>
-                            TEST 3
-
-
+                            <div className="icon-text-container">
+                                <img style={{marginTop:"50px"}} src={"../../img/validate.gif"} alt="" width="140" height="140"/>
+                                <p style={{marginTop:"50px", fontSize:"20px",fontWeight:"bold"}}>Validate the semantic of your BPMN files and evaluate the adherence to good modeling practices.</p>
+                            </div>
                         </>
 
                     )}
                 </div>
             </div>
-
-
-                    )
+     )
     }
 
     //{ showResults ? <Results /> : null }

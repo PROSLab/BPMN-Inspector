@@ -291,3 +291,10 @@ input {
     transition: all 0.5s ease;
 }
 
+.icon-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
