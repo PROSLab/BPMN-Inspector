@@ -590,7 +590,24 @@ export default function PostProcessingView() {
                                     </div>
                             </div>
                             <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                Tabella Process Collaboration Rho
+                                {showTableEU && (
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Element Pair</th>
+                                            <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {dataElementUsage.labels.map((label, index) => (
+                                            <tr key={index}>
+                                                <td>{label} - {label}</td>
+                                                <td style={{textAlign: "center"}}>{dataElementUsage.datasets[0].data[index]}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                )}
                             </div>
                         </div>
                         <div style={{display:"flex",width: "100%",flexDirection: "column"}}>
@@ -608,7 +625,24 @@ export default function PostProcessingView() {
                                     </div>
                                 </div>
                                 <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                    Tabella Choreography Rho
+                                    {showTableEU && (
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>Element Pair</th>
+                                                <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {dataElementUsage.labels.map((label, index) => (
+                                                <tr key={index}>
+                                                    <td>{label} - {label}</td>
+                                                    <td style={{textAlign: "center"}}>{dataElementUsage.datasets[0].data[index]}</td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    )}
                                 </div>
                         </div>
                         <div style={{display:'flex',width: "100%",flexDirection: "column"}}>
@@ -626,7 +660,24 @@ export default function PostProcessingView() {
                                 </div>
                             </div>
                             <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                Tabella Conversation Rho
+                                {showTableEU && (
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Element Pair</th>
+                                            <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {dataElementUsage.labels.map((label, index) => (
+                                            <tr key={index}>
+                                                <td>{label} - {label}</td>
+                                                <td style={{textAlign: "center"}}>{dataElementUsage.datasets[0].data[index]}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                )}
                             </div>
                         </div>
                     </div>
