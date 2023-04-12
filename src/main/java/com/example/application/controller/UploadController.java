@@ -1,11 +1,15 @@
 package com.example.application.controller;
 
+import com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plugin.bpmn.guideline.factory.GuidelinesFactory;
+import com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plugin.bpmn.guideline.impl.abstractGuideline;
+import com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plugin.bpmn.reader.MyBPMN2ModelReader;
 import com.example.application.model.fileInfo;
 import opennlp.tools.langdetect.Language;
 import opennlp.tools.langdetect.LanguageDetectorME;
 import opennlp.tools.langdetect.LanguageDetectorModel;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+
 import org.javatuples.Triplet;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -91,6 +95,7 @@ public class UploadController {
         });
 
         try {
+            evaluateGuidelines(fileInfos);
             getFilteredFiles(data, fileInfos);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -5234,4 +5239,63 @@ SUBPROCESS Collapsed EVENT + ADHOC
             rowIndex++;
         }
      }
+
+    public void evaluateGuidelines(List<fileInfo> fileInfos) throws IOException {
+
+        String path = "src/main/resources/bpmnCounterOutput/bpmn_guidelines.csv";
+
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
+
+        bw.write("fileName;");
+        for (int i = 1; i <= 30; i++) {
+            bw.write("G" + i + ";");
+            if(i == 30)
+                bw.write("\n");
+        }
+
+        for (fileInfo fileInfo : fileInfos) {
+
+            String guidelinesResult ="";
+            String modelxml="";
+
+            MyBPMN2ModelReader readerBPMN = new MyBPMN2ModelReader();
+            GuidelinesFactory eg = null;
+
+            // Ottieni il nome del file dal fileInfo
+            String fileName = fileInfo.getName();
+
+            // Costruisci il percorso completo del file nella cartella UPLOADED_FOLDER
+            String filePath = "src/main/resources/bpmnModels/" + fileName;
+
+            try {
+                // Leggi il contenuto del file e assegna il suo valore alla variabile modelxml
+                modelxml = new String(Files.readAllBytes(Paths.get(filePath)));
+                eg = new GuidelinesFactory(readerBPMN.readStringModel(modelxml));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            eg.setVerificationType("UNDERSTANDABILITY");
+            eg.StartThreadPool();
+
+            Collection<abstractGuideline> guidelines = eg.getGuidelines();
+
+            for (abstractGuideline s : guidelines) {
+                guidelinesResult+=s.getStatus()+",";
+            }
+
+            guidelinesResult+="\n";
+            System.out.println("^^^^^^guidelinesResult: "+guidelinesResult);
+
+            String outputFilePath = "../guidelines.txt";
+
+            try(FileWriter fw = new FileWriter(outputFilePath, true);
+                BufferedWriter writer = new BufferedWriter(fw);) {
+
+                writer.write(guidelinesResult);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     }
