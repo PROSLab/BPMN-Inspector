@@ -5317,6 +5317,19 @@ SUBPROCESS Collapsed EVENT + ADHOC
             // Incremento del totale delle righe elaborate
             totalRows++;
 
+            FileReader fileReader = new FileReader("src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv");
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(fileReader);
+
+            HashMap<String, String> guidelineCount = new HashMap<>();
+            for (CSVRecord record : records) {
+                for (int i = 1; i <= 40; i++) {
+                    String guideline = "G" + i;
+                    String status = guidelinesResults[i-1];
+                    guidelineCount.put(guideline, status);
+                }
+                fileInfo.setGuidelineMap(guidelineCount);
+            }
+
         }
         bw.write("\n");
         bw.write("True Percentage;");
@@ -5326,16 +5339,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
         }
         bw.close();
 
-        double[] truePercentages = new double[40];
-        double[] falsePercentages = new double[40];
-        for (int i = 0; i < 40; i++) {
-            truePercentages[i] = (double) trueCounts[i] / totalRows * 100;
-            falsePercentages[i] = (double) falseCounts[i] / totalRows * 100;
-            System.out.println("Colonna G" + (i + 1) + ":");
-            System.out.println("True: " + truePercentages[i] + "%");
-            System.out.println("False: " + falsePercentages[i] + "%");
-        }
     }
-
 
 }

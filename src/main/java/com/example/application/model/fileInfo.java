@@ -11,6 +11,8 @@ public class fileInfo {
     public String modelType;
     public Map<String, Integer> elementMap;
 
+    public Map<String, String> guidelineMap;
+
 
     public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish) {
         this.name = name;
@@ -21,7 +23,7 @@ public class fileInfo {
         this.isEnglish = isEnglish;
     }
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap) {
+    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap, Map<String, String> guidelineMap) {
         this.name = name;
         this.size = size;
         this.isValid = isValid;
@@ -29,7 +31,9 @@ public class fileInfo {
         this.modelType = modelType;
         this.isEnglish = isEnglish;
         this.elementMap = elementMap;
+        this.guidelineMap = guidelineMap;
     }
+
 
     public String getName() {
         return name;
@@ -79,6 +83,14 @@ public class fileInfo {
 
     public void setElementMap(Map<String, Integer> elementMap) {
         this.elementMap = elementMap;
+    }
+
+    public Map<String, String> getGuidelineMap() {
+        return guidelineMap;
+    }
+
+    public void setGuidelineMap(Map<String, String> guidelineMap) {
+        this.guidelineMap = guidelineMap;
     }
 
 }

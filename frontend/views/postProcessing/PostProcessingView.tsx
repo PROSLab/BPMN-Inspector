@@ -29,7 +29,8 @@ interface filesInfoFiltered {
     size: number;
     isValid: boolean;
     isDuplicated: boolean;
-    elementMap: any;
+    elementMap: Map<string, number>;
+    guidelineMap: Map<string, string>;
 }
 
 export default function PostProcessingView() {
@@ -54,6 +55,7 @@ export default function PostProcessingView() {
         isEnglish: string;
         isDuplicated: boolean;
         elementMap: Map<string, number>;
+        guidelineMap: Map<string, string>;
     }
     const toggleTableEU = () => {
         setShowTableEU(!showTableEU);
@@ -75,6 +77,8 @@ export default function PostProcessingView() {
         });
     }, []);
 
+
+    console.log(filesInfo)
 
     async function deleteFiles() {
         try {
@@ -797,6 +801,17 @@ export default function PostProcessingView() {
                                                 <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G28</span>
                                                 <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G29</span>
                                                 <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G30</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G31</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G32</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G33</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G34</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G35</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G36</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G37</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G38</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G39</span>
+                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G40</span>
+
                                             </div>
                                         </div>
                                     </div>
@@ -805,7 +820,7 @@ export default function PostProcessingView() {
                                     <div style={{width: "100%", display: 'flex',flexDirection: "column",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         {displayButton && (
                                             <button style={{backgroundColor: "white", alignSelf: "right", color: "#10ad73", padding: "5px 20px", border: "none", borderBottom: "1px solid #10ad73", cursor: "pointer", right: "0", bottom: "0", fontWeight: "bold", fontSize: "12px",}} onClick={() => setShowAllFiles(!showAllFiles)}>
-                                                {showAllFiles ? `Hide list` : `Click here to show all (${filesInfo.length} models)`}
+                                                {showAllFiles ? `Hide list` : `Click here to show all (${totalProcess - invalid} models)`}
                                             </button>
                                         )}
                                         <div className="file-info">
@@ -840,28 +855,42 @@ export default function PostProcessingView() {
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G28</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G29</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G30</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G31</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G32</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G33</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G34</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G35</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G36</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G37</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G38</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G39</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G40</span>
                                         </div>
 
-                                        {filesToDisplay.filter(file => file.modelType === "Process Collaboration").map((file, index) => (
-                                            <div key={index} style={{border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black"}}>
-                                                <div className="file-info">
-                                                    <p className="file-info-item-name file-name" style={{width:"15%"}}>
-                                                        <BsDiagram2 style={{}} /> {file.name}
-                                                    </p>
-                                                    <p className={`file-info-item file-name`}>
-                                              <span className={`badge badge-pill ${file.isDuplicated ? "badge-danger" : "badge-success"}`}>
-                                                {file.isDuplicated ? (<AiFillExclamationCircle />) : (<GiConfirmed />)}
-                                              </span>
-                                                    </p>
+                                        {filesToDisplay.filter(file => file.modelType === "Process Collaboration" && file.isValid).map((file, index) =>
+                                                <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
+                                                    <div className="file-info">
+                                                        <p className="file-info-item-name file-name">
+                                                            <BsDiagram2 /> {file.name}
+                                                        </p>
+                                                        <div className="file-info-item file-name">
+                                                            {Array.from(file.guidelineMap.keys()).map(key => (
+                                                                <span key={key} className={`badge badge-pill badge-success ${file.guidelineMap.get(key) === 'true' ? 'false' : 'true'}`}>
+                                                                  {file.guidelineMap.get(key) === 'true' ? <AiFillExclamationCircle /> : <GiConfirmed />}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                        )}
+
                                         {filesInfo.length > 2 &&
-                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
+                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid) - 1} more files.</p>
                                         }
                                         {filesInfo.length === 2 &&
-                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
+                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid) - 1} more file.</p>
                                         }
+
                                     </div>
                                     <button style={{ background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }}  onClick={downloadFile}>
                                         <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Good Modeling Practice report</a>
