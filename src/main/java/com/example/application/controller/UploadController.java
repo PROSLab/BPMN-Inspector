@@ -5245,13 +5245,19 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
 
+
         // Scrivi l'intestazione delle colonne nel file CSV
         bw.write("fileName;");
         for (int i = 1; i <= 40; i++) {
             bw.write("G" + i + ";");
         }
+
         bw.write("\n");
         bw.flush();
+
+        int[] trueCounts = new int[40];
+        int[] falseCounts = new int[40];
+        int totalRows = 0;
 
         for (fileInfo fileInfo : fileInfos) {
 
@@ -5295,9 +5301,40 @@ SUBPROCESS Collapsed EVENT + ADHOC
             bw.flush();
 
             System.out.println(fileName+" GuidelinesResult: "+guidelinesResult.toString());
-        }
 
+            String[] guidelinesResults = guidelinesResult.toString().split(";");
+
+            // Aggiornamento dei conteggi di "true" e "false" per ciascuna colonna
+            for (int i = 0; i < guidelinesResults.length; i++) {
+                String result = guidelinesResults[i];
+                if (result.equals("true")) {
+                    trueCounts[i]++;
+                } else if (result.equals("false")) {
+                    falseCounts[i]++;
+                }
+            }
+
+            // Incremento del totale delle righe elaborate
+            totalRows++;
+
+        }
+        bw.write("\n");
+        bw.write("True Percentage;");
+        for (int i = 0; i < 40; i++) {
+            double truePercentage = (double) trueCounts[i] / totalRows * 100;
+            bw.write(String.format("%.2f", truePercentage) + "%;");
+        }
         bw.close();
+
+        double[] truePercentages = new double[40];
+        double[] falsePercentages = new double[40];
+        for (int i = 0; i < 40; i++) {
+            truePercentages[i] = (double) trueCounts[i] / totalRows * 100;
+            falsePercentages[i] = (double) falseCounts[i] / totalRows * 100;
+            System.out.println("Colonna G" + (i + 1) + ":");
+            System.out.println("True: " + truePercentages[i] + "%");
+            System.out.println("False: " + falsePercentages[i] + "%");
+        }
     }
 
 

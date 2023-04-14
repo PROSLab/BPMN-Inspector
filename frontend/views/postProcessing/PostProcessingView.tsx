@@ -75,6 +75,7 @@ export default function PostProcessingView() {
         });
     }, []);
 
+
     async function deleteFiles() {
         try {
             await axios.delete('/deleteAllFiles');
@@ -151,7 +152,6 @@ export default function PostProcessingView() {
     };
 
     function calculateRho(files: filesInfo[]) {
-        // Creo un array con tutti gli elementi dell'hashmap
         // @ts-ignore
         const elements = Object.values(filesInfo.elementMap);
         const rhoValues = [];

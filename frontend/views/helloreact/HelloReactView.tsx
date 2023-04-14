@@ -74,6 +74,7 @@ export default function HelloReactView() {
             isDuplicated: boolean;
             isEnglish: string;
             modelType: string
+            elementMap: any;
         }
 
         useEffect(() => {
@@ -87,7 +88,6 @@ export default function HelloReactView() {
                 loader.hide();
             });
         }, [filteringArray]);
-
 
         const inspectionPage = () => {
             const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
@@ -191,6 +191,7 @@ export default function HelloReactView() {
         };
 
         // @ts-ignore
+        // @ts-ignore
         return (
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -209,7 +210,7 @@ export default function HelloReactView() {
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Model Type</span>
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Validation</span>
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Duplicated</span>
-                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Model Language</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Language</span>
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>File size</span>
 
                     </div>
@@ -397,9 +398,9 @@ export default function HelloReactView() {
             <div style={{display: "flex", flexDirection: "row", height: "100%"}}>
                 <div style={{flexDirection:"column"}} className="flex h-full items-left justify-left p-l text-left box-border">
                     <div>
-                        <a style={{fontSize:'40px',color:'black',marginLeft: "8%",fontWeight:"bold"}}>BPMN Models Inspector</a>
+                        <a style={{fontSize:'40px',color:'black',marginLeft: "7%",fontWeight:"bold"}}>BPMN Models Inspector</a>
                         <br />
-                        <a style={{fontSize:'20px',color:'black',marginLeft: "11%"}}>Upload one or more .bpmn, .xml or .zip files.</a>
+                        <a style={{fontSize:'20px',color:'black',marginLeft: "10%"}}>Upload one or more .bpmn, .xml or .zip files.</a>
                         <div className="form-container">
                             <section className="flex flex-col h-full items-center p-l text-center box-border" style={{
                                 cursor: "pointer",
@@ -476,7 +477,7 @@ export default function HelloReactView() {
                         <>
                             <div className="icon-text-container">
                                 <img style={{marginTop:"50px"}} src={"../../img/filtering.gif"} alt="" width="140" height="140"/>
-                                <p style={{marginTop:"50px", fontSize:"20px",fontWeight:"bold"}} >Filter, organize, and clean your sample of BPMN models easily and effectively.</p>
+                                <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >Filter, organize, and clean your sample of BPMN <br /> models easily and effectively.</p>
                             </div>
                         </>
 
@@ -485,7 +486,7 @@ export default function HelloReactView() {
                         <>
                             <div className="icon-text-container">
                                 <img style={{marginTop:"50px"}} src={"../../img/inspection.gif"} alt="" width="140" height="140"/>
-                                <p style={{marginTop:"50px", fontSize:"20px",fontWeight:"bold"}} >Inspect your BPMN model to obtain a comprehensive understanding of your process and identify up to 267 different elements.</p>
+                                <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >Inspect your BPMN model to obtain a comprehensive understanding of your process and identify up to 267 different BPMN elements.</p>
                             </div>
                         </>
 
@@ -494,7 +495,7 @@ export default function HelloReactView() {
                         <>
                             <div className="icon-text-container">
                                 <img style={{marginTop:"50px"}} src={"../../img/validate.gif"} alt="" width="140" height="140"/>
-                                <p style={{marginTop:"50px", fontSize:"20px",fontWeight:"bold"}}>Validate the semantic of your BPMN files and evaluate the adherence to good modeling practices.</p>
+                                <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}}>Validate the semantic of your BPMN files and evaluate <br /> the adherence to 40 good modeling practices.</p>
                             </div>
                         </>
 
