@@ -2,6 +2,7 @@ package com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plu
 
 import java.io.File;
 import java.io.StringWriter;
+import java.util.Locale;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -50,8 +51,10 @@ public class BPMNUnderstandability implements Plugin {
 					return "";
 
 				MyBPMN2ModelReader readerBPMN = new MyBPMN2ModelReader();
-
-				GuidelinesFactory eg = new GuidelinesFactory(readerBPMN.readStringModel(model));
+				String lang = "en";
+				String country = "US";
+				Locale l = new Locale(lang, country);
+				GuidelinesFactory eg = new GuidelinesFactory(readerBPMN.readStringModel(model), l);
 				eg.setVerificationType("UNDERSTANDABILITY");
 				eg.StartSequential();
 				// System.out.println(eg);
@@ -84,7 +87,10 @@ public class BPMNUnderstandability implements Plugin {
 			if (args[0] != null) {
 				MyBPMN2ModelReader readerBPMN = new MyBPMN2ModelReader();
 				File file = new File(args[0]);
-				GuidelinesFactory eg = new GuidelinesFactory(readerBPMN.readFileModel(file.getAbsolutePath()));
+				String lang = "en";
+				String country = "US";
+				Locale l = new Locale(lang, country);
+				GuidelinesFactory eg = new GuidelinesFactory(readerBPMN.readFileModel(file.getAbsolutePath()),l);
 				System.out.println(eg);
 
 				JAXBContext jaxbContext = JAXBContext.newInstance(GuidelinesFactory.class);

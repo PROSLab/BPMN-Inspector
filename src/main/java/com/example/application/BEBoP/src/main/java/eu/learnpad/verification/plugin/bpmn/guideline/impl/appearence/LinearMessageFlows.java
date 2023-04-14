@@ -39,7 +39,9 @@ public class LinearMessageFlows extends abstractGuideline {
 				// List<MessageFlow> msgFlow = collaboration.getMessageFlows();
 				List<Participant> participants = collaboration.getParticipants();
 				for (Participant participant : participants) {
-					IDProcess = participant.getProcessRef().getId();
+					if (participant.getProcessRef() != null) {
+						IDProcess = participant.getProcessRef().getId();
+					}
 				}
 				if (collaboration.getMessageFlows() != null || !collaboration.getMessageFlows().isEmpty()) {
 					edge.addAll(collaboration.getMessageFlows());

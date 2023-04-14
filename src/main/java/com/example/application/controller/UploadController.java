@@ -95,7 +95,7 @@ public class UploadController {
         });
 
         try {
-            evaluateGuidelines(fileInfos);
+
             getFilteredFiles(data, fileInfos);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -114,12 +114,11 @@ public class UploadController {
             }
 
             if(data == null){
-                System.out.println("entro");
                 fileInfosBackup = fileInfos;
                 return fileInfosBackup;
             }
         }
-
+        evaluateGuidelines(fileInfos);
         return newFileInfoFiltered;
     }
     public static String detectLanguage(File file) throws IOException, ParserConfigurationException, SAXException {
@@ -5242,20 +5241,25 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
     public void evaluateGuidelines(List<fileInfo> fileInfos) throws IOException {
 
-        String path = "src/main/resources/bpmnCounterOutput/bpmn_guidelines.csv";
+        String path = "src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv";
 
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
 
+        // Scrivi l'intestazione delle colonne nel file CSV
         bw.write("fileName;");
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i <= 40; i++) {
             bw.write("G" + i + ";");
-            if(i == 30)
-                bw.write("\n");
         }
+        bw.write("\n");
+        bw.flush();
 
         for (fileInfo fileInfo : fileInfos) {
 
-            String guidelinesResult ="";
+            if(fileInfo.getModelType() != "Process Collaboration" || !fileInfo.isValid){
+                continue;
+            }
+
+            StringBuilder guidelinesResult = new StringBuilder();
             String modelxml="";
 
             MyBPMN2ModelReader readerBPMN = new MyBPMN2ModelReader();
@@ -5270,7 +5274,10 @@ SUBPROCESS Collapsed EVENT + ADHOC
             try {
                 // Leggi il contenuto del file e assegna il suo valore alla variabile modelxml
                 modelxml = new String(Files.readAllBytes(Paths.get(filePath)));
-                eg = new GuidelinesFactory(readerBPMN.readStringModel(modelxml));
+                String lang = "en";
+                String country = "US";
+                Locale l = new Locale(lang, country);
+                eg = new GuidelinesFactory(readerBPMN.readStringModel(modelxml),l);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -5280,22 +5287,18 @@ SUBPROCESS Collapsed EVENT + ADHOC
             Collection<abstractGuideline> guidelines = eg.getGuidelines();
 
             for (abstractGuideline s : guidelines) {
-                guidelinesResult+=s.getStatus()+",";
+                guidelinesResult.append(s.getStatus()).append(";");
             }
 
-            guidelinesResult+="\n";
-            System.out.println("^^^^^^guidelinesResult: "+guidelinesResult);
+            // Scrivi le informazioni nel file CSV
+            bw.write(fileName + ";" + guidelinesResult.toString() + "\n");
+            bw.flush();
 
-            String outputFilePath = "../guidelines.txt";
-
-            try(FileWriter fw = new FileWriter(outputFilePath, true);
-                BufferedWriter writer = new BufferedWriter(fw);) {
-
-                writer.write(guidelinesResult);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            System.out.println(fileName+" GuidelinesResult: "+guidelinesResult.toString());
         }
+
+        bw.close();
     }
-    }
+
+
+}

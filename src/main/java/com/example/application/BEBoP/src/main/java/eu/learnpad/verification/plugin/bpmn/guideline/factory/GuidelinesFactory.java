@@ -95,12 +95,6 @@ public class GuidelinesFactory {
 
 	}
 
-	public GuidelinesFactory(Definitions graph) {
-		diagram = graph;
-		this.l = new Locale("en");
-		init();
-	}
-
 	public GuidelinesFactory(Definitions graph, Locale l) {
 		diagram = graph;
 		this.l = l;
@@ -156,9 +150,6 @@ public class GuidelinesFactory {
 		guidelines.add(new OrganizeArtifact(diagram, l));
 		guidelines.add(new AssociateDataObject(diagram, l));
 		guidelines.add(new StandardFormat(diagram, l));
-		// guidelines.add(new (diagram,l));
-		// guidelines.add(new (diagram,l));
-		// guidelines.add(new (diagram,l));
 		threadPool = new LinkedBlockingQueue<Runnable>();
 		/*
 		 * setProcessID(explicitSEevent.getProcessID());

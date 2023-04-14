@@ -34,18 +34,6 @@ export default function HelloReactView() {
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
     let selectedFile: any = null;
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const tabs = ['filtering', 'inspection', 'validation'];
-            const nextIndex = (tabIndex + 1) % tabs.length;
-            setActiveTab(tabs[nextIndex]);
-            setTabIndex(nextIndex);
-        }, 10000);
-
-        return () => clearInterval(interval);
-    }, [tabIndex]);
-
-
     const filterCollection = () => {
 
         const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
@@ -89,7 +77,6 @@ export default function HelloReactView() {
         }
 
         useEffect(() => {
-
             loader.show();
             axios({
                 method: "post",
@@ -99,7 +86,8 @@ export default function HelloReactView() {
                 setFilesInfo(response.data);
                 loader.hide();
             });
-        }, []);
+        }, [filteringArray]);
+
 
         const inspectionPage = () => {
             const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
