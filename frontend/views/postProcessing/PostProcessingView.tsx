@@ -155,6 +155,21 @@ export default function PostProcessingView() {
         });
     };
 
+    const downloadGMFile = () => {
+        axios({
+            url: '/download-goodemodeling-report',
+            method: 'GET',
+            responseType: 'blob',
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'bpmn_guidelines.csv');
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
     function calculateRho(files: filesInfo[]) {
         // @ts-ignore
         const elements = Object.values(filesInfo.elementMap);
@@ -866,23 +881,21 @@ export default function PostProcessingView() {
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G39</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G40</span>
                                         </div>
-
-                                        {filesToDisplay.filter(file => file.modelType === "Process Collaboration" && file.isValid).map((file, index) =>
+                                        {filesToDisplay
+                                            .filter(file => file.modelType === "Process Collaboration" && file.isValid)
+                                            .map((file, index) => (
                                                 <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
                                                     <div className="file-info">
                                                         <p className="file-info-item-name file-name">
                                                             <BsDiagram2 /> {file.name}
                                                         </p>
                                                         <div className="file-info-item file-name">
-                                                            {Array.from(file.guidelineMap.keys()).map(key => (
-                                                                <span key={key} className={`badge badge-pill badge-success ${file.guidelineMap.get(key) === 'true' ? 'false' : 'true'}`}>
-                                                                  {file.guidelineMap.get(key) === 'true' ? <AiFillExclamationCircle /> : <GiConfirmed />}
-                                                                </span>
-                                                            ))}
+                                                           ok
                                                         </div>
                                                     </div>
                                                 </div>
-                                        )}
+                                            ))}
+
 
                                         {filesInfo.length > 2 &&
                                             <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid) - 1} more files.</p>
@@ -892,7 +905,7 @@ export default function PostProcessingView() {
                                         }
 
                                     </div>
-                                    <button style={{ background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }}  onClick={downloadFile}>
+                                    <button style={{ background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }}  onClick={downloadGMFile}>
                                         <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Good Modeling Practice report</a>
                                     </button>
                                 </div>
