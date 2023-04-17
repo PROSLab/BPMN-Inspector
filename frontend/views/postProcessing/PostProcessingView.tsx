@@ -31,6 +31,7 @@ interface filesInfoFiltered {
     isDuplicated: boolean;
     elementMap: Map<string, number>;
     guidelineMap: Map<string, string>;
+    errorLog: string;
 }
 
 export default function PostProcessingView() {
@@ -48,6 +49,7 @@ export default function PostProcessingView() {
     let displayButton = filesInfo.length > 1;
     let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
     interface filesInfo {
+        errorLog: string;
         modelType: string;
         name: string;
         size: number;
@@ -474,6 +476,45 @@ export default function PostProcessingView() {
         ],
     };
 
+    // @ts-ignore
+    const errorCounts: { [errorType: string]: number } = {};
+    filesInfo.forEach(file => {
+        // Estrazione delle stringhe di errore dall'attributo errorLog
+        const errorStrings = file.errorLog.split(':');
+        // Iterazione delle stringhe di errore
+        errorStrings.forEach((errorString: string) => {
+            // Verifica se la stringa di errore inizia con "cvc"
+            if (errorString.startsWith('cvc')) {
+                // Aggiunta del tipo di errore all'oggetto di conteggio
+                // @ts-ignore
+                if (errorCounts[errorString]) {
+                    // @ts-ignore
+                    errorCounts[errorString] += 1;
+                } else {
+                    // @ts-ignore
+                    errorCounts[errorString] = 1;
+                }
+            }
+        });
+    });
+    // @ts-ignore
+    const sortedErrorCounts = Object.entries(errorCounts).sort((a, b) => b[1] - a[1]);
+    const labelsErr = sortedErrorCounts.map(([errorType]) => errorType);
+
+// Creazione dell'array di valori
+    const dataError = {
+        labels: labelsErr, // Array di etichette
+        datasets: [
+            {
+                label: "% of guideline's satisfaction",
+                backgroundColor: "rgba(16,173,115,0.7)",
+                borderColor: "rgba(8,59,12,0.6)",
+                data: sortedErrorCounts.map(([_, count]) => count), // Array di valori delle percentuali
+            },
+        ],
+    };
+
+    // @ts-ignore
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <ul style={{background:"#fafafb"}} className="nav nav-tabs nav-fill">
@@ -764,8 +805,8 @@ export default function PostProcessingView() {
                                                 <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                             </button>
                                         </div>
-                                        <div id="chartSE" style={{position: "relative", height:"50vh", width:"100%"}}>
-                                            <Bar options={{responsive:true,maintainAspectRatio:false}}  data={dataElementDistr}></Bar>
+                                        <div id="chartSE" style={{position: "relative", height:"100%", width:"100%"}}>
+                                            <Bar options={{responsive:true,maintainAspectRatio:false}}  data={dataError}></Bar>
                                         </div>
                                     </div>
                                 </div>
@@ -788,19 +829,19 @@ export default function PostProcessingView() {
                                     <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         <div style={{display:"flex", flexDirection:"column"}}>
                                             <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Number of Errors</a>
-
                                             <table>
                                                 <thead>
                                                 <tr>
-                                                    <th>Error</th>
+                                                    <th>Error Type<CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                                                    title={"https://wiki.xmldation.com/"}/></th>
                                                     <th># of Error</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {dataElementUsage.labels.map((label, index) => (
-                                                    <tr key={index}>
-                                                        <td>{label} - {label}</td>
-                                                        <td style={{textAlign: "center"}}>{dataElementUsage.datasets[0].data[index]}</td>
+                                                {sortedErrorCounts.map(([errorType, count]) => (
+                                                    <tr key={errorType}>
+                                                        <td>{errorType}</td>
+                                                        <td>{count}</td>
                                                     </tr>
                                                 ))}
                                                 </tbody>
