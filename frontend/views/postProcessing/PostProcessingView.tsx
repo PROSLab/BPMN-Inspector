@@ -233,12 +233,12 @@ export default function PostProcessingView() {
     let displayMsgSyntactic = "";
     let displayMsgGoodModeling = "";
 
-    if (data.includes('invalid')) {
+    if (invalid===0) {
         displayMsgSyntactic = "You filtered the models for valid, so the analysis on invalids is empty.";
     }
 
-    if (totalProcess===0) {
-        displayMsgGoodModeling = "The evaluation of good modeling practices is supported on Process Collaboration models only.";
+    if (totalProcess===0 || valid===0) {
+        displayMsgGoodModeling = "The evaluation of good modeling practices is supported only on valid Process Collaboration models.";
     }
 
     function downloadSvg(diagramId: string) {
@@ -467,8 +467,8 @@ export default function PostProcessingView() {
         datasets: [
             {
                 label: "% of guideline's satisfaction",
-                backgroundColor: "rgb(16,173,115)",
-                borderColor: "rgb(8,59,12)",
+                backgroundColor: "rgba(16,173,115,0.7)",
+                borderColor: "rgba(8,59,12,0.6)",
                 data: percentageResult, // Array di valori delle percentuali
             },
         ],
@@ -656,7 +656,7 @@ export default function PostProcessingView() {
                                     <table>
                                         <thead>
                                         <tr>
-                                            <th>Element Pair</th>
+                                            <th>Elements Pair</th>
                                             <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
                                         </tr>
                                         </thead>
@@ -691,7 +691,7 @@ export default function PostProcessingView() {
                                         <table>
                                             <thead>
                                             <tr>
-                                                <th>Element Pair</th>
+                                                <th>Elements Pair</th>
                                                 <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
                                             </tr>
                                             </thead>
@@ -726,7 +726,7 @@ export default function PostProcessingView() {
                                     <table>
                                         <thead>
                                         <tr>
-                                            <th>Element Pair</th>
+                                            <th>Elements Pair</th>
                                             <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
                                         </tr>
                                         </thead>
@@ -748,7 +748,7 @@ export default function PostProcessingView() {
                     <div>
                         {displayMsgSyntactic ? (
                             <div className="container">
-                                <img src="../../img/denied.png" />
+                                <img style={{width:"8%",height:"10%"}} src="../../img/denied.png" />
                                 <p>{displayMsgSyntactic}</p>
                                 <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload invalid models</a> for inspecting validation errors.</a>
                             </div>
@@ -786,8 +786,25 @@ export default function PostProcessingView() {
                                         </div>
                                     </div>
                                     <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                        <div style={{display:"flex"}}>
+                                        <div style={{display:"flex", flexDirection:"column"}}>
                                             <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Number of Errors</a>
+
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th>Error</th>
+                                                    <th># of Error</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {dataElementUsage.labels.map((label, index) => (
+                                                    <tr key={index}>
+                                                        <td>{label} - {label}</td>
+                                                        <td style={{textAlign: "center"}}>{dataElementUsage.datasets[0].data[index]}</td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -804,7 +821,7 @@ export default function PostProcessingView() {
                     <div>
                         {displayMsgGoodModeling ? (
                             <div className="container">
-                                <img src="../../img/denied.png" />
+                                <img style={{width:"8%",height:"10%"}} src="../../img/denied.png" />
                                 <p>{displayMsgGoodModeling}</p>
                                 <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload Process Collaboration models</a> for inspecting good modeling practices.</a>
                             </div>
@@ -813,7 +830,7 @@ export default function PostProcessingView() {
                                 <div style={{display: "flex", flexDirection: "column", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                                     <div style={{display: "flex", flexDirection: "row"}}>
                                         <div style={{width: "100%", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                            <div style={{display:"flex"}}>
+                                            <div style={{display:"flex",alignSelf:"center"}}>
                                                 <a style={{fontSize: '25px',color: 'black', fontWeight: "bold"}}>Radar Guidelines</a>
                                                 <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                                   title={"This is a graph of the model size of the collection"}/>
@@ -821,7 +838,7 @@ export default function PostProcessingView() {
                                                     <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                                 </button>
                                             </div>
-                                            <div id="chartSE" style={{position: "relative", height:"80vh", width:"100%"}}>
+                                            <div id="chartSE" style={{position: "relative", height:"100vh", width:"100%"}}>
                                                 <Radar options={{responsive:true,maintainAspectRatio:false}}  data={radarChartData}></Radar>
                                             </div>
                                         </div>
@@ -836,28 +853,23 @@ export default function PostProcessingView() {
                                                         const color = `rgb(${red}, ${green}, 0)`;
                                                         let icon;
                                                         if (percentage >= 0 && percentage <= 25) {
-                                                            icon = <HiChevronDoubleDown />; // Inserire qui l'icona per il range 0-25%
+                                                            icon = <HiChevronDoubleDown />;
                                                         } else if (percentage > 25 && percentage <= 50) {
-                                                            icon = <HiChevronDown />; // Inserire qui l'icona per il range 26-50%
+                                                            icon = <HiChevronDown />;
                                                         } else if (percentage > 50 && percentage <= 75) {
-                                                            icon = <HiChevronUp/>; // Inserire qui l'icona per il range 51-75%
+                                                            icon = <HiChevronUp/>;
                                                         } else if (percentage > 75 && percentage <= 100) {
-                                                            icon = <HiChevronDoubleUp />; // Inserire qui l'icona per il range 76-100%
+                                                            icon = <HiChevronDoubleUp />;
                                                         }
                                                         return (
-                                                            <span key={index} style={{marginRight: "10px", fontSize: '14px', fontWeight:"bold", color}}>
-                    {icon} G{index + 1}: {percentage.toFixed(2)}%
-                    <br/>
-                </span>
+                                                            <span key={index} style={{margin: "2px", fontSize: '14px', fontWeight:"bold", color}}>
+                                                                {icon} G{index + 1}: {percentage.toFixed(2)}%
+                                                                <br/>
+                                                            </span>
                                                         )
                                                     })}
                                                 </div>
                                             </div>
-
-
-
-
-
                                         </div>
                                     </div>
                                 </div>

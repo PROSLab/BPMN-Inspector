@@ -11,20 +11,21 @@ public class fileInfo {
     public String isEnglish;
     public String modelType;
     public Map<String, Integer> elementMap;
-
     public Map<String, Boolean> guidelineMap;
+    public String errorLog;
 
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish) {
+    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, String errorLog) {
         this.name = name;
         this.size = size;
         this.isValid = isValid;
         this.isDuplicated = isDuplicated;
         this.modelType = modelType;
         this.isEnglish = isEnglish;
+        this.errorLog = errorLog;
     }
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap, Map<String, Boolean> guidelineMap) {
+    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap, Map<String, Boolean> guidelineMap, String errorLog) {
         this.name = name;
         this.size = size;
         this.isValid = isValid;
@@ -33,6 +34,7 @@ public class fileInfo {
         this.isEnglish = isEnglish;
         this.elementMap = elementMap;
         this.guidelineMap = guidelineMap;
+        this.errorLog = errorLog;
     }
 
 
@@ -93,5 +95,11 @@ public class fileInfo {
     public void setGuidelineMap(HashMap<String, Boolean> guidelineMap) {
         this.guidelineMap = guidelineMap;
     }
+
+    public String geterrorLog() {
+        return errorLog;
+    }
+
+    public void seterrorLog(String errorLog) {this.errorLog = errorLog;}
 
 }

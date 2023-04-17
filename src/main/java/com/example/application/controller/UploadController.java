@@ -60,11 +60,19 @@ public class UploadController {
             boolean isValid;
             boolean isDuplicated;
             String isEnglish;
+            String validationResult;
 
             try {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
                 isEnglish = detectLanguage(file);
-                isValid = validateFile(file);
+                validationResult = validateFile(file);
+                System.out.println(validationResult);
+
+                if (Objects.equals(validationResult, ""))
+                    isValid = true;
+                else
+                    isValid = false;
+
                 List<String> duplicates = getDuplicateFiles();
 
                 if (duplicates.contains(file.getName())) {
@@ -91,12 +99,13 @@ public class UploadController {
             } catch (IOException | ParserConfigurationException e) {
                 throw new RuntimeException(e);
             }
-            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType, isEnglish));
+            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType, isEnglish, validationResult));
         });
 
         try {
 
             getFilteredFiles(data, fileInfos);
+            evaluateGuidelines(fileInfos);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (XPathExpressionException e) {
@@ -118,7 +127,7 @@ public class UploadController {
                 return fileInfosBackup;
             }
         }
-        evaluateGuidelines(fileInfos);
+
         return newFileInfoFiltered;
     }
     public static String detectLanguage(File file) throws IOException, ParserConfigurationException, SAXException {
@@ -289,7 +298,7 @@ public class UploadController {
         }
         return "All files deleted successfully";
     }
-    private boolean validateFile(File file) throws SAXException {
+    private String validateFile(File file) throws SAXException {
 
         // Directory contenente i file BPMN da convalidare
         File bpmnDir = new File("./src/main/resources/bpmnModels/");
@@ -316,13 +325,13 @@ public class UploadController {
         Schema schema;
         schema = factory.newSchema(sources.toArray(new Source[0]));
 
-
         // Creazione del validator per la convalida dei file BPMN
         Validator validator = schema.newValidator();
 
         // Creazione del writer per l'output dei risultati della convalida
 
         boolean isValid = false;
+        String errorMessage = "";
 
         // Convalida del file BPMN
 
@@ -351,10 +360,11 @@ public class UploadController {
         } catch (SAXException e) {
             // Errore nella convalida del file BPMN
             isValid = false;
+            errorMessage = e.getMessage();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        return isValid;
+        return errorMessage;
     }
     @GetMapping("/download-validation-report")
     public ResponseEntity<Resource> downloadValidationReport() throws IOException {
@@ -5251,7 +5261,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
             rowIndex++;
         }
      }
-
     public void evaluateGuidelines(List<fileInfo> fileInfos) throws IOException {
 
         String path = "src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv";
