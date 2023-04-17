@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="14.7.1" expressionLanguage="http://www.w3.org/TR/XPath" id="sid-f9e544eb-4dc2-4ddf-b15f-7e0528556417" name="Arbeitsvertrag ausstellen" targetNamespace="http://www.boc-group.com/definitions/207512" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+   <message id="_358827.296072"/>
+   <collaboration id="sid-39a05acc-0db8-4255-a55e-c76c52e2d06b">
+      <extensionElements>
+         <signavio:signavioDiagramMetaData metaKey="revisionid" metaValue="d5a60bf8d4dd491194966642e865e3c4"/>
+      </extensionElements>
+      <participant id="_296103" name="Stadt Dübendorf" processRef="P_296103">
+         <extensionElements/>
+      </participant>
+      <participant id="_296073" name="Bewerber"/>
+      <messageFlow id="_296115" name="Arbeitsvertrag" sourceRef="_296073" targetRef="_296097"/>
+      <messageFlow id="_296123" name="Unterzeichneter Arbeitsvertrag" sourceRef="_296082" targetRef="_296073"/>
+   </collaboration>
+   <process id="P_296103" isClosed="false" isExecutable="false" name="Stadt Dübendorf" processType="None">
+      <extensionElements/>
+      <laneSet id="sid-3349c4f4-978d-4102-9714-a4e6daeceacf">
+         <lane id="_296100" name="Linie">
+            <flowNodeRef>_296076</flowNodeRef>
+            <flowNodeRef>_296085</flowNodeRef>
+            <flowNodeRef>_296088</flowNodeRef>
+            <flowNodeRef>_296112</flowNodeRef>
+         </lane>
+         <lane id="_296106" name="Personaldienst">
+            <flowNodeRef>_296079</flowNodeRef>
+            <flowNodeRef>_296082</flowNodeRef>
+            <flowNodeRef>_296091</flowNodeRef>
+            <flowNodeRef>_296094</flowNodeRef>
+            <flowNodeRef>_296097</flowNodeRef>
+            <flowNodeRef>_296109</flowNodeRef>
+         </lane>
+      </laneSet>
+      <startEvent id="_296076" name="Kandidat ist ausgewählt">
+         <outgoing>_296116</outgoing>
+      </startEvent>
+      <task completionQuantity="1" id="_296085" isForCompensation="false" name="Bewerberinformationen aufbereiten" startQuantity="1">
+         <incoming>_296116</incoming>
+         <outgoing>_296128</outgoing>
+      </task>
+      <task completionQuantity="1" id="_296088" isForCompensation="false" name="Arbeitsvertrag unterzeichnen" startQuantity="1">
+         <incoming>_296121</incoming>
+         <outgoing>_296131</outgoing>
+      </task>
+      <endEvent id="_296112" name="Arbeitsvertrag ist nicht gegengezeichnet">
+         <incoming>_296148</incoming>
+      </endEvent>
+      <task completionQuantity="1" id="_296079" isForCompensation="false" name="Arbeitsvertrag erstellen" startQuantity="1">
+         <incoming>_296128</incoming>
+         <outgoing>_296121</outgoing>
+      </task>
+      <task completionQuantity="1" id="_296082" isForCompensation="false" name="Arbeitsvertrag mit Unterlagen versenden" startQuantity="1">
+         <incoming>_296131</incoming>
+         <outgoing>_296122</outgoing>
+      </task>
+      <task completionQuantity="1" id="_296091" isForCompensation="false" name="Unterlagen archivieren" startQuantity="1">
+         <incoming>_296145</incoming>
+         <outgoing>_296132</outgoing>
+      </task>
+      <endEvent id="_296094" name="Arbeitsvertrag ist ausgestellt">
+         <incoming>_296132</incoming>
+      </endEvent>
+      <intermediateCatchEvent id="_296097" name="Eingang Arbeitsvertrag">
+         <incoming>_296122</incoming>
+         <outgoing>_296137</outgoing>
+         <messageEventDefinition id="sid-e3ff140e-e381-4325-9e58-d6063cbcbb8c"/>
+      </intermediateCatchEvent>
+      <exclusiveGateway gatewayDirection="Diverging" id="_296109" name="Exklusives Gateway-287403">
+         <incoming>_296137</incoming>
+         <outgoing>_296145</outgoing>
+         <outgoing>_296148</outgoing>
+      </exclusiveGateway>
+      <sequenceFlow id="_296116" isImmediate="true" name="" sourceRef="_296076" targetRef="_296085"/>
+      <sequenceFlow id="_296121" isImmediate="true" name="" sourceRef="_296079" targetRef="_296088"/>
+      <sequenceFlow id="_296122" isImmediate="true" name="" sourceRef="_296082" targetRef="_296097"/>
+      <sequenceFlow id="_296128" isImmediate="true" name="" sourceRef="_296085" targetRef="_296079"/>
+      <sequenceFlow id="_296131" isImmediate="true" name="" sourceRef="_296088" targetRef="_296082"/>
+      <sequenceFlow id="_296132" isImmediate="true" name="" sourceRef="_296091" targetRef="_296094"/>
+      <sequenceFlow id="_296137" isImmediate="true" name="" sourceRef="_296097" targetRef="_296109"/>
+      <sequenceFlow id="_296145" isImmediate="true" name="Vertrag gegengezeichnet" sourceRef="_296109" targetRef="_296091"/>
+      <sequenceFlow id="_296148" isImmediate="true" name="Arbeitsvertrag nicht gegengezeichnet" sourceRef="_296109" targetRef="_296112"/>
+   </process>
+   <bpmndi:BPMNDiagram id="sid-4f0a34e1-20db-40f7-acaa-22f436f36f70" name="Arbeitsvertrag ausstellen">
+      <bpmndi:BPMNPlane bpmnElement="sid-39a05acc-0db8-4255-a55e-c76c52e2d06b" id="sid-a2c460f9-3111-447d-8b85-23d2edfefaa5">
+         <bpmndi:BPMNShape bpmnElement="_296103" id="_296103_gui" isHorizontal="true">
+            <omgdc:Bounds height="378.0" width="1549.0" x="0.0" y="226.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="91.80000305175781" width="12.000000000000016" x="4.999999999999991" y="369.0999984741211"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296073" id="_296073_gui" isHorizontal="true">
+            <omgdc:Bounds height="113.0" width="1549.0" x="0.0" y="37.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="20.0" width="84.85711669921875" x="732.0714416503906" y="80.5"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296100" id="_296100_gui" isHorizontal="true">
+            <omgdc:Bounds height="189.0" width="1436.0" x="113.0" y="415.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="23.91428565979004" width="12.0" x="119.0" y="497.542857170105"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296106" id="_296106_gui" isHorizontal="true">
+            <omgdc:Bounds height="189.0" width="1436.0" x="113.0" y="226.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="78.68571472167969" width="12.0" x="119.0" y="281.15714263916016"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296076" id="_296076_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="192.0" y="494.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="11.0" width="118.80000305175781" x="147.5999984741211" y="526.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296085" id="_296085_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="306.0" y="481.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="36.0" width="91.80000305175781" x="312.5999984741211" y="489.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296088" id="_296088_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="703.0" y="481.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="24.0" width="77.91427612304688" x="716.5428619384766" y="495.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296112" id="_296112_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="1477.0" y="494.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="11.0" width="201.5357208251953" x="1390.2321395874023" y="524.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296079" id="_296079_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="495.0" y="274.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="24.0" width="77.91427612304688" x="508.54286193847656" y="288.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296082" id="_296082_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="873.0" y="274.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="36.0" width="79.4571533203125" x="885.7714233398438" y="282.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296091" id="_296091_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="1307.0" y="274.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+               <omgdc:Bounds height="24.0" width="58.628570556640625" x="1330.1857147216797" y="288.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296094" id="_296094_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="1477.0" y="286.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="11.0" width="144.25714111328125" x="1418.8714294433594" y="316.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296097" id="_296097_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="1061.0" y="286.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="11.0" width="114.55714416503906" x="1018.7214279174805" y="318.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_296109" id="_296109_gui" isMarkerVisible="true">
+            <omgdc:Bounds height="40.0" width="40.0" x="1151.0" y="281.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="12.0" width="153.5142822265625" x="1181.5" y="311.5"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNEdge bpmnElement="_296116" id="_296116_gui">
+            <omgdi:waypoint x="222.0" y="509.0986842105263"/>
+            <omgdi:waypoint x="306.0" y="509.6513157894737"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296121" id="_296121_gui">
+            <omgdi:waypoint x="600.0" y="302.0"/>
+            <omgdi:waypoint x="642.0" y="302.0"/>
+            <omgdi:waypoint x="642.0" y="510.0"/>
+            <omgdi:waypoint x="703.0" y="510.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296122" id="_296122_gui">
+            <omgdi:waypoint x="978.0" y="302.0"/>
+            <omgdi:waypoint x="1001.0" y="302.0"/>
+            <omgdi:waypoint x="1061.0" y="301.2"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296128" id="_296128_gui">
+            <omgdi:waypoint x="411.0" y="510.0"/>
+            <omgdi:waypoint x="453.0" y="510.0"/>
+            <omgdi:waypoint x="453.0" y="302.0"/>
+            <omgdi:waypoint x="495.0" y="302.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296131" id="_296131_gui">
+            <omgdi:waypoint x="808.0" y="510.0"/>
+            <omgdi:waypoint x="831.0" y="510.0"/>
+            <omgdi:waypoint x="831.0" y="302.0"/>
+            <omgdi:waypoint x="873.0" y="302.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296132" id="_296132_gui">
+            <omgdi:waypoint x="1412.0" y="301.6060606060606"/>
+            <omgdi:waypoint x="1477.0" y="301.1136363636364"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296137" id="_296137_gui">
+            <omgdi:waypoint x="1091.0" y="301.0"/>
+            <omgdi:waypoint x="1151.0" y="301.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296145" id="_296145_gui">
+            <omgdi:waypoint x="1191.0" y="301.1058201058201"/>
+            <omgdi:waypoint x="1307.0" y="301.7195767195767"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="12.71821846459909" width="135.83307754390125" x="1198.6652631007225" y="281.1466124629499"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296148" id="_296148_gui">
+            <omgdi:waypoint x="1171.0" y="321.0"/>
+            <omgdi:waypoint x="1171.0" y="510.0"/>
+            <omgdi:waypoint x="1477.0" y="509.04672897196264"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="202.8857421875" width="12.0" x="1150.9995965725038" y="328.5243902439024"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296115" id="_296115_gui">
+            <omgdi:waypoint x="924.1592920353983" y="150.0"/>
+            <omgdi:waypoint x="1077.0" y="207.0"/>
+            <omgdi:waypoint x="1076.159574468085" y="286.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="78.03754859990781" width="12.828136815132439" x="1056.087215585618" y="214.78679675842588"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_296123" id="_296123_gui">
+            <omgdi:waypoint x="926.0" y="274.0"/>
+            <omgdi:waypoint x="926.0" y="207.0"/>
+            <omgdi:waypoint x="849.3274336283185" y="150.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+               <omgdc:Bounds height="109.50377727789007" width="141.50246193993507" x="790.0096304854831" y="86.30308091345589"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+      <bpmndi:BPMNLabelStyle id="sid-b1840e62-71bb-48db-9b89-498a791f190a">
+         <omgdc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="11.0"/>
+      </bpmndi:BPMNLabelStyle>
+      <bpmndi:BPMNLabelStyle id="sid-22ddffc3-fd80-40a9-a930-356c19eeb0bd">
+         <omgdc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="12.0"/>
+      </bpmndi:BPMNLabelStyle>
+   </bpmndi:BPMNDiagram>
+</definitions>

@@ -6,8 +6,8 @@ import {toast} from "react-toastify";
 import LineChart from "Frontend/components/charts/LineChart";
 import { Chart, registerables } from 'chart.js';
 import '@vaadin/vaadin-lumo-styles/badge.js'
-import BarChart from "Frontend/components/charts/BarChart";
-import PieChart from "Frontend/components/charts/PieChart";
+import {HiChevronDoubleUp, HiChevronDoubleDown, HiChevronUp, HiChevronDown} from "react-icons/hi";
+
 // @ts-ignore
 import ChartVenn from "Frontend/components/charts/ChartVenn";
 import {BsDiagram2} from "react-icons/bs";
@@ -22,7 +22,7 @@ import { FaRegImage } from "react-icons/fa";
 import { Canvg } from 'canvg';
 import html2canvas from 'html2canvas';
 import { Table } from 'react-bootstrap';
-import {BiDownArrowAlt, BiUpArrowAlt} from "react-icons/all";
+import {BiDownArrowAlt, BiUpArrowAlt, MdKeyboardArrowDown, MdKeyboardArrowUp} from "react-icons/all";
 
 interface filesInfoFiltered {
     name: string;
@@ -834,9 +834,19 @@ export default function PostProcessingView() {
                                                         const green = Math.floor(255 * (percentage / 100));
                                                         const red = Math.floor(255 * ((100 - percentage) / 100));
                                                         const color = `rgb(${red}, ${green}, 0)`;
+                                                        let icon;
+                                                        if (percentage >= 0 && percentage <= 25) {
+                                                            icon = <HiChevronDoubleDown />; // Inserire qui l'icona per il range 0-25%
+                                                        } else if (percentage > 25 && percentage <= 50) {
+                                                            icon = <HiChevronDown />; // Inserire qui l'icona per il range 26-50%
+                                                        } else if (percentage > 50 && percentage <= 75) {
+                                                            icon = <HiChevronUp/>; // Inserire qui l'icona per il range 51-75%
+                                                        } else if (percentage > 75 && percentage <= 100) {
+                                                            icon = <HiChevronDoubleUp />; // Inserire qui l'icona per il range 76-100%
+                                                        }
                                                         return (
                                                             <span key={index} style={{marginRight: "10px", fontSize: '14px', fontWeight:"bold", color}}>
-                    G{index + 1}: {percentage.toFixed(2)}%
+                    {icon} G{index + 1}: {percentage.toFixed(2)}%
                     <br/>
                 </span>
                                                         )
@@ -847,16 +857,13 @@ export default function PostProcessingView() {
 
 
 
+
                                         </div>
                                     </div>
                                 </div>
                                 <div style={{display: "flex", flexDirection: "column", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                                     <div style={{width: "100%", display: 'flex',flexDirection: "column",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                        {displayButton && (
-                                            <button style={{backgroundColor: "white", alignSelf: "right", color: "#10ad73", padding: "5px 20px", border: "none", borderBottom: "1px solid #10ad73", cursor: "pointer", right: "0", bottom: "0", fontWeight: "bold", fontSize: "12px",}} onClick={() => setShowAllFiles(!showAllFiles)}>
-                                                {showAllFiles ? `Hide list` : `Click here to show all (${totalProcess - invalid} models)`}
-                                            </button>
-                                        )}
+
                                         <div style={{fontSize: "18px", color: "black", width:"100%", display:"flex"}}>
                                             <span className="file-info-item-name" style={{ fontSize: "13px", fontWeight: "bold", width:"20%"}}>File name</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G1</span>
@@ -919,14 +926,6 @@ export default function PostProcessingView() {
                                                     </div>
                                                 </div>
                                             ))}
-
-                                        {filesInfo.length > 2 &&
-                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid)} more files.</p>
-                                        }
-                                        {filesInfo.length === 2 &&
-                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid)} more file.</p>
-                                        }
-
                                     </div>
                                     <button style={{ background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }}  onClick={downloadGMFile}>
                                         <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Good Modeling Practice report</a>
