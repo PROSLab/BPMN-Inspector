@@ -5333,11 +5333,11 @@ SUBPROCESS Collapsed EVENT + ADHOC
             FileReader fileReader = new FileReader("src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv");
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(fileReader);
 
-            HashMap<String, String> guidelineCount = new HashMap<>();
+            HashMap<String, Boolean> guidelineCount = new HashMap<>();
             for (CSVRecord record : records) {
                 for (int i = 1; i <= 40; i++) {
                     String guideline = "G" + i;
-                    String status = guidelinesResults[i-1];
+                    Boolean status = Boolean.valueOf(guidelinesResults[i-1]);
                     guidelineCount.put(guideline, status);
                 }
                 fileInfo.setGuidelineMap(guidelineCount);

@@ -44,7 +44,7 @@ export default function PostProcessingView() {
 
     const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
     const [filesInfoFiltered, setFilesInfoFiltered] = useState<Array<filesInfoFiltered>>([]);
-    const [showAllFiles, setShowAllFiles] = useState<boolean>(false);
+    const [showAllFiles, setShowAllFiles] = useState<boolean>(true);
     let displayButton = filesInfo.length > 1;
     let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
     interface filesInfo {
@@ -425,11 +425,54 @@ export default function PostProcessingView() {
         return dataElementUsage;
     }
 
+    // @ts-ignore
+    const calculatePercentage = (filesToDisplay) => {
+        const columnCount = 40; // Numero di colonne da G1 a G40
+        const percentageArray: number[] = [];
+
+        // Inizializza l'array delle percentuali a 0
+        for (let i = 0; i < columnCount; i++) {
+            percentageArray[i] = 0;
+        }
+
+        // Calcola il numero di valori 'true' per ogni colonna
+        filesToDisplay.forEach((file: { modelType: string; isValid: any; guidelineMap: { [x: string]: any; }; }) => {
+            if (file.modelType === "Process Collaboration" && file.isValid) {
+                for (let i = 0; i < columnCount; i++) {
+                    if (file.guidelineMap[`G${i + 1}`]) {
+                        percentageArray[i]++;
+                    }
+                }
+            }
+        });
+
+        // Calcola la percentuale per ogni colonna
+        const totalFiles = filesToDisplay.filter((file: { modelType: string; isValid: any; }) => file.modelType === "Process Collaboration" && file.isValid).length;
+        const percentageResult = percentageArray.map(count => (count / totalFiles) * 100);
+
+        return percentageResult;
+    }
+
     const dataPC = countPracticalLengths(filesInfo);
     const dataTotalElements = countTotalLengths(filesInfo);
     const dataElementDistr = countElementDistr(filesInfo);
     const dataElementUsage = countElementUsage(filesInfo);
     //const dataVennAll = calculateRho(filesInfo);
+    const percentageResult = calculatePercentage(filesToDisplay);
+
+    const labels = Array.from({ length: 40 }, (_, index) => `G${index + 1}`); // Genera un array di etichette "G1", "G2", ecc.
+
+    const radarChartData = {
+        labels: labels, // Array di etichette
+        datasets: [
+            {
+                label: "% of guideline's satisfaction",
+                backgroundColor: "rgb(16,173,115)",
+                borderColor: "rgb(8,59,12)",
+                data: percentageResult, // Array di valori delle percentuali
+            },
+        ],
+    };
 
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -778,56 +821,32 @@ export default function PostProcessingView() {
                                                     <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right"}}/>
                                                 </button>
                                             </div>
-                                            <div id="chartSE" style={{position: "relative", height:"50vh", width:"100%"}}>
-                                                <Radar options={{responsive:true,maintainAspectRatio:false}}  data={dataElementDistr}></Radar>
+                                            <div id="chartSE" style={{position: "relative", height:"80vh", width:"100%"}}>
+                                                <Radar options={{responsive:true,maintainAspectRatio:false}}  data={radarChartData}></Radar>
                                             </div>
                                         </div>
 
-                                        <div style={{width: "100%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                        <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>% of Guidelines Satisfaction</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
+                                        <div style={{width: "25%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>% of Guidelines Satisfaction</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
                                             <div style={{display:"flex", flexDirection: "column"}}>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G1</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G2</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G3</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G4</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G5</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G6</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G7</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G8</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G9</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G10</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G11</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G12</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G13</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G14</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G15</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G16</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G17</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G18</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G19</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G20</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G21</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G22</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G23</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G24</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G25</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G26</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G27</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G28</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G29</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G30</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G31</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G32</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G33</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G34</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G35</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G36</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G37</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G38</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G39</span>
-                                                <span className="file-info-item" style={{ fontSize: '14px', fontWeight:"bold", marginBottom:"-50px"}}>G40</span>
-
+                                                <div style={{marginTop: "10px",display:"flex",flexDirection: "column"}}>
+                                                    {percentageResult.map((percentage, index) => {
+                                                        const green = Math.floor(255 * (percentage / 100));
+                                                        const red = Math.floor(255 * ((100 - percentage) / 100));
+                                                        const color = `rgb(${red}, ${green}, 0)`;
+                                                        return (
+                                                            <span key={index} style={{marginRight: "10px", fontSize: '14px', fontWeight:"bold", color}}>
+                    G{index + 1}: {percentage.toFixed(2)}%
+                    <br/>
+                </span>
+                                                        )
+                                                    })}
+                                                </div>
                                             </div>
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -838,8 +857,8 @@ export default function PostProcessingView() {
                                                 {showAllFiles ? `Hide list` : `Click here to show all (${totalProcess - invalid} models)`}
                                             </button>
                                         )}
-                                        <div className="file-info">
-                                            <span className="file-info-item-name" style={{ fontSize: "15px", fontWeight: "bold" }}>File name</span>
+                                        <div style={{fontSize: "18px", color: "black", width:"100%", display:"flex"}}>
+                                            <span className="file-info-item-name" style={{ fontSize: "13px", fontWeight: "bold", width:"20%"}}>File name</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G1</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G2</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G3</span>
@@ -881,27 +900,31 @@ export default function PostProcessingView() {
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G39</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G40</span>
                                         </div>
+
                                         {filesToDisplay
                                             .filter(file => file.modelType === "Process Collaboration" && file.isValid)
                                             .map((file, index) => (
                                                 <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
                                                     <div className="file-info">
-                                                        <p className="file-info-item-name file-name">
+                                                        <p className="file-info-item-name file-name" style={{width:"9%"}}>
                                                             <BsDiagram2 /> {file.name}
                                                         </p>
-                                                        <div className="file-info-item file-name">
-                                                           ok
+                                                        <div className="file-info-item"style={{display:"flex", flexDirection:"row"}} >
+                                                            {Object.entries(file.guidelineMap).map(([key, value]) => (
+                                                                <span key={key}  style={{marginLeft:"7.75px", marginTop:"8px"}} className={`badge badge-pill badge-success ${value ? 'Valid' : 'Invalid'}`}>
+                                                                  {value ? <GiConfirmed /> : <AiFillExclamationCircle />}
+                                                                </span>
+                                                            ))}
                                                         </div>
                                                     </div>
                                                 </div>
                                             ))}
 
-
                                         {filesInfo.length > 2 &&
-                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid) - 1} more files.</p>
+                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid)} more files.</p>
                                         }
                                         {filesInfo.length === 2 &&
-                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid) - 1} more file.</p>
+                                            <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {(totalProcess - invalid)} more file.</p>
                                         }
 
                                     </div>

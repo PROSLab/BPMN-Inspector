@@ -1,5 +1,6 @@
 package com.example.application.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class fileInfo {
@@ -11,7 +12,7 @@ public class fileInfo {
     public String modelType;
     public Map<String, Integer> elementMap;
 
-    public Map<String, String> guidelineMap;
+    public Map<String, Boolean> guidelineMap;
 
 
     public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish) {
@@ -23,7 +24,7 @@ public class fileInfo {
         this.isEnglish = isEnglish;
     }
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap, Map<String, String> guidelineMap) {
+    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap, Map<String, Boolean> guidelineMap) {
         this.name = name;
         this.size = size;
         this.isValid = isValid;
@@ -85,11 +86,11 @@ public class fileInfo {
         this.elementMap = elementMap;
     }
 
-    public Map<String, String> getGuidelineMap() {
+    public Map<String, Boolean> getGuidelineMap() {
         return guidelineMap;
     }
 
-    public void setGuidelineMap(Map<String, String> guidelineMap) {
+    public void setGuidelineMap(HashMap<String, Boolean> guidelineMap) {
         this.guidelineMap = guidelineMap;
     }
 

@@ -190,8 +190,6 @@ export default function HelloReactView() {
             });
         };
 
-        // @ts-ignore
-        // @ts-ignore
         return (
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
