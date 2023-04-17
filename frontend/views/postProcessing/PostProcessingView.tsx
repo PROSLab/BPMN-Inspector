@@ -916,13 +916,16 @@ export default function PostProcessingView() {
                                                         <p className="file-info-item-name file-name" style={{width:"9%"}}>
                                                             <BsDiagram2 /> {file.name}
                                                         </p>
-                                                        <div className="file-info-item"style={{display:"flex", flexDirection:"row"}} >
-                                                            {Object.entries(file.guidelineMap).map(([key, value]) => (
-                                                                <span key={key}  style={{marginLeft:"7.75px", marginTop:"8px"}} className={`badge badge-pill badge-success ${value ? 'Valid' : 'Invalid'}`}>
-                                                                  {value ? <GiConfirmed /> : <AiFillExclamationCircle />}
-                                                                </span>
-                                                            ))}
+                                                        <div className="file-info-item" style={{display:"flex", flexDirection:"row"}} >
+                                                            {Object.entries(file.guidelineMap)
+                                                                .sort((a, b) => parseInt(a[0].substring(1)) - parseInt(b[0].substring(1))) // Ordina gli oggetti per chiave numerica
+                                                                .map(([key, value], index) => (
+                                                                    <span key={key} style={{marginLeft:"7.75px", marginTop:"8px"}} className={`badge badge-pill badge-success ${value ? 'Valid' : 'Invalid'}`}>
+                                                                            {value ? <GiConfirmed /> : <AiFillExclamationCircle />}
+                                                                    </span>
+                                                                ))}
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             ))}
