@@ -567,7 +567,7 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
                                     <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={() => downloadSvg('chartMS')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        <FaRegImage onClick={() => downloadSvg('chartMS')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                     </button>
                                 </div>
                                     <div id="chartMS" style={{position: "relative", height:"35vh", width:"100%"}}>
@@ -582,7 +582,7 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the practical complexity of the collection"}/>
                                     <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={() => downloadSvg('chartPC')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        <FaRegImage onClick={() => downloadSvg('chartPC')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                     </button>
                                 </div>
                                 <div id="chartPC" style={{position: "relative", height:"38vh", width:"100%"}}>
@@ -597,11 +597,7 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element usage"}/>
                                     <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={() => downloadSvg('chartEU')} style={{fontSize:"30px", alignSelf:"right"}}/>
-                                    </button>
-
-                                    <button style={{border:"none", background:"white", color:"#10ad73",fontSize:"17px"}}  onClick={toggleTableEU}>
-                                        {showTableEU ? <BiUpArrowAlt /> : <BiDownArrowAlt />}
+                                        <FaRegImage onClick={() => downloadSvg('chartEU')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                     </button>
                                 </div>
                                 <div id="chartEU" style={{position: "relative", height:"40vh", width:"100%"}}>
@@ -634,10 +630,7 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the element distribution"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={() => downloadSvg('chartED')} style={{fontSize:"30px", alignSelf:"right"}}/>
-                                    </button>
-                                    <button style={{border:"none", background:"white", color:"#10ad73",fontSize:"17px"}}  onClick={toggleTableED}>
-                                        {showTableED ? <BiUpArrowAlt /> : <BiDownArrowAlt />}
+                                        <FaRegImage onClick={() => downloadSvg('chartED')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                     </button>
                                 </div>
 
@@ -685,7 +678,7 @@ export default function PostProcessingView() {
                                         <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                           title={"This is a graph of the model size of the collection"}/>
                                         <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                            <FaRegImage onClick={() => downloadSvg('chartVPC')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                            <FaRegImage onClick={() => downloadSvg('chartVPC')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                         </button>
                                     </div>
                                     <div id="chartVPC" style={{position: "relative", height:"30vh", width:"100%"}}>
@@ -720,7 +713,7 @@ export default function PostProcessingView() {
                                         <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                           title={"This is a graph of the model size of the collection"}/>
                                         <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                            <FaRegImage onClick={() => downloadSvg('chartVCOR')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                            <FaRegImage onClick={() => downloadSvg('chartVCOR')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                         </button>
                                     </div>
                                     <div id="chartVCOR" style={{position: "relative", height:"30vh", width:"100%"}}>
@@ -755,7 +748,7 @@ export default function PostProcessingView() {
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
                                     <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={() => downloadSvg('chartVCON')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                        <FaRegImage onClick={() => downloadSvg('chartVCON')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                     </button>
                                 </div>
                                 <div id="chartVCON" style={{position: "relative", height:"30vh", width:"100%"}}>
@@ -802,7 +795,7 @@ export default function PostProcessingView() {
                                             <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                               title={"This is a graph of the model size of the collection"}/>
                                             <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                                <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                                <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", marginBottom:"71%", alignSelf:"right"}}/>
                                             </button>
                                         </div>
                                         <div id="chartSE" style={{position: "relative", height:"100%", width:"100%"}}>
@@ -813,7 +806,6 @@ export default function PostProcessingView() {
                                 <div style={{display: "flex", flexDirection: "row"}}>
                                     <div style={{width: "100%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         <div style={{display:"flex", flexDirection:"column"}}>
-                                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Number of Errors</a>
                                             <table>
                                                 <thead>
                                                 <tr>
@@ -871,7 +863,7 @@ export default function PostProcessingView() {
                                                 <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                                   title={"This is a graph of the model size of the collection"}/>
                                                 <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                                    <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right"}}/>
+                                                    <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"71%"}}/>
                                                 </button>
                                             </div>
                                             <div id="chartSE" style={{position: "relative", height:"100vh", width:"100%"}}>
