@@ -575,7 +575,7 @@ export default function PostProcessingView() {
                                     </div>
 
                             </div>
-                            <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div style={{display:"flex"}}>
                                 <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Collection's
                                         Practical Complexity</a>
@@ -628,7 +628,7 @@ export default function PostProcessingView() {
                                 )}
                             </div>
 
-                            <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white",marginRight:"10px", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div style={{display:"flex"}}>
                                 <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
@@ -749,7 +749,7 @@ export default function PostProcessingView() {
                                 </div>
                         </div>
                         <div style={{display:'flex',width: "100%",flexDirection: "column"}}>
-                            <div style={{marginBottom:"10px", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <div style={{marginBottom:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div style={{display:"flex"}}>
                                     <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Conversation</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
@@ -762,7 +762,7 @@ export default function PostProcessingView() {
                                     <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
                                 </div>
                             </div>
-                            <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 {showTableEU && (
                                     <table>
                                         <thead>
@@ -879,7 +879,7 @@ export default function PostProcessingView() {
                                             </div>
                                         </div>
 
-                                        <div style={{width: "25%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <div style={{width: "25%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>% of Guidelines Satisfaction</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
                                             <div style={{display:"flex", flexDirection: "column"}}>
                                                 <div style={{marginTop: "10px",display:"flex",flexDirection: "column"}}>
