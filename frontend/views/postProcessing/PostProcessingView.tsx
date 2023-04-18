@@ -29,6 +29,7 @@ interface filesInfoFiltered {
     size: number;
     isValid: boolean;
     isDuplicated: boolean;
+    isEnglish: string;
     elementMap: Map<string, number>;
     guidelineMap: Map<string, string>;
     errorLog: string;
@@ -500,21 +501,20 @@ export default function PostProcessingView() {
     // @ts-ignore
     const sortedErrorCounts = Object.entries(errorCounts).sort((a, b) => b[1] - a[1]);
     const labelsErr = sortedErrorCounts.map(([errorType]) => errorType);
+    // Creazione dell'array di valori
 
-// Creazione dell'array di valori
     const dataError = {
         labels: labelsErr, // Array di etichette
         datasets: [
             {
                 label: "% of guideline's satisfaction",
                 backgroundColor: "rgba(16,173,115,0.7)",
-                borderColor: "rgba(8,59,12,0.6)",
+                borderColor: "rgba(8,59,12)",
                 data: sortedErrorCounts.map(([_, count]) => count), // Array di valori delle percentuali
             },
         ],
     };
 
-    // @ts-ignore
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <ul style={{background:"#fafafb"}} className="nav nav-tabs nav-fill">
@@ -796,7 +796,7 @@ export default function PostProcessingView() {
                         ) : (
                             <div style={{display: "flex", flexDirection: "column", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                                 <div style={{ display: 'flex',width: "100%",flexDirection: "column" }}>
-                                    <div style={{marginBottom:"10px", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                    <div style={{marginBottom:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         <div style={{display:"flex"}}>
                                             <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Syntactical errors</a>
                                             <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
@@ -811,39 +811,34 @@ export default function PostProcessingView() {
                                     </div>
                                 </div>
                                 <div style={{display: "flex", flexDirection: "row"}}>
-                                    <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                        <div style={{display:"flex",flexDirection: "column"}}>
-                                            <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Invalid BPMN Models</a>
-                                            {filesToDisplay.filter(file => file.isValid == false).map((file, index) =>
-                                                <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
-                                                    <div className="file-info">
-                                                        <p className="file-info-item-name file-name">
-                                                            <BsDiagram2 style={{}} /> {file.name}
-                                                        </p>
-                                                    </div>
-
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                    <div style={{width: "100%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         <div style={{display:"flex", flexDirection:"column"}}>
                                             <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Number of Errors</a>
                                             <table>
                                                 <thead>
                                                 <tr>
-                                                    <th>Error Type<CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                                                    title={"https://wiki.xmldation.com/"}/></th>
+                                                    <th>Error Type</th>
+                                                    <th>Error Description <CiCircleQuestion style={{fontSize: '18px', marginBottom: "1%", cursor: "help"}}
+                                                                                           title={"The information about errors can be founded at https://wiki.xmldation.com"}/></th>
                                                     <th># of Error</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {sortedErrorCounts.map(([errorType, count]) => (
-                                                    <tr key={errorType}>
-                                                        <td>{errorType}</td>
-                                                        <td>{count}</td>
-                                                    </tr>
-                                                ))}
+                                                {sortedErrorCounts.map(([errorType, count]) => {
+                                                    const errorTypeFormatted = errorType.replace(/\./g, '-');
+                                                    const errorLink = `https://wiki.xmldation.com/Support/Validator/${errorTypeFormatted}`;
+                                                    return (
+                                                        <tr key={errorType}>
+                                                            <td>{errorType}</td>
+                                                            <td>
+                                                                <a href={errorLink} target="_blank" rel="noreferrer">
+                                                                    {errorLink}
+                                                                </a>
+                                                            </td>
+                                                            <td>{count}</td>
+                                                        </tr>
+                                                    );
+                                                })}
                                                 </tbody>
                                             </table>
                                         </div>

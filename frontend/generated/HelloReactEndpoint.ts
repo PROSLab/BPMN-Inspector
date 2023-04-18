@@ -1,7 +1,7 @@
 /**
  * This module is generated from HelloReactEndpoint.java
  * All changes to this file are overridden. Please consider to make changes in the corresponding Java file if necessary.
- * @see {@link file:///C:/Users/User/Desktop/Nuova%20cartella%20(4)/BPMN-Inspector/src/main/java/com/example/application/endpoints/helloreact/HelloReactEndpoint.java}
+ * @see {@link file:///C:/Users/User/Desktop/BPMN-Inspector/src/main/java/com/example/application/endpoints/helloreact/HelloReactEndpoint.java}
  * @module HelloReactEndpoint
  */
 

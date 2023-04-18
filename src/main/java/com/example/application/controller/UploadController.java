@@ -9,7 +9,6 @@ import opennlp.tools.langdetect.LanguageDetectorME;
 import opennlp.tools.langdetect.LanguageDetectorModel;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-
 import org.javatuples.Triplet;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -66,7 +65,6 @@ public class UploadController {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
                 isEnglish = detectLanguage(file);
                 validationResult = validateFile(file);
-                System.out.println(validationResult);
 
                 if (Objects.equals(validationResult, ""))
                     isValid = true;
@@ -5247,7 +5245,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
                     String[] values = record.get(0).split(";"); // sposta l'indice di 3 posizioni a destra
                     int value = Integer.parseInt(values[i]); // estrai il primo valore come intero
-                   // System.out.println("element: "+element+" value: "+value);
                     elementCount.put(element, value);
                 }
 
