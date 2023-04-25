@@ -4,9 +4,10 @@ import com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plug
 import com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plugin.bpmn.guideline.impl.abstractGuideline;
 import com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plugin.bpmn.reader.MyBPMN2ModelReader;
 import com.example.application.model.fileInfo;
-import opennlp.tools.langdetect.Language;
-import opennlp.tools.langdetect.LanguageDetectorME;
-import opennlp.tools.langdetect.LanguageDetectorModel;
+import com.github.pemistahl.lingua.api.Language;
+import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
+import static com.github.pemistahl.lingua.api.Language.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.javatuples.Triplet;
@@ -129,43 +130,37 @@ public class UploadController {
         return newFileInfoFiltered;
     }
     public static String detectLanguage(File file) throws IOException, ParserConfigurationException, SAXException {
-            InputStream modelIn = new FileInputStream("src/main/resources/static/language/langdetect-183.bin");
-            LanguageDetectorModel model = new LanguageDetectorModel(modelIn);
-            LanguageDetectorME detector = new LanguageDetectorME(model);
 
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.parse(file);
 
-            NodeList nodes = doc.getElementsByTagName("*");
-            String text = "";
-            boolean hasName = false;
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Node node = nodes.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    if (element.hasAttribute("name")) {
-                        String name = element.getAttribute("name");
-                        if (!name.isEmpty()) {
-                            text += name + " ";
-                            hasName = true;
-                        }
+        NodeList nodes = doc.getElementsByTagName("*");
+        String text = "";
+        boolean hasName = false;
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Node node = nodes.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                if (element.hasAttribute("name")) {
+                    String name = element.getAttribute("name");
+                    if (!name.isEmpty()) {
+                        text += name + " ";
+                        hasName = true;
                     }
                 }
             }
+        }
 
-            if (hasName) {
-                Language language = detector.predictLanguage(text);
-                String languageCode = language.getLang();
-                if (languageCode.equals("deu")) {
-                    languageCode = "de";
-                }
-                Locale englishLocale = new Locale("en");
-                String languageName = new Locale(languageCode).getDisplayName(englishLocale);
-                return languageName;
-            } else {
-                return "No labels";
-            }
+        if (hasName) {
+                final LanguageDetector detector = LanguageDetectorBuilder.fromLanguages(ENGLISH, GERMAN).build();
+                final Language detectedLanguage = detector.detectLanguageOf(text);
+                if (detectedLanguage.toString().equals("ENGLISH")) {
+                    return "English";
+                } else
+                    return "non English";
+            }    else
+            return "No Labels";
     }
     private String extractModelType(File file) throws SAXException, IOException, ParserConfigurationException {
         // replace with the path to your .bpmn or .xml file
