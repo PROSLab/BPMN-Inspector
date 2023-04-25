@@ -159,7 +159,8 @@ public class UploadController {
                     return "English";
                 } else
                     return "non English";
-            }    else
+            }
+        else
             return "No Labels";
     }
     private String extractModelType(File file) throws SAXException, IOException, ParserConfigurationException {

@@ -34,6 +34,7 @@ type MenuRoute = ViewRouteObject &
 export default function MenuOnLeftLayout() {
   const matches = useViewMatches();
   const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const currentTitle = matches[matches.length - 1]?.handle?.title ?? 'Unknown';
   const menuRoutes = (routes[0]?.children || []).filter(
     (route) => route.path && route.handle && route.handle.icon && route.handle.title
@@ -44,14 +45,16 @@ export default function MenuOnLeftLayout() {
   const uniqueData = Array.from(new Set(data));
 
     useEffect(() => {
+        setIsLoading(true);
         axios({
             method: "post",
             url: "/files",
             data: data,
         }).then((response) => {
             setFilesInfo(response.data);
+            setIsLoading(false);
         });
-    }, []);
+    }, [data]);
 
     const {totalProcess,totalChoreography,totalConversation} = filesInfo.reduce((counts, file) => {
         if (file.modelType === "Process Collaboration") {
