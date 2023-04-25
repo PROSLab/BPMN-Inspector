@@ -3,26 +3,21 @@ import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import "./postCss.css";
 import {toast} from "react-toastify";
-import LineChart from "Frontend/components/charts/LineChart";
 import { Chart, registerables } from 'chart.js';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import {HiChevronDoubleUp, HiChevronDoubleDown, HiChevronUp, HiChevronDown} from "react-icons/hi";
-
+import xmlLogo from "Frontend/img/xmlLogo.png"
 // @ts-ignore
 import ChartVenn from "Frontend/components/charts/ChartVenn";
 import {BsDiagram2} from "react-icons/bs";
-import {loader} from "react-global-loader";
 import {GiConfirmed} from "react-icons/gi";
 import {AiFillExclamationCircle} from "react-icons/ai";
-import {resolve} from "chart.js/helpers";
 import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
 import {Bar, Line, Radar} from "react-chartjs-2";
 import { CiCircleQuestion } from "react-icons/ci";
 import { FaRegImage } from "react-icons/fa";
-import { Canvg } from 'canvg';
 import html2canvas from 'html2canvas';
-import { Table } from 'react-bootstrap';
-import {BiDownArrowAlt, BiUpArrowAlt, MdKeyboardArrowDown, MdKeyboardArrowUp} from "react-icons/all";
+import logo from "Frontend/img/logo.png";
 
 interface filesInfoFiltered {
     name: string;
@@ -39,6 +34,7 @@ export default function PostProcessingView() {
     const [activeTab, setActiveTab] = useState('bpmn-element-usage');
     const [showTableEU, setShowTableEU] = useState(true);
     const [showTableED, setShowTableED] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const location = useLocation()
     const filteringArray: string[] = [];
     const {data} = location.state
@@ -69,16 +65,16 @@ export default function PostProcessingView() {
     };
 
     useEffect(() => {
-        loader.show();
+        setIsLoading(true);
         axios({
             method: "post",
             url: "/files",
             data: data,
         }).then((response) => {
             setFilesInfo(response.data);
-            loader.hide();
+            setIsLoading(false);
         });
-    }, []);
+    }, [data]);
 
 
     console.log(filesInfo)
@@ -823,7 +819,8 @@ export default function PostProcessingView() {
                                                         <tr key={errorType}>
                                                             <td>{errorType}</td>
                                                             <td>
-                                                                <a href={errorLink} target="_blank" rel="noreferrer">
+                                                                <img style={{marginBottom:"0.2%"}} src={xmlLogo} width="25"/>
+                                                                <a style={{marginLeft:"1%"}} href={errorLink} target="_blank" rel="noreferrer">
                                                                     {errorLink}
                                                                 </a>
                                                             </td>
@@ -871,7 +868,7 @@ export default function PostProcessingView() {
                                             </div>
                                         </div>
 
-                                        <div style={{width: "25%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <div style={{width: "30%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>% of Guidelines Satisfaction</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
                                             <div style={{display:"flex", flexDirection: "column"}}>
                                                 <div style={{marginTop: "10px",display:"flex",flexDirection: "column"}}>
@@ -879,6 +876,12 @@ export default function PostProcessingView() {
                                                         const green = Math.floor(255 * (percentage / 100));
                                                         const red = Math.floor(255 * ((100 - percentage) / 100));
                                                         const color = `rgb(${red}, ${green}, 0)`;
+                                                        const lineStyle = {
+                                                            width: `${percentage}%`, // Larghezza della linea di pienezza in base alla percentuale
+                                                            backgroundColor: color, // Colore di sfondo della linea di pienezza uguale al colore del testo
+                                                            height: '8px', // Altezza della linea di pienezza
+                                                            marginTop: '2px', // Margine superiore della linea di pienezza
+                                                        };
                                                         let icon;
                                                         if (percentage >= 0 && percentage <= 25) {
                                                             icon = <HiChevronDoubleDown />;
@@ -889,15 +892,40 @@ export default function PostProcessingView() {
                                                         } else if (percentage > 75 && percentage <= 100) {
                                                             icon = <HiChevronDoubleUp />;
                                                         }
+
                                                         return (
-                                                            <span key={index} style={{margin: "2px", fontSize: '14px', fontWeight:"bold", color}}>
-                                                                {icon} G{index + 1}: {percentage.toFixed(2)}%
-                                                                <br/>
-                                                            </span>
-                                                        )
+                                                            <div key={index} style={{display: "flex", alignItems: "center", margin: "5px", fontSize: '15px', position: 'relative'}}>
+                                                                <div style={{marginLeft: "1%", fontWeight:"bold", color}}> {icon} G{index + 1}: </div>
+                                                                <div style={{
+                                                                    ...lineStyle,
+                                                                    marginLeft: "30%",
+                                                                    position: "absolute",
+                                                                    left: 0,
+                                                                    zIndex: "2",
+                                                                    height: '10px',
+                                                                    background: percentage === 0 ? "#F5F7F9" : `linear-gradient(to right, ${color} ${percentage}%, #F5F7F9 ${percentage}%)`,
+                                                                    border: "1px solid gray",
+                                                                    borderRadius: "2px"
+                                                                }}>
+                                                                    {percentage > 0 &&
+                                                                        <div style={{
+                                                                            position: 'absolute',
+                                                                            right: `${90-percentage}%`,
+                                                                            top: '-200%',
+                                                                            fontSize:"12px",
+                                                                            fontWeight:"bold",
+                                                                            color:"black"
+                                                                        }}>
+                                                                            {percentage.toFixed(2)}%
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        );
                                                     })}
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>

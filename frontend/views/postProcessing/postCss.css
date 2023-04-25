@@ -103,3 +103,9 @@ tbody td {
     border-bottom: 1px solid #ddd;
     padding: 8px;
 }
+
+.line {
+    height: 8px; /* Altezza della linea di pienezza */
+    background-color: #000; /* Colore di sfondo della linea di pienezza */
+    margin-top: 2px; /* Margine superiore della linea di pienezza */
+}
