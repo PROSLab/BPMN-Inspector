@@ -399,6 +399,20 @@ public class UploadController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
+
+    @GetMapping("/download-combined-report")
+    public ResponseEntity<Resource> downloadCombinedReport() throws IOException {
+        String fileName = "bpmn_combined.csv";
+        Path path = Paths.get("./src/main/resources/bpmnCounterOutput", fileName);
+        Resource resource = new UrlResource(path.toUri());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(resource.getFile().length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
     @PostMapping("/download-filtered-models")
     public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException {
         if (filteringArray == null || filteringArray.length == 0) {

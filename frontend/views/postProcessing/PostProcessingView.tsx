@@ -506,6 +506,7 @@ export default function PostProcessingView() {
                 label: "% of guideline's satisfaction",
                 backgroundColor: "rgba(16,173,115,0.7)",
                 borderColor: "rgba(8,59,12)",
+                color: "rgb(8,59,12)",
                 data: sortedErrorCounts.map(([_, count]) => count), // Array di valori delle percentuali
             },
         ],
@@ -772,7 +773,15 @@ export default function PostProcessingView() {
                                 )}
                             </div>
                         </div>
+
+                        <div style={{width:"100%",marginBottom:"10px", marginTop:"0.20cm"}} >
+                            <button style={{background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadInspectionFile}>
+                                <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
+                            </button>
+                        </div>
+
                     </div>
+
                 )}
                 {activeTab === 'bpmn-syntactic-validation' && (
                     <div>
