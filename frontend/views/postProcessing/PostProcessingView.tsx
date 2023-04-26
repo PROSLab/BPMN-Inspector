@@ -894,18 +894,18 @@ export default function PostProcessingView() {
                                                         }
 
                                                         return (
-                                                            <div key={index} style={{display: "flex", alignItems: "center", margin: "5px", fontSize: '15px', position: 'relative'}}>
-                                                                <div style={{marginLeft: "1%", fontWeight:"bold", color}}> {icon} G{index + 1}: </div>
+                                                            <div key={index} style={{display: "flex", alignItems: "center", margin: "5px", borderBottom:"1px solid #F5F7F9",fontSize: '15px', position: 'relative'}}>
+                                                                <div style={{marginLeft: "1%",fontSize:"14px",fontWeight:"bold", color}}> {icon} G{index + 1}: </div>
                                                                 <div style={{
                                                                     ...lineStyle,
-                                                                    marginLeft: "30%",
+                                                                    marginLeft: "25%",
                                                                     position: "absolute",
+                                                                    width:"75%",
+                                                                    top: 8,
                                                                     left: 0,
-                                                                    zIndex: "2",
                                                                     height: '10px',
                                                                     background: percentage === 0 ? "#F5F7F9" : `linear-gradient(to right, ${color} ${percentage}%, #F5F7F9 ${percentage}%)`,
-                                                                    border: "1px solid gray",
-                                                                    borderRadius: "2px"
+                                                                    borderRadius: "5px"
                                                                 }}>
                                                                     {percentage > 0 &&
                                                                         <div style={{
@@ -914,7 +914,7 @@ export default function PostProcessingView() {
                                                                             top: '-200%',
                                                                             fontSize:"12px",
                                                                             fontWeight:"bold",
-                                                                            color:"black"
+                                                                            color:"gray"
                                                                         }}>
                                                                             {percentage.toFixed(2)}%
                                                                         </div>
