@@ -229,6 +229,21 @@ export default function PostProcessingView() {
         });
     };
 
+    const downloadCombinedFile = () => {
+        axios({
+            url: '/download-combined-report',
+            method: 'GET',
+            responseType: 'blob',
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'bpmn_elements.csv');
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
     let displayMsgSyntactic = "";
     let displayMsgGoodModeling = "";
 
@@ -293,9 +308,6 @@ export default function PostProcessingView() {
         };
         return dataTotalElements;
     }
-
-
-
 
     function countPracticalLengths(files: filesInfo[]) {
         let maxLength = 0;
@@ -666,7 +678,7 @@ export default function PostProcessingView() {
 
                 )}
                 {activeTab === 'bpmn-element-combined-use' && (
-
+                    <>
                     <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                         <div style={{display:'flex',width: "100%",flexDirection: "column"}}>
                             <div style={{marginBottom:"10px",marginRight:"10px",  border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
@@ -773,14 +785,15 @@ export default function PostProcessingView() {
                                 )}
                             </div>
                         </div>
-
-                        <div style={{width:"100%",marginBottom:"10px", marginTop:"0.20cm"}} >
-                            <button style={{background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadInspectionFile}>
-                                <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
-                            </button>
-                        </div>
-
                     </div>
+
+                    <div style={{marginBottom:"10px", marginTop:"0.20cm"}} >
+                        <button style={{background: 'white',width:"100%", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
+                        <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
+                        </button>
+                    </div>
+
+                    </>
 
                 )}
                 {activeTab === 'bpmn-syntactic-validation' && (
@@ -902,9 +915,11 @@ export default function PostProcessingView() {
                                                             icon = <HiChevronDoubleUp />;
                                                         }
 
+                                                        const g = [        'G2',        'G3',        'G7',        'G8',        'G9',        'G10',        'G11',        'G12',        'G13',        'G14',        'G15',        'G16',        'G17',        'G18',        'G19',        'G20',        'G21',        'G22',        'G24',        'G26',        'G28',        'G29',        'G30',        'G31',        'G32',        'G33',        'G34',        'G35',        'G36',        'G37',        'G38',        'G39',        'G42',        'G44',        'G45',        'G46',        'G47',        'G48',        'G49',        'G50'    ];
+
                                                         return (
                                                             <div key={index} style={{display: "flex", alignItems: "center", margin: "5px", borderBottom:"1px solid #F5F7F9",fontSize: '15px', position: 'relative'}}>
-                                                                <div style={{marginLeft: "1%",fontSize:"14px",fontWeight:"bold", color}}> {icon} G{index + 1}: </div>
+                                                                <div style={{marginLeft: "1%",fontSize:"14px",fontWeight:"bold", color}}> {icon} {g[index]}: </div>
                                                                 <div style={{
                                                                     ...lineStyle,
                                                                     marginLeft: "25%",
@@ -943,12 +958,8 @@ export default function PostProcessingView() {
 
                                         <div style={{fontSize: "18px", color: "black", width:"100%", display:"flex"}}>
                                             <span className="file-info-item-name" style={{ fontSize: "13px", fontWeight: "bold", width:"20%"}}>File name</span>
-                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G1</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G2</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G3</span>
-                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G4</span>
-                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G5</span>
-                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G6</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G7</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G8</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G9</span>
@@ -965,11 +976,8 @@ export default function PostProcessingView() {
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G20</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G21</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G22</span>
-                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G23</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G24</span>
-                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G25</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G26</span>
-                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G27</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G28</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G29</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G30</span>
@@ -982,7 +990,14 @@ export default function PostProcessingView() {
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G37</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G38</span>
                                             <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G39</span>
-                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G40</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G42</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G44</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G45</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G46</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G47</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G48</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G49</span>
+                                            <span className="file-info-item" style={{ fontSize: '12px', fontWeight:"bold"}}>G50</span>
                                         </div>
 
                                         {filesToDisplay
@@ -997,7 +1012,7 @@ export default function PostProcessingView() {
                                                             {Object.entries(file.guidelineMap)
                                                                 .sort((a, b) => parseInt(a[0].substring(1)) - parseInt(b[0].substring(1))) // Ordina gli oggetti per chiave numerica
                                                                 .map(([key, value], index) => (
-                                                                    <span key={key} style={{marginLeft:"7.75px", marginTop:"8px"}} className={`badge badge-pill badge-success ${value ? 'Valid' : 'Invalid'}`}>
+                                                                    <span key={key} style={{marginLeft:"0.56%", marginTop:"8px"}} className={`badge badge-pill badge-success ${value ? 'Valid' : 'Invalid'}`}>
                                                                             {value ? <GiConfirmed /> : <AiFillExclamationCircle />}
                                                                     </span>
                                                                 ))}

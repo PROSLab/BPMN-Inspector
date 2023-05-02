@@ -105,6 +105,7 @@ public class UploadController {
 
             getFilteredFiles(data, fileInfos);
             evaluateGuidelines(fileInfos);
+            evaluateCombined(fileInfos);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (XPathExpressionException e) {
@@ -5317,7 +5318,7 @@ SUBPROCESS Collapsed EVENT + ADHOC
                 throw new RuntimeException(e);
             }
             eg.setVerificationType("UNDERSTANDABILITY");
-            eg.StartThreadPool();
+            eg.StartSequential();
 
             Collection<abstractGuideline> guidelines = eg.getGuidelines();
 
@@ -5370,4 +5371,11 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
     }
 
+        public void evaluateCombined(List<fileInfo> fileInfos) throws IOException {
+
+        String path = "src/main/resources/bpmnCounterOutput/bpmn_combined.csv";
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
+
+
+        }
 }
