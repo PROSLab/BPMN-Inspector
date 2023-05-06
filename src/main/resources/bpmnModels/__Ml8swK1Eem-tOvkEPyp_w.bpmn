@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns="http://genmymodel.com/bpmn2" xmlns:bpmn="http://www.trisotech.com/2014/triso/bpmn" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:color_1.0="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeling="http://www.trisotech.com/2015/triso/modeling" xmlns:rss_2.0="http://purl.org/rss/2.0/" id="_1aa4e08d-219c-418c-8aed-5ddf4cd45a41" bpmn:logoChoice="Default" exporter="GenMyModel" exporterVersion="1.0" expressionLanguage="http://www.w3.org/1999/XPath" name="Amazon Fulfillment" targetNamespace="http://genmymodel.com/bpmn2" typeLanguage="http://www.w3.org/2001/XMLSchema">
+  <bpmn2:message id="Message_1404332496319"/>
+  <bpmn2:message id="Message_1404332496320"/>
+  <bpmn2:message id="Message_1404332496321"/>
+  <bpmn2:message id="Message_1404332496322"/>
+  <bpmn2:message id="Message_1404332496323"/>
+  <bpmn2:collaboration id="C1404332496310" modeling:defaultName="true" name="Buying at Amazon Collaboration">
+    <bpmn2:participant id="__a42178ea-f777-4c5b-a0a1-c4014aee6431" name="Amazon" processRef="WFP-Page_1-4"/>
+    <bpmn2:participant id="__6f70606b-6781-4f26-b207-5bfff80115d8" name="Customer" processRef="WFP-Page_1-3"/>
+    <bpmn2:participant id="__3cf88d6c-e5e4-489e-bc73-e2a18be946bf" name="Credit Card Company" processRef="WFP-Page_1-1"/>
+    <bpmn2:participant id="__bb6766c5-51e3-4f04-aedc-6c9e4afe0582" name="Carrier" processRef="WFP-Page_1-2"/>
+    <bpmn2:messageFlow id="__13e0b8fd-91fe-4bbc-87ae-5ad657f6ef99" messageRef="Message_1404332496322" sourceRef="__f867d5f7-db1e-4015-9856-c53bc9cb4b51" targetRef="_95a2fb99-bb98-4d26-b5ec-3dae3a32fd79"/>
+    <bpmn2:messageFlow id="__5cdd91dd-32f6-4102-b475-bd6c7992f509" messageRef="Message_1404332496323" sourceRef="__c1a19847-8b3e-42db-a95d-9f21cffc50a3" targetRef="__e6a9dd54-6cb0-4713-8b77-e659f2658e40"/>
+    <bpmn2:messageFlow id="__789952b8-abba-4f3f-81cd-24cbb4d0d615" messageRef="Message_1404332496321" sourceRef="_f35ee29d-018c-47e2-afeb-eebc2e25925e" targetRef="__fd16081c-ecf9-4e0f-857f-f3404a7ee784"/>
+    <bpmn2:messageFlow id="__86b33cf0-1b17-437f-a7cf-510e0766561f" modeling:userConstraints="true" messageRef="Message_1404332496319" name="Send Credit Card Information" sourceRef="_2f24e6da-b44f-4e30-8d85-fd35fd56e209" targetRef="__0ef615c7-5456-45c8-9cfb-f1fe30c44436"/>
+    <bpmn2:messageFlow id="__0c171c64-b342-4f84-8020-a63b6a5b296d" messageRef="Message_1404332496320" sourceRef="__4011aa2d-a7a9-4e1a-9f16-8a662d138bd4" targetRef="_2f24e6da-b44f-4e30-8d85-fd35fd56e209"/>
+  </bpmn2:collaboration>
+  <bpmn2:process id="WFP-Page_1-1" modeling:defaultName="true" name="Buying at Amazon Collaboration - Credit Card Company - Process" processType="None">
+    <bpmn2:task id="__a7183fc9-402a-418c-bf2a-3b1927d3798d" name="Take Payment" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:extensionElements>
+        <bpmn:attachment id="_b99e97ad-9f3f-4b93-95cd-98cbb1d842e1" name="How Credit Card Processing Authorization Works" url="https://www.slideshare.net/slideshow/embed_code/25890641?rel=0" type="slideshare" embeddable="true" displayHeight="512" displayWidth="607" play="true"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>__f3f918b3-abee-4e59-8131-212d0d86b056</bpmn2:incoming>
+      <bpmn2:outgoing>__47cf5284-b9ff-4136-93fd-f0f32b87810f</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="__47cf5284-b9ff-4136-93fd-f0f32b87810f" sourceRef="__a7183fc9-402a-418c-bf2a-3b1927d3798d" targetRef="__4011aa2d-a7a9-4e1a-9f16-8a662d138bd4"/>
+    <bpmn2:sequenceFlow id="__f3f918b3-abee-4e59-8131-212d0d86b056" sourceRef="__0ef615c7-5456-45c8-9cfb-f1fe30c44436" targetRef="__a7183fc9-402a-418c-bf2a-3b1927d3798d"/>
+    <bpmn2:startEvent id="__0ef615c7-5456-45c8-9cfb-f1fe30c44436" name="Receive Credit Card Information" isInterrupting="true">
+      <bpmn2:outgoing>__f3f918b3-abee-4e59-8131-212d0d86b056</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="_d0JfkIKCEeu9--9sQCgRag" messageRef="Message_1404332496319"/>
+    </bpmn2:startEvent>
+    <bpmn2:endEvent id="__4011aa2d-a7a9-4e1a-9f16-8a662d138bd4" name="Send Result">
+      <bpmn2:incoming>__47cf5284-b9ff-4136-93fd-f0f32b87810f</bpmn2:incoming>
+      <bpmn2:messageEventDefinition id="_d0JfkYKCEeu9--9sQCgRag" messageRef="Message_1404332496320"/>
+    </bpmn2:endEvent>
+  </bpmn2:process>
+  <bpmn2:process id="WFP-Page_1-2" modeling:defaultName="true" name="Buying at Amazon Collaboration - Carrier - Process" processType="None">
+    <bpmn2:task id="__f867d5f7-db1e-4015-9856-c53bc9cb4b51" name="Deliver Items" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:incoming>__36fbe220-08cc-45e8-847b-3f55002979c2</bpmn2:incoming>
+      <bpmn2:outgoing>__b355021c-ac23-48bf-9d1a-45c32565ba39</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="__b355021c-ac23-48bf-9d1a-45c32565ba39" sourceRef="__f867d5f7-db1e-4015-9856-c53bc9cb4b51" targetRef="__6c41ae4a-64fd-40f9-a764-059b26ef8ebf"/>
+    <bpmn2:sequenceFlow id="__36fbe220-08cc-45e8-847b-3f55002979c2" sourceRef="__a9de74be-ce4b-4d59-bafd-cf6f61f48867" targetRef="__f867d5f7-db1e-4015-9856-c53bc9cb4b51"/>
+    <bpmn2:task id="__a9de74be-ce4b-4d59-bafd-cf6f61f48867" name="Load Truck" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:incoming>__474f19b8-f608-4d20-a49e-907485a789c5</bpmn2:incoming>
+      <bpmn2:outgoing>__36fbe220-08cc-45e8-847b-3f55002979c2</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="__474f19b8-f608-4d20-a49e-907485a789c5" sourceRef="__e6a9dd54-6cb0-4713-8b77-e659f2658e40" targetRef="__a9de74be-ce4b-4d59-bafd-cf6f61f48867"/>
+    <bpmn2:endEvent id="__6c41ae4a-64fd-40f9-a764-059b26ef8ebf">
+      <bpmn2:incoming>__b355021c-ac23-48bf-9d1a-45c32565ba39</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:startEvent id="__e6a9dd54-6cb0-4713-8b77-e659f2658e40" name="Pick Items" isInterrupting="true">
+      <bpmn2:outgoing>__474f19b8-f608-4d20-a49e-907485a789c5</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="_d0JfkoKCEeu9--9sQCgRag" messageRef="Message_1404332496323"/>
+    </bpmn2:startEvent>
+  </bpmn2:process>
+  <bpmn2:process id="WFP-Page_1-3" modeling:defaultName="true" name="Buying at Amazon Collaboration - Customer - Process" processType="None">
+    <bpmn2:startEvent id="__f5b8cb41-0574-4c29-aaaa-84ecce589f84" isInterrupting="true">
+      <bpmn2:outgoing>__6fd770bc-8f12-4927-96cd-e3cc53d862d3</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="__6fd770bc-8f12-4927-96cd-e3cc53d862d3" modeling:userConstraints="false" sourceRef="__f5b8cb41-0574-4c29-aaaa-84ecce589f84" targetRef="__f61e9ae0-855f-4ce6-9e3a-4b4f5c7dd0b8"/>
+    <bpmn2:task id="__be386700-06c2-4a29-b861-c516940667fe" name="Add Item to Cart" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:extensionElements>
+        <bpmn:attachment id="_a2d8ca07-0169-4d0a-8622-a6f836e439d8" name="Add To Cart" url="https://www.dropbox.com/s/h36e4610fomylbu/AddToCart.png" type="dropbox" embeddable="false" play="true"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>__e8a6634d-4c67-4ec3-b8cf-18bf3987c281</bpmn2:incoming>
+      <bpmn2:outgoing>__82227f00-3d5e-446e-a2e7-50b907ed7c8c</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="__82227f00-3d5e-446e-a2e7-50b907ed7c8c" modeling:userConstraints="false" sourceRef="__be386700-06c2-4a29-b861-c516940667fe" targetRef="__509f09eb-5518-4995-b98b-db3cf3f8ea00"/>
+    <bpmn2:sequenceFlow id="__e8a6634d-4c67-4ec3-b8cf-18bf3987c281" sourceRef="__f61e9ae0-855f-4ce6-9e3a-4b4f5c7dd0b8" targetRef="__be386700-06c2-4a29-b861-c516940667fe"/>
+    <bpmn2:subProcess id="__5ffa1675-9ad7-46f8-b19a-85cd5878496f" name="Checkout" completionQuantity="1" isForCompensation="false" startQuantity="1" triggeredByEvent="false">
+      <bpmn2:incoming>__a12a7547-373d-47ec-890d-af5c177203ee</bpmn2:incoming>
+      <bpmn2:outgoing>__5d3be9f3-3f7a-4778-89e5-1bf4951472c2</bpmn2:outgoing>
+      <bpmn2:startEvent id="__a1c27e25-4aa2-43dc-8a20-b713e8393d7f" isInterrupting="true">
+        <bpmn2:outgoing>__00bc466e-cf1f-473c-aa39-c78bba5cef82</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <bpmn2:sequenceFlow id="__00bc466e-cf1f-473c-aa39-c78bba5cef82" sourceRef="__a1c27e25-4aa2-43dc-8a20-b713e8393d7f" targetRef="_2f24e6da-b44f-4e30-8d85-fd35fd56e209"/>
+      <bpmn2:task id="_2f24e6da-b44f-4e30-8d85-fd35fd56e209" name="Pay Order" completionQuantity="1" isForCompensation="false" startQuantity="1">
+        <bpmn2:incoming>__00bc466e-cf1f-473c-aa39-c78bba5cef82</bpmn2:incoming>
+        <bpmn2:incoming>_63cf98c9-d0b1-4595-a4f2-9589439b311c</bpmn2:incoming>
+        <bpmn2:outgoing>_520aac43-77a5-40e8-84a4-ec51e17ad9b2</bpmn2:outgoing>
+      </bpmn2:task>
+      <bpmn2:sequenceFlow id="_520aac43-77a5-40e8-84a4-ec51e17ad9b2" sourceRef="_2f24e6da-b44f-4e30-8d85-fd35fd56e209" targetRef="_bb4a73bd-2291-4494-8677-5560d4842f79"/>
+      <bpmn2:sequenceFlow id="_63cf98c9-d0b1-4595-a4f2-9589439b311c" modeling:userConstraints="true" name="Yes" sourceRef="_29a5e7c6-e54e-4c61-ba35-59ae446a3462" targetRef="_2f24e6da-b44f-4e30-8d85-fd35fd56e209"/>
+      <bpmn2:exclusiveGateway id="_29a5e7c6-e54e-4c61-ba35-59ae446a3462" name="Retry?" gatewayDirection="Unspecified">
+        <bpmn2:incoming>_bfa5c7b2-f5d2-4487-a307-b2ea662bd059</bpmn2:incoming>
+        <bpmn2:outgoing>_63cf98c9-d0b1-4595-a4f2-9589439b311c</bpmn2:outgoing>
+        <bpmn2:outgoing>_ad0872cc-e2a9-4c44-98c6-c64e0638f37e</bpmn2:outgoing>
+      </bpmn2:exclusiveGateway>
+      <bpmn2:sequenceFlow id="_ad0872cc-e2a9-4c44-98c6-c64e0638f37e" modeling:userConstraints="true" name="No" sourceRef="_29a5e7c6-e54e-4c61-ba35-59ae446a3462" targetRef="_7ea6639e-e773-4236-94bf-78f149188c30"/>
+      <bpmn2:sequenceFlow id="_bfa5c7b2-f5d2-4487-a307-b2ea662bd059" modeling:userConstraints="true" name="No" sourceRef="_bb4a73bd-2291-4494-8677-5560d4842f79" targetRef="_29a5e7c6-e54e-4c61-ba35-59ae446a3462"/>
+      <bpmn2:exclusiveGateway id="_bb4a73bd-2291-4494-8677-5560d4842f79" name="Payment Accepted?" gatewayDirection="Unspecified">
+        <bpmn2:incoming>_520aac43-77a5-40e8-84a4-ec51e17ad9b2</bpmn2:incoming>
+        <bpmn2:outgoing>_bfa5c7b2-f5d2-4487-a307-b2ea662bd059</bpmn2:outgoing>
+        <bpmn2:outgoing>_50edb87c-9e46-48b1-a311-ef00e6e431e8</bpmn2:outgoing>
+      </bpmn2:exclusiveGateway>
+      <bpmn2:sequenceFlow id="_50edb87c-9e46-48b1-a311-ef00e6e431e8" modeling:userConstraints="true" name="Yes" sourceRef="_bb4a73bd-2291-4494-8677-5560d4842f79" targetRef="_f35ee29d-018c-47e2-afeb-eebc2e25925e"/>
+      <bpmn2:endEvent id="_7ea6639e-e773-4236-94bf-78f149188c30">
+        <bpmn2:incoming>_ad0872cc-e2a9-4c44-98c6-c64e0638f37e</bpmn2:incoming>
+        <bpmn2:errorEventDefinition id="_d0Jfk4KCEeu9--9sQCgRag"/>
+      </bpmn2:endEvent>
+      <bpmn2:intermediateThrowEvent id="_f35ee29d-018c-47e2-afeb-eebc2e25925e" name="Send Order">
+        <bpmn2:incoming>_50edb87c-9e46-48b1-a311-ef00e6e431e8</bpmn2:incoming>
+        <bpmn2:outgoing>_30c47018-b9e8-4d09-81e2-2b592f75a5cf</bpmn2:outgoing>
+        <bpmn2:messageEventDefinition id="_d0JflIKCEeu9--9sQCgRag" messageRef="Message_1404332496321"/>
+      </bpmn2:intermediateThrowEvent>
+      <bpmn2:sequenceFlow id="_30c47018-b9e8-4d09-81e2-2b592f75a5cf" sourceRef="_f35ee29d-018c-47e2-afeb-eebc2e25925e" targetRef="_df393d97-f22e-4442-95be-918b8fdd4c3c"/>
+      <bpmn2:endEvent id="_df393d97-f22e-4442-95be-918b8fdd4c3c">
+        <bpmn2:incoming>_30c47018-b9e8-4d09-81e2-2b592f75a5cf</bpmn2:incoming>
+      </bpmn2:endEvent>
+    </bpmn2:subProcess>
+    <bpmn2:sequenceFlow id="__a12a7547-373d-47ec-890d-af5c177203ee" modeling:userConstraints="true" name="Yes" sourceRef="__509f09eb-5518-4995-b98b-db3cf3f8ea00" targetRef="__5ffa1675-9ad7-46f8-b19a-85cd5878496f"/>
+    <bpmn2:sequenceFlow id="__5d3be9f3-3f7a-4778-89e5-1bf4951472c2" sourceRef="__5ffa1675-9ad7-46f8-b19a-85cd5878496f" targetRef="_95a2fb99-bb98-4d26-b5ec-3dae3a32fd79"/>
+    <bpmn2:boundaryEvent id="__cec149db-adae-4b69-8ea4-b866f2eef248" attachedToRef="__5ffa1675-9ad7-46f8-b19a-85cd5878496f" cancelActivity="true">
+      <bpmn2:outgoing>__dc6ef6c1-9c24-48ae-800f-2f9fb76d7ce6</bpmn2:outgoing>
+      <bpmn2:errorEventDefinition id="_d0JflYKCEeu9--9sQCgRag"/>
+    </bpmn2:boundaryEvent>
+    <bpmn2:sequenceFlow id="__dc6ef6c1-9c24-48ae-800f-2f9fb76d7ce6" sourceRef="__cec149db-adae-4b69-8ea4-b866f2eef248" targetRef="__8f9632f2-9fdb-4e3c-8b10-6a05091de766"/>
+    <bpmn2:endEvent id="__e03c9539-b011-46b1-a381-0eee5f0521b8">
+      <bpmn2:incoming>__92bd8ebf-e3b1-4270-96bb-2f6d6978c64a</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="__92bd8ebf-e3b1-4270-96bb-2f6d6978c64a" sourceRef="_95a2fb99-bb98-4d26-b5ec-3dae3a32fd79" targetRef="__e03c9539-b011-46b1-a381-0eee5f0521b8"/>
+    <bpmn2:task id="_95a2fb99-bb98-4d26-b5ec-3dae3a32fd79" name="Receive Items" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:incoming>__5d3be9f3-3f7a-4778-89e5-1bf4951472c2</bpmn2:incoming>
+      <bpmn2:outgoing>__92bd8ebf-e3b1-4270-96bb-2f6d6978c64a</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:exclusiveGateway id="__509f09eb-5518-4995-b98b-db3cf3f8ea00" name="Done Shopping?" gatewayDirection="Unspecified">
+      <bpmn2:incoming>__82227f00-3d5e-446e-a2e7-50b907ed7c8c</bpmn2:incoming>
+      <bpmn2:outgoing>__ffc1486a-8a32-490a-8835-d14cc5ab0a97</bpmn2:outgoing>
+      <bpmn2:outgoing>__a12a7547-373d-47ec-890d-af5c177203ee</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:sequenceFlow id="__ffc1486a-8a32-490a-8835-d14cc5ab0a97" modeling:userConstraints="true" name="No" sourceRef="__509f09eb-5518-4995-b98b-db3cf3f8ea00" targetRef="__f61e9ae0-855f-4ce6-9e3a-4b4f5c7dd0b8"/>
+    <bpmn2:task id="__f61e9ae0-855f-4ce6-9e3a-4b4f5c7dd0b8" name="Browse Products on Amazon" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:extensionElements>
+        <bpmn:attachment id="_3830ade1-dcaf-4b0a-90ce-1188a24bca93" name="Amazon Teddy" url="http://www.amazon.com/JellyCat-9-Fuddlewuddle-Tan-Puppy/dp/B0076J0PH6" type="link" play="true"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>__ffc1486a-8a32-490a-8835-d14cc5ab0a97</bpmn2:incoming>
+      <bpmn2:incoming>__6fd770bc-8f12-4927-96cd-e3cc53d862d3</bpmn2:incoming>
+      <bpmn2:outgoing>__e8a6634d-4c67-4ec3-b8cf-18bf3987c281</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:endEvent id="__8f9632f2-9fdb-4e3c-8b10-6a05091de766">
+      <bpmn2:incoming>__dc6ef6c1-9c24-48ae-800f-2f9fb76d7ce6</bpmn2:incoming>
+    </bpmn2:endEvent>
+  </bpmn2:process>
+  <bpmn2:process id="WFP-Page_1-4" modeling:defaultName="true" name="Buying at Amazon Collaboration - Amazon - Process" processType="None">
+    <bpmn2:laneSet id="_d0JfloKCEeu9--9sQCgRag">
+      <bpmn2:lane id="__15a180db-97af-4058-ac0a-4a31247fb797" name="Picker">
+        <bpmn2:flowNodeRef>__fd16081c-ecf9-4e0f-857f-f3404a7ee784</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>__f4846d41-bca9-4788-9ce2-30ff4b9d6b7b</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>__200e3ce9-3381-4d13-8c7e-4f8790388070</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+      <bpmn2:lane id="__75b31592-10d5-4d4b-993e-0df32d5977ac" name="Packager">
+        <bpmn2:flowNodeRef>__ac1dc01c-14c2-47cf-9bc9-2b39f5fcd379</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>__c1a19847-8b3e-42db-a95d-9f21cffc50a3</bpmn2:flowNodeRef>
+        <bpmn2:flowNodeRef>__5a9abc77-7371-4213-bede-4056f9cb7808</bpmn2:flowNodeRef>
+      </bpmn2:lane>
+    </bpmn2:laneSet>
+    <bpmn2:startEvent id="__fd16081c-ecf9-4e0f-857f-f3404a7ee784" name="Receive Order" isInterrupting="true">
+      <bpmn2:outgoing>__4ad47bad-fac8-4269-9a9b-3f68613c7fc8</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="_d0Jfl4KCEeu9--9sQCgRag" messageRef="Message_1404332496321"/>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="__4ad47bad-fac8-4269-9a9b-3f68613c7fc8" sourceRef="__fd16081c-ecf9-4e0f-857f-f3404a7ee784" targetRef="__f4846d41-bca9-4788-9ce2-30ff4b9d6b7b"/>
+    <bpmn2:task id="__f4846d41-bca9-4788-9ce2-30ff4b9d6b7b" name="Pick Items" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:extensionElements>
+        <bpmn:attachment id="_c7381c18-aab7-4cd6-a266-a7d5ee031eb0" name="Amazon - Pick Items" url="https://www.youtube.com/embed/02coznMj4cE?rel=0" type="youtube" embeddable="true" displayHeight="400" displayWidth="660" play="true"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>__4ad47bad-fac8-4269-9a9b-3f68613c7fc8</bpmn2:incoming>
+      <bpmn2:outgoing>__ce6b77ab-3b91-4ca0-b6c2-48980892e47e</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="__ce6b77ab-3b91-4ca0-b6c2-48980892e47e" sourceRef="__f4846d41-bca9-4788-9ce2-30ff4b9d6b7b" targetRef="__200e3ce9-3381-4d13-8c7e-4f8790388070"/>
+    <bpmn2:task id="__200e3ce9-3381-4d13-8c7e-4f8790388070" name="Place in Bin" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:extensionElements>
+        <bpmn:attachment id="_a4adbd52-af39-4b5f-a967-4438504c3c6f" name="Amazon - Place in bin" url="https://www.youtube.com/embed/AAjGVnUm_dI?rel=0" type="youtube" embeddable="true" displayHeight="400" displayWidth="660" play="true"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>__ce6b77ab-3b91-4ca0-b6c2-48980892e47e</bpmn2:incoming>
+      <bpmn2:outgoing>__04700d0b-5231-46f6-ae74-698ba3864a60</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="__04700d0b-5231-46f6-ae74-698ba3864a60" sourceRef="__200e3ce9-3381-4d13-8c7e-4f8790388070" targetRef="__ac1dc01c-14c2-47cf-9bc9-2b39f5fcd379"/>
+    <bpmn2:task id="__ac1dc01c-14c2-47cf-9bc9-2b39f5fcd379" name="Receive and Package  Items" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:extensionElements>
+        <bpmn:attachment id="_2be54b1d-073a-430c-a17b-9f316f613b76" name="Amazon - Receive and Package Items" url="https://www.youtube.com/embed/k0lCC1zvTs0?rel=0" type="youtube" embeddable="true" displayHeight="400" displayWidth="660" play="true"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>__04700d0b-5231-46f6-ae74-698ba3864a60</bpmn2:incoming>
+      <bpmn2:outgoing>__c18acafe-53f8-4e7d-a6df-d12b60b5ae53</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="__c18acafe-53f8-4e7d-a6df-d12b60b5ae53" sourceRef="__ac1dc01c-14c2-47cf-9bc9-2b39f5fcd379" targetRef="__c1a19847-8b3e-42db-a95d-9f21cffc50a3"/>
+    <bpmn2:task id="__c1a19847-8b3e-42db-a95d-9f21cffc50a3" name="Send to Carrier Dock" completionQuantity="1" isForCompensation="false" startQuantity="1">
+      <bpmn2:incoming>__c18acafe-53f8-4e7d-a6df-d12b60b5ae53</bpmn2:incoming>
+      <bpmn2:outgoing>__18abb53a-b7c0-414e-9428-1d1a14f2e96b</bpmn2:outgoing>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="__18abb53a-b7c0-414e-9428-1d1a14f2e96b" sourceRef="__c1a19847-8b3e-42db-a95d-9f21cffc50a3" targetRef="__5a9abc77-7371-4213-bede-4056f9cb7808"/>
+    <bpmn2:endEvent id="__5a9abc77-7371-4213-bede-4056f9cb7808">
+      <bpmn2:incoming>__18abb53a-b7c0-414e-9428-1d1a14f2e96b</bpmn2:incoming>
+    </bpmn2:endEvent>
+  </bpmn2:process>
+  <bpmn2:process id="_87f78165-4e20-45b8-beac-ae52e2516757" processType="None"/>
+  <bpmn2:process id="_28bf736c-8b45-46a3-9fec-21f83b021987" processType="None"/>
+  <bpmn2:process id="_7e00beb4-7d1a-4aa6-90ff-14ce46d6db89" processType="None"/>
+  <bpmn2:process id="_3b5280e7-db97-42a0-b6e2-331c1a00fb8e" processType="None"/>
+  <bpmn2:process id="_802a7ea1-e5cb-4038-8c81-6719b8f675f8" processType="None"/>
+  <bpmndi:BPMNDiagram id="_d0JfmIKCEeu9--9sQCgRag" name="Buying at Amazon Collaboration">
+    <bpmndi:BPMNPlane id="_d0JfmYKCEeu9--9sQCgRag" bpmnElement="C1404332496310">
+      <bpmndi:BPMNShape id="_d0JfmoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__8f9632f2-9fdb-4e3c-8b10-6a05091de766">
+        <dc:Bounds height="35.0" width="35.0" x="1252.0" y="525.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfm4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="1236.0" y="564.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfnIKCEeu9--9sQCgRag" color_1.0:background-color="#008080" color_1.0:border-color="#000000" bpmnElement="__bb6766c5-51e3-4f04-aedc-6c9e4afe0582" isHorizontal="true">
+        <dc:Bounds height="150.0" width="586.0" x="938.0" y="639.0"/>
+        <bpmndi:BPMNLabel id="_d0JfnYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfnoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__5a9abc77-7371-4213-bede-4056f9cb7808">
+        <dc:Bounds height="35.0" width="35.0" x="759.0" y="811.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfn4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="743.0" y="850.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfoIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__c1a19847-8b3e-42db-a95d-9f21cffc50a3">
+        <dc:Bounds height="76.0" width="96.0" x="619.0" y="790.0"/>
+        <bpmndi:BPMNLabel id="_d0JfoYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfooKCEeu9--9sQCgRag" color_1.0:background-color="#c0c0c0" color_1.0:border-color="#000000" bpmnElement="__3cf88d6c-e5e4-489e-bc73-e2a18be946bf" isHorizontal="true">
+        <dc:Bounds height="132.0" width="382.0" x="621.0" y="63.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfo4KCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfpIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__e6a9dd54-6cb0-4713-8b77-e659f2658e40">
+        <dc:Bounds height="35.0" width="35.0" x="995.0" y="704.0"/>
+        <bpmndi:BPMNLabel id="_d0JfpYKCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="12.0" width="110.0" x="957.0" y="689.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfpoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__f4846d41-bca9-4788-9ce2-30ff4b9d6b7b">
+        <dc:Bounds height="76.0" width="96.0" x="204.0" y="653.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfp4KCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfqIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__a7183fc9-402a-418c-bf2a-3b1927d3798d">
+        <dc:Bounds height="76.0" width="96.0" x="765.0" y="91.0"/>
+        <bpmndi:BPMNLabel id="_d0JfqYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfqoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__f5b8cb41-0574-4c29-aaaa-84ecce589f84">
+        <dc:Bounds height="35.0" width="35.0" x="122.0" y="377.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfq4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="106.0" y="416.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfrIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__200e3ce9-3381-4d13-8c7e-4f8790388070">
+        <dc:Bounds height="76.0" width="96.0" x="336.0" y="653.0"/>
+        <bpmndi:BPMNLabel id="_d0JfrYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfroKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__a9de74be-ce4b-4d59-bafd-cf6f61f48867">
+        <dc:Bounds height="76.0" width="96.0" x="1094.0" y="683.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfr4KCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfsIKCEeu9--9sQCgRag" color_1.0:background-color="#99ccff" color_1.0:border-color="#000000" bpmnElement="__6f70606b-6781-4f26-b207-5bfff80115d8" isHorizontal="true">
+        <dc:Bounds height="297.0" width="1467.0" x="51.0" y="275.0"/>
+        <bpmndi:BPMNLabel id="_d0JfsYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfsoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__a1c27e25-4aa2-43dc-8a20-b713e8393d7f">
+        <dc:Bounds height="35.0" width="35.0" x="683.0" y="378.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfs4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="667.0" y="417.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JftIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__f867d5f7-db1e-4015-9856-c53bc9cb4b51">
+        <dc:Bounds height="76.0" width="96.0" x="1309.0" y="683.0"/>
+        <bpmndi:BPMNLabel id="_d0JftYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JftoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="_bb4a73bd-2291-4494-8677-5560d4842f79">
+        <dc:Bounds height="40.0" width="40.0" x="908.0" y="326.0"/>
+        <bpmndi:BPMNLabel id="_d0Jft4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="12.0" width="110.0" x="871.0" y="309.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfuIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="_f35ee29d-018c-47e2-afeb-eebc2e25925e">
+        <dc:Bounds height="35.0" width="35.0" x="1040.0" y="329.0"/>
+        <bpmndi:BPMNLabel id="_d0JfuYKCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="12.0" width="60.0" x="1026.0" y="311.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfuoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__6c41ae4a-64fd-40f9-a764-059b26ef8ebf">
+        <dc:Bounds height="35.0" width="35.0" x="1455.0" y="704.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfu4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="1439.0" y="743.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfvIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__509f09eb-5518-4995-b98b-db3cf3f8ea00">
+        <dc:Bounds height="40.0" width="40.0" x="521.0" y="375.0"/>
+        <bpmndi:BPMNLabel id="_d0JfvYKCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="12.0" width="89.0" x="496.0" y="420.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfvoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__cec149db-adae-4b69-8ea4-b866f2eef248">
+        <dc:Bounds height="30.0" width="30.0" x="938.0" y="512.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfv4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="919.0" y="548.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfwIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__f61e9ae0-855f-4ce6-9e3a-4b4f5c7dd0b8">
+        <dc:Bounds height="76.0" width="96.0" x="198.0" y="357.0"/>
+        <bpmndi:BPMNLabel id="_d0JfwYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfwoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__e03c9539-b011-46b1-a381-0eee5f0521b8">
+        <dc:Bounds height="35.0" width="35.0" x="1450.0" y="377.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfw4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="1434.0" y="416.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfxIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__4011aa2d-a7a9-4e1a-9f16-8a662d138bd4">
+        <dc:Bounds height="35.0" width="35.0" x="922.0" y="112.0"/>
+        <bpmndi:BPMNLabel id="_d0JfxYKCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="26.0" width="32.0" x="923.0" y="83.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfxoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="_29a5e7c6-e54e-4c61-ba35-59ae446a3462">
+        <dc:Bounds height="40.0" width="40.0" x="907.0" y="438.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfx4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="12.0" width="33.0" x="911.0" y="485.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfyIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__be386700-06c2-4a29-b861-c516940667fe">
+        <dc:Bounds height="76.0" width="96.0" x="357.0" y="357.0"/>
+        <bpmndi:BPMNLabel id="_d0JfyYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfyoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="_7ea6639e-e773-4236-94bf-78f149188c30">
+        <dc:Bounds height="35.0" width="35.0" x="1022.0" y="482.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfy4KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="1006.0" y="521.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfzIKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__5ffa1675-9ad7-46f8-b19a-85cd5878496f" isExpanded="true">
+        <dc:Bounds height="237.0" width="575.0" x="663.0" y="290.0"/>
+        <bpmndi:BPMNLabel id="_d0JfzYKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0JfzoKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__15a180db-97af-4058-ac0a-4a31247fb797">
+        <dc:Bounds height="135.0" width="743.0" x="80.0" y="633.0"/>
+        <bpmndi:BPMNLabel id="_d0Jfz4KCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0Jf0IKCEeu9--9sQCgRag" color_1.0:background-color="#ffcc00" color_1.0:border-color="#000000" bpmnElement="__a42178ea-f777-4c5b-a0a1-c4014aee6431" isHorizontal="true">
+        <dc:Bounds height="256.0" width="776.0" x="50.0" y="633.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf0YKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0Jf0oKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="_df393d97-f22e-4442-95be-918b8fdd4c3c">
+        <dc:Bounds height="35.0" width="35.0" x="1120.0" y="328.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf04KCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="5.0" width="68.0" x="1104.0" y="367.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0Jf1IKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__fd16081c-ecf9-4e0f-857f-f3404a7ee784">
+        <dc:Bounds height="35.0" width="35.0" x="123.0" y="674.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf1YKCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="12.0" width="75.0" x="102.0" y="716.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0Jf1oKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="_95a2fb99-bb98-4d26-b5ec-3dae3a32fd79">
+        <dc:Bounds height="76.0" width="96.0" x="1311.0" y="357.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf14KCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0Jf2IKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__0ef615c7-5456-45c8-9cfb-f1fe30c44436">
+        <dc:Bounds height="35.0" width="35.0" x="682.0" y="112.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf2YKCEeu9--9sQCgRag" color_1.0:color="#000000">
+          <dc:Bounds height="40.0" width="77.0" x="660.0" y="71.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0Jf2oKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__75b31592-10d5-4d4b-993e-0df32d5977ac">
+        <dc:Bounds height="119.0" width="743.0" x="80.0" y="768.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf24KCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0Jf3IKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="_2f24e6da-b44f-4e30-8d85-fd35fd56e209">
+        <dc:Bounds height="76.0" width="96.0" x="765.0" y="357.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf3YKCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0Jf3oKCEeu9--9sQCgRag" color_1.0:background-color="#ffffff" color_1.0:border-color="#000000" bpmnElement="__ac1dc01c-14c2-47cf-9bc9-2b39f5fcd379">
+        <dc:Bounds height="76.0" width="96.0" x="477.0" y="790.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf34KCEeu9--9sQCgRag" color_1.0:color="#000000"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_d0Jf4IKCEeu9--9sQCgRag" bpmnElement="__b355021c-ac23-48bf-9d1a-45c32565ba39">
+        <di:waypoint x="1405.0" y="721.0"/>
+        <di:waypoint x="1455.0" y="721.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf4YKCEeu9--9sQCgRag" bpmnElement="_63cf98c9-d0b1-4595-a4f2-9589439b311c">
+        <di:waypoint x="907.0" y="458.0"/>
+        <di:waypoint x="814.0" y="458.0"/>
+        <di:waypoint x="814.0" y="433.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf4oKCEeu9--9sQCgRag">
+          <dc:Bounds height="12.0" width="28.0" x="804.0" y="463.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf44KCEeu9--9sQCgRag" bpmnElement="_30c47018-b9e8-4d09-81e2-2b592f75a5cf">
+        <di:waypoint x="1075.0" y="346.0"/>
+        <di:waypoint x="1120.0" y="346.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf5IKCEeu9--9sQCgRag" bpmnElement="__36fbe220-08cc-45e8-847b-3f55002979c2">
+        <di:waypoint x="1190.0" y="721.0"/>
+        <di:waypoint x="1309.0" y="721.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf5YKCEeu9--9sQCgRag" bpmnElement="__474f19b8-f608-4d20-a49e-907485a789c5">
+        <di:waypoint x="1030.0" y="721.0"/>
+        <di:waypoint x="1094.0" y="721.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf5oKCEeu9--9sQCgRag" bpmnElement="__13e0b8fd-91fe-4bbc-87ae-5ad657f6ef99">
+        <di:waypoint x="1360.0" y="683.0"/>
+        <di:waypoint x="1360.0" y="433.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf54KCEeu9--9sQCgRag" bpmnElement="__ce6b77ab-3b91-4ca0-b6c2-48980892e47e">
+        <di:waypoint x="300.0" y="692.0"/>
+        <di:waypoint x="336.0" y="692.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf6IKCEeu9--9sQCgRag" bpmnElement="__86b33cf0-1b17-437f-a7cf-510e0766561f">
+        <di:waypoint x="785.0" y="357.0"/>
+        <di:waypoint x="785.0" y="228.0"/>
+        <di:waypoint x="700.0" y="228.0"/>
+        <di:waypoint x="700.0" y="147.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf6YKCEeu9--9sQCgRag">
+          <dc:Bounds height="26.0" width="90.0" x="693.0" y="233.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf6oKCEeu9--9sQCgRag" bpmnElement="__0c171c64-b342-4f84-8020-a63b6a5b296d">
+        <di:waypoint x="942.0" y="147.0"/>
+        <di:waypoint x="942.0" y="230.0"/>
+        <di:waypoint x="843.0" y="230.0"/>
+        <di:waypoint x="843.0" y="357.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf64KCEeu9--9sQCgRag" bpmnElement="__e8a6634d-4c67-4ec3-b8cf-18bf3987c281">
+        <di:waypoint x="294.0" y="396.0"/>
+        <di:waypoint x="357.0" y="396.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf7IKCEeu9--9sQCgRag" bpmnElement="__47cf5284-b9ff-4136-93fd-f0f32b87810f">
+        <di:waypoint x="861.0" y="129.0"/>
+        <di:waypoint x="922.0" y="129.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf7YKCEeu9--9sQCgRag" bpmnElement="__5d3be9f3-3f7a-4778-89e5-1bf4951472c2">
+        <di:waypoint x="1238.0" y="399.0"/>
+        <di:waypoint x="1311.0" y="396.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf7oKCEeu9--9sQCgRag" bpmnElement="__a12a7547-373d-47ec-890d-af5c177203ee">
+        <di:waypoint x="561.0" y="395.0"/>
+        <di:waypoint x="663.0" y="395.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf74KCEeu9--9sQCgRag">
+          <dc:Bounds height="12.0" width="19.0" x="603.0" y="400.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf8IKCEeu9--9sQCgRag" bpmnElement="__82227f00-3d5e-446e-a2e7-50b907ed7c8c">
+        <di:waypoint x="453.0" y="395.0"/>
+        <di:waypoint x="521.0" y="395.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf8YKCEeu9--9sQCgRag" bpmnElement="__f3f918b3-abee-4e59-8131-212d0d86b056">
+        <di:waypoint x="717.0" y="129.0"/>
+        <di:waypoint x="765.0" y="129.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf8oKCEeu9--9sQCgRag" bpmnElement="_bfa5c7b2-f5d2-4487-a307-b2ea662bd059">
+        <di:waypoint x="929.0" y="366.0"/>
+        <di:waypoint x="929.0" y="438.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf84KCEeu9--9sQCgRag">
+          <dc:Bounds height="12.0" width="14.0" x="920.0" y="407.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf9IKCEeu9--9sQCgRag" bpmnElement="_520aac43-77a5-40e8-84a4-ec51e17ad9b2">
+        <di:waypoint x="861.0" y="395.0"/>
+        <di:waypoint x="908.0" y="395.0"/>
+        <di:waypoint x="908.0" y="366.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf9YKCEeu9--9sQCgRag" bpmnElement="__92bd8ebf-e3b1-4270-96bb-2f6d6978c64a">
+        <di:waypoint x="1407.0" y="395.0"/>
+        <di:waypoint x="1450.0" y="395.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf9oKCEeu9--9sQCgRag" bpmnElement="__789952b8-abba-4f3f-81cd-24cbb4d0d615">
+        <di:waypoint x="1058.0" y="364.0"/>
+        <di:waypoint x="1058.0" y="519.0"/>
+        <di:waypoint x="140.0" y="519.0"/>
+        <di:waypoint x="140.0" y="674.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf94KCEeu9--9sQCgRag" bpmnElement="__00bc466e-cf1f-473c-aa39-c78bba5cef82">
+        <di:waypoint x="718.0" y="395.0"/>
+        <di:waypoint x="765.0" y="395.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf-IKCEeu9--9sQCgRag" bpmnElement="__ffc1486a-8a32-490a-8835-d14cc5ab0a97">
+        <di:waypoint x="542.0" y="375.0"/>
+        <di:waypoint x="542.0" y="316.0"/>
+        <di:waypoint x="248.0" y="316.0"/>
+        <di:waypoint x="248.0" y="357.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf-YKCEeu9--9sQCgRag">
+          <dc:Bounds height="12.0" width="14.0" x="393.0" y="320.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf-oKCEeu9--9sQCgRag" bpmnElement="_50edb87c-9e46-48b1-a311-ef00e6e431e8">
+        <di:waypoint x="948.0" y="346.0"/>
+        <di:waypoint x="1040.0" y="346.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf-4KCEeu9--9sQCgRag">
+          <dc:Bounds height="12.0" width="110.0" x="944.0" y="350.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf_IKCEeu9--9sQCgRag" bpmnElement="_ad0872cc-e2a9-4c44-98c6-c64e0638f37e">
+        <di:waypoint x="947.0" y="465.0"/>
+        <di:waypoint x="1022.0" y="493.0"/>
+        <bpmndi:BPMNLabel id="_d0Jf_YKCEeu9--9sQCgRag">
+          <dc:Bounds height="12.0" width="110.0" x="927.0" y="484.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf_oKCEeu9--9sQCgRag" bpmnElement="__c18acafe-53f8-4e7d-a6df-d12b60b5ae53">
+        <di:waypoint x="573.0" y="828.0"/>
+        <di:waypoint x="619.0" y="828.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0Jf_4KCEeu9--9sQCgRag" bpmnElement="__dc6ef6c1-9c24-48ae-800f-2f9fb76d7ce6">
+        <di:waypoint x="968.0" y="533.0"/>
+        <di:waypoint x="1252.0" y="533.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0JgAIKCEeu9--9sQCgRag" bpmnElement="__5cdd91dd-32f6-4102-b475-bd6c7992f509">
+        <di:waypoint x="684.0" y="790.0"/>
+        <di:waypoint x="684.0" y="762.0"/>
+        <di:waypoint x="1013.0" y="762.0"/>
+        <di:waypoint x="1013.0" y="739.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0JgAYKCEeu9--9sQCgRag" bpmnElement="__4ad47bad-fac8-4269-9a9b-3f68613c7fc8">
+        <di:waypoint x="158.0" y="692.0"/>
+        <di:waypoint x="204.0" y="692.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0JgAoKCEeu9--9sQCgRag" bpmnElement="__18abb53a-b7c0-414e-9428-1d1a14f2e96b">
+        <di:waypoint x="715.0" y="828.0"/>
+        <di:waypoint x="759.0" y="828.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0JgA4KCEeu9--9sQCgRag" bpmnElement="__04700d0b-5231-46f6-ae74-698ba3864a60">
+        <di:waypoint x="432.0" y="692.0"/>
+        <di:waypoint x="454.0" y="692.0"/>
+        <di:waypoint x="455.0" y="828.0"/>
+        <di:waypoint x="477.0" y="828.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_d0JgBIKCEeu9--9sQCgRag" bpmnElement="__6fd770bc-8f12-4927-96cd-e3cc53d862d3">
+        <di:waypoint x="157.0" y="395.0"/>
+        <di:waypoint x="198.0" y="395.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmn2:relationship id="_d0JgBYKCEeu9--9sQCgRag" type="ActivityStream">
+    <bpmn2:extensionElements>
+      <rss_2.0:rss version="2.0">
+                <rss_2.0:channel/>
+            </rss_2.0:rss>
+    </bpmn2:extensionElements>
+    <bpmn2:source>_1aa4e08d-219c-418c-8aed-5ddf4cd45a41</bpmn2:source>
+    <bpmn2:target>_1aa4e08d-219c-418c-8aed-5ddf4cd45a41</bpmn2:target>
+  </bpmn2:relationship>
+  <bpmn2:relationship id="_d0JgBoKCEeu9--9sQCgRag" type="trisoExtension">
+    <bpmn2:extensionElements>
+      <modeling:ProjectCharter>
+                <modeling:projectGoals/>
+                <modeling:projectChallenges/>
+                <modeling:projectStakeholders/>
+                <modeling:projectDescription>&lt;p>Amazon order fulfillment examples created by Trisotech describes the process of ordering an item from Amazon. This diagram describes the process from the credit card company, customer's, Amazon's and carrier's perspective.&lt;/p></modeling:projectDescription>
+            </modeling:ProjectCharter>
+    </bpmn2:extensionElements>
+    <bpmn2:source>_1aa4e08d-219c-418c-8aed-5ddf4cd45a41</bpmn2:source>
+    <bpmn2:target>_1aa4e08d-219c-418c-8aed-5ddf4cd45a41</bpmn2:target>
+  </bpmn2:relationship>
+</bpmn2:definitions>

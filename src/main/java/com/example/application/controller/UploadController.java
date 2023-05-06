@@ -65,7 +65,7 @@ public class UploadController {
             try {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
                 isEnglish = detectLanguage(file);
-                validationResult = validateFile(file);
+                validationResult = validateFile(data,file);
 
                 if (Objects.equals(validationResult, ""))
                     isValid = true;
@@ -104,7 +104,7 @@ public class UploadController {
         try {
 
             getFilteredFiles(data, fileInfos);
-            evaluateGuidelines(fileInfos);
+            evaluateGuidelines(data, fileInfos);
             evaluateCombined(fileInfos);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -115,17 +115,19 @@ public class UploadController {
         } catch (SAXException e) {
             throw new RuntimeException(e);
         }
-
+        System.out.println(data.length);
         List<fileInfo> newFileInfoFiltered = new ArrayList<>();
         for (fileInfo fileInfo : fileInfos) {
+            if(data.length==0){
+                fileInfosBackup = fileInfos;
+                System.out.println("Entro");
+                return fileInfosBackup;
+            }
+
             if(fileInfo.elementMap !=  null){
                 newFileInfoFiltered.add(fileInfo);
             }
 
-            if(data == null){
-                fileInfosBackup = fileInfos;
-                return fileInfosBackup;
-            }
         }
 
         return newFileInfoFiltered;
@@ -174,19 +176,22 @@ public class UploadController {
             Document bpmnDoc = dbFactory.newDocumentBuilder().parse(bpmnFile);
 
             NodeList bpmnProcessNodes = bpmnDoc.getElementsByTagName("bpmn:process");
+            NodeList bpmnProcessNodes2 = bpmnDoc.getElementsByTagName("bpmn2:process");
             NodeList processNodes = bpmnDoc.getElementsByTagName("process");
 
-            if (bpmnProcessNodes.getLength() > 0 || processNodes.getLength() > 0) {
+            if (bpmnProcessNodes.getLength() > 0 || processNodes.getLength() > 0 || bpmnProcessNodes2.getLength() > 0) {
                 modelType = "Process Collaboration";
             } else {
                     NodeList bpmnChoreographyNodes = bpmnDoc.getElementsByTagName("bpmn2:choreography");
-                    NodeList ChoreographyNodes = bpmnDoc.getElementsByTagName("bpmn2:choreography");
-                    if (bpmnChoreographyNodes.getLength() > 0 || ChoreographyNodes.getLength() > 0) {
+                    NodeList ChoreographyNodes = bpmnDoc.getElementsByTagName("bpmn:choreography");
+                    NodeList ChoreographyNodes2 = bpmnDoc.getElementsByTagName("choreography");
+                    if (bpmnChoreographyNodes.getLength() > 0 || ChoreographyNodes.getLength() > 0 || ChoreographyNodes2.getLength() > 0) {
                         modelType = "Choreography";
                     } else {
                         NodeList bpmnConversationNodes = bpmnDoc.getElementsByTagName("bpmn2:conversation");
-                        NodeList ConversationNodes = bpmnDoc.getElementsByTagName("bpmn2:conversation");
-                        if (bpmnConversationNodes.getLength() > 0 || ConversationNodes.getLength() > 0) {
+                        NodeList ConversationNodes = bpmnDoc.getElementsByTagName("bpmn:conversation");
+                        NodeList ConversationNodes2 = bpmnDoc.getElementsByTagName("conversation");
+                        if (bpmnConversationNodes.getLength() > 0 || ConversationNodes.getLength() > 0 || ConversationNodes2.getLength() > 0) {
                             modelType = "Conversation";
                         }
                     }
@@ -293,7 +298,10 @@ public class UploadController {
         }
         return "All files deleted successfully";
     }
-    private String validateFile(File file) throws SAXException {
+    private String validateFile(String[] filteringArray, File file) throws SAXException {
+
+        //TODO LO STESSO CONTROLLO DELLE ALTRE PROCEDURE UTILIZZANDO FILE INFO PER EVITARE DI RUNNARE LA VALIDATION SU TUTTI I FILE
+        //ANCHE GLI ESCLUSI DAL FILTRAGGIO
 
         // Directory contenente i file BPMN da convalidare
         File bpmnDir = new File("./src/main/resources/bpmnModels/");
@@ -414,198 +422,20 @@ public class UploadController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
-    @PostMapping("/download-filtered-models")
-    public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException {
-        if (filteringArray == null || filteringArray.length == 0) {
-
-            Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
-            Path zipFilePath = sourceDir.getParent().resolve("bpmnModels.zip");
-            String fileName = "bpmnModels.zip";
-            // Crea lo stream di output per il file zip
-            FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
-            ZipOutputStream zipOut = new ZipOutputStream(fos);
-
-            // Recupera la lista dei file nella cartella sorgente
-            Files.walk(sourceDir)
-                    .filter(path -> !Files.isDirectory(path))
-                    .forEach(path -> {
-                        try {
-                            // Crea l'entry del file nel file zip
-                            ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
-                            zipOut.putNextEntry(zipEntry);
-
-                            // Scrive il contenuto del file nello stream di output del file zip
-                            Files.copy(path, zipOut);
-
-                            // Chiude l'entry del file
-                            zipOut.closeEntry();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
-
-            // Chiude lo stream di output del file zip e il file zip stesso
-            zipOut.close();
-            fos.close();
-
-            Resource resource = new UrlResource(zipFilePath.toUri());
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(resource.getFile().length())
-                    .contentType(MediaType.parseMediaType("application/zip"))
-                    .body(resource);
-
-        } else if (filteringArray.length == 1) {
-            if (Arrays.asList(filteringArray).contains("invalid")) {
-                Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
-                Path zipFilePath = sourceDir.getParent().resolve("bpmnNoInvalids.zip");
-                String fileName = "bpmnNoInvalids.zip";
-                FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
-                ZipOutputStream zipOut = new ZipOutputStream(fos);
-
-                Files.walk(sourceDir)
-                        .filter(path -> !Files.isDirectory(path))
-                        .forEach(path -> {
-
-                                if(validModelFiles.contains(path.getFileName().toString())) {
-                                    try {
-                                        // Crea l'entry del file nel file zip
-                                        ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
-                                        zipOut.putNextEntry(zipEntry);
-
-                                        // Scrive il contenuto del file nello stream di output del file zip
-                                        Files.copy(path, zipOut);
-
-                                        // Chiude l'entry del file
-                                        zipOut.closeEntry();
-
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                        });
-                zipOut.close();
-                fos.close();
-
-                Resource resource = new UrlResource(zipFilePath.toUri());
-                HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-
-                return ResponseEntity.ok()
-                        .headers(headers)
-                        .contentLength(resource.getFile().length())
-                        .contentType(MediaType.parseMediaType("application/zip"))
-                        .body(resource);
-
-            } else if (Arrays.asList(filteringArray).contains("duplicated")) {
-                Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
-                Path zipFilePath = sourceDir.getParent().resolve("bpmnNoDuplicates.zip");
-                String fileName = "bpmnNoDuplicates.zip";
-                // Crea lo stream di output per il file zip
-                FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
-                ZipOutputStream zipOut = new ZipOutputStream(fos);
-
-                // Mappa per tenere traccia dei nomi dei file già trovati
-                Map<Long, Path> fileSizes = new HashMap<>();
-                Files.walk(sourceDir)
-                        .filter(path -> !Files.isDirectory(path))
-                        .forEach(path -> {
-                            try {
-                                // Confronta i byte del file con quelli dei file già processati
-                                byte[] fileContent = Files.readAllBytes(path);
-                                Long fileSize = Files.size(path);
-                                if (!fileSizes.containsKey(fileSize) || !Arrays.equals(fileContent, Files.readAllBytes(fileSizes.get(fileSize)))) {
-                                    // Crea l'entry del file nel file zip se il contenuto è diverso dai file già processati
-                                    ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
-                                    zipOut.putNextEntry(zipEntry);
-
-                                    // Scrive il contenuto del file nello stream di output del file zip
-                                    Files.copy(path, zipOut);
-
-                                    // Aggiorna la mappa dei file già processati con il nuovo file
-                                    fileSizes.put(fileSize, path);
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-
-                // Chiude lo stream di output del file zip e il file zip stesso
-                zipOut.close();
-                fos.close();
-
-                // Crea un resource dal file zip e restituisce un ResponseEntity per il download
-                Resource resource = new UrlResource(zipFilePath.toUri());
-                HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-
-                return ResponseEntity.ok()
-                        .headers(headers)
-                        .contentLength(resource.getFile().length())
-                        .contentType(MediaType.parseMediaType("application/zip"))
-                        .body(resource);
-            }
-        } else if (filteringArray.length == 2) {
-            if (Arrays.asList(filteringArray).contains("invalid") && Arrays.asList(filteringArray).contains("duplicated")) {
-                Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
-                Path zipFilePath = sourceDir.getParent().resolve("bpmnNoInvalidsNoDuplicates.zip");
-                String fileName = "bpmnNoDuplicatesNoInvalids.zip";
-                // Crea lo stream di output per il file zip
-                FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
-                ZipOutputStream zipOut = new ZipOutputStream(fos);
-
-                // Mappa per tenere traccia dei nomi dei file già trovati
-                Map<Long, Path> fileSizes = new HashMap<>();
-                Files.walk(sourceDir)
-                        .filter(path -> !Files.isDirectory(path))
-                        .forEach(path -> {
-                            try {
-                                if (validModelFiles.contains(path.getFileName().toString())) {
-                                    // Confronta i byte del file con quelli dei file già processati
-                                    byte[] fileContent = Files.readAllBytes(path);
-                                    Long fileSize = Files.size(path);
-                                    if (!fileSizes.containsKey(fileSize) || !Arrays.equals(fileContent, Files.readAllBytes(fileSizes.get(fileSize)))) {
-                                        // Crea l'entry del file nel file zip se il contenuto è diverso dai file già processati
-                                        ZipEntry zipEntry = new ZipEntry(sourceDir.relativize(path).toString());
-                                        zipOut.putNextEntry(zipEntry);
-
-                                        // Scrive il contenuto del file nello stream di output del file zip
-                                        Files.copy(path, zipOut);
-
-                                        // Aggiorna la mappa dei file già processati con il nuovo file
-                                        fileSizes.put(fileSize, path);
-                                    }
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        });
-
-                // Chiude lo stream di output del file zip e il file zip stesso
-                zipOut.close();
-                fos.close();
-
-                // Crea un resource dal file zip e restituisce un ResponseEntity per il download
-                Resource resource = new UrlResource(zipFilePath.toUri());
-                HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"bpmnNoDuplicatesNoInvalids.zip\"");
-
-                return ResponseEntity.ok()
-                        .headers(headers)
-                        .contentLength(resource.getFile().length())
-                        .contentType(MediaType.parseMediaType("application/zip"))
-                        .body(resource);
-            }
-        }
-        return null;
-    }
-    @PostMapping("/download-filtered-models-due")
+     @PostMapping("/download-filtered-models")
     public ResponseEntity<Resource> downloadFilteredModelsDue(@RequestBody String[] filteringArray) throws IOException {
 
         List<fileInfo> filteredFileInfos = getFiles(filteringArray);
+
+        if (Arrays.asList(filteringArray).contains("invalid")) {
+            filteredFileInfos.removeIf(fileInfo -> !fileInfo.isValid);
+        }
+        if (Arrays.asList(filteringArray).contains("duplicated")) {
+            filteredFileInfos.removeIf(fileInfo -> fileInfo.isDuplicated);
+        }
+        if (Arrays.asList(filteringArray).contains("english")) {
+            filteredFileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
+        }
 
         // Crea il file zip contenente i file filtrati
         Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
@@ -5269,12 +5099,21 @@ SUBPROCESS Collapsed EVENT + ADHOC
             rowIndex++;
         }
      }
-    public void evaluateGuidelines(List<fileInfo> fileInfos) throws IOException {
+    public void evaluateGuidelines(String[] filteringArray,List<fileInfo> fileInfos) throws IOException {
 
         String path = "src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv";
 
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
 
+        if (Arrays.asList(filteringArray).contains("invalid")) {
+            fileInfos.removeIf(fileInfo -> !fileInfo.isValid);
+        }
+        if (Arrays.asList(filteringArray).contains("duplicated")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.isDuplicated);
+        }
+        if (Arrays.asList(filteringArray).contains("english")) {
+            fileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
+        }
 
         // Scrivi l'intestazione delle colonne nel file CSV
         bw.write("fileName;");
@@ -5330,8 +5169,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
             bw.write(fileName + ";" + guidelinesResult.toString() + "\n");
             bw.flush();
 
-            System.out.println(fileName+" GuidelinesResult: "+guidelinesResult.toString());
-
             String[] guidelinesResults = guidelinesResult.toString().split(";");
 
             // Aggiornamento dei conteggi di "true" e "false" per ciascuna colonna
@@ -5371,7 +5208,7 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
     }
 
-        public void evaluateCombined(List<fileInfo> fileInfos) throws IOException {
+    public void evaluateCombined(List<fileInfo> fileInfos) throws IOException {
 
         String path = "src/main/resources/bpmnCounterOutput/bpmn_combined.csv";
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));

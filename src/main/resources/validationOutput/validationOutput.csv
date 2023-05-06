@@ -1,3 +1,55 @@
 ModelName,Validation,Exception
-Entscheid versenden - Baugesuch (7.8) - Copia.bpmn,valid,
-Entscheid versenden - Baugesuch (7.8).bpmn,valid,
+__-AHQKxOEeqEM7mFKilpXw.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__0798K8wEeusIKfzi3X3AQ.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'bpmn2:association'.
+__24eEM2FEeaAf-R7dg0GCw.bpmn,valid,
+__6Ac8AQfEeeoQepBjqL-OQ.bpmn,valid,
+__6m30PIjEei0SKJPiR2ViA.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'bpmn2:association'.
+__7FiECQvEeuxZMUIY-ihGw.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__85m0CRfEeisAYMSV00L2Q.bpmn,valid,
+__88eUMTEEeuyUouQYKpTOg.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__8H3sAmzEeu_35Z1GKTxtw.bpmn,valid,
+__8Mh8IqUEeaHjIRlzIXo2w.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__8PFkIDNEea5R4jqjXLZlQ.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__9fSEIQAEeeveJPbhFhy-g.bpmn,valid,
+__aS7EKX5EeaiBJ7PH1W80g.bpmn,valid,
+__AWRYJkNEeuzROqeHhotPw.bpmn,valid,
+__AZIYL4vEeedTfUoC-GfaA.bpmn,valid,
+__baU0EyZEeqonN_RS9oRzw.bpmn,valid,
+__BCAwGUVEeqK2M3E1LfZ7Q.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__BD60H_dEea5R4jqjXLZlQ.bpmn,valid,
+__BJrAEDCEeqonN_RS9oRzw.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__bs2QBW4EeepM-R8YBkuKA.bpmn,valid,
+__bwZME7_Eeict5GQq2fjkw.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'bpmn2:association'.
+__CsoQHGWEeiNBMQxgOZU3Q.bpmn,valid,
+__DiR8LN5Eee7sYPkE4-GPA.bpmn,valid,
+__Dlz0MUZEeuyUouQYKpTOg.bpmn,valid,
+__EOowI5xEeaMz8P8myXedA.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__EyDIJ8PEeqEM7mFKilpXw.bpmn,valid,
+__FsqsMKuEeacM55raX9d3Q.bpmn,valid,
+__f_V4CqTEeal2NWrrWbdYQ.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__G370EhQEeie_NQr4yovPw.bpmn,valid,
+__garkBCLEeqa8dopbpYHJg.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__gCSwCgqEeuxZMUIY-ihGw.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'bpmn2:association'.
+__GnK4PqKEeSE6sazzutmkA.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":documentation}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__hmbUKz4EeusIKfzi3X3AQ.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__iaroDRPEeuxZMUIY-ihGw.bpmn,valid,
+__ieLEO5EEea4B_1Xj_CS2A.bpmn,valid,
+__iGRsC75Eey-A40W5C_9dw.bpmn,valid,
+__Jf80KaQEeeEQN1ZyOr-_g.bpmn,valid,
+__JiEwD5uEeqTDpmqRhKD9Q.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__jj-sP7nEeq_35Z1GKTxtw.bpmn,valid,
+__Jkb8FYWEeWH7tmnkVHu6g.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__Jq8wLAkEee6S77dw3LIvQ.bpmn,valid,
+__jybgDGxEeyCTvf-ijom_w.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'bpmn2:association'.
+__l7LIEshEemxb9vmnJ3nLQ.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'bpmn2:association'.
+__Lf_UMb6EeeWu-SLkciAbg.bpmn,valid,
+__LiUEN4lEea4oJwuIIj5Zg.bpmn,valid,
+__lydQPzIEeaaHedTqJctyw.bpmn,valid,
+__Ma54MD5EeWkXZVdRuuz2A.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__MhA4En7EeaIAoZywd7VHA.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__MibILH1EemBD7eRPCZ3SA.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'bpmn2:association'.
+__mIfwJNbEeeaCsv2qBF4QA.bpmn,valid,
+__Ml8swK1Eem-tOvkEPyp_w.bpmn,valid,
+__MLf4IoIEeaHjIRlzIXo2w.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.
+__mqCoLj6EeuARqq-icHx7Q.bpmn,valid,
+__mUYUEH1EeavkcsFwndrbA.bpmn,invalid,cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://www.omg.org/spec/BPMN/20100524/MODEL":extensionElements}'. One of '{"http://www.omg.org/spec/BPMN/20100524/MODEL":import, "http://www.omg.org/spec/BPMN/20100524/MODEL":extension, "http://www.omg.org/spec/BPMN/20100524/MODEL":rootElement, "http://www.omg.org/spec/BPMN/20100524/DI":BPMNDiagram, "http://www.omg.org/spec/BPMN/20100524/MODEL":relationship}' is expected.

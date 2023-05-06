@@ -29,7 +29,7 @@ export default function HelloReactView() {
     const [showHome, setShowHome] = React.useState(true)
     const [showResults, setShowResults] = React.useState(false)
     const [filteredData, setFilteredData] = useState<string[]>([]);
-    const filteringArray: string[] = [];
+    let filteringArray: any[] = [];
     const [show, setShow] = useState(true)
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
     let selectedFile: any = null;
@@ -40,6 +40,7 @@ export default function HelloReactView() {
 
         checkboxes.forEach((checkbox) => {
             if (checkbox.checked) {
+                // @ts-ignore
                 filteringArray.push(checkbox.value);
             }
         });
@@ -60,6 +61,8 @@ export default function HelloReactView() {
         }).catch(error => {
             console.log(error);
         });
+
+        filteringArray.fill("");
     };
 
     // Stampo i files
@@ -248,9 +251,10 @@ export default function HelloReactView() {
                         <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
                     }
                     <div>
-                           <p style={{fontSize:'20px',color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left", marginBottom:'0.4em'}}>Filtering options:</p>
-
-                            <CheckboxGroup
+                           <p style={{fontSize:'20px',marginTop:"2%",color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left", marginBottom:'0.4em'}}>Filtering options:</p>
+                        <a style={{fontSize:'14px',padding:"0px",color:'black',alignSelf:'left',fontStyle:"italic"}}>Select a filtering option to inspect or download the models.</a>
+                        <br />
+                        <CheckboxGroup
                                 theme=''
                                 onValueChanged={({ detail: { value } }) => console.log(value)}
                             >
@@ -264,18 +268,12 @@ export default function HelloReactView() {
 
                         <br></br>
                         <Link to="/inspect" state={{data: filteringArray}} >
-                            <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginBottom:'0.42cm'}} onClick={inspectionPage}>
-                                <HiDocumentSearch /><a style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Inspect!</a>
+                            <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '2%', marginBottom:'0.42cm'}} onClick={inspectionPage}>
+                                <HiDocumentSearch /><a style={{color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Filter & Inspect</a>
                             </button>
                         </Link>
-                        <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={filterCollection}>
-                            <GrDocumentDownload /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Filter collection</a>
-                        </button>
-                        <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={downloadFile}>
-                            <GrDocumentCsv /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Validation report</a>
-                        </button>
-                        <button style={{marginLeft:'2%',background:'white', borderBottom: "1px #10ad73", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={downloadInspectionFile}>
-                            <GrDocumentCsv /><a style={{marginRight: '0.5em', color:'#10ad73',marginLeft:'8px'}}>Inspection report</a>
+                        <button style={{background:'rgb(232,194,48)', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginLeft:'1%',marginBottom:'0.42cm'}} onClick={filterCollection}>
+                            <GrDocumentDownload /><a style={{color: 'black', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Filter & Download</a>
                         </button>
                         <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
                         </div>
