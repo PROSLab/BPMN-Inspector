@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="14.7.1" expressionLanguage="http://www.w3.org/TR/XPath" id="sid-ab25ba20-2e98-45df-a7bc-2e77e6ec5452" name="Stelle ausschreiben" targetNamespace="http://www.boc-group.com/definitions/207512" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+   <collaboration id="sid-5f4c3993-cc95-472f-bc29-2dfe50ef28ee">
+      <extensionElements>
+         <signavio:signavioDiagramMetaData metaKey="revisionid" metaValue="42117f2429c14058ac05d54caadf34b1"/>
+      </extensionElements>
+      <participant id="_295893" name="Stadt Dübendorf" processRef="P_295893">
+         <extensionElements/>
+      </participant>
+   </collaboration>
+   <process id="P_295893" isClosed="false" isExecutable="false" name="Stadt Dübendorf" processType="None">
+      <extensionElements/>
+      <laneSet id="sid-204fa014-06d1-4c95-bec0-8cd53e25d96f">
+         <lane id="_295887" name="Personaldienst">
+            <flowNodeRef>_295863</flowNodeRef>
+            <flowNodeRef>_295866</flowNodeRef>
+            <flowNodeRef>_295869</flowNodeRef>
+            <flowNodeRef>_295875</flowNodeRef>
+            <flowNodeRef>_295881</flowNodeRef>
+            <flowNodeRef>_295899</flowNodeRef>
+         </lane>
+         <lane id="_295890" name="Linie">
+            <flowNodeRef>_295854</flowNodeRef>
+            <flowNodeRef>_295857</flowNodeRef>
+         </lane>
+      </laneSet>
+      <task completionQuantity="1" id="_295863" isForCompensation="false" name="Ablaufplan erstellen" startQuantity="1">
+         <incoming>_295949</incoming>
+         <outgoing>_295917</outgoing>
+      </task>
+      <task completionQuantity="1" id="_295866" isForCompensation="false" name="Stellenbeschreibung erstellen" startQuantity="1">
+         <incoming>_295917</incoming>
+         <outgoing>_295921</outgoing>
+      </task>
+      <task completionQuantity="1" id="_295869" isForCompensation="false" name="Inserat entwerfen" startQuantity="1">
+         <incoming>_295909</incoming>
+         <outgoing>_295924</outgoing>
+      </task>
+      <task completionQuantity="1" id="_295875" isForCompensation="false" name="Inserat veröffentlichen" startQuantity="1">
+         <incoming>_295912</incoming>
+         <outgoing>_295930</outgoing>
+      </task>
+      <endEvent id="_295881" name="Inserat ist veröffentlicht">
+         <incoming>_295930</incoming>
+      </endEvent>
+      <startEvent id="_295899" name="Freiposition extern besetzen">
+         <outgoing>_295949</outgoing>
+      </startEvent>
+      <task completionQuantity="1" id="_295854" isForCompensation="false" name="Stellenbeschreibung anpassen" startQuantity="1">
+         <incoming>_295921</incoming>
+         <outgoing>_295909</outgoing>
+      </task>
+      <task completionQuantity="1" id="_295857" isForCompensation="false" name="Inserat prüfen &amp; anpassen" startQuantity="1">
+         <incoming>_295924</incoming>
+         <outgoing>_295912</outgoing>
+      </task>
+      <sequenceFlow id="_295909" isImmediate="true" name="" sourceRef="_295854" targetRef="_295869"/>
+      <sequenceFlow id="_295912" isImmediate="true" name="" sourceRef="_295857" targetRef="_295875"/>
+      <sequenceFlow id="_295917" isImmediate="true" name="" sourceRef="_295863" targetRef="_295866"/>
+      <sequenceFlow id="_295921" isImmediate="true" name="" sourceRef="_295866" targetRef="_295854"/>
+      <sequenceFlow id="_295924" isImmediate="true" name="" sourceRef="_295869" targetRef="_295857"/>
+      <sequenceFlow id="_295930" isImmediate="true" name="" sourceRef="_295875" targetRef="_295881"/>
+      <sequenceFlow id="_295949" isImmediate="true" name="" sourceRef="_295899" targetRef="_295863"/>
+   </process>
+   <bpmndi:BPMNDiagram id="sid-662d0c43-68b2-4230-b718-322a06211520" name="Stelle ausschreiben">
+      <bpmndi:BPMNPlane bpmnElement="sid-5f4c3993-cc95-472f-bc29-2dfe50ef28ee" id="sid-8a93dc3c-0f47-43ad-a1db-75c891f4e72b">
+         <bpmndi:BPMNShape bpmnElement="_295893" id="_295893_gui" isHorizontal="true">
+            <omgdc:Bounds height="434.0" width="1417.0" x="0.0" y="113.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="91.80000305175781" width="12.000000000000016" x="4.999999999999991" y="284.0999984741211"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295887" id="_295887_gui" isHorizontal="true">
+            <omgdc:Bounds height="226.0" width="1304.0" x="113.0" y="113.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="78.68571472167969" width="12.0" x="119.0" y="186.65714263916016"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295890" id="_295890_gui" isHorizontal="true">
+            <omgdc:Bounds height="207.0" width="1304.0" x="113.0" y="340.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="23.91428565979004" width="12.0" x="119.0" y="431.542857170105"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295863" id="_295863_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="306.0" y="217.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="24.0" width="56.31428527832031" x="330.34285736083984" y="231.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295866" id="_295866_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="457.0" y="217.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="24.0" width="87.94285583496094" x="465.52857208251953" y="231.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295869" id="_295869_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="797.0" y="217.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="12.0" width="96.42857360839844" x="801.2857131958008" y="237.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295875" id="_295875_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="1137.0" y="217.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="24.0" width="79.4571533203125" x="1149.7714233398438" y="231.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295881" id="_295881_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="1307.0" y="230.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-146b32bd-569f-4050-aa53-23f4e680bb15">
+               <omgdc:Bounds height="11.0" width="119.50714111328125" x="1261.2464294433594" y="260.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295899" id="_295899_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="173.0" y="230.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-146b32bd-569f-4050-aa53-23f4e680bb15">
+               <omgdc:Bounds height="11.0" width="142.13571166992188" x="116.93214416503906" y="262.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295854" id="_295854_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="627.0" y="425.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="24.0" width="87.94285583496094" x="635.5285720825195" y="439.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="_295857" id="_295857_gui">
+            <omgdc:Bounds height="56.0" width="105.0" x="967.0" y="425.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-8911c994-c645-4981-afba-87217b1fc396">
+               <omgdc:Bounds height="24.0" width="89.4857177734375" x="974.7571411132812" y="439.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNEdge bpmnElement="_295909" id="_295909_gui">
+            <omgdi:waypoint x="732.0" y="453.0"/>
+            <omgdi:waypoint x="756.0" y="453.0"/>
+            <omgdi:waypoint x="756.0" y="245.0"/>
+            <omgdi:waypoint x="797.0" y="245.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_295912" id="_295912_gui">
+            <omgdi:waypoint x="1072.0" y="453.0"/>
+            <omgdi:waypoint x="1096.0" y="453.0"/>
+            <omgdi:waypoint x="1096.0" y="245.0"/>
+            <omgdi:waypoint x="1137.0" y="245.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_295917" id="_295917_gui">
+            <omgdi:waypoint x="411.0" y="245.0"/>
+            <omgdi:waypoint x="457.0" y="245.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_295921" id="_295921_gui">
+            <omgdi:waypoint x="562.0" y="245.0"/>
+            <omgdi:waypoint x="585.0" y="245.0"/>
+            <omgdi:waypoint x="585.0" y="453.0"/>
+            <omgdi:waypoint x="627.0" y="453.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_295924" id="_295924_gui">
+            <omgdi:waypoint x="902.0" y="245.0"/>
+            <omgdi:waypoint x="926.0" y="245.0"/>
+            <omgdi:waypoint x="926.0" y="453.0"/>
+            <omgdi:waypoint x="967.0" y="453.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_295930" id="_295930_gui">
+            <omgdi:waypoint x="1242.0" y="245.0"/>
+            <omgdi:waypoint x="1307.0" y="245.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="_295949" id="_295949_gui">
+            <omgdi:waypoint x="203.0" y="245.0"/>
+            <omgdi:waypoint x="306.0" y="245.0"/>
+         </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+      <bpmndi:BPMNLabelStyle id="sid-146b32bd-569f-4050-aa53-23f4e680bb15">
+         <omgdc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="11.0"/>
+      </bpmndi:BPMNLabelStyle>
+      <bpmndi:BPMNLabelStyle id="sid-8911c994-c645-4981-afba-87217b1fc396">
+         <omgdc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="12.0"/>
+      </bpmndi:BPMNLabelStyle>
+   </bpmndi:BPMNDiagram>
+</definitions>

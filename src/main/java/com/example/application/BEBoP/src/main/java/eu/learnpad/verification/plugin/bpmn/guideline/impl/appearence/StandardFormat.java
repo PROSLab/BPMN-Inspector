@@ -1,5 +1,6 @@
 package com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plugin.bpmn.guideline.impl.appearence;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -171,19 +172,33 @@ public class StandardFormat extends abstractGuideline {
 					num++;
 					String name = par.get(i).getName() != null ? par.get(i).getName()
 							: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
-					setElements(process.getId(), IDProcess, name);
+
+					if (process != null) {
+						try {
+							if (process.getId() != null) {
+								setElements(process.getId(), IDProcess, name);
+							}
+						} catch (Exception e) {
+							throw new RuntimeException(e);
+						}
+					} else {
+						// Gestione del caso in cui process è null
+						// Puoi aggiungere qui il codice appropriato per gestire questa situazione
+					}
+
+
 				}
 			}
 			//////////////////////////////// LABELS////////////////////////////////
 			if (styles.size() > 1) {
 				for (Participant p : par) {
-					if (p.getName().length() > 0) {
+					if (p.getName() != null && p.getName().length() > 0) {
 						BPMNShape shape = BPMNUtils.findBPMNShape(diagram, p);
 						if (shape != null) {
 							if (!checkLabelStyle(shape, styles)) {
 								num++;
 								String name = p.getName() != null ? "Style's label of " + p.getName()
-										: Messages.getString("Style's label of " + "Generic.LabelEmpty", l); //$NON-NLS-1$
+										: Messages.getString("Style's label of " + "Generic.LabelEmpty", l);
 								setElements(p.getId(), IDProcess, name);
 							}
 						}
@@ -616,7 +631,7 @@ public class StandardFormat extends abstractGuideline {
 
 	private boolean compareStyle(FeatureMap map1, FeatureMap map2) {
 		boolean flag = true;
-		if (map1 != null && map2 != null)
+		if (map1 != null && map2 != null && map1.size() == map2.size()) {
 			for (int i = 0; i < map1.size(); i++) {
 				Entry e1 = map1.get(i);
 				Entry e2 = map2.get(i);
@@ -629,8 +644,12 @@ public class StandardFormat extends abstractGuideline {
 					flag = false;
 				}
 			}
-		return (flag);
+		} else {
+			flag = false; // Se le mappe hanno dimensioni diverse, considera i valori non uguali
+		}
+		return flag;
 	}
+
 
 	private boolean checkLabelStyle(BPMNShape shape, List<BPMNLabelStyle> styles) {
 		BPMNLabel label = shape.getLabel();

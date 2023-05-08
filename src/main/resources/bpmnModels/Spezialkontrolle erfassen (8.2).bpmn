@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="14.7.1" expressionLanguage="http://www.w3.org/TR/XPath" id="sid-57368265-a14d-44e8-87e7-ad28028fcf6a" targetNamespace="http://www.signavio.com" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+   <collaboration id="sid-e60525fa-efb5-4e1b-aa94-250cb7105b5d">
+      <extensionElements>
+         <signavio:signavioDiagramMetaData metaKey="revisionid" metaValue="6abbc80d2532414fb700da825e156024"/>
+      </extensionElements>
+      <participant id="sid-6CF1BE57-508C-4303-A2FD-19E6E6513FDA" name="Gesuchsteller Baugesuch">
+         <extensionElements>
+            <signavio:signavioDictionaryLink propertyId="name">
+               <signavio:dictionaryLink>/glossary/82e2ddca2a7f4d08a95ad1809c9f6861</signavio:dictionaryLink>
+            </signavio:signavioDictionaryLink>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+      </participant>
+      <participant id="sid-CC09FA5D-483F-4656-8C7F-1805D028D69F" name="Städtebau (SBA) Zentrale Dienste (ZD) Sachbearbeiter/in (SB)" processRef="sid-3B91E589-0ECE-416F-A0F6-761BCF7A3E8C">
+         <extensionElements>
+            <signavio:signavioDictionaryLink propertyId="name">
+               <signavio:dictionaryLink>/glossary/0a091ebd8b4048d4b5dfa3c018e0cf5e</signavio:dictionaryLink>
+            </signavio:signavioDictionaryLink>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+      </participant>
+      <participant id="sid-412973FA-5714-4164-BA97-86F0A31BF342" name="Vernehmlassungsstelle (VS) Sachbearbeiter/in (SB)">
+         <extensionElements>
+            <signavio:signavioDictionaryLink propertyId="name">
+               <signavio:dictionaryLink>/glossary/c3b733bf92544d4bbeab8bfd97c81c53</signavio:dictionaryLink>
+            </signavio:signavioDictionaryLink>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+      </participant>
+      <participant id="sid-8BAA9F14-E3B0-4F89-B74E-5B366743D102" name="Städtebau (SBA) Baugesuche (BG) Sachbearbeiter/in (SB)">
+         <extensionElements>
+            <signavio:signavioDictionaryLink propertyId="name">
+               <signavio:dictionaryLink>/glossary/b71b3f0e13be48559555efbaf16abf06</signavio:dictionaryLink>
+            </signavio:signavioDictionaryLink>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+      </participant>
+      <messageFlow id="sid-42178B45-61BC-4118-883F-D59F8E75ED50" name="Unterlagen zur Prüfung" sourceRef="sid-6CF1BE57-508C-4303-A2FD-19E6E6513FDA" targetRef="sid-8CAF64D9-D2DC-4D55-9E5E-C46F6678811B">
+         <extensionElements>
+            <signavio:signavioLabel align="center" bold="" distance="-20.013914" fill="" fontFamily="" fontSize="" from="0" italic="" ref="text_name" to="1" valign="middle" x="211.01391498455797" y="145.34999084472656"/>
+         </extensionElements>
+      </messageFlow>
+      <messageFlow id="sid-6FE32FD2-6CF9-4A20-8303-34F52479AA10" name="Prüfungsergebnis" sourceRef="sid-412973FA-5714-4164-BA97-86F0A31BF342" targetRef="sid-8BAA9F14-E3B0-4F89-B74E-5B366743D102">
+         <extensionElements>
+            <signavio:signavioLabel align="center" bold="" distance="7.013915" fill="" fontFamily="" fontSize="" from="0" italic="" ref="text_name" to="1" valign="middle" x="701.0139149845576" y="752.8720327108871"/>
+         </extensionElements>
+      </messageFlow>
+      <messageFlow id="sid-F4F36573-196C-473C-869C-1D6915956976" name="Meldung Spezialkontrolle" sourceRef="sid-22CCF2D9-AB4B-4057-BE54-821131801A2B" targetRef="sid-412973FA-5714-4164-BA97-86F0A31BF342">
+         <extensionElements>
+            <signavio:signavioLabel align="center" bold="" distance="69.31942" fill="" fontFamily="" fontSize="" from="0" italic="" ref="text_name" to="1" valign="middle" x="537.6805816512247" y="549.9245367500878"/>
+         </extensionElements>
+      </messageFlow>
+      <messageFlow id="sid-26CEDF34-2D9D-4BB0-9107-6E60406F8ADD" name="Meldung Spezialkontrolle" sourceRef="sid-22CCF2D9-AB4B-4057-BE54-821131801A2B" targetRef="sid-8BAA9F14-E3B0-4F89-B74E-5B366743D102">
+         <extensionElements>
+            <signavio:signavioLabel align="right" bold="" distance="-8.347248" fill="" fontFamily="" fontSize="" from="0" italic="" orientation="ur" ref="text_name" to="1" valign="top" x="504.3472483178913" y="515.4102314709636"/>
+         </extensionElements>
+      </messageFlow>
+   </collaboration>
+   <process id="sid-3B91E589-0ECE-416F-A0F6-761BCF7A3E8C" isClosed="false" isExecutable="false" name="Städtebau (SBA) Zentrale Dienste (ZD) Sachbearbeiter/in (SB)" processType="None">
+      <extensionElements/>
+      <laneSet id="sid-cf7ab25f-7559-4672-b167-a000f93e6440">
+         <lane id="sid-33C80971-D506-4439-9603-C5BC8C3D3E58">
+            <extensionElements>
+               <signavio:signavioMetaData metaKey="bgcolor" metaValue=""/>
+            </extensionElements>
+            <flowNodeRef>sid-8CAF64D9-D2DC-4D55-9E5E-C46F6678811B</flowNodeRef>
+            <flowNodeRef>sid-DCE32E5E-204E-4819-8838-A4377419568E</flowNodeRef>
+            <flowNodeRef>sid-22CCF2D9-AB4B-4057-BE54-821131801A2B</flowNodeRef>
+            <flowNodeRef>sid-8BD1650A-6BBF-4A45-B77B-97A32A85B704</flowNodeRef>
+         </lane>
+      </laneSet>
+      <startEvent id="sid-8CAF64D9-D2DC-4D55-9E5E-C46F6678811B" isInterrupting="true" name="Unterlagen zur Prüfung&#10;eingegangen">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+            <signavio:signavioMetaData metaKey="viaitsystem" metaValue=""/>
+         </extensionElements>
+         <outgoing>sid-C7C77E29-29A7-4BC6-8839-E63D8C98446A</outgoing>
+         <messageEventDefinition id="sid-37d75304-4c5c-4231-b50b-21114f84b758"/>
+      </startEvent>
+      <subProcess completionQuantity="1" id="sid-DCE32E5E-204E-4819-8838-A4377419568E" isForCompensation="false" name="SUB Unterlagen elektronisch erfassen" startQuantity="1" triggeredByEvent="false">
+         <extensionElements>
+            <signavio:signavioDictionaryLink propertyId="name">
+               <signavio:dictionaryLink>/glossary/fc079dabc97b4b86886b042ffcb2caaf</signavio:dictionaryLink>
+            </signavio:signavioDictionaryLink>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
+            <signavio:signavioMetaData metaKey="externaldocuments" metaValue="[]"/>
+            <signavio:signavioMetaData metaKey="entry" metaValue="/model/f404601ff52f4c40a8587d65c6b04bb6"/>
+         </extensionElements>
+         <incoming>sid-C7C77E29-29A7-4BC6-8839-E63D8C98446A</incoming>
+         <outgoing>sid-90F1424E-3C23-473C-ACA8-26D10D730DD4</outgoing>
+      </subProcess>
+      <task completionQuantity="1" id="sid-22CCF2D9-AB4B-4057-BE54-821131801A2B" isForCompensation="false" name="Spezialkontrolle melden" startQuantity="1">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
+            <signavio:signavioMetaData metaKey="risklevel" metaValue=""/>
+            <signavio:signavioMetaData metaKey="externaldocuments" metaValue="[]"/>
+         </extensionElements>
+         <incoming>sid-90F1424E-3C23-473C-ACA8-26D10D730DD4</incoming>
+         <outgoing>sid-0F6BE6CE-508F-4B26-8D76-6E18B6EE4248</outgoing>
+      </task>
+      <endEvent id="sid-8BD1650A-6BBF-4A45-B77B-97A32A85B704" name="Unterlagen zur &#10;Spezialkontrolle erfasst">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+         <incoming>sid-0F6BE6CE-508F-4B26-8D76-6E18B6EE4248</incoming>
+      </endEvent>
+      <sequenceFlow id="sid-C7C77E29-29A7-4BC6-8839-E63D8C98446A" isImmediate="true" name="" sourceRef="sid-8CAF64D9-D2DC-4D55-9E5E-C46F6678811B" targetRef="sid-DCE32E5E-204E-4819-8838-A4377419568E"/>
+      <sequenceFlow id="sid-90F1424E-3C23-473C-ACA8-26D10D730DD4" isImmediate="true" name="" sourceRef="sid-DCE32E5E-204E-4819-8838-A4377419568E" targetRef="sid-22CCF2D9-AB4B-4057-BE54-821131801A2B"/>
+      <sequenceFlow id="sid-0F6BE6CE-508F-4B26-8D76-6E18B6EE4248" isImmediate="true" name="" sourceRef="sid-22CCF2D9-AB4B-4057-BE54-821131801A2B" targetRef="sid-8BD1650A-6BBF-4A45-B77B-97A32A85B704"/>
+      <association associationDirection="None" id="sid-3410FEE7-7212-4965-8D75-35E2816BA4E5" sourceRef="sid-26F78E4E-0AF1-4126-89F3-E8A86983426C" targetRef="sid-42178B45-61BC-4118-883F-D59F8E75ED50"/>
+      <association associationDirection="None" id="sid-DC496797-BD41-486D-8EF2-5DF7800E3353" sourceRef="sid-6FD9986F-89F9-4E92-820B-50E4AFC5ABD1" targetRef="sid-6FE32FD2-6CF9-4A20-8303-34F52479AA10"/>
+      <association associationDirection="None" id="sid-0B4F1352-958D-4B15-884B-F4A9F4B26071" sourceRef="sid-CB097736-6C6C-4F0C-8752-AE6BC8B87E3F" targetRef="sid-F4F36573-196C-473C-869C-1D6915956976"/>
+      <association associationDirection="None" id="sid-D84D8D92-4573-47F1-AE6D-13774837437A" sourceRef="sid-E1AF27A9-BEF2-47E9-BF4C-F35C016EE7B5" targetRef="sid-26CEDF34-2D9D-4BB0-9107-6E60406F8ADD"/>
+      <textAnnotation id="sid-26F78E4E-0AF1-4126-89F3-E8A86983426C" signavio:alignment="left" textFormat="text/plain">
+         <text>Farbkonzept, Umgebungsplan; Wärmeschutznachweis; Schnurgerüstkontrolle; Rohbaukontrolle; Kanalisationskontrolle; Eingriff in den öffentlichen Grund</text>
+      </textAnnotation>
+      <textAnnotation id="sid-CB097736-6C6C-4F0C-8752-AE6BC8B87E3F" signavio:alignment="left" textFormat="text/plain">
+         <text>Schnurgerüstkontrolle; Kanalisationskontrolle; Eingriff öffentlicher Grund; Wärmeschutznachweis; Umgebungsplan</text>
+      </textAnnotation>
+      <textAnnotation id="sid-E1AF27A9-BEF2-47E9-BF4C-F35C016EE7B5" signavio:alignment="left" textFormat="text/plain">
+         <text>Farbkonzept</text>
+      </textAnnotation>
+      <textAnnotation id="sid-6FD9986F-89F9-4E92-820B-50E4AFC5ABD1" signavio:alignment="left" textFormat="text/plain">
+         <text>Bei grossem Mangel der nicht mit dem Gesuchssteller behoben werden kann, muss BG aktiv werden und z.B. eine Projektänderung verlangen</text>
+      </textAnnotation>
+   </process>
+   <bpmndi:BPMNDiagram id="sid-de3830da-90f2-4887-95f3-9316f530ae5a">
+      <bpmndi:BPMNPlane bpmnElement="sid-e60525fa-efb5-4e1b-aa94-250cb7105b5d" id="sid-50009f08-df2b-4212-b4c4-e042feb987bb">
+         <bpmndi:BPMNShape bpmnElement="sid-6CF1BE57-508C-4303-A2FD-19E6E6513FDA" id="sid-6CF1BE57-508C-4303-A2FD-19E6E6513FDA_gui" isHorizontal="true">
+            <omgdc:Bounds height="60.0" width="730.9999999999993" x="101.01391498455797" y="34.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-42d5cda2-f1c8-4a10-a585-25dcc1405747">
+               <omgdc:Bounds height="20.0" width="226.2857055664062" x="353.37106220135485" y="51.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-CC09FA5D-483F-4656-8C7F-1805D028D69F" id="sid-CC09FA5D-483F-4656-8C7F-1805D028D69F_gui" isHorizontal="true">
+            <omgdc:Bounds height="262.0999996393919" width="730.9999999999993" x="101.01391498455797" y="231.9000003606081"/>
+            <bpmndi:BPMNLabel labelStyle="sid-42d5cda2-f1c8-4a10-a585-25dcc1405747">
+               <omgdc:Bounds height="215.22857666015628" width="24.000000000000043" x="100.01391821661981" y="255.33571185022592"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-412973FA-5714-4164-BA97-86F0A31BF342" id="sid-412973FA-5714-4164-BA97-86F0A31BF342_gui" isHorizontal="true">
+            <omgdc:Bounds height="60.0" width="722.9999999999998" x="109.01391498455797" y="851.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-42d5cda2-f1c8-4a10-a585-25dcc1405747">
+               <omgdc:Bounds height="20.0" width="466.7142944335937" x="237.1567677677611" y="868.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-8BAA9F14-E3B0-4F89-B74E-5B366743D102" id="sid-8BAA9F14-E3B0-4F89-B74E-5B366743D102_gui" isHorizontal="true">
+            <omgdc:Bounds height="60.0" width="722.9999999999993" x="105.01391498455797" y="654.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-42d5cda2-f1c8-4a10-a585-25dcc1405747">
+               <omgdc:Bounds height="20.0" width="531.0" x="201.01391498455797" y="671.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-33C80971-D506-4439-9603-C5BC8C3D3E58" id="sid-33C80971-D506-4439-9603-C5BC8C3D3E58_gui" isHorizontal="true">
+            <omgdc:Bounds height="262.0999996393919" width="700.9999999999993" x="131.01391498455797" y="231.9000003606081"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-8CAF64D9-D2DC-4D55-9E5E-C46F6678811B" id="sid-8CAF64D9-D2DC-4D55-9E5E-C46F6678811B_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="196.01391498455797" y="354.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-af7231e5-1eff-4566-97f2-a1c572aaf050">
+               <omgdc:Bounds height="22.0" width="115.971435546875" x="153.02819721112047" y="386.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-DCE32E5E-204E-4819-8838-A4377419568E" id="sid-DCE32E5E-204E-4819-8838-A4377419568E_gui" isExpanded="false">
+            <omgdc:Bounds height="80.0" width="100.0" x="306.01391498455797" y="329.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-42d5cda2-f1c8-4a10-a585-25dcc1405747">
+               <omgdc:Bounds height="36.0" width="85.62857437133789" x="313.23462764630113" y="349.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-22CCF2D9-AB4B-4057-BE54-821131801A2B" id="sid-22CCF2D9-AB4B-4057-BE54-821131801A2B_gui">
+            <omgdc:Bounds height="80.0" width="99.99999999999994" x="471.01391498455797" y="329.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-42d5cda2-f1c8-4a10-a585-25dcc1405747">
+               <omgdc:Bounds height="24.0" width="84.85714721679682" x="478.58534137615953" y="355.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-8BD1650A-6BBF-4A45-B77B-97A32A85B704" id="sid-8BD1650A-6BBF-4A45-B77B-97A32A85B704_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="700.4930816512244" y="354.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-af7231e5-1eff-4566-97f2-a1c572aaf050">
+               <omgdc:Bounds height="22.0" width="115.971435546875" x="656.5073638777869" y="384.0"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-26F78E4E-0AF1-4126-89F3-E8A86983426C" id="sid-26F78E4E-0AF1-4126-89F3-E8A86983426C_gui">
+            <omgdc:Bounds height="94.25" width="280.0" x="301.0139149845579" y="109.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-CB097736-6C6C-4F0C-8752-AE6BC8B87E3F" id="sid-CB097736-6C6C-4F0C-8752-AE6BC8B87E3F_gui">
+            <omgdc:Bounds height="61.07773329155975" width="280.0" x="596.8680816512247" y="565.9222667084402"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-E1AF27A9-BEF2-47E9-BF4C-F35C016EE7B5" id="sid-E1AF27A9-BEF2-47E9-BF4C-F35C016EE7B5_gui">
+            <omgdc:Bounds height="50.0" width="100.0" x="717.0" y="506.5"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-6FD9986F-89F9-4E92-820B-50E4AFC5ABD1" id="sid-6FD9986F-89F9-4E92-820B-50E4AFC5ABD1_gui">
+            <omgdc:Bounds height="79.0" width="206.0" x="766.0139149845579" y="744.5"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNEdge bpmnElement="sid-C7C77E29-29A7-4BC6-8839-E63D8C98446A" id="sid-C7C77E29-29A7-4BC6-8839-E63D8C98446A_gui">
+            <omgdi:waypoint x="226.01391498455797" y="369.0"/>
+            <omgdi:waypoint x="306.01391498455797" y="369.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-90F1424E-3C23-473C-ACA8-26D10D730DD4" id="sid-90F1424E-3C23-473C-ACA8-26D10D730DD4_gui">
+            <omgdi:waypoint x="406.01391498455797" y="369.0"/>
+            <omgdi:waypoint x="471.01391498455797" y="369.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-0F6BE6CE-508F-4B26-8D76-6E18B6EE4248" id="sid-0F6BE6CE-508F-4B26-8D76-6E18B6EE4248_gui">
+            <omgdi:waypoint x="571.0139149845579" y="369.0"/>
+            <omgdi:waypoint x="700.4930816512244" y="369.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-3410FEE7-7212-4965-8D75-35E2816BA4E5" id="sid-3410FEE7-7212-4965-8D75-35E2816BA4E5_gui">
+            <omgdi:waypoint x="301.0139149845579" y="153.5828296703297"/>
+            <omgdi:waypoint x="211.01391498455797" y="94.4375"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-42178B45-61BC-4118-883F-D59F8E75ED50" id="sid-42178B45-61BC-4118-883F-D59F8E75ED50_gui">
+            <omgdi:waypoint x="211.01391498455797" y="94.0"/>
+            <omgdi:waypoint x="211.01391498455797" y="354.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-6114f7c7-c0f4-4f36-b42d-37c02fc7b0fd">
+               <omgdc:Bounds height="12.0" width="126.5142822265625" x="127.74285888671875" y="137.35000610351562"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-DC496797-BD41-486D-8EF2-5DF7800E3353" id="sid-DC496797-BD41-486D-8EF2-5DF7800E3353_gui">
+            <omgdi:waypoint x="766.0139149845579" y="781.3834517045455"/>
+            <omgdi:waypoint x="701.0139149845577" y="714.0078125"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-6FE32FD2-6CF9-4A20-8303-34F52479AA10" id="sid-6FE32FD2-6CF9-4A20-8303-34F52479AA10_gui">
+            <omgdi:waypoint x="701.0139149845577" y="851.0"/>
+            <omgdi:waypoint x="701.0139149845575" y="714.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-6114f7c7-c0f4-4f36-b42d-37c02fc7b0fd">
+               <omgdc:Bounds height="12.0" width="94.8857421875" x="646.55712890625" y="744.8720092773438"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-0B4F1352-958D-4B15-884B-F4A9F4B26071" id="sid-0B4F1352-958D-4B15-884B-F4A9F4B26071_gui">
+            <omgdi:waypoint x="596.8680816512247" y="592.1600529780939"/>
+            <omgdi:waypoint x="537.6805816512247" y="409.890625"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-D84D8D92-4573-47F1-AE6D-13774837437A" id="sid-D84D8D92-4573-47F1-AE6D-13774837437A_gui">
+            <omgdi:waypoint x="717.0" y="529.9330754036802"/>
+            <omgdi:waypoint x="504.3472483178913" y="409.375"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-F4F36573-196C-473C-869C-1D6915956976" id="sid-F4F36573-196C-473C-869C-1D6915956976_gui">
+            <omgdi:waypoint x="537.6805816512247" y="409.0"/>
+            <omgdi:waypoint x="537.6805816512247" y="851.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-6114f7c7-c0f4-4f36-b42d-37c02fc7b0fd">
+               <omgdc:Bounds height="12.0" width="133.4571533203125" x="540.2714233398438" y="541.9249877929688"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-26CEDF34-2D9D-4BB0-9107-6E60406F8ADD" id="sid-26CEDF34-2D9D-4BB0-9107-6E60406F8ADD_gui">
+            <omgdi:waypoint x="504.3472483178913" y="409.0"/>
+            <omgdi:waypoint x="504.3472483178913" y="654.0"/>
+            <bpmndi:BPMNLabel labelStyle="sid-6114f7c7-c0f4-4f36-b42d-37c02fc7b0fd">
+               <omgdc:Bounds height="12.0" width="133.4571533203125" x="362.5428466796875" y="515.4099731445312"/>
+            </bpmndi:BPMNLabel>
+         </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+      <bpmndi:BPMNLabelStyle id="sid-af7231e5-1eff-4566-97f2-a1c572aaf050">
+         <omgdc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="11.0"/>
+      </bpmndi:BPMNLabelStyle>
+      <bpmndi:BPMNLabelStyle id="sid-42d5cda2-f1c8-4a10-a585-25dcc1405747">
+         <omgdc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="Arial" size="12.0"/>
+      </bpmndi:BPMNLabelStyle>
+      <bpmndi:BPMNLabelStyle id="sid-6114f7c7-c0f4-4f36-b42d-37c02fc7b0fd">
+         <omgdc:Font isBold="false" isItalic="false"/>
+      </bpmndi:BPMNLabelStyle>
+   </bpmndi:BPMNDiagram>
+</definitions>

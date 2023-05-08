@@ -120,7 +120,6 @@ public class UploadController {
         for (fileInfo fileInfo : fileInfos) {
             if(data.length==0){
                 fileInfosBackup = fileInfos;
-                System.out.println("Entro");
                 return fileInfosBackup;
             }
 
