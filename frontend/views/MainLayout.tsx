@@ -131,7 +131,6 @@ export default function MenuOnLeftLayout() {
         }
     };
 
-    // @ts-ignore
     return (
     <AppLayout className="block h-full" primarySection="drawer">
       <header slot="drawer">
@@ -160,13 +159,13 @@ export default function MenuOnLeftLayout() {
               <div style={{position: 'absolute', bottom: '10%',height: "55%", width: "90%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
                   <a style={{marginLeft:'5%',fontWeight:"bold"}}>Model Dashboard </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are information about the collection of models inspected"}/>
                   <br/>
-                  <a style={{marginLeft:'5%'}}>Total models inspected: </a><a style={{color:'green',fontWeight:"bold", marginLeft:"12%"}}>{total}</a>
+                  <a style={{color:'green',fontWeight:"bold", marginLeft:"12%"}}>{total}</a><a>Total models inspected</a>
                   <br/>
-                  <a style={{marginLeft:'5%'}}># Process Collaboration: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"10%"}}>{totalProcess}</a>
+                  <a style={{color:'green',fontWeight:"bold",marginLeft:"10%"}}>{totalProcess}</a><a># Process Collaboration</a>
                   <br/>
-                  <a style={{marginLeft:'5%'}}># Choreography: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"33%"}}>{totalChoreography}</a>
+                  <a style={{color:'green',fontWeight:"bold",marginLeft:"33%"}}>{totalChoreography}</a><a># Choreography</a>
                   <br/>
-                  <a style={{marginLeft:'5%'}}># Conversation: </a><a style={{color:'green',fontWeight:"bold",marginLeft:"36.5%"}}>{totalConversation}</a>
+                  <a style={{color:'green',fontWeight:"bold",marginLeft:"36.5%"}}>{totalConversation}</a><a># Conversation</a>
                   <br/>
                   <br/>
                   <div style={{marginLeft:""}}>

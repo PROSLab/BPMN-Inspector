@@ -259,10 +259,13 @@ export default function HelloReactView() {
                                 onValueChanged={({ detail: { value } }) => console.log(value)}
                             >
                                 <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
+                                <Checkbox value='process' label='Include Process Collaboration' name="checkbox4" />
                                 <br/>
                                 <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
+                                <Checkbox style={{marginLeft:"13%"}} value='choreography' label='Include Choreography' name="checkbox5" />
                                 <br/>
                                 <Checkbox value='english' label='Remove non-English models' name="checkbox3"/>
+                                <Checkbox style={{marginLeft:"5%"}} value='conversation' label='Include Conversation' name="checkbox6"/>
                                 <br/>
                             </CheckboxGroup>
 
@@ -351,44 +354,6 @@ export default function HelloReactView() {
         function getExtension(filename: string) {
             return filename.split('.').pop()
         }
-
-        const spanStyle = {
-            padding: '20px',
-            background: '#efefef',
-            color: '#000000'
-        }
-
-        const divStyle = {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundSize: 'cover',
-            height: '400px'
-        }
-
-        const slideTexts = [
-            {
-                title: 'Prima slide',
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                icon: 'fa fa-check'
-            },
-            {
-                title: 'Seconda slide',
-                text: 'Praesent et lorem ac nisi lobortis commodo non ac quam.',
-                icon: 'fa fa-star'
-            },
-            {
-                title: 'Terza slide',
-                text: 'Donec nec purus sed neque fermentum feugiat. ',
-                icon: 'fa fa-heart'
-            }
-        ]
-
-        const iconStyle = {
-            fontSize: '48px',
-            marginBottom: '16px'
-        };
-
 
         return (
             <div style={{display: "flex", flexDirection: "row", height: "100%"}}>
