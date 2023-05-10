@@ -18,6 +18,7 @@ import { CiCircleQuestion } from "react-icons/ci";
 import { FaRegImage } from "react-icons/fa";
 import html2canvas from 'html2canvas';
 import logo from "Frontend/img/logo.png";
+import {fontSize} from "html2canvas/dist/types/css/property-descriptors/font-size";
 
 interface filesInfoFiltered {
     name: string;
@@ -248,7 +249,7 @@ export default function PostProcessingView() {
     let displayMsgGoodModeling = "";
 
     if (invalid===0) {
-        displayMsgSyntactic = "You filtered the models for valid, so the analysis on invalids is empty.";
+        displayMsgSyntactic = "No invalids models were detected.";
     }
 
     if (totalProcess===0 || valid===0) {
@@ -680,80 +681,10 @@ export default function PostProcessingView() {
                 {activeTab === 'bpmn-element-combined-use' && (
                     <>
                     <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
-                        <div style={{display:'flex',width: "100%",flexDirection: "column"}}>
-                            <div style={{marginBottom:"10px",marginRight:"10px",  border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                    <div style={{display:"flex"}}>
-                                        <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Process Collaboration</a>
-                                        <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                          title={"This is a graph of the model size of the collection"}/>
-                                        <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                            <FaRegImage onClick={() => downloadSvg('chartVPC')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
-                                        </button>
-                                    </div>
-                                    <div id="chartVPC" style={{position: "relative", height:"30vh", width:"100%"}}>
-                                        <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
-                                    </div>
-                            </div>
-                            <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                {showTableEU && (
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Elements Pair</th>
-                                            <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {dataElementUsage.labels.map((label, index) => (
-                                            <tr key={index}>
-                                                <td>{label} - {label}</td>
-                                                <td style={{textAlign: "center"}}>{dataElementUsage.datasets[0].data[index]}</td>
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                )}
-                            </div>
-                        </div>
-                        <div style={{display:"flex",width: "100%",flexDirection: "column"}}>
-                                <div style={{marginBottom:"10px",marginRight:"10px",  paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                    <div style={{display:"flex"}}>
-                                        <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Choreography</a>
-                                        <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                          title={"This is a graph of the model size of the collection"}/>
-                                        <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                            <FaRegImage onClick={() => downloadSvg('chartVCOR')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
-                                        </button>
-                                    </div>
-                                    <div id="chartVCOR" style={{position: "relative", height:"30vh", width:"100%"}}>
-                                        <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
-                                    </div>
-                                </div>
-                                <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px",marginRight:"10px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                    {showTableEU && (
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th>Elements Pair</th>
-                                                <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {dataElementUsage.labels.map((label, index) => (
-                                                <tr key={index}>
-                                                    <td>{label} - {label}</td>
-                                                    <td style={{textAlign: "center"}}>{dataElementUsage.datasets[0].data[index]}</td>
-                                                </tr>
-                                            ))}
-                                            </tbody>
-                                        </table>
-                                    )}
-                                </div>
-                        </div>
-                        <div style={{display:'flex',width: "100%",flexDirection: "column"}}>
-                            <div style={{marginBottom:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                        <div style={{display:'flex',width: "100%",flexDirection: "row"}}>
+                            <div style={{width: "60%",marginBottom:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div style={{display:"flex"}}>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Conversation</a>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Most Combined Use</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
                                     <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
@@ -764,7 +695,7 @@ export default function PostProcessingView() {
                                     <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
                                 </div>
                             </div>
-                            <div style={{paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <div style={{width: "40%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 {showTableEU && (
                                     <table>
                                         <thead>
@@ -1033,8 +964,10 @@ export default function PostProcessingView() {
                 )}
                </div>
 
-            <input style={{position: 'fixed', marginBottom:'20px', marginRight:'20px', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Reset"/>
-
+            <input style={{position: 'fixed', marginBottom:'20px', marginRight:'1%', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Reset"/>
+            <button style={{position: 'fixed',marginLeft:"62%",marginTop:"-4.8%",zIndex:'9',fontSize:"17px",backgroundColor: 'green', color: 'white', padding: '5px 13px', border: '5px', borderRadius: '3px', cursor: 'pointer'}} type="submit">
+                <GrDocumentCsv style={{fontStyle:"white"}}/><a style={{ marginRight: '0.5em', color:"white",marginLeft: '8px' }}>Download complete report</a>
+        </button>
         </div>
     );
 }

@@ -65,7 +65,7 @@ public class UploadController {
             try {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
                 isEnglish = detectLanguage(file);
-                validationResult = validateFile(data,file);
+                validationResult = validateFile(data,file,fileInfos);
 
                 if (Objects.equals(validationResult, ""))
                     isValid = true;
@@ -105,7 +105,7 @@ public class UploadController {
 
             getFilteredFiles(data, fileInfos);
             evaluateGuidelines(data, fileInfos);
-            evaluateCombined(fileInfos);
+            evaluateCombined(data, fileInfos);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (XPathExpressionException e) {
@@ -115,7 +115,7 @@ public class UploadController {
         } catch (SAXException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(data.length);
+
         List<fileInfo> newFileInfoFiltered = new ArrayList<>();
         for (fileInfo fileInfo : fileInfos) {
             if(data.length==0){
@@ -297,10 +297,27 @@ public class UploadController {
         }
         return "All files deleted successfully";
     }
-    private String validateFile(String[] filteringArray, File file) throws SAXException {
+    private String validateFile(String[] filteringArray,File file, List<fileInfo> fileInfos) throws SAXException {
 
-        //TODO LO STESSO CONTROLLO DELLE ALTRE PROCEDURE UTILIZZANDO FILE INFO PER EVITARE DI RUNNARE LA VALIDATION SU TUTTI I FILE
-        //ANCHE GLI ESCLUSI DAL FILTRAGGIO
+        if (Arrays.asList(filteringArray).contains("invalid")) {
+            fileInfos.removeIf(fileInfo -> !fileInfo.isValid);
+        }
+        if (Arrays.asList(filteringArray).contains("duplicated")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.isDuplicated);
+        }
+        if (Arrays.asList(filteringArray).contains("english")) {
+            fileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
+        }
+        if (Arrays.asList(filteringArray).contains("process")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Process Collaboration"));
+        }
+        if (Arrays.asList(filteringArray).contains("choreography")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Choreography"));
+        }
+        if (Arrays.asList(filteringArray).contains("conversation")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Conversation"));
+        }
+
 
         // Directory contenente i file BPMN da convalidare
         File bpmnDir = new File("./src/main/resources/bpmnModels/");
@@ -311,26 +328,17 @@ public class UploadController {
         // File di output per i risultati della convalida
         File outputFile = new File("./src/main/resources/validationOutput/validationOutput.csv");
 
-        // Elenco dei file XSD dello schema BPMN
         File[] xsdFiles = xsdDir.listFiles();
-
-        // Creazione del factory per la convalida dello schema
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-        // Creazione del set di schemi da utilizzare per la convalida
         ArrayList<Source> sources = new ArrayList<>();
         for (File xsdFile : xsdFiles) {
             sources.add(new StreamSource(xsdFile));
         }
 
-        // Creazione dello schema da utilizzare per la convalida
         Schema schema;
         schema = factory.newSchema(sources.toArray(new Source[0]));
-
-        // Creazione del validator per la convalida dei file BPMN
         Validator validator = schema.newValidator();
-
-        // Creazione del writer per l'output dei risultati della convalida
 
         boolean isValid = false;
         String errorMessage = "";
@@ -342,13 +350,18 @@ public class UploadController {
 
             // Convalida dei file BPMN nella directory specificata
             for (File bpmnFile : bpmnDir.listFiles()) {
-                // Convalida del file BPMN
-                try {
-                    validator.validate(new StreamSource(bpmnFile));
-                    writer.write(bpmnFile.getName() + ",valid,\n");
-                } catch (SAXException e) {
-                    // Errore nella convalida del file BPMN
-                    writer.write(bpmnFile.getName() + ",invalid," + e.getMessage() + "\n");
+
+                for (fileInfo fileInfo : fileInfos) {
+                    if (Objects.equals(fileInfo.getName(), bpmnFile.getName())) {
+                        try {
+                            validator.validate(new StreamSource(bpmnFile));
+                            writer.write(bpmnFile.getName() + ",valid,\n");
+                        } catch (SAXException e) {
+                            // Errore nella convalida del file BPMN
+                            System.out.println(bpmnFile.getName());
+                            writer.write(bpmnFile.getName() + ",invalid," + e.getMessage() + "\n");
+                        }
+                    }
                 }
             }
         } catch (IOException e) {
@@ -360,7 +373,6 @@ public class UploadController {
             validator.validate(new StreamSource(file));
             isValid = true;
         } catch (SAXException e) {
-            // Errore nella convalida del file BPMN
             isValid = false;
             errorMessage = e.getMessage();
         } catch (IOException ex) {
@@ -407,7 +419,6 @@ public class UploadController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
-
     @GetMapping("/download-combined-report")
     public ResponseEntity<Resource> downloadCombinedReport() throws IOException {
         String fileName = "bpmn_combined.csv";
@@ -421,8 +432,8 @@ public class UploadController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
-     @PostMapping("/download-filtered-models")
-    public ResponseEntity<Resource> downloadFilteredModelsDue(@RequestBody String[] filteringArray) throws IOException {
+    @PostMapping("/download-filtered-models")
+    public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException {
 
         List<fileInfo> filteredFileInfos = getFiles(filteringArray);
 
@@ -435,6 +446,15 @@ public class UploadController {
         if (Arrays.asList(filteringArray).contains("english")) {
             filteredFileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
         }
+         if (Arrays.asList(filteringArray).contains("process")) {
+             filteredFileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Process Collaboration"));
+         }
+         if (Arrays.asList(filteringArray).contains("choreography")) {
+             filteredFileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Choreography"));
+         }
+         if (Arrays.asList(filteringArray).contains("conversation")) {
+             filteredFileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Conversation"));
+         }
 
         // Crea il file zip contenente i file filtrati
         Path sourceDir = Paths.get("./src/main/resources/bpmnModels");
@@ -474,6 +494,15 @@ public class UploadController {
         }
         if (Arrays.asList(filteringArray).contains("english")) {
             filteredFileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
+        }
+        if (Arrays.asList(filteringArray).contains("process")) {
+            filteredFileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Process Collaboration"));
+        }
+        if (Arrays.asList(filteringArray).contains("choreography")) {
+            filteredFileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Choreography"));
+        }
+        if (Arrays.asList(filteringArray).contains("conversation")) {
+            filteredFileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Conversation"));
         }
 
         try{
@@ -5113,6 +5142,15 @@ SUBPROCESS Collapsed EVENT + ADHOC
         if (Arrays.asList(filteringArray).contains("english")) {
             fileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
         }
+        if (Arrays.asList(filteringArray).contains("process")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Process Collaboration"));
+        }
+        if (Arrays.asList(filteringArray).contains("choreography")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Choreography"));
+        }
+        if (Arrays.asList(filteringArray).contains("conversation")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Conversation"));
+        }
 
         // Scrivi l'intestazione delle colonne nel file CSV
         bw.write("fileName;");
@@ -5206,8 +5244,26 @@ SUBPROCESS Collapsed EVENT + ADHOC
         bw.close();
 
     }
+    public void evaluateCombined(String[] filteringArray,List<fileInfo> fileInfos) throws IOException {
 
-    public void evaluateCombined(List<fileInfo> fileInfos) throws IOException {
+        if (Arrays.asList(filteringArray).contains("invalid")) {
+            fileInfos.removeIf(fileInfo -> !fileInfo.isValid);
+        }
+        if (Arrays.asList(filteringArray).contains("duplicated")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.isDuplicated);
+        }
+        if (Arrays.asList(filteringArray).contains("english")) {
+            fileInfos.removeIf(fileInfo -> !fileInfo.isEnglish.equals("English"));
+        }
+        if (Arrays.asList(filteringArray).contains("process")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Process Collaboration"));
+        }
+        if (Arrays.asList(filteringArray).contains("choreography")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Choreography"));
+        }
+        if (Arrays.asList(filteringArray).contains("conversation")) {
+            fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Conversation"));
+        }
 
         String path = "src/main/resources/bpmnCounterOutput/bpmn_combined.csv";
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));

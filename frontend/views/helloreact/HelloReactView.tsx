@@ -251,21 +251,21 @@ export default function HelloReactView() {
                         <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
                     }
                     <div>
-                           <p style={{fontSize:'20px',marginTop:"2%",color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left", marginBottom:'0.4em'}}>Filtering options:</p>
-                        <a style={{fontSize:'14px',padding:"0px",color:'black',alignSelf:'left',fontStyle:"italic"}}>Select a filtering option to inspect or download the models.</a>
+                           <p style={{fontSize:'20px',marginTop:"2%",color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left", marginBottom:'0.4em'}}>Filtering options</p>
+                        <a style={{fontSize:'14px',padding:"0px",color:'black',alignSelf:'left',fontStyle:"italic"}}>Select a filtering constraint to inspect or download the models.</a>
                         <br />
                         <CheckboxGroup
                                 theme=''
                                 onValueChanged={({ detail: { value } }) => console.log(value)}
                             >
                                 <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
-                                <Checkbox value='process' label='Include Process Collaboration' name="checkbox4" />
+                                <Checkbox value='process' label='Remove Process Collaboration models' name="checkbox4" />
                                 <br/>
                                 <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
-                                <Checkbox style={{marginLeft:"13%"}} value='choreography' label='Include Choreography' name="checkbox5" />
+                                <Checkbox style={{marginLeft:"13%"}} value='choreography' label='Remove Choreography models' name="checkbox5" />
                                 <br/>
                                 <Checkbox value='english' label='Remove non-English models' name="checkbox3"/>
-                                <Checkbox style={{marginLeft:"5%"}} value='conversation' label='Include Conversation' name="checkbox6"/>
+                                <Checkbox style={{marginLeft:"5%"}} value='conversation' label='Remove Conversation models' name="checkbox6"/>
                                 <br/>
                             </CheckboxGroup>
 

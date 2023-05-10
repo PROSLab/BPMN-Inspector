@@ -183,13 +183,13 @@ export default function MenuOnLeftLayout() {
                           {uniqueData[2] && <span style={{marginLeft:'0px'}} className='badge bg-success'>{"   "+uniqueData[2]}</span>}
                       </>
                   ) : <span style={{marginLeft:'10px'}} className='badge bg-secondary'>No filter</span>}
-              </div>
+                </div>
           )}
 
           <div style={{position: 'absolute', bottom: '5px', left: '0', width: '100%', margin: '0 auto'}}>
               <hr style={{color: 'red', backgroundColor:'#5b5b65', border:'none', height: '1px', margin: '5px 5%', width: '90%'}} />
               <div style={{textAlign: 'center'}}>
-                  <p style={{fontSize:"15px", color: '#eae9e9"', margin: '0'}}>Version: 0.5.0</p>
+                  <p style={{fontSize:"15px", color: '#eae9e9"', margin: '0'}}>Version: 0.5.5</p>
                   <p style={{fontSize:'14px', marginBottom:"2%", marginTop:"0"}}> <MdAlternateEmail style={{marginBottom:"0.1cm"}}/> <a style={{marginLeft:"1%", fontSize:"14px"}} href="mailto:ivan.compagnucci@unicam.it"> Contact</a></p>
               </div>
           </div>
