@@ -174,16 +174,38 @@ export default function MenuOnLeftLayout() {
                   <br/>
                   <a style={{marginLeft:'6%',fontWeight:"bold"}}>Active Filters </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are the filters activated for the inspection"}/>
                   <br/>
-                  {uniqueData[0] || uniqueData[1] || uniqueData[2] ? (
-                      <>
-                          {uniqueData[0] && <span style={{marginLeft:'10px'}} className='badge bg-success'>{"   "+uniqueData[0]}</span>}
-                          {uniqueData[0] && uniqueData[1] && " "}
-                          {uniqueData[1] && <span style={{marginLeft:'0px'}} className='badge bg-success'>{"   "+uniqueData[1]}</span>}
-                          {(uniqueData[0] || uniqueData[1]) && uniqueData[2] && " "}
-                          {uniqueData[2] && <span style={{marginLeft:'0px'}} className='badge bg-success'>{"   "+uniqueData[2]}</span>}
+                  {
+
+                      (uniqueData.length > 0) ? (
+                          <>
+                          {uniqueData.includes("english") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   english"}</span>}
+                          {uniqueData.includes("duplicated") && (uniqueData.includes("english") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6)) && " "}
+                          {uniqueData.includes("duplicated") && <span style={{ marginLeft: '0px' }} className='badge bg-warning'>{"   duplicated"}</span>}
+                          {(uniqueData.includes("english") || uniqueData.includes("duplicated")) && uniqueData.includes("invalid") && " "}
+                          {uniqueData.includes("invalid") && <span style={{ marginLeft: '0px' }} className='badge bg-warning'>{"   invalid"}</span>}
+                          {uniqueData.includes("process") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   process"}</span>}
+                          {uniqueData.includes("choreography") && (uniqueData.includes("process") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6) || uniqueData.includes("english") || uniqueData.includes("duplicated") || uniqueData.includes("invalid")) && " "}
+                          {uniqueData.includes("choreography") && <span style={{ marginLeft: '0px' }} className='badge bg-warning'>{"   choreography"}</span>}
+                          {uniqueData.includes("conversation") && (uniqueData.includes("process") || uniqueData.includes("choreography") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6) || uniqueData.includes("english") || uniqueData.includes("duplicated") || uniqueData.includes("invalid")) && " "}
+                          {uniqueData.includes("conversation") && <span style={{ marginLeft: '0px' }} className='badge bg-warning'>{"   conversation"}</span>}
+                          {uniqueData.includes(0) && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   " + 0}</span>}
+                          {uniqueData.includes(1) && uniqueData.includes(0) && " "}
+                          {uniqueData.includes(1) && <span style={{ marginLeft: '0px' }} className='badge bg-success'>{"   " + 1}</span>}
+                              {(uniqueData.includes(0) || uniqueData.includes(1)) && uniqueData.includes(2) && " "}
+                          {uniqueData.includes(2) && <span style={{ marginLeft: '0px' }} className='badge bg-success'>{"   " + 2}</span>}
+                          {uniqueData.includes(3) && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   " + 3}</span>}
+                          {uniqueData.includes(3) && uniqueData.includes(4) && " "}
+                          {uniqueData.includes(4) && <span style={{ marginLeft: '0px' }} className='badge bg-success'>{"   " + 4}</span>}
+                          {(uniqueData.includes(3) || uniqueData.includes(4)) && uniqueData.includes(5) && " "}
+                          {uniqueData.includes(5) && <span style={{ marginLeft: '0px' }} className='badge bg-success'>{"   " + 5}</span>}
+                          {uniqueData.includes(6) && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   " + 6}</span>}
                       </>
-                  ) : <span style={{marginLeft:'10px'}} className='badge bg-secondary'>No filter</span>}
-                </div>
+          ) : <span style={{ marginLeft: '10px' }} className='badge bg-secondary'>No filter</span>
+
+
+          }
+
+              </div>
           )}
 
           <div style={{position: 'absolute', bottom: '5px', left: '0', width: '100%', margin: '0 auto'}}>
