@@ -8,6 +8,12 @@ import com.github.pemistahl.lingua.api.Language;
 import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 import static com.github.pemistahl.lingua.api.Language.*;
+import org.apache.commons.csv.CSVParser;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.javatuples.Triplet;
@@ -21,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
@@ -357,15 +365,12 @@ public class UploadController {
                             validator.validate(new StreamSource(bpmnFile));
                             writer.write(bpmnFile.getName() + ",valid,\n");
                         } catch (SAXException e) {
-                            // Errore nella convalida del file BPMN
-                            System.out.println(bpmnFile.getName());
                             writer.write(bpmnFile.getName() + ",invalid," + e.getMessage() + "\n");
                         }
                     }
                 }
             }
         } catch (IOException e) {
-            // Errore nell'apertura del file di output
             System.err.println("Errore nell'apertura del file di output: " + e.getMessage());
         }
 
@@ -381,8 +386,61 @@ public class UploadController {
         return errorMessage;
     }
     @GetMapping("/download-complete-report")
-    public ResponseEntity<Resource> downloadCompleteReport() throws IOException {
+    public void downloadCompleteReport(HttpServletResponse response) throws IOException {
+        String filePathCounter = "src/main/resources/bpmnCounterOutput/bpmn_elements.csv";
+        String filePathCombined = "src/main/resources/bpmnCounterOutput/bpmn_combined.csv";
+        String filePathGuidelines = "src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv";
+        String filePathValidation = "src/main/resources/validationOutput/validationOutput.csv";
+
+        List<String> csvFilePaths = List.of(filePathCounter, filePathCombined, filePathGuidelines, filePathValidation);
+        String outputFileName = "complete_report.xlsx";
+
+        Workbook workbook = new XSSFWorkbook();
+
+        String[] sheetNames = { "Elements", "Combined", "Guidelines", "Validation" };
+
+        for (int i = 0; i < csvFilePaths.size(); i++) {
+            String csvFilePath = csvFilePaths.get(i);
+            String sheetName = sheetNames[i];
+
+            Sheet sheet = workbook.createSheet(sheetName);
+            CSVParser parser = CSVParser.parse(new File(csvFilePath), StandardCharsets.UTF_8, CSVFormat.DEFAULT);
+            int rowNumber = 0;
+
+            for (CSVRecord record : parser) {
+                Row row = sheet.createRow(rowNumber++);
+
+                for (int j = 0; j < record.size(); j++) {
+                    Cell cell = row.createCell(j);
+                    cell.setCellValue(record.get(j));
+                }
+            }
+        }
+
+        File tempFile = File.createTempFile("temp", ".xlsx");
+        FileOutputStream outputStream = new FileOutputStream(tempFile);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=" + outputFileName);
+        response.setHeader("Content-Length", String.valueOf(tempFile.length()));
+
+        FileInputStream fis = new FileInputStream(tempFile);
+        OutputStream os = response.getOutputStream();
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+        while ((bytesRead = fis.read(buffer)) != -1) {
+            os.write(buffer, 0, bytesRead);
+        }
+        fis.close();
+        os.flush();
+        os.close();
+
+        tempFile.delete(); // Elimina il file temporaneo dopo il download
     }
+
     @GetMapping("/download-validation-report")
     public ResponseEntity<Resource> downloadValidationReport() throws IOException {
         String fileName = "validationOutput.csv";

@@ -230,6 +230,21 @@ export default function PostProcessingView() {
         });
     };
 
+    const downloadCompleteReport = () => {
+        axios({
+            url: '/download-complete-report',
+            method: 'GET',
+            responseType: 'blob',
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'bpmn_inspector_report.csv');
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
     const downloadCombinedFile = () => {
         axios({
             url: '/download-combined-report',
@@ -965,9 +980,9 @@ export default function PostProcessingView() {
                </div>
 
             <input style={{position: 'fixed', marginBottom:'20px', marginRight:'1%', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
-            <button style={{position: 'fixed',marginLeft:"62%",marginTop:"-4.8%",zIndex:'9',fontSize:"17px",backgroundColor: '#10ad73', color: 'white', padding: '5px 13px', border: '5px', borderRadius: '3px', cursor: 'pointer'}} type="submit">
-                <GrDocumentCsv style={{fontStyle:"white"}}/><a style={{ marginRight: '0.5em', color:"white",marginLeft: '8px' }}>Download complete report</a>
-        </button>
+            <button style={{position: 'fixed', marginLeft: "61%", marginTop: "-4.8%", zIndex: '9', fontSize: "17px", backgroundColor: 'white', color: '#10ad73', padding: '5px 13px', border: '2px solid #10ad73', borderRadius: '3px', cursor: 'pointer'}} onClick={downloadCompleteReport} type="submit">
+                <GrDocumentCsv style={{fontStyle:"white",marginBottom: "2%"}}/><a style={{marginRight: '0.5em', color: "#10ad73", marginLeft: '8px', fontWeight: "bold"}}>Download complete report</a>
+            </button>
         </div>
     );
 }

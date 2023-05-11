@@ -185,7 +185,7 @@ export default function MenuOnLeftLayout() {
                                   {(uniqueData.includes("english") || uniqueData.includes("duplicated")) && uniqueData.includes("invalid") && " "}
                                   {uniqueData.includes("invalid") && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   invalid"}</span>}
                               </div>
-                              <a style={{ marginLeft: '6%', fontWeight: "bold" }}>Model Type Excluded: </a>
+                              <a style={{ marginLeft: '6%', fontWeight: "bold" }}>Models Excluded by Type: </a>
                               <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"These type of models are excluded from the analysis"} />
                               <div style={{ marginTop: '-2%'}}>
                                    {uniqueData.includes("process") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   process"}</span>}
