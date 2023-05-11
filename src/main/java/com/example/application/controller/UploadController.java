@@ -380,6 +380,9 @@ public class UploadController {
         }
         return errorMessage;
     }
+    @GetMapping("/download-complete-report")
+    public ResponseEntity<Resource> downloadCompleteReport() throws IOException {
+    }
     @GetMapping("/download-validation-report")
     public ResponseEntity<Resource> downloadValidationReport() throws IOException {
         String fileName = "validationOutput.csv";

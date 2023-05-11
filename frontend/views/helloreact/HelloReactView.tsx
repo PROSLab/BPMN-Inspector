@@ -213,7 +213,6 @@ export default function HelloReactView() {
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Duplicated</span>
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Language</span>
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>File size</span>
-
                     </div>
 
                     {filesToDisplay.map((file, index) =>
@@ -251,25 +250,35 @@ export default function HelloReactView() {
                         <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
                     }
                     <div>
-                           <p style={{fontSize:'20px',marginTop:"2%",color:'black',alignSelf:'left',fontWeight:"bold",justifySelf:"left", marginBottom:'0.4em'}}>Filtering options</p>
-                        <a style={{fontSize:'14px',padding:"0px",color:'black',alignSelf:'left',fontStyle:"italic"}}>Select a filtering constraint to inspect or download the models.</a>
-                        <br />
-                        <CheckboxGroup
-                                theme=''
-                                onValueChanged={({ detail: { value } }) => console.log(value)}
-                            >
-                                <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
-                                <Checkbox value='process' label='Remove Process Collaboration models' name="checkbox4" />
-                                <br/>
-                                <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
-                                <Checkbox style={{marginLeft:"13%"}} value='choreography' label='Remove Choreography models' name="checkbox5" />
-                                <br/>
-                                <Checkbox value='english' label='Remove non-English models' name="checkbox3"/>
-                                <Checkbox style={{marginLeft:"5%"}} value='conversation' label='Remove Conversation models' name="checkbox6"/>
-                                <br/>
-                            </CheckboxGroup>
+                        <p style={{ fontSize: '20px', marginTop: "2%", color: 'black', fontWeight: "bold", marginBottom: '0.4em' }}>Filtering options <a style={{ fontSize: '14px', padding: "1px", color: 'black', fontStyle: "italic",fontWeight:"normal"}}>(Select a filtering constraint to inspect or download the models.)</a>
+                        </p>
+                         <div style={{ display: 'flex' }}>
+                            <div style={{ marginRight: '20px', width:"25%" }}>
+                                <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by features:</p>
+                                <CheckboxGroup
+                                    theme=''
+                                    onValueChanged={({ detail: { value } }) => console.log(value)}
+                                >
+                                    <div style={{ flexDirection: 'column' }}>
+                                    <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
+                                    <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
+                                    <Checkbox value='english' label='Remove non-English models' name="checkbox3" />
+                                    </div>
+                                </CheckboxGroup>
+                            </div>
+                            <div style={{ width:"40%"}}>
+                                <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by model type:</p>
+                                <CheckboxGroup
+                                    theme=''
+                                    onValueChanged={({ detail: { value } }) => console.log(value)}
+                                >
+                                    <Checkbox value='process' label='Remove Process Collaboration models' name="checkbox4" />
+                                    <Checkbox value='choreography' label='Remove Choreography models' name="checkbox5" />
+                                    <Checkbox value='conversation' label='Remove Conversation models' name="checkbox6" />
+                                </CheckboxGroup>
+                            </div>
+                        </div>
 
-                        <br></br>
                         <Link to="/inspect" state={{data: filteringArray}} >
                             <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '2%', marginBottom:'0.42cm'}} onClick={inspectionPage}>
                                 <HiDocumentSearch /><a style={{color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Filter & Inspect</a>

@@ -156,54 +156,47 @@ export default function MenuOnLeftLayout() {
 
           {data && (
 
-              <div style={{position: 'absolute', bottom: '10%',height: "55%", width: "90%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
+              <div style={{position: 'absolute', bottom: '20%',height: "62%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
                   <a style={{marginLeft:'5%',fontWeight:"bold"}}>Model Dashboard </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are information about the collection of models inspected"}/>
                   <br/>
-                  <a style={{color:'green',fontWeight:"bold", marginLeft:"12%"}}>{total}</a><a>Total models inspected</a>
+                  <a style={{color:'green',fontWeight:"bold", marginLeft:"5%"}}>{total}</a><a style={{marginLeft:"8%"}}>Total models inspected</a>
                   <br/>
-                  <a style={{color:'green',fontWeight:"bold",marginLeft:"10%"}}>{totalProcess}</a><a># Process Collaboration</a>
+                  <a style={{color:'green',fontWeight:"bold",marginLeft:"5%"}}>{totalProcess}</a><a style={{marginLeft:"8%"}}># Process Collaboration</a>
                   <br/>
-                  <a style={{color:'green',fontWeight:"bold",marginLeft:"33%"}}>{totalChoreography}</a><a># Choreography</a>
+                  <a style={{color:'green',fontWeight:"bold",marginLeft:"5%"}}>{totalChoreography}</a><a style={{marginLeft:"8%"}}># Choreography</a>
                   <br/>
-                  <a style={{color:'green',fontWeight:"bold",marginLeft:"36.5%"}}>{totalConversation}</a><a># Conversation</a>
+                  <a style={{color:'green',fontWeight:"bold",marginLeft:"5%"}}>{totalConversation}</a><a style={{marginLeft:"8%"}}># Conversation</a>
                   <br/>
                   <br/>
                   <div style={{marginLeft:""}}>
                     <Pie options={options} data={dataModels}></Pie>
                   </div>
                   <br/>
-                  <a style={{marginLeft:'6%',fontWeight:"bold"}}>Active Filters </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are the filters activated for the inspection"}/>
-                  <br/>
+                  <a style={{ marginLeft: '6%',fontWeight: "bold" }}>Active Filters </a>
+                  <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"These are the filters activated for the inspection"} />
+                  <br />
                   {
-
                       (uniqueData.length > 0) ? (
                           <>
-                          {uniqueData.includes("english") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   english"}</span>}
-                          {uniqueData.includes("duplicated") && (uniqueData.includes("english") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6)) && " "}
-                          {uniqueData.includes("duplicated") && <span style={{ marginLeft: '0px' }} className='badge bg-warning'>{"   duplicated"}</span>}
-                          {(uniqueData.includes("english") || uniqueData.includes("duplicated")) && uniqueData.includes("invalid") && " "}
-                          {uniqueData.includes("invalid") && <span style={{ marginLeft: '0px' }} className='badge bg-warning'>{"   invalid"}</span>}
-                          {uniqueData.includes("process") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   process"}</span>}
-                          {uniqueData.includes("choreography") && (uniqueData.includes("process") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6) || uniqueData.includes("english") || uniqueData.includes("duplicated") || uniqueData.includes("invalid")) && " "}
-                          {uniqueData.includes("choreography") && <span style={{ marginLeft: '0px' }} className='badge bg-warning'>{"   choreography"}</span>}
-                          {uniqueData.includes("conversation") && (uniqueData.includes("process") || uniqueData.includes("choreography") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6) || uniqueData.includes("english") || uniqueData.includes("duplicated") || uniqueData.includes("invalid")) && " "}
-                          {uniqueData.includes("conversation") && <span style={{ marginLeft: '0px' }} className='badge bg-warning'>{"   conversation"}</span>}
-                          {uniqueData.includes(0) && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   " + 0}</span>}
-                          {uniqueData.includes(1) && uniqueData.includes(0) && " "}
-                          {uniqueData.includes(1) && <span style={{ marginLeft: '0px' }} className='badge bg-success'>{"   " + 1}</span>}
-                              {(uniqueData.includes(0) || uniqueData.includes(1)) && uniqueData.includes(2) && " "}
-                          {uniqueData.includes(2) && <span style={{ marginLeft: '0px' }} className='badge bg-success'>{"   " + 2}</span>}
-                          {uniqueData.includes(3) && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   " + 3}</span>}
-                          {uniqueData.includes(3) && uniqueData.includes(4) && " "}
-                          {uniqueData.includes(4) && <span style={{ marginLeft: '0px' }} className='badge bg-success'>{"   " + 4}</span>}
-                          {(uniqueData.includes(3) || uniqueData.includes(4)) && uniqueData.includes(5) && " "}
-                          {uniqueData.includes(5) && <span style={{ marginLeft: '0px' }} className='badge bg-success'>{"   " + 5}</span>}
-                          {uniqueData.includes(6) && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   " + 6}</span>}
-                      </>
-          ) : <span style={{ marginLeft: '10px' }} className='badge bg-secondary'>No filter</span>
-
-
-          }
+                              <div style={{ marginTop: '-2%',marginBottom: '4%'}}>
+                                  {uniqueData.includes("english") && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   english"}</span>}
+                                  {uniqueData.includes("duplicated") && (uniqueData.includes("english") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6)) && " "}
+                                  {uniqueData.includes("duplicated") && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   duplicated"}</span>}
+                                  {(uniqueData.includes("english") || uniqueData.includes("duplicated")) && uniqueData.includes("invalid") && " "}
+                                  {uniqueData.includes("invalid") && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   invalid"}</span>}
+                              </div>
+                              <a style={{ marginLeft: '6%', fontWeight: "bold" }}>Model Type Excluded: </a>
+                              <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"These type of models are excluded from the analysis"} />
+                              <div style={{ marginTop: '-2%'}}>
+                                   {uniqueData.includes("process") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   process"}</span>}
+                                  {uniqueData.includes("choreography") && (uniqueData.includes("process") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6) || uniqueData.includes("english") || uniqueData.includes("duplicated") || uniqueData.includes("invalid")) && " "}
+                                  {uniqueData.includes("choreography") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   choreography"}</span>}
+                                  {uniqueData.includes("conversation") && (uniqueData.includes("process") || uniqueData.includes("choreography") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6) || uniqueData.includes("english") || uniqueData.includes("duplicated") || uniqueData.includes("invalid")) && " "}
+                                  {uniqueData.includes("conversation") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   conversation"}</span>}
+                              </div>
+                          </>
+                      ) : <span style={{ marginLeft: '10px' }} className='badge bg-secondary'>No filter</span>
+                  }
 
               </div>
           )}
