@@ -254,7 +254,7 @@ export default function HelloReactView() {
                         </p>
                          <div style={{ display: 'flex' }}>
                             <div style={{ marginRight: '20px', width:"25%" }}>
-                                <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by features:</p>
+                                <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by model features:</p>
                                 <CheckboxGroup
                                     theme=''
                                     onValueChanged={({ detail: { value } }) => console.log(value)}

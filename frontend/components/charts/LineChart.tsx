@@ -3,6 +3,36 @@ import { Line } from "react-chartjs-2";
 
 const labels = ["Test"];
 
+const options = {
+    responsive: true,
+    interaction: {
+        mode: 'index' as const,
+        intersect: false,
+    },
+    stacked: false,
+    plugins: {
+        title: {
+            display: true,
+            text: 'Chart.js Line Chart - Multi Axis',
+        },
+    },
+    scales: {
+        y: {
+            type: 'linear' as const,
+            display: true,
+            position: 'left' as const,
+        },
+        y1: {
+            type: 'linear' as const,
+            display: true,
+            position: 'right' as const,
+            grid: {
+                drawOnChartArea: false,
+            },
+        },
+    },
+};
+
 const data = {
     labels: labels,
     datasets: [
@@ -19,20 +49,12 @@ const data = {
     ],
 };
 
-interface options {
-    responsive: boolean,
-    maintainAspectRatio: boolean,
-    height: string,
-    width: string,
-};
-
 interface Props {
     options?: any;
     data?: any;
 }
 
 const LineChart : React.FC<Props> = (props:Props) => {
-    const {options} = props;
     return (
         <Line data={data} options={options}/>
     );

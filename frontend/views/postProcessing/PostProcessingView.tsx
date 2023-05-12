@@ -314,7 +314,6 @@ export default function PostProcessingView() {
             labels: labels,
             datasets: [
                 {
-                    label: "# of models with this size",
                     backgroundColor: "rgb(16,173,115)",
                     borderColor: "rgb(8,59,12)",
                     data: arrayLength,
@@ -324,6 +323,39 @@ export default function PostProcessingView() {
         };
         return dataTotalElements;
     }
+    const optionsTotalElements = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        interaction: {
+            mode: 'index' as const,
+            intersect: false,
+        },
+        stacked: false,
+        scales: {
+            y: {
+                type: 'linear' as const,
+                display: true,
+                position: 'left' as const,
+                ticks: {
+                    precision: 0
+                },
+                title: {
+                    display: true,
+                    text: '# of Models',
+                },
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Model Size',
+                },
+            },
+        },
+    };
 
     function countPracticalLengths(files: filesInfo[]) {
         let maxLength = 0;
@@ -349,6 +381,8 @@ export default function PostProcessingView() {
             labels.push(`${i}`);
         }
 
+        const filteredArrayLength = arrayLength.map(value => Math.round(value));
+
         const dataPC = {
             labels: labels,
             datasets: [
@@ -356,14 +390,46 @@ export default function PostProcessingView() {
                     label: "# of models with this size",
                     backgroundColor: "rgb(16,173,115)",
                     borderColor: "rgb(8,59,12)",
-                    data: arrayLength,
+                    data: filteredArrayLength,
                     color: "rgb(8,59,12)",
                 },
             ],
         };
         return dataPC;
     }
-
+    const optionsPC = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        interaction: {
+            mode: 'index' as const,
+            intersect: false,
+        },
+        stacked: false,
+        scales: {
+            y: {
+                type: 'linear' as const,
+                display: true,
+                position: 'left' as const,
+                ticks: {
+                    precision: 0
+                },
+                title: {
+                    display: true,
+                    text: '# of Models',
+                },
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Practical Complexity',
+                },
+            },
+        },
+    };
     function countElementDistr(files: filesInfo[]) {
         const elementCounts = {};
 
@@ -389,7 +455,6 @@ export default function PostProcessingView() {
             }
         }
 
-        // Convert the elementCounts object to an array of [key, value] pairs and sort by value in descending order
         // @ts-ignore
         const sortedCounts = Object.entries(elementCounts).sort((a, b) => b[1] - a[1]);
 
@@ -413,6 +478,34 @@ export default function PostProcessingView() {
 
         return dataElementDistr;
     }
+
+    const optionsElementDistr = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        interaction: {
+            mode: 'index' as const,
+            intersect: false,
+        },
+        stacked: false,
+        scales: {
+            y: {
+                type: 'linear' as const,
+                display: true,
+                position: 'left' as const,
+                title: {
+                    display: true,
+                    text: '# of Models',
+                },
+                ticks: {
+                    precision: 0
+                },
+            },
+        },
+    };
 
     function countElementUsage(files: filesInfo[]) {
         const sumMap: Record<string, number> = {};
@@ -451,6 +544,27 @@ export default function PostProcessingView() {
         };
         return dataElementUsage;
     }
+    const optionsElementUsage = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        stacked: false,
+        scales: {
+            y: {
+                ticks: {
+                    precision: 0
+                },
+                title: {
+                    display: true,
+                    text: '# of Models',
+                },
+            },
+        },
+    };
+
 
     // @ts-ignore
     const calculatePercentage = (filesToDisplay) => {
@@ -596,7 +710,7 @@ export default function PostProcessingView() {
                                     </button>
                                 </div>
                                     <div id="chartMS" style={{position: "relative", height:"35vh", width:"100%"}}>
-                                        <Line data={dataTotalElements} options={{responsive: true, maintainAspectRatio: false}}/>
+                                        <Line data={dataTotalElements} options={optionsTotalElements}/>
                                     </div>
 
                             </div>
@@ -611,7 +725,7 @@ export default function PostProcessingView() {
                                     </button>
                                 </div>
                                 <div id="chartPC" style={{position: "relative", height:"38vh", width:"100%"}}>
-                                    <Line data={dataPC} options={{responsive: true, maintainAspectRatio: false}}/>
+                                    <Line data={dataPC} options={optionsPC}/>
                                 </div>
                             </div>
                         </div>
@@ -626,7 +740,7 @@ export default function PostProcessingView() {
                                     </button>
                                 </div>
                                 <div id="chartEU" style={{position: "relative", height:"40vh", width:"100%"}}>
-                                    <Line data={dataElementUsage} options={{responsive: true, maintainAspectRatio: false}}/>
+                                    <Line data={dataElementUsage} options={optionsElementUsage}/>
                                 </div>
 
                                 {showTableEU && (
@@ -660,7 +774,7 @@ export default function PostProcessingView() {
                                 </div>
 
                                 <div id="chartED" style={{position: "relative", height:"40vh", width:"100%"}}>
-                                    <Line data={dataElementDistr} options={{responsive: true, maintainAspectRatio: false}}/>
+                                    <Line data={dataElementDistr} options={optionsElementDistr}/>
                                 </div>
 
 

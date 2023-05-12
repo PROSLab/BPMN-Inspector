@@ -109,3 +109,7 @@ tbody td {
     background-color: #000; /* Colore di sfondo della linea di pienezza */
     margin-top: 2px; /* Margine superiore della linea di pienezza */
 }
+
+.chart-container .chartjs-chart .chartjs-text > span {
+    font-weight: bold;
+}
