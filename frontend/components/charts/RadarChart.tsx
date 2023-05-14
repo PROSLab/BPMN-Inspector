@@ -2,7 +2,7 @@ import React from "react";
 import Chart from "chart.js/auto";
 import {Bar, Radar} from "react-chartjs-2";
 
-    const labels = ["January", "February", "March", "April", "May", "June"];
+    const labels = [""];
     const data = {
         labels: labels,
         datasets: [
@@ -30,24 +30,19 @@ import {Bar, Radar} from "react-chartjs-2";
         ],
     };
 
+const options = {
+};
 
-    interface options {
-        responsive: boolean,
-        maintainAspectRatio: boolean,
-        height: string,
-        width: string,
-    };
-
-    interface Props {
-        options?: options;
-        data?: any;
-    }
+interface Props {
+    options?: any;
+    data?: any;
+}
 
     const RadarChart : React.FC<Props> = (props:Props) => {
-        const {options} = props;
       return(
             <Radar data={data} options={options}/>
     );
+
 };
 
 export default RadarChart;

@@ -7,6 +7,7 @@ import { Chart, registerables } from 'chart.js';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import {HiChevronDoubleUp, HiChevronDoubleDown, HiChevronUp, HiChevronDown} from "react-icons/hi";
 import xmlLogo from "Frontend/img/xmlLogo.png"
+import Modal from 'react-bootstrap/Modal';
 // @ts-ignore
 import ChartVenn from "Frontend/components/charts/ChartVenn";
 import {BsDiagram2} from "react-icons/bs";
@@ -36,6 +37,105 @@ export default function PostProcessingView() {
     const [showTableEU, setShowTableEU] = useState(true);
     const [showTableED, setShowTableED] = useState(true);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const g = [        'G2',        'G3',        'G7',        'G8',        'G9',        'G10',        'G11',        'G12',
+        'G13',        'G14',        'G15',        'G16',        'G17',        'G18',        'G19',        'G20',
+        'G21',        'G22',        'G24',        'G26',        'G28',        'G29',        'G30',        'G31',
+        'G32',        'G33',        'G34',        'G35',        'G36',        'G37',        'G38',        'G39',
+        'G42',        'G44',        'G45',        'G46',        'G47',        'G48',        'G49',        'G50'    ];
+    const [activeButton, setActiveButton] = React.useState(null);
+
+    const descriptions = [
+        { title: 'Minimize model size', description: 'The designer should create models which comply with the BPMN standard. Once the\n' +
+                'process logic has been defined, the designer should validate a model ensuring that the\n' +
+                'model is syntactically correct.' },
+        { title: 'Apply hierarchical structure with sub-processes', description: ' The designer should try to keep models as small as possible. Large models tend to contain\n' +
+                'more errors. Additionally they are difficult to read and comprehend. Defining the correct\n' +
+                'scope of tasks and level of detail of models is the key to reduce the overage of information.' },
+        { title: 'Model loops via loop activities', description: 'The designer should model a loop via activity looping (with the loop marker) instead of\n' +
+                'using a sequence flow looping; this, where possible, and if this practice actually contributes\n' +
+                'to simplify the model.' },
+        { title: 'Provide activity descriptions', description: 'The designer should provide a brief description for each activity in the model.' },
+        { title: 'Minimize gateway heterogeneity', description: 'The designer should minimize the heterogeneity of gateway types. The use of several\n' +
+                'type of gateway may cause confusion.' },
+        { title: 'Use pools consistently', description: 'The designer should define as many pools as processes and/or participants. Use a blackbox pool to represent external participant/processes. The modelled pools need to be\n' +
+                'in relation with each other and have to be linked to the main pool through message\n' +
+                'exchange.' },
+        { title: 'Use lanes consistently', description: 'The designer should model internal organisational units as lanes within a single process\n' +
+                'pool, not as separate pools; separate pools imply independent processes. The designer\n' +
+                'should create a lane, in a pool, only if at least one activity or intermediate event is\n' +
+                'performed in it.\n' },
+        { title: ' Use start and end ' +
+                'events explicitly', description: 'The designer should explicitly make use of start and end events. The use of start and end\n' +
+                'events is necessary to represent the different states that begin and complete the modeled\n' +
+                'process. Processes with implicit start and end events are undesirable and could lead to\n' +
+                'misinterpretations.' },
+        { title: 'Use start events consistently', description: 'The designer should include, in the model, only one start event. Where necessary, alternative instantiations of the process should be depicted with separate start events and\n' +
+                'using a event-based start gateway' },
+        { title: 'Use end events consistently', description: 'The designer should distinguish success and failure end states in a process or a subprocess\n' +
+                'with separate end events. Flows that end in the same end state should be merged to the\n' +
+                'same end event. Therefore, separate end events that do not represent distinct end states\n' +
+                'must be merged in a single end event.' },
+        { title: 'Restrict usage of terminate end event', description: 'The designer should use terminate events only when strictly necessary. They are used to\n' +
+                'model situations where several alternative paths are enabled and the entire process have\n' +
+                'to be finished when one of them is completed. The designer should use other end events\n' +
+                'rather than the terminate end event (e.g. a generic end event), to guarantee that the\n' +
+                'executions of the reaming process paths or activities will not be stopped.' },
+        { title: 'Use explicit gateways', description: 'The designer should split or join sequence flows always using gateways. The designer\n' +
+                'should not split or join flows using activities or events. This includes that an activity can\n' +
+                'have only one incoming sequence flow and only one outgoing sequence flow.' },
+        { title: 'Mark exclusive gateways', description: 'The designer should use the Exclusive Gateway with the marker “X” instead of using it\n' +
+                'without marker.' },
+        { title: 'Split and join flows consistently', description: 'The designer should not use gateways to join and split at the same time.' },
+        { title: 'Balance gateways', description: 'The designer should always use the same type of gateway for splitting and joining the\n' +
+                'flow. In particular, the designer should ensure that join parallel gateways have the correct number of incoming sequence flows especially when used in conjunction with other\n' +
+                'gateways; this is related to ensuring the soundness property. Do not apply this guidelines\n' +
+                'on Event-based or Complex Gateways.' },
+        { title: 'Use meaningful gateways', description: 'The designer should not represent gateways that have only one incoming and only one\n' +
+                'outgoing sequence flow. Gateways with only one incoming and one outgoing sequence\n' +
+                'flow do not provide any added value.' },
+        { title: 'Minimize inclusive\n' +
+                'OR gateways', description: 'The designer should minimise the use of inclusive gateways (OR). Inclusive OR-splits\n' +
+                'activate one, several, or all subsequent branches based on conditions. They need to be\n' +
+                'synchronized with inclusive OR-join elements, which are difficult to understand in the\n' +
+                'general case.' },
+        { title: 'Use default flows', description: 'Where possible, after an exclusive and an inclusive gateway, the designer should express\n' +
+                'the default flow. One way for the modeler to ensure that the process does not get stuck\n' +
+                'at a gateway is to use a default condition for one of the outgoing sequence flow. This\n' +
+                'default sequence flow will always evaluate to true if all the other sequence flow conditions\n' +
+                'turn out to be false.' },
+        { title: 'Use message flows', description: ' The designer should represent message flows for each message events and send or receive\n' +
+                'tasks. If in a subprocess are present more message flows to the same pool, the designer\n' +
+                'should show in the top-level process maximum two message flows: one for all outgoing\n' +
+                'message flow and one for all incoming message flow with that pool.' },
+        { title: 'Titolo per G26', description: 'Descrizione per G11' },
+        { title: 'Titolo per G28', description: 'Descrizione per G11' },
+        { title: 'Titolo per G29', description: 'Descrizione per G11' },
+        { title: 'Titolo per G30', description: 'Descrizione per G11' },
+        { title: 'Titolo per G31', description: 'Descrizione per G11' },
+        { title: 'Titolo per G32', description: 'Descrizione per G11' },
+        { title: 'Titolo per G33', description: 'Descrizione per G11' },
+        { title: 'Titolo per G34', description: 'Descrizione per G11' },
+        { title: 'Titolo per G35', description: 'Descrizione per G11' },
+        { title: 'Titolo per G36', description: 'Descrizione per G11' },
+        { title: 'Titolo per G37', description: 'Descrizione per G11' },
+        { title: 'Titolo per G38', description: 'Descrizione per G11' },
+        { title: 'Titolo per G39', description: 'Descrizione per G11' },
+        { title: 'Titolo per G42', description: 'Descrizione per G11' },
+        { title: 'Titolo per G44', description: 'Descrizione per G11' },
+        { title: 'Titolo per G45', description: 'Descrizione per G11' },
+        { title: 'Titolo per G46', description: 'Descrizione per G11' },
+        { title: 'Titolo per G47', description: 'Descrizione per G11' },
+        { title: 'Titolo per G48', description: 'Descrizione per G11' },
+        { title: 'Titolo per G49', description: 'Descrizione per G11' },
+        { title: 'Titolo per G50', description: 'Descrizione per G11' },
+    ];
+    const handleClick = (index: number | React.SetStateAction<null>) => {
+        // @ts-ignore
+        setActiveButton(index === activeButton ? null : index);
+    };
     const location = useLocation()
     const filteringArray: string[] = [];
     const {data} = location.state
@@ -60,8 +160,7 @@ export default function PostProcessingView() {
     const toggleTableEU = () => {
         setShowTableEU(!showTableEU);
     };
-
-    const toggleTableED = () => {
+     const toggleTableED = () => {
         setShowTableED(!showTableED);
     };
 
@@ -314,6 +413,7 @@ export default function PostProcessingView() {
             labels: labels,
             datasets: [
                 {
+                    label: "# of the model with this size",
                     backgroundColor: "rgb(16,173,115)",
                     borderColor: "rgb(8,59,12)",
                     data: arrayLength,
@@ -324,22 +424,14 @@ export default function PostProcessingView() {
         return dataTotalElements;
     }
     const optionsTotalElements = {
-        responsive: true,
         plugins: {
             legend: {
                 display: false,
             },
         },
-        interaction: {
-            mode: 'index' as const,
-            intersect: false,
-        },
-        stacked: false,
         scales: {
             y: {
-                type: 'linear' as const,
                 display: true,
-                position: 'left' as const,
                 ticks: {
                     precision: 0
                 },
@@ -537,8 +629,8 @@ export default function PostProcessingView() {
                     label: "# of this element in the collection",
                     backgroundColor: "rgb(16,173,115)",
                     borderColor: "rgb(8,59,12)",
-                    data: sortedKeys.map((key) => sumMap[key]),
                     color: "rgb(8,59,12)",
+                    data: sortedKeys.map((key) => sumMap[key]),
                 },
             ],
         };
@@ -604,7 +696,7 @@ export default function PostProcessingView() {
     const labels = Array.from({ length: 40 }, (_, index) => `G${index + 1}`); // Genera un array di etichette "G1", "G2", ecc.
 
     const radarChartData = {
-        labels: labels, // Array di etichette
+        labels: g, // Array di etichette
         datasets: [
             {
                 label: "% of guideline's satisfaction",
@@ -613,6 +705,18 @@ export default function PostProcessingView() {
                 data: percentageResult, // Array di valori delle percentuali
             },
         ],
+    };
+
+    const optionRadarChartData = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        stacked: false,
+        scales: {
+        },
     };
 
     // @ts-ignore
@@ -643,15 +747,41 @@ export default function PostProcessingView() {
 
     const dataError = {
         labels: labelsErr, // Array di etichette
+        borderWidth: 1,
         datasets: [
             {
                 label: "% of guideline's satisfaction",
-                backgroundColor: "rgba(16,173,115,0.7)",
-                borderColor: "rgba(8,59,12)",
+                backgroundColor: "rgb(16,173,115, 0.8)",
+                borderColor: "rgb(8,59,12)",
                 color: "rgb(8,59,12)",
                 data: sortedErrorCounts.map(([_, count]) => count), // Array di valori delle percentuali
             },
         ],
+    };
+
+    const optionDataError = {
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        scales: {
+            y: {
+                ticks: {
+                    precision: 0
+                },
+                title: {
+                    display: true,
+                    text: '# of Errors',
+                },
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Error Type',
+                },
+            },
+        },
     };
 
     return (
@@ -876,8 +1006,8 @@ export default function PostProcessingView() {
                                                 <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", marginBottom:"71%", alignSelf:"right"}}/>
                                             </button>
                                         </div>
-                                        <div id="chartSE" style={{position: "relative", height:"100%", width:"100%"}}>
-                                            <Bar options={{responsive:true,maintainAspectRatio:false}}  data={dataError}></Bar>
+                                        <div id="chartSE" style={{position: "relative", width:"100%"}}>
+                                            <Bar options={optionDataError}  data={dataError} style={{position: "relative", width:"100%"}}></Bar>
                                         </div>
                                     </div>
                                 </div>
@@ -936,7 +1066,7 @@ export default function PostProcessingView() {
                             <>
                                 <div style={{display: "flex", flexDirection: "column", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                                     <div style={{display: "flex", flexDirection: "row"}}>
-                                        <div style={{width: "100%", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <div style={{width: "60%", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                             <div style={{display:"flex",alignSelf:"center"}}>
                                                 <a style={{fontSize: '25px',color: 'black', fontWeight: "bold"}}>Radar Guidelines</a>
                                                 <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
@@ -946,70 +1076,28 @@ export default function PostProcessingView() {
                                                 </button>
                                             </div>
                                             <div id="chartSE" style={{position: "relative", height:"100vh", width:"100%"}}>
-                                                <Radar options={{responsive:true,maintainAspectRatio:false}}  data={radarChartData}></Radar>
+                                                <Radar options={optionRadarChartData}  data={radarChartData}></Radar>
                                             </div>
                                         </div>
 
-                                        <div style={{width: "30%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                        <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>% of Guidelines Satisfaction</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
+                                        <div style={{width: "40%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>Guidelines List</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
                                             <div style={{display:"flex", flexDirection: "column"}}>
-                                                <div style={{marginTop: "10px",display:"flex",flexDirection: "column"}}>
-                                                    {percentageResult.map((percentage, index) => {
-                                                        const green = Math.floor(255 * (percentage / 100));
-                                                        const red = Math.floor(255 * ((100 - percentage) / 100));
-                                                        const color = `rgb(${red}, ${green}, 0)`;
-                                                        const lineStyle = {
-                                                            width: `${percentage}%`, // Larghezza della linea di pienezza in base alla percentuale
-                                                            backgroundColor: color, // Colore di sfondo della linea di pienezza uguale al colore del testo
-                                                            height: '8px', // Altezza della linea di pienezza
-                                                            marginTop: '2px', // Margine superiore della linea di pienezza
-                                                        };
-                                                        let icon;
-                                                        if (percentage >= 0 && percentage <= 25) {
-                                                            icon = <HiChevronDoubleDown />;
-                                                        } else if (percentage > 25 && percentage <= 50) {
-                                                            icon = <HiChevronDown />;
-                                                        } else if (percentage > 50 && percentage <= 75) {
-                                                            icon = <HiChevronUp/>;
-                                                        } else if (percentage > 75 && percentage <= 100) {
-                                                            icon = <HiChevronDoubleUp />;
-                                                        }
-
-                                                        const g = [        'G2',        'G3',        'G7',        'G8',        'G9',        'G10',        'G11',        'G12',        'G13',        'G14',        'G15',        'G16',        'G17',        'G18',        'G19',        'G20',        'G21',        'G22',        'G24',        'G26',        'G28',        'G29',        'G30',        'G31',        'G32',        'G33',        'G34',        'G35',        'G36',        'G37',        'G38',        'G39',        'G42',        'G44',        'G45',        'G46',        'G47',        'G48',        'G49',        'G50'    ];
-
-                                                        return (
-                                                            <div key={index} style={{display: "flex", alignItems: "center", margin: "5px", borderBottom:"1px solid #F5F7F9",fontSize: '15px', position: 'relative'}}>
-                                                                <div style={{marginLeft: "1%",fontSize:"14px",fontWeight:"bold", color}}> {icon} {g[index]}: </div>
-                                                                <div style={{
-                                                                    ...lineStyle,
-                                                                    marginLeft: "25%",
-                                                                    position: "absolute",
-                                                                    width:"75%",
-                                                                    top: 8,
-                                                                    left: 0,
-                                                                    height: '10px',
-                                                                    background: percentage === 0 ? "#F5F7F9" : `linear-gradient(to right, ${color} ${percentage}%, #F5F7F9 ${percentage}%)`,
-                                                                    borderRadius: "5px"
-                                                                }}>
-                                                                    {percentage > 0 &&
-                                                                        <div style={{
-                                                                            position: 'absolute',
-                                                                            right: `${90-percentage}%`,
-                                                                            top: '-200%',
-                                                                            fontSize:"12px",
-                                                                            fontWeight:"bold",
-                                                                            color:"gray"
-                                                                        }}>
-                                                                            {percentage.toFixed(2)}%
-                                                                        </div>
-                                                                    }
+                                                <div style={{ marginTop: "10px", display: "flex", flexDirection: "column" }}>
+                                                    {g.map((item, index) => (
+                                                        <div key={index} style={{ marginBottom: "10px" }}>
+                                                            <button onClick={() => handleClick(index)} style={{ marginRight: "10px" }}>
+                                                                {item} - <span style={{ fontWeight: "bold" }}>{descriptions[index].title}</span>
+                                                            </button>
+                                                            {activeButton === index && (
+                                                                <div style={{ marginTop: "5px", marginLeft: "20px", color: "black" }}>
+                                                                    <p>{descriptions[index].description}</p>
                                                                 </div>
-                                                            </div>
-                                                        );
-                                                    })}
+                                                            )}
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
