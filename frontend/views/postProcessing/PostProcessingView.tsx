@@ -210,7 +210,9 @@ export default function PostProcessingView() {
         }
         return counts;
     }, { totalProcess: 0, totalChoreography: 0, totalConversation: 0});
-    
+
+    let totalModels = totalProcess+totalChoreography+totalConversation;
+    console.log(totalModels)
     const totalDuplicated = filesInfo.reduce((counts, file) => {
         if (file.isDuplicated) {
             counts.totalDuplicated++;
@@ -238,7 +240,7 @@ export default function PostProcessingView() {
         else if (!data.includes("duplicated") && data.includes("invalid")) {
             total -= invalid;
         }
-
+    console.log(total)
     const downloadFile = () => {
         axios({
             url: '/download-validation-report',
@@ -872,25 +874,6 @@ export default function PostProcessingView() {
                                 <div id="chartEU" style={{position: "relative", height:"40vh", width:"100%"}}>
                                     <Line data={dataElementUsage} options={optionsElementUsage}/>
                                 </div>
-
-                                {showTableEU && (
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Element</th>
-                                        <th># of Elements</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {dataElementUsage.labels.map((label, index) => (
-                                        <tr key={index}>
-                                            <td>{label}</td>
-                                            <td>{dataElementUsage.datasets[0].data[index]}</td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                                )}
                             </div>
 
                             <div style={{width: "50%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
@@ -906,28 +889,46 @@ export default function PostProcessingView() {
                                 <div id="chartED" style={{position: "relative", height:"40vh", width:"100%"}}>
                                     <Line data={dataElementDistr} options={optionsElementDistr}/>
                                 </div>
-
-
-                                {showTableED && (
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Element</th>
-                                            <th># of Models</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {dataElementDistr.labels.map((label, index) => (
-                                            <tr key={index}>
-                                                <td>{label}</td>
-                                                <td>{dataElementDistr.datasets[0].data[index] as ReactNode}</td>
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                )}
                                 </div>
                         </div>
+
+                        <div style={{width: "100%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th style={{ width: '10%', textAlign: 'center'  }}>Rank (<span style={{ fontStyle: 'italic', whiteSpace: 'nowrap' }}>r</span>) <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Element rank by number of occurrences'} /></th>
+                                    <th style={{ width: '20%', textAlign: 'center'  }}>Element</th>
+                                    <th style={{ width: '20%', textAlign: 'center'  }}>Occurrences <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Number of occurrences for each element'} /></th>
+                                    <th style={{ width: '20%', textAlign: 'center'  }}>Number of Models <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Number of models presenting at least one occurrence of this element'} /></th>
+                                    <th style={{ width: '20%', textAlign: 'center'  }}>Probability Distribution <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Probability to find this element in a model considering this collection'} /></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {dataElementUsage.labels
+                                    .map((label, index) => ({
+                                        label,
+                                        usage: dataElementUsage.datasets[0].data[index],
+                                        distribution: dataElementDistr.datasets[0].data[index],
+                                    }))
+                                    .sort((a, b) => b.usage - a.usage)
+                                    .map((item, index) => ({
+                                        ...item,
+                                        rank: index + 1,
+                                        percentage: ((item.distribution as number) / totalModels) * 100,
+                                    }))
+                                    .map((item, index) => (
+                                        <tr key={index}>
+                                            <td style={{ width: '10%', textAlign: 'center' }}>{item.rank}</td>
+                                            <td style={{ width: '20%', textAlign: 'center' }}>{item.label}</td>
+                                            <td style={{ width: '20%', textAlign: 'center' }}>{item.usage}</td>
+                                            <td style={{ width: '20%', textAlign: 'center' }}>{item.distribution as string}</td>
+                                            <td style={{ width: '20%', textAlign: 'center' }}>{item.percentage.toFixed(2)}%</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div style={{display:"flex",flexDirection:"column",marginBottom:"10px", marginTop:"0.20cm"}} >
                             <button style={{ background: 'white', color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadInspectionFile}>
                                 <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Inspection report</a>

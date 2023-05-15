@@ -69,13 +69,6 @@ export default function MenuOnLeftLayout() {
         return counts;
     }, { totalProcess: 0, totalChoreography: 0, totalConversation: 0});
 
-    const totalDuplicated = filesInfo.reduce((counts, file) => {
-        if (file.isDuplicated) {
-            counts.totalDuplicated++;
-        }
-        return counts;
-    }, { totalDuplicated: 0});
-
     const {valid, invalid} = filesInfo.reduce((counts, file) => {
         if (file.isValid) {
             counts.valid++;
