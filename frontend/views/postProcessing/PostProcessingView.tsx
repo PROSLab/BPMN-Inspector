@@ -762,6 +762,7 @@ export default function PostProcessingView() {
     };
 
     const optionDataError = {
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: false,
@@ -898,7 +899,7 @@ export default function PostProcessingView() {
                                 <tr>
                                     <th style={{ width: '10%', textAlign: 'center'  }}>Rank (<span style={{ fontStyle: 'italic', whiteSpace: 'nowrap' }}>r</span>) <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Element rank by number of occurrences'} /></th>
                                     <th style={{ width: '20%', textAlign: 'center'  }}>Element</th>
-                                    <th style={{ width: '20%', textAlign: 'center'  }}>Occurrences <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Number of occurrences for each element'} /></th>
+                                    <th style={{ width: '20%', textAlign: 'center'  }}>Occurrences <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Number of occurrences for each element in the collection'} /></th>
                                     <th style={{ width: '20%', textAlign: 'center'  }}>Number of Models <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Number of models presenting at least one occurrence of this element'} /></th>
                                     <th style={{ width: '20%', textAlign: 'center'  }}>Probability Distribution <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Probability to find this element in a model considering this collection'} /></th>
                                 </tr>
@@ -918,7 +919,7 @@ export default function PostProcessingView() {
                                     }))
                                     .map((item, index) => (
                                         <tr key={index}>
-                                            <td style={{ width: '10%', textAlign: 'center' }}>{item.rank}</td>
+                                            <td style={{ width: '5%', textAlign: 'center' }}>{item.rank}</td>
                                             <td style={{ width: '20%', textAlign: 'center' }}>{item.label}</td>
                                             <td style={{ width: '20%', textAlign: 'center' }}>{item.usage}</td>
                                             <td style={{ width: '20%', textAlign: 'center' }}>{item.distribution as string}</td>
@@ -1007,8 +1008,8 @@ export default function PostProcessingView() {
                                                 <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", marginBottom:"71%", alignSelf:"right"}}/>
                                             </button>
                                         </div>
-                                        <div id="chartSE" style={{position: "relative", width:"100%"}}>
-                                            <Bar options={optionDataError}  data={dataError} style={{position: "relative", width:"100%"}}></Bar>
+                                        <div id="chartSE" style={{position: "relative",height:"35vh", width:"100%"}}>
+                                            <Bar options={optionDataError}  data={dataError} style={{position: "relative",height:"5%", width:"100%"}}></Bar>
                                         </div>
                                     </div>
                                 </div>

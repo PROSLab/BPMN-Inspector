@@ -40,7 +40,7 @@ interface Props {
 
     const BarChart : React.FC<Props> = (props:Props) => {
       return(
-            <Bar data={data} options={options} />
+            <Bar data={data} options={options} width={"10%"} height={"10%"}/>
     );
 };
 
