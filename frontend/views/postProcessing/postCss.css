@@ -113,3 +113,9 @@ tbody td {
 .chart-container .chartjs-chart .chartjs-text > span {
     font-weight: bold;
 }
+
+.active {
+    background-color: #f0f0f0;
+    color: white;
+    box-shadow: 0 0 5px rgba(16, 173, 115, 0.7);
+}

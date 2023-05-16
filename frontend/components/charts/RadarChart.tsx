@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useRef} from "react";
 import Chart from "chart.js/auto";
-import {Bar, Radar} from "react-chartjs-2";
+import {Bar, getElementsAtEvent, Radar} from "react-chartjs-2";
 
     const labels = [""];
     const data = {
@@ -26,6 +26,7 @@ import {Bar, Radar} from "react-chartjs-2";
                     'rgba(255, 159, 64, 1)'
                 ],
                 data: [0, 10, 5, 2, 20, 30, 45],
+                link: ['www.google.it']
             },
         ],
     };
@@ -38,9 +39,21 @@ interface Props {
     data?: any;
 }
 
-    const RadarChart : React.FC<Props> = (props:Props) => {
+// @ts-ignore
+const chartRef = useRef();
+const onClick = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+// @ts-ignore
+    getElementsAtEvent(chartRef.current, event)
+    // @ts-ignore
+    const datasetIndexNum = getElementsAtEvent(chartRef.current, event)[0].datasetIndex;
+    // @ts-ignore
+    const dataPoint = getElementsAtEvent(chartRef.current, event)[0].index;
+}
+
+
+const RadarChart : React.FC<Props> = (props:Props) => {
       return(
-            <Radar data={data} options={options}/>
+            <Radar data={data} options={options} onClick={onClick} ref={chartRef}/>
     );
 
 };

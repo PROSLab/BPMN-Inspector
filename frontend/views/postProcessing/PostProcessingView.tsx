@@ -7,6 +7,7 @@ import { Chart, registerables } from 'chart.js';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import {HiChevronDoubleUp, HiChevronDoubleDown, HiChevronUp, HiChevronDown} from "react-icons/hi";
 import xmlLogo from "Frontend/img/xmlLogo.png"
+import {getElementAtEvent, getElementsAtEvent} from "react-chartjs-2";
 import Modal from 'react-bootstrap/Modal';
 // @ts-ignore
 import ChartVenn from "Frontend/components/charts/ChartVenn";
@@ -16,7 +17,7 @@ import {AiFillExclamationCircle} from "react-icons/ai";
 import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
 import {Bar, Line, Radar} from "react-chartjs-2";
 import { CiCircleQuestion } from "react-icons/ci";
-import { FaRegImage } from "react-icons/fa";
+import {FaCircle, FaRegImage} from "react-icons/fa";
 import html2canvas from 'html2canvas';
 import logo from "Frontend/img/logo.png";
 import {fontSize} from "html2canvas/dist/types/css/property-descriptors/font-size";
@@ -38,6 +39,7 @@ export default function PostProcessingView() {
     const [showTableED, setShowTableED] = useState(true);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [show, setShow] = useState(false);
+    const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const g = [        'G2',        'G3',        'G7',        'G8',        'G9',        'G10',        'G11',        'G12',
@@ -132,10 +134,7 @@ export default function PostProcessingView() {
         { title: 'Titolo per G49', description: 'Descrizione per G11' },
         { title: 'Titolo per G50', description: 'Descrizione per G11' },
     ];
-    const handleClick = (index: number | React.SetStateAction<null>) => {
-        // @ts-ignore
-        setActiveButton(index === activeButton ? null : index);
-    };
+
     const location = useLocation()
     const filteringArray: string[] = [];
     const {data} = location.state
@@ -440,12 +439,20 @@ export default function PostProcessingView() {
                 title: {
                     display: true,
                     text: '# of Models',
+                    color: 'black',
+                    font: {
+                        size: 13,
+                    },
                 },
             },
             x: {
                 title: {
                     display: true,
                     text: 'Model Size',
+                    color: 'black',
+                    font: {
+                        size: 13,
+                    },
                 },
             },
         },
@@ -514,12 +521,20 @@ export default function PostProcessingView() {
                 title: {
                     display: true,
                     text: '# of Models',
+                    color: 'black',
+                    font: {
+                        size: 13,
+                    },
                 },
             },
             x: {
                 title: {
                     display: true,
                     text: 'Practical Complexity',
+                    color: 'black',
+                    font: {
+                        size: 13,
+                    },
                 },
             },
         },
@@ -593,6 +608,10 @@ export default function PostProcessingView() {
                 title: {
                     display: true,
                     text: '# of Models',
+                    color: 'black',
+                    font: {
+                        size: 13,
+                    },
                 },
                 ticks: {
                     precision: 0
@@ -654,6 +673,10 @@ export default function PostProcessingView() {
                 title: {
                     display: true,
                     text: '# of Models',
+                    color: 'black',
+                    font: {
+                        size: 13,
+                    },
                 },
             },
         },
@@ -705,6 +728,8 @@ export default function PostProcessingView() {
                 backgroundColor: "rgba(16,173,115,0.7)",
                 borderColor: "rgba(8,59,12,0.6)",
                 data: percentageResult, // Array di valori delle percentuali
+                link: [''],
+                pointRadius: 8, // Dimensione dei punti
             },
         ],
     };
@@ -716,10 +741,36 @@ export default function PostProcessingView() {
                 display: false,
             },
         },
-        stacked: false,
-        scales: {
+        elements: {
+            point: {
+                radius: 6,
+                hoverRadius: 6, // Dimensione dei punti durante il passaggio del mouse
+                hoverBorderWidth: 0,
+                hoverBackgroundColor: "rgba(16,173,115,0.7)", // Colore di sfondo durante il passaggio del mouse
+                hoverBorderColor: "rgba(8,59,12,0.6)", // Colore del bordo durante il passaggio del mouse
+                hitRadius: 10, // Area di rilevamento del puntatore
+                cursor: "pointer", // Imposta il cursore come pointer durante il passaggio del mouse
+            },
         },
+        stacked: false,
     };
+
+    const handleClick = (index: number | React.SetStateAction<null>) => {
+        // @ts-ignore
+        setActiveButton(index === activeButton ? null : index);
+    };
+    const chartRef = useRef();
+    const onClick = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+        // @ts-ignore
+        const activeElements = chartRef.current.getElementsAtEventForMode(event, 'point', { intersect: true });
+        if (activeElements.length > 0) {
+            const datasetIndex = activeElements[0].datasetIndex;
+            const dataPointIndex = activeElements[0].index;
+            setSelectedItemIndex(dataPointIndex);
+            handleClick(dataPointIndex);
+        }
+    };
+
 
     // @ts-ignore
     const errorCounts: { [errorType: string]: number } = {};
@@ -748,14 +799,12 @@ export default function PostProcessingView() {
     // Creazione dell'array di valori
 
     const dataError = {
-        labels: labelsErr, // Array di etichette
-        borderWidth: 1,
+        labels: labelsErr,
         datasets: [
             {
                 label: "% of guideline's satisfaction",
-                backgroundColor: "rgb(16,173,115, 0.8)",
-                borderColor: "rgb(8,59,12)",
-                color: "rgb(8,59,12)",
+                backgroundColor: "rgb(16,173,115, 0.5)",
+                borderColor: "rgb(0,0,0)",
                 data: sortedErrorCounts.map(([_, count]) => count), // Array di valori delle percentuali
             },
         ],
@@ -776,12 +825,22 @@ export default function PostProcessingView() {
                 title: {
                     display: true,
                     text: '# of Errors',
+                    color: 'black',
+                    font: {
+                        size: 16,
+                        weight: 'bold',
+                    },
                 },
             },
             x: {
                 title: {
                     display: true,
                     text: 'Error Type',
+                    color: 'black',
+                    font: {
+                        size: 16,
+                        weight: 'bold',
+                    },
                 },
             },
         },
@@ -1069,16 +1128,16 @@ export default function PostProcessingView() {
                                 <div style={{display: "flex", flexDirection: "column", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                                     <div style={{display: "flex", flexDirection: "row"}}>
                                         <div style={{width: "60%", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                            <div style={{display:"flex",alignSelf:"center"}}>
-                                                <a style={{fontSize: '25px',color: 'black', fontWeight: "bold"}}>Radar Guidelines</a>
-                                                <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                                  title={"This is a graph of the model size of the collection"}/>
-                                                <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                                    <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"71%"}}/>
+                                            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
+                                                <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Radar Guidelines</a>
+                                                <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the model size of the collection"} />
+                                                <button style={{ background: 'white', border: "none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer' }}>
+                                                    <FaRegImage onClick={() => downloadSvg('chartSE')} style={{ fontSize: "30px", alignSelf: "right", marginBottom: "71%" }} />
                                                 </button>
+                                                <a style={{ fontSize: '14px', color: 'black', fontStyle: "italic", marginBottom:"4%"}}>Click on the points of the radar for more information about the guideline.</a>
                                             </div>
                                             <div id="chartSE" style={{position: "relative", height:"100vh", width:"100%"}}>
-                                                <Radar options={optionRadarChartData}  data={radarChartData}></Radar>
+                                                <Radar options={optionRadarChartData}  data={radarChartData} onClick={onClick} ref={chartRef}></Radar>
                                             </div>
                                         </div>
 
@@ -1087,16 +1146,36 @@ export default function PostProcessingView() {
                                             <div style={{display:"flex", flexDirection: "column"}}>
                                                 <div style={{ marginTop: "10px", display: "flex", flexDirection: "column" }}>
                                                     {g.map((item, index) => (
-                                                        <div key={index} style={{ marginBottom: "10px" }}>
-                                                            <button onClick={() => handleClick(index)} style={{ marginRight: "10px" }}>
+                                                        <div key={index} style={{ marginBottom: "2px" }}>
+                                                            <button
+                                                                key={index}
+                                                                onClick={() => handleClick(index)}
+                                                                style={{
+                                                                    marginRight: "10px",
+                                                                    padding: "2px",
+                                                                    border: "none",
+                                                                    backgroundColor: "rgba(250, 250, 250, 0.8)",
+                                                                    color: "#10ad73",
+                                                                    borderRadius: "3px",
+                                                                }}
+                                                                className={selectedItemIndex === index && activeButton === index ? "active" : ""}
+                                                            >
                                                                 {item} - <span style={{ fontWeight: "bold" }}>{descriptions[index].title}</span>
                                                             </button>
                                                             {activeButton === index && (
                                                                 <div style={{ marginTop: "5px", marginLeft: "20px", color: "black" }}>
-                                                                    <p>{descriptions[index].description}</p>
+                                                          <span
+                                                              style={{
+                                                                  color: `rgb(${255 - radarChartData.datasets[0].data[index] * 2.55}, ${radarChartData.datasets[0].data[index] * 2.55}, 0)`,
+                                                                  fontWeight: "bold",
+                                                              }}
+                                                          >
+                                                            Satisfaction: {radarChartData.datasets[0].data[index]}%
+                                                          </span>{" "}- {descriptions[index].description}
                                                                 </div>
                                                             )}
                                                         </div>
+
                                                     ))}
                                                 </div>
                                             </div>
