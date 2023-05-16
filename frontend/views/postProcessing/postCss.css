@@ -119,3 +119,7 @@ tbody td {
     color: white;
     box-shadow: 0 0 5px rgba(16, 173, 115, 0.7);
 }
+
+.chart-cursor-pointer {
+    cursor: pointer;
+}

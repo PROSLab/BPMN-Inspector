@@ -26,7 +26,7 @@ import {Bar, getElementsAtEvent, Radar} from "react-chartjs-2";
                     'rgba(255, 159, 64, 1)'
                 ],
                 data: [0, 10, 5, 2, 20, 30, 45],
-                link: ['www.google.it']
+                link: ['']
             },
         ],
     };
@@ -53,7 +53,7 @@ const onClick = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
 
 const RadarChart : React.FC<Props> = (props:Props) => {
       return(
-            <Radar data={data} options={options} onClick={onClick} ref={chartRef}/>
+            <Radar data={data} options={options} onClick={onClick} ref={chartRef} />
     );
 
 };

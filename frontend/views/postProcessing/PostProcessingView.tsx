@@ -21,6 +21,7 @@ import {FaCircle, FaRegImage} from "react-icons/fa";
 import html2canvas from 'html2canvas';
 import logo from "Frontend/img/logo.png";
 import {fontSize} from "html2canvas/dist/types/css/property-descriptors/font-size";
+import {loader} from "react-global-loader";
 
 interface filesInfoFiltered {
     name: string;
@@ -156,15 +157,10 @@ export default function PostProcessingView() {
         elementMap: Map<string, number>;
         guidelineMap: Map<string, string>;
     }
-    const toggleTableEU = () => {
-        setShowTableEU(!showTableEU);
-    };
-     const toggleTableED = () => {
-        setShowTableED(!showTableED);
-    };
 
     useEffect(() => {
         setIsLoading(true);
+        loader.show();
         axios({
             method: "post",
             url: "/files",
@@ -172,6 +168,7 @@ export default function PostProcessingView() {
         }).then((response) => {
             setFilesInfo(response.data);
             setIsLoading(false);
+            loader.hide();
         });
     }, [data]);
 
@@ -362,6 +359,7 @@ export default function PostProcessingView() {
 
     let displayMsgSyntactic = "";
     let displayMsgGoodModeling = "";
+    let displayMsgCombined = "";
 
     if (invalid===0) {
         displayMsgSyntactic = "No invalids models were detected.";
@@ -369,6 +367,10 @@ export default function PostProcessingView() {
 
     if (totalProcess===0 || valid===0) {
         displayMsgGoodModeling = "The evaluation of good modeling practices is supported only on valid Process Collaboration models.";
+    }
+
+    if (total === 1) {
+        displayMsgCombined = "The evaluation of the combined use of elements can be evaluate only in more than one model.";
     }
 
     function downloadSvg(diagramId: string) {
@@ -389,12 +391,14 @@ export default function PostProcessingView() {
     function countTotalLengths(files: filesInfo[]) {
         let maxLength = 0;
         const arrayLength: number[] = [];
+        let totalModels = 0;
 
         for (const file of files) {
             // @ts-ignore
             const totalElements = file.elementMap["TotalElements"];
 
             if (totalElements !== undefined && totalElements >= 0) {
+                totalModels++;
                 if (totalElements > maxLength) {
                     maxLength = totalElements;
                 }
@@ -405,6 +409,8 @@ export default function PostProcessingView() {
             }
         }
 
+        const percentageArray = arrayLength.map((count) => (count / totalModels) * 100);
+
         const labels = [];
         for (let i = 0; i <= maxLength; i++) {
             labels.push(`${i}`);
@@ -414,31 +420,39 @@ export default function PostProcessingView() {
             labels: labels,
             datasets: [
                 {
-                    label: "# of the model with this size",
+                    label: "% of the model with this size",
                     backgroundColor: "rgb(16,173,115)",
                     borderColor: "rgb(8,59,12)",
-                    data: arrayLength,
+                    data: percentageArray,
                     color: "rgb(8,59,12)",
                 },
             ],
         };
         return dataTotalElements;
     }
+
     const optionsTotalElements = {
+        responsive: true,
         plugins: {
             legend: {
                 display: false,
             },
         },
+        interaction: {
+            mode: 'index' as const,
+            intersect: false,
+        },
+        stacked: false,
         scales: {
             y: {
                 display: true,
                 ticks: {
-                    precision: 0
+                    precision: 0,
+                    callback: (value: any) => `${value}%`,
                 },
                 title: {
                     display: true,
-                    text: '# of Models',
+                    text: '% of Models',
                     color: 'black',
                     font: {
                         size: 13,
@@ -461,12 +475,14 @@ export default function PostProcessingView() {
     function countPracticalLengths(files: filesInfo[]) {
         let maxLength = 0;
         const arrayLength: number[] = [0];
+        let totalModels = 0;
 
         for (const file of files) {
             // @ts-ignore
             const practicalComplexity = file.elementMap["Practical Complexity"];
 
             if (practicalComplexity !== undefined && practicalComplexity >= 0) {
+                totalModels++;
                 if (practicalComplexity > maxLength) {
                     maxLength = practicalComplexity;
                 }
@@ -477,27 +493,30 @@ export default function PostProcessingView() {
             }
         }
 
+        const percentageArray = arrayLength.map((count) => (count / totalModels) * 100);
+
         const labels = [];
         for (let i = 0; i <= maxLength; i++) {
             labels.push(`${i}`);
         }
 
-        const filteredArrayLength = arrayLength.map(value => Math.round(value));
+        const filteredPercentageArray = percentageArray.map((value) => Math.round(value));
 
         const dataPC = {
             labels: labels,
             datasets: [
                 {
-                    label: "# of models with this size",
+                    label: "% of models with this size",
                     backgroundColor: "rgb(16,173,115)",
                     borderColor: "rgb(8,59,12)",
-                    data: filteredArrayLength,
+                    data: filteredPercentageArray,
                     color: "rgb(8,59,12)",
                 },
             ],
         };
         return dataPC;
     }
+
     const optionsPC = {
         responsive: true,
         plugins: {
@@ -516,11 +535,12 @@ export default function PostProcessingView() {
                 display: true,
                 position: 'left' as const,
                 ticks: {
-                    precision: 0
+                    precision: 0,
+                    callback: (value: any) => `${value}%`,
                 },
                 title: {
                     display: true,
-                    text: '# of Models',
+                    text: '% of Models',
                     color: 'black',
                     font: {
                         size: 13,
@@ -744,15 +764,14 @@ export default function PostProcessingView() {
         elements: {
             point: {
                 radius: 6,
-                hoverRadius: 6, // Dimensione dei punti durante il passaggio del mouse
+                hoverRadius: 6,
                 hoverBorderWidth: 0,
-                hoverBackgroundColor: "rgba(16,173,115,0.7)", // Colore di sfondo durante il passaggio del mouse
-                hoverBorderColor: "rgba(8,59,12,0.6)", // Colore del bordo durante il passaggio del mouse
-                hitRadius: 10, // Area di rilevamento del puntatore
-                cursor: "pointer", // Imposta il cursore come pointer durante il passaggio del mouse
+                hoverBackgroundColor: "rgba(16,173,115,0.7)",
+                hoverBorderColor: "rgba(8,59,12,0.6)",
+                hitRadius: 10,
+                cursor: "pointer",
+                },
             },
-        },
-        stacked: false,
     };
 
     const handleClick = (index: number | React.SetStateAction<null>) => {
@@ -999,10 +1018,17 @@ export default function PostProcessingView() {
 
                 )}
                 {activeTab === 'bpmn-element-combined-use' && (
-                    <>
+                    <div>
+                        {displayMsgCombined ? (
+                            <div className="container">
+                                <img style={{width:"8%",height:"10%"}} src="../../img/denied.png" />
+                                <p>{displayMsgCombined}</p>
+                                <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload more than one model</a></a>
+                            </div>
+                        ) : (
                     <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                         <div style={{display:'flex',width: "100%",flexDirection: "row"}}>
-                            <div style={{width: "60%",marginBottom:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <div style={{width: "60%",marginBottom:"10px", marginRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div style={{display:"flex"}}>
                                     <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Most Combined Use</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
@@ -1010,9 +1036,6 @@ export default function PostProcessingView() {
                                     <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartVCON')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                     </button>
-                                </div>
-                                <div id="chartVCON" style={{position: "relative", height:"30vh", width:"100%"}}>
-                                    <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
                                 </div>
                             </div>
                             <div style={{width: "40%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
@@ -1027,8 +1050,8 @@ export default function PostProcessingView() {
                                         <tbody>
                                         {dataElementUsage.labels.map((label, index) => (
                                             <tr key={index}>
-                                                <td>{label} - {label}</td>
-                                                <td style={{textAlign: "center"}}>{dataElementUsage.datasets[0].data[index]}</td>
+                                                <td style={{fontSize:"14px"}}>{label} - {label}</td>
+                                                <td style={{textAlign: "center", fontSize:"14px"}}>{dataElementUsage.datasets[0].data[index]}</td>
                                             </tr>
                                         ))}
                                         </tbody>
@@ -1036,7 +1059,6 @@ export default function PostProcessingView() {
                                 )}
                             </div>
                         </div>
-                    </div>
 
                     <div style={{marginBottom:"10px", marginTop:"0.20cm"}} >
                         <button style={{background: 'white',width:"100%", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
@@ -1044,7 +1066,11 @@ export default function PostProcessingView() {
                         </button>
                     </div>
 
-                    </>
+                    </div>
+
+                        )}
+
+                    </div>
 
                 )}
                 {activeTab === 'bpmn-syntactic-validation' && (

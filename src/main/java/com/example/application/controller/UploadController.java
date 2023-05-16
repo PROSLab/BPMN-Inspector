@@ -8,7 +8,10 @@ import com.github.pemistahl.lingua.api.Language;
 import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 import static com.github.pemistahl.lingua.api.Language.*;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -27,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
@@ -56,9 +58,9 @@ public class UploadController {
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src/main/resources/bpmnModels/";
     private List<String> validModelFiles = new ArrayList<>();
-
+    private int apiCallCount = 0;
     @PostMapping("/files")
-    public List<fileInfo> getFiles(@RequestBody String[] data) throws IOException {
+    public List<fileInfo> getFiles(@RequestBody String[] data) throws IOException, CsvValidationException, InterruptedException {
 
         List<fileInfo> fileInfos = new ArrayList<>();
         List<fileInfo> fileInfosBackup = new ArrayList<>();
@@ -69,6 +71,7 @@ public class UploadController {
             boolean isDuplicated;
             String isEnglish;
             String validationResult;
+            apiCallCount++;
 
             try {
                 byte[] fileContent = Files.readAllBytes(file.toPath());
@@ -101,29 +104,28 @@ public class UploadController {
 
             try {
                 modelType = extractModelType(file);
-            } catch (SAXException e) {
-                throw new RuntimeException(e);
-            } catch (IOException | ParserConfigurationException e) {
+            } catch (SAXException | IOException | ParserConfigurationException e) {
                 throw new RuntimeException(e);
             }
             fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType, isEnglish, validationResult));
         });
 
         try {
-
             getFilteredFiles(data, fileInfos);
-            evaluateGuidelines(data, fileInfos);
-            evaluateCombined(data, fileInfos);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (XPathExpressionException e) {
-            throw new RuntimeException(e);
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
+
+        } catch (IOException | XPathExpressionException | ParserConfigurationException | SAXException e) {
             throw new RuntimeException(e);
         }
-
+        System.out.println(apiCallCount);
+        System.out.println(fileInfos.size()+1);
+        if (apiCallCount > fileInfos.size()+1) {
+            try {
+                evaluateGuidelines(data, fileInfos);
+                evaluateCombined(data, fileInfos);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         List<fileInfo> newFileInfoFiltered = new ArrayList<>();
         for (fileInfo fileInfo : fileInfos) {
             if(data.length==0){
@@ -133,6 +135,7 @@ public class UploadController {
 
             if(fileInfo.elementMap !=  null){
                 newFileInfoFiltered.add(fileInfo);
+
             }
 
         }
@@ -440,7 +443,6 @@ public class UploadController {
 
         tempFile.delete(); // Elimina il file temporaneo dopo il download
     }
-
     @GetMapping("/download-validation-report")
     public ResponseEntity<Resource> downloadValidationReport() throws IOException {
         String fileName = "validationOutput.csv";
@@ -494,9 +496,18 @@ public class UploadController {
                 .body(resource);
     }
     @PostMapping("/download-filtered-models")
-    public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException {
+    public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException, CsvValidationException, InterruptedException {
 
-        List<fileInfo> filteredFileInfos = getFiles(filteringArray);
+        List<fileInfo> filteredFileInfos = null;
+        try {
+            filteredFileInfos = getFiles(filteringArray);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         if (Arrays.asList(filteringArray).contains("invalid")) {
             filteredFileInfos.removeIf(fileInfo -> !fileInfo.isValid);
@@ -5305,7 +5316,7 @@ SUBPROCESS Collapsed EVENT + ADHOC
         bw.close();
 
     }
-    public void evaluateCombined(String[] filteringArray,List<fileInfo> fileInfos) throws IOException {
+    public void evaluateCombined(String[] filteringArray,List<fileInfo> fileInfos) throws IOException, CsvValidationException, InterruptedException {
 
         if (Arrays.asList(filteringArray).contains("invalid")) {
             fileInfos.removeIf(fileInfo -> !fileInfo.isValid);
@@ -5326,9 +5337,18 @@ SUBPROCESS Collapsed EVENT + ADHOC
             fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Conversation"));
         }
 
-        String path = "src/main/resources/bpmnCounterOutput/bpmn_combined.csv";
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8));
-
-
+        ProcessBuilder processBuilder = new ProcessBuilder("python", "src/main/resources/bpmnCounterOutput/pearson.py");
+        Process process = processBuilder.start();
+        BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+        String line;
+        while ((line = errorReader.readLine()) != null) {
+            System.out.println(line);
+        }
+        int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                System.out.println("Processo Python correctly executed.");
+            } else {
+                System.out.println("Error during the processing of the Python script.");
+            }
         }
 }
