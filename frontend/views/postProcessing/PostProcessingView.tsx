@@ -38,7 +38,6 @@ export default function PostProcessingView() {
     const [activeTab, setActiveTab] = useState('bpmn-element-usage');
     const [showTableEU, setShowTableEU] = useState(true);
     const [showTableED, setShowTableED] = useState(true);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [show, setShow] = useState(false);
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const handleClose = () => setShow(false);
@@ -49,7 +48,6 @@ export default function PostProcessingView() {
         'G32',        'G33',        'G34',        'G35',        'G36',        'G37',        'G38',        'G39',
         'G42',        'G44',        'G45',        'G46',        'G47',        'G48',        'G49',        'G50'    ];
     const [activeButton, setActiveButton] = React.useState(null);
-
     const descriptions = [
         { title: 'Minimize model size', description: 'The designer should create models which comply with the BPMN standard. Once the\n' +
                 'process logic has been defined, the designer should validate a model ensuring that the\n' +
@@ -159,7 +157,6 @@ export default function PostProcessingView() {
     }
 
     useEffect(() => {
-        setIsLoading(true);
         loader.show();
         axios({
             method: "post",
@@ -167,13 +164,53 @@ export default function PostProcessingView() {
             data: data,
         }).then((response) => {
             setFilesInfo(response.data);
-            setIsLoading(false);
             loader.hide();
         });
-    }, [data]);
+    }, []);
 
+    console.log(filesInfo);
+    interface CorrelationPair {
+        pair: string;
+        correlation: number;
+    }
 
-    console.log(filesInfo)
+    const pairs: CorrelationPair[] = [];
+    const [correlationData, setCorrelationData] = useState<CorrelationPair[]>([] as any);
+
+    useEffect(() => {
+        axios
+            .get('bpmn_combined.csv')
+            .then(response => {
+                const matrix = response.data;
+console.log(matrix)
+                // Itera sulla matrice a specchio e ottieni tutte le coppie con i valori di rho
+                for (let i = 0; i < matrix.length; i++) {
+                    const row = matrix[i];
+
+                    for (let j = i + 1; j < row.length; j++) {
+                        const correlation = row[j];
+
+                        pairs.push({
+                            pair: `${i} - ${j}`,
+                            correlation: correlation as number,
+                        });
+                    }
+                }
+
+                // Ordina le coppie per valore di correlazione in ordine decrescente
+                const sortedPairs = pairs.sort((a, b) => b.correlation - a.correlation);
+
+                // Prendi solo le prime 10 coppie
+                const topPairs = sortedPairs.slice(0, 10);
+
+                // @ts-ignore
+                setCorrelationData(topPairs);
+            })
+            .catch(error => {
+                console.log('Errore nel caricamento del file CSV', error);
+            });
+    }, []);
+
 
     async function deleteFiles() {
         try {
@@ -351,7 +388,7 @@ export default function PostProcessingView() {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'bpmn_elements.csv');
+            link.setAttribute('download', 'bpmn_inspectorReport.csv');
             document.body.appendChild(link);
             link.click();
         });
@@ -865,6 +902,7 @@ export default function PostProcessingView() {
         },
     };
 
+    // @ts-ignore
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <ul style={{background:"#fafafb"}} className="nav nav-tabs nav-fill">
@@ -1044,14 +1082,20 @@ export default function PostProcessingView() {
                                         <thead>
                                         <tr>
                                             <th>Elements Pair</th>
-                                            <th style={{width: "30%"}}>Rho (ρ) <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle"}} title={"This is an index to assesses linear relationships between elements"}/></th>
+                                            <th style={{ width: "30%" }}>
+                                                Rho (ρ)
+                                                <CiCircleQuestion
+                                                    style={{ fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle" }}
+                                                    title={"This is an index to assess linear relationships between elements"}
+                                                />
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {dataElementUsage.labels.map((label, index) => (
+                                        {correlationData.map((row, index) => (
                                             <tr key={index}>
-                                                <td style={{fontSize:"14px"}}>{label} - {label}</td>
-                                                <td style={{textAlign: "center", fontSize:"14px"}}>{dataElementUsage.datasets[0].data[index]}</td>
+                                                <td style={{ fontSize: "14px" }}>{row.pair}</td>
+                                                <td style={{ textAlign: "center", fontSize: "14px" }}>{row.correlation}</td>
                                             </tr>
                                         ))}
                                         </tbody>

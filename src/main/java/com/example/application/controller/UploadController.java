@@ -116,8 +116,7 @@ public class UploadController {
         } catch (IOException | XPathExpressionException | ParserConfigurationException | SAXException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(apiCallCount);
-        System.out.println(fileInfos.size()+1);
+
         if (apiCallCount > fileInfos.size()+1) {
             try {
                 evaluateGuidelines(data, fileInfos);
