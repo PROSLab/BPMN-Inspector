@@ -9,7 +9,6 @@ import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 import static com.github.pemistahl.lingua.api.Language.*;
 import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.ss.usermodel.Cell;
@@ -48,6 +47,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -60,7 +60,7 @@ public class UploadController {
     private List<String> validModelFiles = new ArrayList<>();
     private int apiCallCount = 0;
     @PostMapping("/files")
-    public List<fileInfo> getFiles(@RequestBody String[] data) throws IOException, CsvValidationException, InterruptedException {
+    public List<fileInfo> getFiles(@RequestBody String[] data) throws IOException, InterruptedException {
 
         List<fileInfo> fileInfos = new ArrayList<>();
         List<fileInfo> fileInfosBackup = new ArrayList<>();
@@ -78,25 +78,16 @@ public class UploadController {
                 isEnglish = detectLanguage(file);
                 validationResult = validateFile(data,file,fileInfos);
 
-                if (Objects.equals(validationResult, ""))
-                    isValid = true;
-                else
-                    isValid = false;
+                isValid = Objects.equals(validationResult, "");
 
                 List<String> duplicates = getDuplicateFiles();
 
-                if (duplicates.contains(file.getName())) {
-                    isDuplicated = true;
-                } else {
-                    isDuplicated = false;
-                }
+                isDuplicated = duplicates.contains(file.getName());
 
                 if (isValid) {
                     validModelFiles.add(file.getName());
                 }
             } catch (SAXException | IOException | ParserConfigurationException e) {
-                isValid = false;
-                isDuplicated = false;
                 throw new RuntimeException(e);
             }
 
@@ -494,17 +485,84 @@ public class UploadController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
+
+    @GetMapping("/prepare-combined-report")
+    public ResponseEntity<Map<String, List<Map<String, Object>>>> prepareCombinedReport() throws IOException {
+        String fileName = "bpmn_combined.csv";
+        Path path = Paths.get("./src/main/resources/bpmnCounterOutput", fileName);
+        Resource resource = new UrlResource(path.toUri());
+
+        if (!resource.exists()) {
+            // Restituisci una risposta di errore se il file non esiste
+            return ResponseEntity.notFound().build();
+        }
+
+// Leggi il file CSV e ottieni la matrice dei dati
+        List<List<String>> matrix = new ArrayList<>();
+        try (CSVReader reader = new CSVReader(new FileReader(resource.getFile()))) {
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                matrix.add(Arrays.asList(line));
+            }
+        }
+
+// Crea gli array per le relazioni più alte e più basse
+        List<Map<String, Object>> highestCorrelations = new ArrayList<>();
+        List<Map<String, Object>> lowestCorrelations = new ArrayList<>();
+
+// Itera sulla matrice per trovare le relazioni
+        for (int i = 1; i < matrix.size(); i++) {
+            List<String> row = matrix.get(i);
+            String element1 = row.get(0);
+
+            for (int j = 1; j < row.size(); j++) {
+                String element2 = matrix.get(0).get(j);
+                double correlation = Double.parseDouble(row.get(j));
+
+                // Evita di considerare coppie di elementi con lo stesso nome
+                if (element1.equals(element2)) {
+                    continue;
+                }
+
+                // Crea la mappa con le informazioni di relazione
+                Map<String, Object> relation = new HashMap<>();
+                relation.put("element1", element1);
+                relation.put("element2", element2);
+                relation.put("correlation", correlation);
+
+                // Aggiungi la relazione all'array corretto in base al valore di correlazione
+                if (correlation >= 0.5 && correlation <= 1.0) {
+                    highestCorrelations.add(relation);
+                } else if (correlation >= -1.0 && correlation <= -0.5) {
+                    lowestCorrelations.add(relation);
+                }
+            }
+        }
+
+        // Ordina le relazioni in base al valore di correlazione
+                highestCorrelations.sort((a, b) -> Double.compare((double) b.get("correlation"), (double) a.get("correlation")));
+                lowestCorrelations.sort((a, b) -> Double.compare((double) a.get("correlation"), (double) b.get("correlation")));
+
+        // Seleziona solo le prime 10 relazioni per ciascun array
+                highestCorrelations = highestCorrelations.stream().limit(10).collect(Collectors.toList());
+                lowestCorrelations = lowestCorrelations.stream().limit(10).collect(Collectors.toList());
+
+        // Crea la mappa contenente gli array di relazioni
+                Map<String, List<Map<String, Object>>> correlationData = new HashMap<>();
+                correlationData.put("highestCorrelations", highestCorrelations);
+                correlationData.put("lowestCorrelations", lowestCorrelations);
+
+        // Restituisci la risposta con la mappa di relazioni
+                return ResponseEntity.ok(correlationData);
+    }
+
     @PostMapping("/download-filtered-models")
-    public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException, CsvValidationException, InterruptedException {
+    public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException, InterruptedException {
 
         List<fileInfo> filteredFileInfos = null;
         try {
             filteredFileInfos = getFiles(filteringArray);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (CsvValidationException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
@@ -601,7 +659,7 @@ public class UploadController {
             bw.write("Send Task;");
             bw.write("Send Task Compensate;");
             bw.write("Send Task Loop Standard;");
-            bw.write("Send TaskLoopStandardCompensate;");
+            bw.write("Send Task Loop Standard Compensate;");
             bw.write("Send Task Loop MI Parallel;");
             bw.write("Send Task Loop MI Parallel Compensate;");
             bw.write("Send Task Loop MI Sequential;");
@@ -5225,10 +5283,46 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
         // Scrivi l'intestazione delle colonne nel file CSV
         bw.write("fileName;");
-        for (int i = 1; i <= 40; i++) {
-            bw.write("G" + i + ";");
-        }
-
+        bw.write("G2;");
+        bw.write("G3;");
+        bw.write("G7;");
+        bw.write("G8;");
+        bw.write("G9;");
+        bw.write("G10;");
+        bw.write("G11;");
+        bw.write("G12;");
+        bw.write("G13;");
+        bw.write("G14;");
+        bw.write("G15;");
+        bw.write("G16;");
+        bw.write("G17;");
+        bw.write("G18;");
+        bw.write("G19;");
+        bw.write("G20;");
+        bw.write("G21;");
+        bw.write("G22;");
+        bw.write("G24;");
+        bw.write("G26;");
+        bw.write("G28;");
+        bw.write("G29;");
+        bw.write("G30;");
+        bw.write("G31;");
+        bw.write("G32;");
+        bw.write("G33;");
+        bw.write("G34;");
+        bw.write("G35;");
+        bw.write("G36;");
+        bw.write("G37;");
+        bw.write("G38;");
+        bw.write("G39;");
+        bw.write("G42;");
+        bw.write("G44;");
+        bw.write("G45;");
+        bw.write("G46;");
+        bw.write("G47;");
+        bw.write("G48;");
+        bw.write("G49;");
+        bw.write("G50;");
         bw.write("\n");
         bw.flush();
 
@@ -5315,7 +5409,7 @@ SUBPROCESS Collapsed EVENT + ADHOC
         bw.close();
 
     }
-    public void evaluateCombined(String[] filteringArray,List<fileInfo> fileInfos) throws IOException, CsvValidationException, InterruptedException {
+    public void evaluateCombined(String[] filteringArray,List<fileInfo> fileInfos) throws IOException, InterruptedException {
 
         if (Arrays.asList(filteringArray).contains("invalid")) {
             fileInfos.removeIf(fileInfo -> !fileInfo.isValid);
@@ -5335,7 +5429,8 @@ SUBPROCESS Collapsed EVENT + ADHOC
         if (Arrays.asList(filteringArray).contains("conversation")) {
             fileInfos.removeIf(fileInfo -> fileInfo.modelType.equals("Conversation"));
         }
-
+        //For generating combined sets
+        generateVennDataFromCsv();
         ProcessBuilder processBuilder = new ProcessBuilder("python", "src/main/resources/bpmnCounterOutput/pearson.py");
         Process process = processBuilder.start();
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
@@ -5350,4 +5445,67 @@ SUBPROCESS Collapsed EVENT + ADHOC
                 System.out.println("Error during the processing of the Python script.");
             }
         }
+
+    public void generateVennDataFromCsv() {
+        String inputFilePath = "src/main/resources/bpmnCounterOutput/bpmn_elements.csv";
+        String outputFilePath = "src/main/resources/bpmnCounterOutput/bpmn_combinedSets.csv";
+
+        try (Reader reader = new FileReader(inputFilePath);
+             Writer writer = new FileWriter(outputFilePath);
+             CSVParser parser = CSVFormat.DEFAULT.withDelimiter(';').parse(reader);
+             CSVPrinter printer = CSVFormat.DEFAULT.withDelimiter(';').print(writer)) {
+
+            boolean isHeader = true;
+            int columnCount = -1;
+            int[] columnCounts = null;
+            String[] header = null;
+
+            for (CSVRecord record : parser) {
+                if (isHeader) {
+                    isHeader = false;
+                    columnCount = record.size();
+                    columnCounts = new int[columnCount];
+                    header = new String[columnCount];
+
+                    // Salva l'header originale
+                    for (int i = 0; i < columnCount; i++) {
+                        header[i] = record.get(i);
+                    }
+
+                    // Escludi i primi 2 elementi e gli ultimi 7 elementi dall'header
+                    String[] modifiedHeader = Arrays.copyOfRange(header, 2, columnCount - 7);
+
+                    // Scrivi l'header modificato nel file di output
+                    printer.printRecord((Object[]) modifiedHeader);
+
+                    continue; // Salta l'header
+                }
+
+                for (int i = 2; i < columnCount - 7; i++) {
+                    String cellValue = record.get(i);
+                    int value = Integer.parseInt(cellValue);
+
+                    // Incrementa il conteggio se il valore è maggiore di zero
+                    if (value > 0) {
+                        columnCounts[i]++;
+                    }
+
+                    // Scrivi il valore originale nel file di output
+                    printer.print(cellValue);
+                }
+
+                printer.println();
+            }
+
+            // Scrivi i conteggi sopra ogni colonna nel file di output
+            if (columnCounts != null) {
+                for (int i = 2; i < columnCount - 7; i++) {
+                    printer.print(columnCounts[i]);
+                }
+                printer.println();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

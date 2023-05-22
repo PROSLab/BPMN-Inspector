@@ -45,42 +45,44 @@ public class LabelingXORGateway extends abstractGuideline {
 						ExclusiveGateway gateway = (ExclusiveGateway) fe;
 						boolean bool = ((gateway.getIncoming().size() <= gateway.getOutgoing().size()));
 						if (bool) {
-							int find = gateway.getName().indexOf("?");
-							if (gateway.getName() == null || gateway.getName().length() < 4 || find <0) {
+							String gatewayName = gateway.getName();
+							if (gatewayName == null || gatewayName.length() < 4) {
 								z++;
 								elementsBPMN.add(fe);
-								String name = fe.getName() != null ? fe.getName()
-										: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
+								String name = fe.getName() != null ? fe.getName() : Messages.getString("Generic.LabelEmpty", l);
 								setElements(fe.getId(), IDProcess, name);
-								temp.append("* name=" + name + " ID=" + fe.getId() //$NON-NLS-1$ //$NON-NLS-2$
-										+ "\n"); //$NON-NLS-1$
+								temp.append("* name=" + name + " ID=" + fe.getId() + "\n");
+							} else {
+								int find = gatewayName.indexOf("?");
+								if (find < 0) {
+									z++;
+									elementsBPMN.add(fe);
+									String name = fe.getName() != null ? fe.getName() : Messages.getString("Generic.LabelEmpty", l);
+									setElements(fe.getId(), IDProcess, name);
+									temp.append("* name=" + name + " ID=" + fe.getId() + "\n");
+								}
 							}
+
 							String name1 = "";
 							for (SequenceFlow sq : gateway.getOutgoing()) {
-								if (sq.getName()==null) {
+								if (sq.getName() == null) {
 									z++;
 									elementsBPMN.add(sq);
-									String name = sq.getName() != null ? sq.getName()
-											: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
+									String name = sq.getName() != null ? sq.getName() : Messages.getString("Generic.LabelEmpty", l);
 									setElements(sq.getId(), IDProcess, name);
-									temp.append("* name=" + name + " ID=" + sq.getId() //$NON-NLS-1$ //$NON-NLS-2$
-											+ "\n"); //$NON-NLS-1$
-								}
-								else {
-									if (name1.indexOf(sq.getName())<0) {
+									temp.append("* name=" + name + " ID=" + sq.getId() + "\n");
+								} else {
+									if (name1.indexOf(sq.getName()) < 0) {
 										name1 += sq.getName();
-									}
-									else {
+									} else {
 										z++;
 										elementsBPMN.add(sq);
-										String name = sq.getName() != null ? sq.getName()
-												: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
+										String name = sq.getName() != null ? sq.getName() : Messages.getString("Generic.LabelEmpty", l);
 										setElements(sq.getId(), IDProcess, name);
-										temp.append("* name=" + name + " ID=" + sq.getId() //$NON-NLS-1$ //$NON-NLS-2$
-												+ "\n"); //$NON-NLS-1$
+										temp.append("* name=" + name + " ID=" + sq.getId() + "\n");
 									}
 								}
-							}						
+							}
 						}
 						else if (!bool) {
 							if (gateway.getName()!=null) {

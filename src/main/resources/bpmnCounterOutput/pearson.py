@@ -35,4 +35,5 @@ for index, element in enumerate(present_elements):
         rho_element_list.append(currentRho)
     with open(filename, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([element] + rho_element_list)
+        rounded_rho_element_list = [round(rho, 2) for rho in rho_element_list]
+        csvwriter.writerow([element] + rounded_rho_element_list)

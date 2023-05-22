@@ -7,8 +7,6 @@ import { Chart, registerables } from 'chart.js';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import {HiChevronDoubleUp, HiChevronDoubleDown, HiChevronUp, HiChevronDown} from "react-icons/hi";
 import xmlLogo from "Frontend/img/xmlLogo.png"
-import {getElementAtEvent, getElementsAtEvent} from "react-chartjs-2";
-import Modal from 'react-bootstrap/Modal';
 // @ts-ignore
 import ChartVenn from "Frontend/components/charts/ChartVenn";
 import {BsDiagram2} from "react-icons/bs";
@@ -36,7 +34,6 @@ interface filesInfoFiltered {
 
 export default function PostProcessingView() {
     const [activeTab, setActiveTab] = useState('bpmn-element-usage');
-    const [showTableEU, setShowTableEU] = useState(true);
     const [showTableED, setShowTableED] = useState(true);
     const [show, setShow] = useState(false);
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
@@ -111,34 +108,84 @@ export default function PostProcessingView() {
                 'tasks. If in a subprocess are present more message flows to the same pool, the designer\n' +
                 'should show in the top-level process maximum two message flows: one for all outgoing\n' +
                 'message flow and one for all incoming message flow with that pool.' },
-        { title: 'Titolo per G26', description: 'Descrizione per G11' },
-        { title: 'Titolo per G28', description: 'Descrizione per G11' },
-        { title: 'Titolo per G29', description: 'Descrizione per G11' },
-        { title: 'Titolo per G30', description: 'Descrizione per G11' },
-        { title: 'Titolo per G31', description: 'Descrizione per G11' },
-        { title: 'Titolo per G32', description: 'Descrizione per G11' },
-        { title: 'Titolo per G33', description: 'Descrizione per G11' },
-        { title: 'Titolo per G34', description: 'Descrizione per G11' },
-        { title: 'Titolo per G35', description: 'Descrizione per G11' },
-        { title: 'Titolo per G36', description: 'Descrizione per G11' },
-        { title: 'Titolo per G37', description: 'Descrizione per G11' },
-        { title: 'Titolo per G38', description: 'Descrizione per G11' },
-        { title: 'Titolo per G39', description: 'Descrizione per G11' },
-        { title: 'Titolo per G42', description: 'Descrizione per G11' },
-        { title: 'Titolo per G44', description: 'Descrizione per G11' },
-        { title: 'Titolo per G45', description: 'Descrizione per G11' },
-        { title: 'Titolo per G46', description: 'Descrizione per G11' },
-        { title: 'Titolo per G47', description: 'Descrizione per G11' },
-        { title: 'Titolo per G48', description: 'Descrizione per G11' },
-        { title: 'Titolo per G49', description: 'Descrizione per G11' },
-        { title: 'Titolo per G50', description: 'Descrizione per G11' },
+        { title: 'Document minor details', description: 'The designer should leave details to documentation keeping labels simple and limiting\n' +
+                'the use of text annotations.' },
+        { title: 'Labelling pools', description: 'The designer should label pools using the participants name. An exception can be done\n' +
+                'for the main pool: it can be labeled using the process name. If a pool is present in a\n' +
+                'subprocess, the name of the pool must be the same of the upper-level process pool which\n' +
+                'includes the subprocess activity. This means that the pool of the upper-level process and\n' +
+                'the pool of the subprocess needs to be the same.' },
+        { title: 'Labelling lanes', description: 'The designer should always assign a label to lanes. The label should identify the responsible entity for the process. Lanes are often used for representing things as internal roles\n' +
+                '(e.g., manager, associate), systems (e.g., an enterprise application), or internal departments (e.g., shipping, finance).' },
+        { title: 'Labelling activities', description: 'The designer should label activities with one verb, and one object. The verb used should\n' +
+                'use the present tense and be familiar to the organisation. The object has to be qualified\n' +
+                'and also of meaning to the business. The designer should not label multiple activities\n' +
+                'with the same name, except for same Call Activities used many time in the process. Send\n' +
+                'and receive verbs should be present only for sending and receiving activities.\n' },
+        { title: 'Labelling events', description: 'The designer should model all events with a label representing the state of the process.' },
+        { title: 'Labelling start and\n' +
+                'end events', description: 'The designer should not label start untyped and end untyped event if there is only one\n' +
+                'instance of them. The designer should use labeling when multiple start and end events\n' +
+                'are used. Label them according to what they represent using a noun. Do not repeat\n' +
+                'names.' },
+        { title: 'Labelling message\n' +
+                'events\n', description: 'The designer should draw a message flow whenever he uses a message event, and he\n' +
+                'should label the event. When a focus on the message itself is required, the designer can\n' +
+                'represent a message icon and label it with the name of the message.' },
+        { title: 'Labelling XOR gateways', description: 'The designer should label XOR split gateways with an interrogative phrase (do not label\n' +
+                'XOR join-gateways). Sequence flows coming out of diverging gateways should be labeled\n' +
+                'using their associated conditions stated as outcomes.' },
+        { title: 'Labelling AND gateways', description: 'The designer should omit labels on AND-splits and joins (and sequence flows connecting\n' +
+                'them); they add no new information, so it is best to omit them.\n' },
+        { title: 'Labelling converging\n' +
+                'gateways', description: 'The designer should not label converging gateways. When the convergence logic is not\n' +
+                'obvious, the designer should associate a text annotation to the gateway.' },
+        { title: 'Labelling data object', description: 'The designer should label data objects using a qualified noun that is the name of a business object. The designer should label multiple instances of the same data object (which\n' +
+                'are really data object references) using a matching label followed by the applicable state\n' +
+                'in square brackets.' },
+        { title: 'Labelling synchronised end/split', description: 'The designer should use gateways and subprocesses consistently. The designer should\n' +
+                'match the labels of subprocess end states with the labels of a gateway immediately following the subprocess; this allows to have a clear vision on how subprocess and process\n' +
+                'are linked together.' },
+        { title: 'Include loop marker\n' +
+                'annotations', description: 'The designer should associate a text annotation to a loop represented with a loop marker\n' +
+                'so to express the condition (which alternatively is hidden).' },
+        { title: 'Use sub-processes\n' +
+                'to scope attached\n' +
+                'events', description: 'The designer should use a sub-process with attached event to clearly define the scope\n' +
+                'of an event. If the response to the handling of an exception (in the use of boundary\n' +
+                'events) is the same for every activity within a contiguous segment of the process, the\n' +
+                'designer should not attach the same boundary event to all the activities and he should\n' +
+                'not represent the same exception flows multiple times. The correct way, the designer\n' +
+                'should model it, is to enclose that segment in a subprocess and attach a single boundary\n' +
+                'event to the sub-process boundary.' },
+        { title: 'Avoid overlapping elements\n', description: 'The designer should avoid overlapping, or crossing, BPMN elements.' },
+        { title: 'Use linear sequence\n' +
+                'flows', description: 'The designer should use linear sequence flows without useless foldings; it helps to maintain\n' +
+                'the model clear' },
+        { title: 'Use linear message\n' +
+                'flows\n', description: 'The designer should use linear message flows without useless foldings; it helps to maintain\n' +
+                'the model clear.' },
+        { title: 'Use a consistent process orientation', description: 'The designer should draw pools horizontally and use consistent layout with horizontal\n' +
+                'sequence flows, and vertical message flows and associations.' },
+        { title: 'Organize artifacts\n' +
+                'flows', description: 'The designer should group artifacts flows, if there are several artifacts. The designer\n' +
+                'should pick a point on the boundary of an activity and have all the flows connected to\n' +
+                'that point. If there are multiple flows for the same artifact, the designer should group\n' +
+                'the flows.' },
+        { title: 'Associate data objects consistently', description: 'The designer should associate data objects only to activities. In particular the designer\n' +
+                'should not associate a data object with a sequence flow if the sequence flow is connected\n' +
+                'to a gateway. The designer should always model the association with a direction.\n' },
+        { title: 'Keep a standard format', description: 'The designer should keep a unique format along diagrams and focus on a clean and\n' +
+                'friendly look and feel. Using different font sizes, colours, boxes sizes or overlapping labels\n' +
+                'might make the diagrams reading a challenge. The designer should not model further\n' +
+                'properties with different colours, in order to make diagrams recognisable.' },
     ];
 
     const location = useLocation()
     const filteringArray: string[] = [];
     const {data} = location.state
     Chart.register(...registerables);
-
+    const [correlationData, setCorrelationData] = useState<CorrelationPair[]>([]);
     const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
     const [filesInfoFiltered, setFilesInfoFiltered] = useState<Array<filesInfoFiltered>>([]);
     const [showAllFiles, setShowAllFiles] = useState<boolean>(true);
@@ -169,48 +216,42 @@ export default function PostProcessingView() {
     }, []);
 
     console.log(filesInfo);
-    interface CorrelationPair {
-        pair: string;
+
+    const [highestCorrelations, setHighestCorrelations] = useState<Array<CorrelationPair>>([]);
+    const [lowestCorrelations, setLowestCorrelations] = useState<Array<CorrelationPair>>([]);
+
+    interface CorrelationData {
+        element1: string;
+        element2: string;
         correlation: number;
     }
 
-    const pairs: CorrelationPair[] = [];
-    const [correlationData, setCorrelationData] = useState<CorrelationPair[]>([] as any);
+    interface CorrelationPair {
+        element1: string;
+        element2: string;
+        correlation: number;
+    }
+
+    interface ApiResponse {
+        highestCorrelations: CorrelationData[];
+        lowestCorrelations: CorrelationData[];
+    }
 
     useEffect(() => {
         axios
-            .get('bpmn_combined.csv')
-            .then(response => {
-                const matrix = response.data;
-console.log(matrix)
-                // Itera sulla matrice a specchio e ottieni tutte le coppie con i valori di rho
-                for (let i = 0; i < matrix.length; i++) {
-                    const row = matrix[i];
-
-                    for (let j = i + 1; j < row.length; j++) {
-                        const correlation = row[j];
-
-                        pairs.push({
-                            pair: `${i} - ${j}`,
-                            correlation: correlation as number,
-                        });
-                    }
-                }
-
-                // Ordina le coppie per valore di correlazione in ordine decrescente
-                const sortedPairs = pairs.sort((a, b) => b.correlation - a.correlation);
-
-                // Prendi solo le prime 10 coppie
-                const topPairs = sortedPairs.slice(0, 10);
-
+            .get("/prepare-combined-report")
+            .then((response) => {
+                const { highestCorrelations, lowestCorrelations } = response.data as ApiResponse;
+                console.log(response.data)
                 // @ts-ignore
-                setCorrelationData(topPairs);
+                setHighestCorrelations(highestCorrelations);
+                // @ts-ignore
+                setLowestCorrelations(lowestCorrelations);
             })
-            .catch(error => {
-                console.log('Errore nel caricamento del file CSV', error);
+            .catch((error) => {
+                console.log("Errore nel caricamento dei dati", error);
             });
     }, []);
-
 
     async function deleteFiles() {
         try {
@@ -273,7 +314,7 @@ console.log(matrix)
         else if (!data.includes("duplicated") && data.includes("invalid")) {
             total -= invalid;
         }
-    console.log(total)
+
     const downloadFile = () => {
         axios({
             url: '/download-validation-report',
@@ -303,51 +344,6 @@ console.log(matrix)
             link.click();
         });
     };
-
-    function calculateRho(files: filesInfo[]) {
-        // @ts-ignore
-        const elements = Object.values(filesInfo.elementMap);
-        const rhoValues = [];
-        const rhoArray = []; // array vuoto per i valori RHO
-        const elementPairs = []; // array vuoto per le coppie di elementi
-
-        // Itero su tutte le coppie di elementi
-        for (let i = 0; i < elements.length - 1; i++) {
-            for (let j = i + 1; j < elements.length; j++) {
-                const elementA = elements[i];
-                const elementB = elements[j];
-
-                // Calcolo il coefficiente RHO tra gli elementi
-                // @ts-ignore
-                const intersection = elementA.incoming.filter(id => elementB.outgoing.includes(id)).length;
-                // @ts-ignore
-                const union = new Set([...elementA.incoming, ...elementB.outgoing]).size;
-                const rho = intersection / union;
-
-                // Aggiungo il valore di RHO all'array
-                rhoValues.push(rho);
-                rhoArray.push(rho); // aggiungi il valore RHO all'array rhoArray
-                elementPairs.push([elementA, elementB]); // aggiungi la coppia di elementi all'array elementPairs
-            }
-        }
-
-        // Ordino l'array in ordine decrescente
-        rhoValues.sort((a, b) => b - a);
-
-        const dataVennAll= {
-            labels: elementPairs,
-            datasets: [
-                {
-                    label: "# of models with this size",
-                    backgroundColor: "rgb(16,173,115)",
-                    borderColor: "rgb(8,59,12)",
-                    data: rhoValues.slice(0, 10),
-                    color: "rgb(8,59,12)",
-                },
-            ],
-        };
-        return dataVennAll;
-    }
 
     const downloadInspectionFile = () => {
         axios({
@@ -388,7 +384,7 @@ console.log(matrix)
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'bpmn_inspectorReport.csv');
+            link.setAttribute('download', 'bpmn_PairsCorrelations_Report.csv');
             document.body.appendChild(link);
             link.click();
         });
@@ -772,7 +768,6 @@ console.log(matrix)
     const dataTotalElements = countTotalLengths(filesInfo);
     const dataElementDistr = countElementDistr(filesInfo);
     const dataElementUsage = countElementUsage(filesInfo);
-    //const dataVennAll = calculateRho(filesInfo);
     const percentageResult = calculatePercentage(filesToDisplay);
 
     const labels = Array.from({ length: 40 }, (_, index) => `G${index + 1}`); // Genera un array di etichette "G1", "G2", ecc.
@@ -902,6 +897,7 @@ console.log(matrix)
         },
     };
 
+    // @ts-ignore
     // @ts-ignore
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -1066,54 +1062,104 @@ console.log(matrix)
                         ) : (
                     <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                         <div style={{display:'flex',width: "100%",flexDirection: "row"}}>
-                            <div style={{width: "60%",marginBottom:"10px", marginRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                <div style={{display:"flex"}}>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Most Combined Use</a>
-                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                      title={"This is a graph of the model size of the collection"}/>
-                                    <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
-                                        <FaRegImage onClick={() => downloadSvg('chartVCON')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
-                                    </button>
-                                </div>
-                            </div>
-                            <div style={{width: "40%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                {showTableEU && (
+                            <div style={{width: "50%", marginRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                <div style={{display:"flex", flexDirection:"column"}}>
+                                    <div style={{ display: "flex", flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
+                                        <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Most Combined Use</a>
+                                        <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the model size of the collection"} />
+                                        <button style={{ background: 'white', border: "none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer' }}>
+                                            <FaRegImage onClick={() => downloadSvg('chartVCON')} style={{ fontSize: "30px", alignSelf: "right", marginBottom: "71%" }} />
+                                        </button>
+                                    </div>
+
+                                    <div id="chartVPC" style={{marginLeft: "0", marginRight: "auto",height:"60vh", width:"55vw",marginBottom:"10px"}}>
+                                        <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
+                                    </div>
                                     <table>
                                         <thead>
                                         <tr>
-                                            <th>Elements Pair</th>
-                                            <th style={{ width: "30%" }}>
-                                                Rho (ρ)
-                                                <CiCircleQuestion
-                                                    style={{ fontSize: '18px', marginBottom: "3%", cursor: "help", display: "inline-block", verticalAlign: "middle" }}
-                                                    title={"This is an index to assess linear relationships between elements"}
-                                                />
-                                            </th>
+                                            <th>Combined usage set of Elements</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {correlationData.map((row, index) => (
-                                            <tr key={index}>
-                                                <td style={{ fontSize: "14px" }}>{row.pair}</td>
-                                                <td style={{ textAlign: "center", fontSize: "14px" }}>{row.correlation}</td>
+                                        {radarChartData.datasets[0].data
+                                            .map((percentage, index) => ({ percentage, index }))
+                                            .sort((a, b) => b.percentage - a.percentage)
+                                            .slice(0, 10)
+                                            .map(({ percentage, index }) => (
+                                                <tr key={index} style={{ fontSize: "12px" }}>
+                                                    <td>
+                                                        {g[index]} - <span style={{ fontWeight: "bold" }}>{descriptions[index].title}</span>
+                                                        <span style={{ color: `rgb(${255 - percentage * 2.55}, ${percentage * 2.55}, 0)`, fontWeight: "bold", marginLeft: "10px" }}>
+                                                                        {percentage.toFixed(2)}%
+                                                                    </span>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style={{width: "50%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                <div>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Highest Correlations </a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                      title={"This is a graph of the model size of the collection"}/>
+                                    <table style={{marginBottom:"15px"}}>
+                                        <thead>
+                                        <tr>
+                                            <th>Element 1</th>
+                                            <th>Element 2</th>
+                                            <th style={{textAlign:"center"}}>Rho (ρ)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody >
+                                        {highestCorrelations.map((relation, index) => (
+                                            <tr key={index} style={{fontSize:"13px"}}>
+                                                <td>{relation.element1}</td>
+                                                <td>{relation.element2}</td>
+                                                <td style={{textAlign:"center"}}>{relation.correlation}</td>
                                             </tr>
                                         ))}
                                         </tbody>
                                     </table>
-                                )}
+
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Lowest Correlations </a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
+                                                      title={"This is a graph of the model size of the collection"}/>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Element 1</th>
+                                            <th>Element 2</th>
+                                            <th style={{textAlign:"center"}}>Rho (ρ)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {lowestCorrelations.map((relation, index) => (
+                                            <tr key={index} style={{fontSize:"13px"}}>
+                                                <td>{relation.element1}</td>
+                                                <td>{relation.element2}</td>
+                                                <td style={{textAlign:"center"}}>{relation.correlation}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-
-                    <div style={{marginBottom:"10px", marginTop:"0.20cm"}} >
-                        <button style={{background: 'white',width:"100%", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
-                        <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
-                        </button>
                     </div>
 
-                    </div>
 
                         )}
-
+                        <div style={{marginBottom:"10px", marginTop:"0.20cm", display:"flex"}} >
+                            <button style={{background: 'white',width:"50%", marginRight:"10px", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
+                                <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
+                            </button>
+                            <button style={{background: 'white',width:"50%", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
+                                <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Pearson correlation report</a>
+                            </button>
+                        </div>
                     </div>
 
                 )}
@@ -1209,8 +1255,66 @@ console.log(matrix)
                                             <div id="chartSE" style={{position: "relative", height:"100vh", width:"100%"}}>
                                                 <Radar options={optionRadarChartData}  data={radarChartData} onClick={onClick} ref={chartRef}></Radar>
                                             </div>
-                                        </div>
+                                            <div style={{ display: "flex", flexDirection: "row" }}>
+                                                <table style={{ marginRight: "10px" }}>
+                                                    <thead>
+                                                    <tr>
+                                                        <th>10 Most Met Guidelines</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {radarChartData.datasets[0].data
+                                                        .map((percentage, index) => ({ percentage, index }))
+                                                        .sort((a, b) => b.percentage - a.percentage)
+                                                        .slice(0, 10)
+                                                        .map(({ percentage, index }) => (
+                                                            <tr key={index} style={{ fontSize: "12px" }}>
+                                                                <td>
+                                                                    {g[index]} - <span style={{ fontWeight: "bold" }}>{descriptions[index].title}</span>
+                                                                    <span style={{ color: `rgb(${255 - percentage * 2.55}, ${percentage * 2.55}, 0)`, fontWeight: "bold", marginLeft: "10px" }}>
+                                                                        {percentage.toFixed(2)}%
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
 
+                                                <table>
+                                                    <thead>
+                                                    <tr>
+                                                        <th>10 Most Violated Guidelines</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {radarChartData.datasets[0].data
+                                                        .map((percentage, index) => ({ percentage, index }))
+                                                        .filter(({ percentage }) => percentage < 100)
+                                                        .sort((a, b) => a.percentage - b.percentage)
+                                                        .slice(0, 10)
+                                                        .map(({ percentage, index }) => (
+                                                            <tr key={index} style={{ fontSize: "12px" }}>
+                                                                <td>
+                                                                    {`${g[index]} - `}
+                                                                    <span style={{ fontWeight: "bold" }}>{descriptions[index].title}</span>
+                                                                    <span style={{ color: `rgb(${255 - percentage * 2.55}, ${percentage * 2.55}, 0)`, fontWeight: "bold", marginLeft: "10px" }}>
+                                                                      {percentage.toFixed(2)}%
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+
+                                                    {[...Array(10 - radarChartData.datasets[0].data.filter(percentage => percentage < 100).length)].map((_, index) => (
+                                                        <tr key={index + 10} style={{ fontSize: "12px" }}>
+                                                            <td>
+                                                                {"-"}
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                         <div style={{width: "40%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>Guidelines List</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
                                             <div style={{display:"flex", flexDirection: "column"}}>
@@ -1240,7 +1344,7 @@ console.log(matrix)
                                                                   fontWeight: "bold",
                                                               }}
                                                           >
-                                                            Satisfaction: {radarChartData.datasets[0].data[index]}%
+                                                            Satisfaction: {radarChartData.datasets[0].data[index].toFixed(2)}%
                                                           </span>{" "}- {descriptions[index].description}
                                                                 </div>
                                                             )}
