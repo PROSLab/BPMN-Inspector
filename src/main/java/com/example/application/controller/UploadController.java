@@ -5440,7 +5440,7 @@ SUBPROCESS Collapsed EVENT + ADHOC
         }
         int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Processo Python correctly executed.");
+                System.out.println("Process Pearson-Python correctly executed.");
             } else {
                 System.out.println("Error during the processing of the Python script.");
             }
@@ -5459,6 +5459,9 @@ SUBPROCESS Collapsed EVENT + ADHOC
             int columnCount = -1;
             int[] columnCounts = null;
             String[] header = null;
+            Map<String, Integer>[] pairCounts = null;
+            String[] highestPair = new String[2];
+            double highestPercentage = 0.0;
 
             for (CSVRecord record : parser) {
                 if (isHeader) {
@@ -5466,45 +5469,66 @@ SUBPROCESS Collapsed EVENT + ADHOC
                     columnCount = record.size();
                     columnCounts = new int[columnCount];
                     header = new String[columnCount];
+                    pairCounts = new HashMap[2];
 
-                    // Salva l'header originale
+                    // Save the original header
                     for (int i = 0; i < columnCount; i++) {
                         header[i] = record.get(i);
                     }
 
-                    // Escludi i primi 2 elementi e gli ultimi 7 elementi dall'header
+                    // Exclude the first 2 elements and the last 7 elements from the header
                     String[] modifiedHeader = Arrays.copyOfRange(header, 2, columnCount - 7);
 
-                    // Scrivi l'header modificato nel file di output
+                    // Write the modified header to the output file
                     printer.printRecord((Object[]) modifiedHeader);
 
-                    continue; // Salta l'header
+                    continue; // Skip the header
                 }
 
                 for (int i = 2; i < columnCount - 7; i++) {
                     String cellValue = record.get(i);
                     int value = Integer.parseInt(cellValue);
 
-                    // Incrementa il conteggio se il valore è maggiore di zero
+                    // Increment the count if the value is greater than zero
                     if (value > 0) {
                         columnCounts[i]++;
+
+                        // Get the pair of elements corresponding to the index "i"
+                        String elementPair = header[i];
+
+                        // Initialize the pair count maps if necessary
+                        if (pairCounts[0] == null) {
+                            pairCounts[0] = new HashMap<>();
+                            pairCounts[1] = new HashMap<>();
+                        }
+
+                        // Increment the count of the element pair for both columns
+                        pairCounts[0].put(elementPair, pairCounts[0].getOrDefault(elementPair, 0) + 1);
+                        pairCounts[1].put(elementPair, pairCounts[1].getOrDefault(elementPair, 0) + 1);
                     }
 
-                    // Scrivi il valore originale nel file di output
+                    // Write the original value to the output file
                     printer.print(cellValue);
                 }
 
                 printer.println();
             }
 
-            // Scrivi i conteggi sopra ogni colonna nel file di output
-            if (columnCounts != null) {
-                for (int i = 2; i < columnCount - 7; i++) {
-                    printer.print(columnCounts[i]);
-                }
-                printer.println();
+            ProcessBuilder processBuilder = new ProcessBuilder("python", "src/main/resources/bpmnCounterOutput/combined.py");
+            Process process = processBuilder.start();
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            String line;
+            while ((line = errorReader.readLine()) != null) {
+                System.out.println(line);
             }
-        } catch (IOException e) {
+            int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                System.out.println("Process Combined correctly executed.");
+            } else {
+                System.out.println("Error during the processing of the Python script.");
+            }
+
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
