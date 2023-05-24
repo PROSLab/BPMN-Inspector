@@ -31,14 +31,15 @@ interface filesInfoFiltered {
     guidelineMap: Map<string, string>;
     errorLog: string;
 }
-
+interface DataSet {
+    colonna1: string;
+    colonna2: string;
+    [index: string]: string; // Aggiungi un indice di tipo string per consentire l'accesso tramite indice numerico
+}
 export default function PostProcessingView() {
     const [activeTab, setActiveTab] = useState('bpmn-element-usage');
-    const [showTableED, setShowTableED] = useState(true);
-    const [show, setShow] = useState(false);
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [dataSets, setDataSets] = useState<Data[]>([]);
     const g = [        'G2',        'G3',        'G7',        'G8',        'G9',        'G10',        'G11',        'G12',
         'G13',        'G14',        'G15',        'G16',        'G17',        'G18',        'G19',        'G20',
         'G21',        'G22',        'G24',        'G26',        'G28',        'G29',        'G30',        'G31',
@@ -180,7 +181,6 @@ export default function PostProcessingView() {
                 'might make the diagrams reading a challenge. The designer should not model further\n' +
                 'properties with different colours, in order to make diagrams recognisable.' },
     ];
-
     const location = useLocation()
     const filteringArray: string[] = [];
     const {data} = location.state
@@ -220,18 +220,20 @@ export default function PostProcessingView() {
     const [highestCorrelations, setHighestCorrelations] = useState<Array<CorrelationPair>>([]);
     const [lowestCorrelations, setLowestCorrelations] = useState<Array<CorrelationPair>>([]);
 
+    interface Data {
+        value: string;
+        percentage: string;
+    }
     interface CorrelationData {
         element1: string;
         element2: string;
         correlation: number;
     }
-
     interface CorrelationPair {
         element1: string;
         element2: string;
         correlation: number;
     }
-
     interface ApiResponse {
         highestCorrelations: CorrelationData[];
         lowestCorrelations: CorrelationData[];
@@ -252,6 +254,17 @@ export default function PostProcessingView() {
                 console.log("Errore nel caricamento dei dati", error);
             });
     }, []);
+
+    useEffect(() => {
+        axios.get('/prepare-combinedset-report')
+            .then(response => {
+                setDataSets(response.data);
+            })
+            .catch(error => {
+                console.log('Errore nel caricamento dei dati', error);
+            });
+    }, []);
+
 
     async function deleteFiles() {
         try {
@@ -899,6 +912,7 @@ export default function PostProcessingView() {
 
     // @ts-ignore
     // @ts-ignore
+    // @ts-ignore
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <ul style={{background:"#fafafb"}} className="nav nav-tabs nav-fill">
@@ -1075,29 +1089,32 @@ export default function PostProcessingView() {
                                     <div id="chartVPC" style={{marginLeft: "0", marginRight: "auto",height:"60vh", width:"55vw",marginBottom:"10px"}}>
                                         <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
                                     </div>
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Combined usage set of Elements</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {radarChartData.datasets[0].data
-                                            .map((percentage, index) => ({ percentage, index }))
-                                            .sort((a, b) => b.percentage - a.percentage)
-                                            .slice(0, 10)
-                                            .map(({ percentage, index }) => (
-                                                <tr key={index} style={{ fontSize: "12px" }}>
-                                                    <td>
-                                                        {g[index]} - <span style={{ fontWeight: "bold" }}>{descriptions[index].title}</span>
-                                                        <span style={{ color: `rgb(${255 - percentage * 2.55}, ${percentage * 2.55}, 0)`, fontWeight: "bold", marginLeft: "10px" }}>
-                                                                        {percentage.toFixed(2)}%
-                                                                    </span>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+
+                                    <div>
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>Set of Combined BPMN Elements</th>
+                                                <th>Percentage</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {dataSets.map((data, index) => {
+                                                if (data.percentage === "0.00%") {
+                                                    return null; // Ignora l'elemento se la percentuale è 0
+                                                }
+                                                else {
+                                                    return (
+                                                        <tr key={index} style={{fontSize: "13px"}}>
+                                                            <td>{data.value}</td>
+                                                            <td style={{textAlign: "center"}}>{data.percentage}</td>
+                                                        </tr>
+                                                    );
+                                                }
+                                            })}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div style={{width: "50%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>

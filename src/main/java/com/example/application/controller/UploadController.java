@@ -9,6 +9,7 @@ import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 import static com.github.pemistahl.lingua.api.Language.*;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.ss.usermodel.Cell;
@@ -555,6 +556,47 @@ public class UploadController {
         // Restituisci la risposta con la mappa di relazioni
                 return ResponseEntity.ok(correlationData);
     }
+
+    @GetMapping("/prepare-combinedset-report")
+    public ResponseEntity<List<Map<String, String>>> prepareCombinedSetsReport() throws IOException {
+        String fileName = "bpmn_combinedSets.csv";
+        Path path = Paths.get("./src/main/resources/bpmnCounterOutput", fileName);
+        Resource resource = new UrlResource(path.toUri());
+
+        if (!resource.exists()) {
+            // Restituisci una risposta di errore se il file non esiste
+            return ResponseEntity.notFound().build();
+        }
+
+        // Leggi il file CSV utilizzando Apache Commons CSV
+        CSVFormat csvFormat = CSVFormat.DEFAULT;
+        CSVParser csvParser = new CSVParser(new FileReader(resource.getFile()), csvFormat);
+
+        List<Map<String, String>> dataList = new ArrayList<>();
+
+        for (CSVRecord record : csvParser) {
+            String rowValue = record.get(0);
+
+            // Estrarre "value" e "percentage" dalla riga
+            String[] parts = rowValue.split(";");
+            if (parts.length != 2) {
+                // Ignora le righe che non hanno il formato corretto
+                continue;
+            }
+            String value = parts[0];
+            String percentage = parts[1];
+
+            Map<String, String> data = new HashMap<>();
+            data.put("value", value);
+            data.put("percentage", percentage);
+
+            dataList.add(data);
+        }
+        return ResponseEntity.ok().body(dataList);
+    }
+
+
+
 
     @PostMapping("/download-filtered-models")
     public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException, InterruptedException {
@@ -5445,7 +5487,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
                 System.out.println("Error during the processing of the Python script.");
             }
         }
-
     public void generateVennDataFromCsv() {
         String inputFilePath = "src/main/resources/bpmnCounterOutput/bpmn_elements.csv";
         String outputFilePath = "src/main/resources/bpmnCounterOutput/bpmn_combinedSets.csv";
