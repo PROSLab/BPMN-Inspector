@@ -487,6 +487,20 @@ public class UploadController {
                 .body(resource);
     }
 
+    @GetMapping("/download-combinedset-report")
+    public ResponseEntity<Resource> downloadCombinedSetReport() throws IOException {
+        String fileName = "bpmn_combinedSets.csv";
+        Path path = Paths.get("./src/main/resources/bpmnCounterOutput", fileName);
+        Resource resource = new UrlResource(path.toUri());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(resource.getFile().length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
+
     @GetMapping("/prepare-combined-report")
     public ResponseEntity<Map<String, List<Map<String, Object>>>> prepareCombinedReport() throws IOException {
         String fileName = "bpmn_combined.csv";

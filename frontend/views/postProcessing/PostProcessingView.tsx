@@ -403,6 +403,21 @@ export default function PostProcessingView() {
         });
     };
 
+    const downloadCombinedSetFile = () => {
+        axios({
+            url: '/download-combinedset-report',
+            method: 'GET',
+            responseType: 'blob',
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'bpmn_BPMNSubSetsCorrelations_Report.csv');
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
     let displayMsgSyntactic = "";
     let displayMsgGoodModeling = "";
     let displayMsgCombined = "";
@@ -1170,7 +1185,7 @@ export default function PostProcessingView() {
 
                         )}
                         <div style={{marginBottom:"10px", marginTop:"0.20cm", display:"flex"}} >
-                            <button style={{background: 'white',width:"50%", marginRight:"10px", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
+                            <button style={{background: 'white',width:"50%", marginRight:"10px", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedSetFile}>
                                 <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
                             </button>
                             <button style={{background: 'white',width:"50%", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
