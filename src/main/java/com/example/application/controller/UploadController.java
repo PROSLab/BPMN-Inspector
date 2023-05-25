@@ -383,15 +383,16 @@ public class UploadController {
     public void downloadCompleteReport(HttpServletResponse response) throws IOException {
         String filePathCounter = "src/main/resources/bpmnCounterOutput/bpmn_elements.csv";
         String filePathCombined = "src/main/resources/bpmnCounterOutput/bpmn_combined.csv";
+        String filePathCombinedSets = "src/main/resources/bpmnCounterOutput/bpmn_combinedSets.csv";
         String filePathGuidelines = "src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv";
         String filePathValidation = "src/main/resources/validationOutput/validationOutput.csv";
 
-        List<String> csvFilePaths = List.of(filePathCounter, filePathCombined, filePathGuidelines, filePathValidation);
+        List<String> csvFilePaths = List.of(filePathCounter, filePathCombined, filePathCombinedSets, filePathGuidelines, filePathValidation);
         String outputFileName = "complete_report.xlsx";
 
         Workbook workbook = new XSSFWorkbook();
 
-        String[] sheetNames = { "Elements", "Combined", "Guidelines", "Validation" };
+        String[] sheetNames = { "Elements", "Combined", "CombinedSets", "Guidelines", "Validation" };
 
         for (int i = 0; i < csvFilePaths.size(); i++) {
             String csvFilePath = csvFilePaths.get(i);

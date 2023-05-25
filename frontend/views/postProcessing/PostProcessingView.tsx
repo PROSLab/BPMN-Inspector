@@ -1180,10 +1180,7 @@ export default function PostProcessingView() {
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-
-                        )}
                         <div style={{marginBottom:"10px", marginTop:"0.20cm", display:"flex"}} >
                             <button style={{background: 'white',width:"50%", marginRight:"10px", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedSetFile}>
                                 <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
@@ -1192,6 +1189,9 @@ export default function PostProcessingView() {
                                 <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Pearson correlation report</a>
                             </button>
                         </div>
+                    </div>
+                        )}
+
                     </div>
 
                 )}
