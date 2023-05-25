@@ -61,7 +61,8 @@
     "react-slideshow-image": "^4.2.1",
     "react-toastify": "^9.1.1",
     "save-svg-as-png": "^1.4.17",
-    "svgjs": "^2.6.2"
+    "svgjs": "^2.6.2",
+    "zingchart": "^2.9.10"
   },
   "devDependencies": {
     "@rollup/plugin-replace": "3.1.0",
@@ -70,6 +71,7 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/svg.js": "^2.3.1",
+    "@types/zingchart": "^2.8.34",
     "@vitejs/plugin-react": "^2.2.0",
     "async": "3.2.2",
     "glob": "7.2.3",
@@ -143,7 +145,8 @@
     "save-svg-as-png": "$save-svg-as-png",
     "svgjs": "$svgjs",
     "file-saver": "$file-saver",
-    "react-slideshow-image": "$react-slideshow-image"
+    "react-slideshow-image": "$react-slideshow-image",
+    "zingchart": "$zingchart"
   },
   "vaadin": {
     "dependencies": {
@@ -193,6 +196,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "2d0fcdac6c151a95fbe47065b05260615a24401a1512c40814f89ab2b69c88c9"
+    "hash": "ce7f6de91b15994048bc8cd76a19bd8e90032b86b501f91ff3b1e1965fb86503"
   }
 }

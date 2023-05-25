@@ -123,3 +123,7 @@ tbody td {
 .chart-cursor-pointer {
     cursor: pointer;
 }
+
+.canvas{
+    margin-left: -100px;
+}

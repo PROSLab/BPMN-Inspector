@@ -5,8 +5,9 @@ import "./postCss.css";
 import {toast} from "react-toastify";
 import { Chart, registerables } from 'chart.js';
 import '@vaadin/vaadin-lumo-styles/badge.js'
-import {HiChevronDoubleUp, HiChevronDoubleDown, HiChevronUp, HiChevronDown} from "react-icons/hi";
 import xmlLogo from "Frontend/img/xmlLogo.png"
+import VennChart from 'Frontend/components/charts/VennChart';
+import zingchart from "zingchart";
 // @ts-ignore
 import ChartVenn from "Frontend/components/charts/ChartVenn";
 import {BsDiagram2} from "react-icons/bs";
@@ -17,9 +18,8 @@ import {Bar, Line, Radar} from "react-chartjs-2";
 import { CiCircleQuestion } from "react-icons/ci";
 import {FaCircle, FaRegImage} from "react-icons/fa";
 import html2canvas from 'html2canvas';
-import logo from "Frontend/img/logo.png";
-import {fontSize} from "html2canvas/dist/types/css/property-descriptors/font-size";
 import {loader} from "react-global-loader";
+import {extractSets, VennDiagramChart} from "chartjs-chart-venn";
 
 interface filesInfoFiltered {
     name: string;
@@ -30,11 +30,6 @@ interface filesInfoFiltered {
     elementMap: Map<string, number>;
     guidelineMap: Map<string, string>;
     errorLog: string;
-}
-interface DataSet {
-    colonna1: string;
-    colonna2: string;
-    [index: string]: string; // Aggiungi un indice di tipo string per consentire l'accesso tramite indice numerico
 }
 export default function PostProcessingView() {
     const [activeTab, setActiveTab] = useState('bpmn-element-usage');
@@ -925,9 +920,104 @@ export default function PostProcessingView() {
         },
     };
 
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
+    useEffect(() => {
+
+        const vennData = dataSets.map(data => ({
+            // @ts-ignore
+            label: data["Set of Combined BPMN Elements"],
+            // @ts-ignore
+            values: [data["Set of Combined BPMN Elements"]]
+        }));
+
+        const config = {
+            type: "venn",
+            data: extractSets(vennData, { label: "" }),
+            plugins: {
+                legend: {
+                    display: false,
+                },
+            },
+            options: {
+                borderWidth: 2,
+                backgroundColor: [
+                    "rgba(255, 26, 104, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                    "rgba(255, 159, 64, 0.2)"
+                ],
+                borderColor: [
+                    "rgba(255,99,132,1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                    "rgba(255, 159, 64, 1)"
+                ]
+            }
+        };
+
+    }, [dataSets]);
+
+    let myConfig = {
+        type: 'venn',
+        title: {
+            text: "Peanut Butter & Jelly Sandwiches"
+        },
+        subtitle: {
+            text: "Have two mandatory ingredients: "
+        },
+        legend: {
+            align: "right", //"left", "center", or "right"
+            verticalAlign: "top", //"top", "middle", "bottom"
+            marker: {
+                type: "circle",
+                borderColor: "black"
+            }
+        },
+        plot: {
+            'value-box': {
+                text: "%t",
+                'font-family': "Tahoma",
+                'font-color': "#ffffe5",
+                'font-size': 16,
+                'font-weight': "normal",
+                'font-style': "italic",
+                joined: {
+                    text: "PB<br>&J",
+                    'font-weight': "bold",
+                    'font-style': "normal"
+                }
+            }
+        },
+        series: [
+            {
+                values: [100],
+                join: [15],
+                text: "Peanut Butter",
+                'background-color': "#331a00",
+                alpha: 0.9,
+                'border-color': "#663300",
+                borderWidth: 2
+            },
+            {
+                values: [100],
+                join: [15],
+                text: "Jelly",
+                backgroundColor: "#330066",
+                alpha: 0.9,
+                borderColor: "#663300",
+                borderWidth: 2
+            }
+        ]
+    };
+
+    zingchart.render({
+        id: 'myChart',
+        data: myConfig,
+    });
+
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
             <ul style={{background:"#fafafb"}} className="nav nav-tabs nav-fill">
@@ -1090,8 +1180,8 @@ export default function PostProcessingView() {
                             </div>
                         ) : (
                     <div style={{display: "flex", flexDirection: "row", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
-                        <div style={{display:'flex',width: "100%",flexDirection: "row"}}>
-                            <div style={{width: "50%", marginRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                        <div style={{display:'flex',width: "50%",flexDirection: "column",marginRight: "10px"}}>
+                            <div style={{width: "100%", marginRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div style={{display:"flex", flexDirection:"column"}}>
                                     <div style={{ display: "flex", flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
                                         <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Most Combined Use</a>
@@ -1101,8 +1191,8 @@ export default function PostProcessingView() {
                                         </button>
                                     </div>
 
-                                    <div id="chartVPC" style={{marginLeft: "0", marginRight: "auto",height:"60vh", width:"55vw",marginBottom:"10px"}}>
-                                        <ChartVenn options={{responsive:true,maintainAspectRatio:false}}/>
+                                    <div id="chartVPC"  style={{marginRight: "auto",height:"60vh", width:"55vw",marginBottom:"10px"}}>
+                                        <div id="myChart"></div>
                                     </div>
 
                                     <div>
@@ -1132,7 +1222,12 @@ export default function PostProcessingView() {
                                     </div>
                                 </div>
                             </div>
-                            <div style={{width: "50%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                            <button style={{background: 'white',width:"100%", marginRight:"10px", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedSetFile}>
+                                <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
+                            </button>
+                        </div>
+                        <div style={{display:'flex',width: "50%",flexDirection: "column"}}>
+                            <div style={{width: "100%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div>
                                     <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Highest Correlations </a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
@@ -1179,21 +1274,13 @@ export default function PostProcessingView() {
                                     </table>
                                 </div>
                             </div>
-                        </div>
-
-                        <div style={{marginBottom:"10px", marginTop:"0.20cm", display:"flex"}} >
-                            <button style={{background: 'white',width:"50%", marginRight:"10px", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedSetFile}>
-                                <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Combined use report</a>
-                            </button>
-                            <button style={{background: 'white',width:"50%", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
+                            <button style={{background: 'white',width:"100%", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>
                                 <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Pearson correlation report</a>
                             </button>
                         </div>
                     </div>
                         )}
-
                     </div>
-
                 )}
                 {activeTab === 'bpmn-syntactic-validation' && (
                     <div>
@@ -1275,7 +1362,7 @@ export default function PostProcessingView() {
                             <>
                                 <div style={{display: "flex", flexDirection: "column", width: "100%", marginBottom:"10px",marginTop:"10px"}}>
                                     <div style={{display: "flex", flexDirection: "row"}}>
-                                        <div style={{width: "65%", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <div style={{width: "60%", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                             <div style={{ display: "flex", flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
                                                 <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Radar Guidelines</a>
                                                 <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the model size of the collection"} />
@@ -1347,7 +1434,7 @@ export default function PostProcessingView() {
                                                 </table>
                                             </div>
                                         </div>
-                                        <div style={{width: "35%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
+                                        <div style={{width: "40%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                         <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>Guidelines List</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
                                             <div style={{display:"flex", flexDirection: "column"}}>
                                                 <div style={{ marginTop: "10px", display: "flex", flexDirection: "column" }}>
