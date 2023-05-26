@@ -56,10 +56,7 @@ const VennChart = () => {
             data: myConfig,
         });
 
-        // Pulisci il grafico quando il componente viene smontato
-        return () => {
-            zingchart.exec('venn-chart', 'destroy');
-        };
+
     }, []);
 
     return <div id="venn-chart" />;

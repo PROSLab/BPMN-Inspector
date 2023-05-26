@@ -920,103 +920,54 @@ export default function PostProcessingView() {
         },
     };
 
-    useEffect(() => {
-
-        const vennData = dataSets.map(data => ({
-            // @ts-ignore
-            label: data["Set of Combined BPMN Elements"],
-            // @ts-ignore
-            values: [data["Set of Combined BPMN Elements"]]
+    const seriesData = dataSets
+        .filter((data) => parseFloat(data.percentage) !== 0)
+        .map((data, index) => ({
+            values: [parseFloat(data.percentage)],
+            text: `${data.value.replace(/-/g, "\n")}`, // Aggiungi "\n" dopo ogni "-"
+            tooltip: {
+                text: `${data.value}`,
+            },
+            scaleX: index + 1,
         }));
 
-        const config = {
-            type: "venn",
-            data: extractSets(vennData, { label: "" }),
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-            options: {
-                borderWidth: 2,
-                backgroundColor: [
-                    "rgba(255, 26, 104, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    "rgba(75, 192, 192, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                    "rgba(255, 159, 64, 0.2)"
-                ],
-                borderColor: [
-                    "rgba(255,99,132,1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)",
-                    "rgba(255, 159, 64, 1)"
-                ]
-            }
-        };
-
-    }, [dataSets]);
-
     let myConfig = {
-        type: 'venn',
-        title: {
-            text: "Peanut Butter & Jelly Sandwiches"
-        },
-        subtitle: {
-            text: "Have two mandatory ingredients: "
-        },
-        legend: {
-            align: "right", //"left", "center", or "right"
-            verticalAlign: "top", //"top", "middle", "bottom"
-            marker: {
-                type: "circle",
-                borderColor: "black"
-            }
-        },
+        type: "funnel",
         plot: {
-            'value-box': {
-                text: "%t",
-                'font-family': "Tahoma",
-                'font-color': "#ffffe5",
-                'font-size': 16,
-                'font-weight': "normal",
-                'font-style': "italic",
-                joined: {
-                    text: "PB<br>&J",
-                    'font-weight': "bold",
-                    'font-style': "normal"
-                }
+            startWidth: "dynamic",
+            minExit: `${seriesData[seriesData.length - 1].values[0]}%`,
+            valueBox: {
+                text: "%v%",
+                placement: "center",
+                fontFamily: "Tahoma",
+                fontColor: "#ffffff",
+                fontSize: 12,
+                fontWeight: "normal",
+                fontStyle: "normal",
+            },
+            animation: {
+                effect: "ANIMATION_FADE_IN"
             }
         },
-        series: [
-            {
-                values: [100],
-                join: [15],
-                text: "Peanut Butter",
-                'background-color': "#331a00",
-                alpha: 0.9,
-                'border-color': "#663300",
-                borderWidth: 2
+        scaleY: {
+            labels: seriesData.map((data) => data.text),
+            scaleLabel: {
+                fontFamily: "Arial",
+                fontSize: 8,
+                fontWeight: "bold",
+                fontColor: "#333333",
             },
-            {
-                values: [100],
-                join: [15],
-                text: "Jelly",
-                backgroundColor: "#330066",
-                alpha: 0.9,
-                borderColor: "#663300",
-                borderWidth: 2
-            }
-        ]
+        },
+        series: seriesData,
     };
 
     zingchart.render({
-        id: 'myChart',
+        id: "myChart",
         data: myConfig,
+        height: "10%",
+        width: "50%",
     });
+
 
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -1191,8 +1142,8 @@ export default function PostProcessingView() {
                                         </button>
                                     </div>
 
-                                    <div id="chartVPC"  style={{marginRight: "auto",height:"60vh", width:"55vw",marginBottom:"10px"}}>
-                                        <div id="myChart"></div>
+                                    <div id="chartVPC"  style={{marginRight: "auto"}}>
+                                        <div id="myChart" style={{marginLeft: "100px"}}></div>
                                     </div>
 
                                     <div>
