@@ -920,9 +920,12 @@ export default function PostProcessingView() {
         },
     };
 
+
+
     const seriesData = dataSets
         .filter((data) => parseFloat(data.percentage) !== 0)
         .map((data, index) => ({
+            //@ts-ignore
             values: [parseFloat(data.percentage)],
             text: `${data.value.replace(/-/g, "\n")}`, // Aggiungi "\n" dopo ogni "-"
             tooltip: {
@@ -931,11 +934,16 @@ export default function PostProcessingView() {
             scaleX: index + 1,
         }));
 
+    let minExit = '0%'; // Valore predefinito se seriesData è vuoto
+
+    if (seriesData.length > 0) {
+        minExit  = `${seriesData[seriesData.length - 1].values[0]}%`;
+    }
     let myConfig = {
         type: "funnel",
         plot: {
             startWidth: "dynamic",
-            minExit: `${seriesData[seriesData.length - 1].values[0]}%`,
+            minExit: minExit,
             valueBox: {
                 text: "%v%",
                 placement: "center",
@@ -967,7 +975,6 @@ export default function PostProcessingView() {
         height: "10%",
         width: "50%",
     });
-
 
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -1507,7 +1514,7 @@ export default function PostProcessingView() {
                </div>
 
             <input style={{position: 'fixed', marginBottom:'20px', marginRight:'1%', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
-            <button style={{position: 'fixed', marginLeft: "61%", marginTop: "-4.8%", zIndex: '9', fontSize: "17px", backgroundColor: 'white', color: '#10ad73', padding: '5px 13px', border: '2px solid #10ad73', borderRadius: '3px', cursor: 'pointer'}} onClick={downloadCompleteReport} type="submit">
+            <button style={{position: 'fixed', marginLeft:'61%', marginTop: '-72px', zIndex: '9', fontSize: "17px", backgroundColor: 'white', color: '#10ad73', padding: '5px 13px', border: '2px solid #10ad73', borderRadius: '3px', cursor: 'pointer'}} onClick={downloadCompleteReport} type="submit">
                 <GrDocumentCsv style={{fontStyle:"white",marginBottom: "2%"}}/><a style={{marginRight: '0.5em', color: "#10ad73", marginLeft: '8px', fontWeight: "bold"}}>Download complete report</a>
             </button>
         </div>
