@@ -383,7 +383,7 @@ public class UploadController {
     public void downloadCompleteReport(HttpServletResponse response) throws IOException {
         String filePathCounter = "src/main/resources/bpmnCounterOutput/bpmn_elements.csv";
         String filePathCombined = "src/main/resources/bpmnCounterOutput/bpmn_combined.csv";
-        String filePathCombinedSets = "src/main/resources/bpmnCounterOutput/bpmn_combinedSets.csv";
+        String filePathCombinedSets = "src/main/resources/bpmnCounterOutput/bpmn_combinedSets_output.csv";
         String filePathGuidelines = "src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv";
         String filePathValidation = "src/main/resources/validationOutput/validationOutput.csv";
 
@@ -490,7 +490,7 @@ public class UploadController {
 
     @GetMapping("/download-combinedset-report")
     public ResponseEntity<Resource> downloadCombinedSetReport() throws IOException {
-        String fileName = "bpmn_combinedSets.csv";
+        String fileName = "bpmn_combinedSets_output.csv";
         Path path = Paths.get("./src/main/resources/bpmnCounterOutput", fileName);
         Resource resource = new UrlResource(path.toUri());
         HttpHeaders headers = new HttpHeaders();
@@ -574,7 +574,7 @@ public class UploadController {
 
     @GetMapping("/prepare-combinedset-report")
     public ResponseEntity<List<Map<String, String>>> prepareCombinedSetsReport() throws IOException {
-        String fileName = "bpmn_combinedSets.csv";
+        String fileName = "bpmn_combinedSets_output.csv";
         Path path = Paths.get("./src/main/resources/bpmnCounterOutput", fileName);
         Resource resource = new UrlResource(path.toUri());
 

@@ -1381,7 +1381,7 @@ export default function PostProcessingView() {
                                                             </tr>
                                                         ))}
 
-                                                    {[...Array(10 - radarChartData.datasets[0].data.filter(percentage => percentage < 100).length)].map((_, index) => (
+                                                    {[...Array(Math.max(10 - radarChartData.datasets[0].data.filter(percentage => percentage < 100).length, 0))].map((_, index) => (
                                                         <tr key={index + 10} style={{ fontSize: "12px" }}>
                                                             <td>
                                                                 {"-"}

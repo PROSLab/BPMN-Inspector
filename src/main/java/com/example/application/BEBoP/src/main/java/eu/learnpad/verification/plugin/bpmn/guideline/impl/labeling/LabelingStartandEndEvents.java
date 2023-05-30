@@ -68,14 +68,13 @@ public class LabelingStartandEndEvents extends abstractGuideline {
 
 		if (starts.size() == 1) {
 			if (starts.get(0).getName() != null) {
-				if (ends.get(0).getName().length() >= 1) {
+				if (!ends.isEmpty() && ends.get(0).getName() != null && ends.get(0).getName().length() >= 1) {
 					num++;
 					elementsBPMN.add(starts.get(0));
 					String name = starts.get(0).getName() != null ? starts.get(0).getName()
-							: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
+							: Messages.getString("Generic.LabelEmpty", l);
 					setElements(starts.get(0).getId(), IDProcess, name);
-					temp.append("* name=" + name + " ID=" + starts.get(0).getId() //$NON-NLS-1$ //$NON-NLS-2$
-							+ "\n"); //$NON-NLS-1$
+					temp.append("* name=" + name + " ID=" + starts.get(0).getId() + "\n");
 				}
 			}
 		} else if (starts.size() > 1) {
@@ -83,12 +82,10 @@ public class LabelingStartandEndEvents extends abstractGuideline {
 				if (s.getName() == null || s.getName().length() < 4) {
 					num++;
 					elementsBPMN.add(s);
-					String name = s.getName() != null ? s.getName() : Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
+					String name = s.getName() != null ? s.getName() : Messages.getString("Generic.LabelEmpty", l);
 					setElements(s.getId(), IDProcess, name);
-					temp.append("* name=" + name + " ID=" + s.getId() //$NON-NLS-1$ //$NON-NLS-2$
-							+ "\n"); //$NON-NLS-1$
-				}
-				else {
+					temp.append("* name=" + name + " ID=" + s.getId() + "\n");
+				} else {
 					starts2.add(s);
 				}
 			}

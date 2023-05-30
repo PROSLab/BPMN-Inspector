@@ -211,17 +211,19 @@ public class StandardFormat extends abstractGuideline {
 			MessageFlow mg1 = msgFlow.get(0);
 			if (!mg1.getExtensionValues().isEmpty()) {
 				for (int i = 1; i < msgFlow.size(); i++) {
-					FeatureMap map1 = mg1.getExtensionValues().get(0).getValue();
-					FeatureMap map2 = msgFlow.get(i).getExtensionValues().get(0).getValue();
-					if (!compareStyle(map1, map2)) {
-						num++;
-						String name = msgFlow.get(i).getName() != null ? msgFlow.get(i).getName()
-								: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
-						setElements(msgFlow.get(i).getId(), IDProcess, name);
+					if (!msgFlow.get(i).getExtensionValues().isEmpty()) {
+						FeatureMap map1 = mg1.getExtensionValues().get(0).getValue();
+						FeatureMap map2 = msgFlow.get(i).getExtensionValues().get(0).getValue();
+						if (!compareStyle(map1, map2)) {
+							num++;
+							String name = msgFlow.get(i).getName() != null ? msgFlow.get(i).getName()
+									: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
+							setElements(msgFlow.get(i).getId(), IDProcess, name);
+						}
 					}
 				}
 			}
-			//////////////////////////////// LABELS////////////////////////////////
+			/////////////////////////////////////////////// LABELS//////////////////////////////////////
 			if (styles.size() > 1) {
 				for (MessageFlow m : msgFlow) {
 					if (m.getName().length() > 0) {
