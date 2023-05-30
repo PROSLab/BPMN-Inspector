@@ -40,7 +40,7 @@ export const routes: readonly ViewRouteObject[] = [
     children: [
       { path: '/', element: <HelloReactView/>, handle: { icon: 'la la-globe', title: 'Home' } },
       { path: '/documentation', element: <DocView />, handle: { icon: 'la la-file', title: 'Documentation' } },
-      { path: '/github', element: <GithubView />, handle: { icon: 'la la-github', title: 'Github' } },
+      { path: '/github', element: <GithubView />, handle: { icon: 'la la-github', title: 'GitHub' } },
       { path: '/inspect', element: <PostProcessingView />, handle: {  title: 'BPMN Models Inspection Dashboard' } },
     ],
   },

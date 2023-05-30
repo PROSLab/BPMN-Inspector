@@ -266,7 +266,7 @@ export default function HelloReactView() {
                                     </div>
                                 </CheckboxGroup>
                             </div>
-                            <div style={{ width:"40%"}}>
+                            <div style={{ width:"30%"}}>
                                 <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by model type:</p>
                                 <CheckboxGroup
                                     theme=''

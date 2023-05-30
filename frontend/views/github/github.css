@@ -1,0 +1,33 @@
+body {
+    /* Sfondo bianco */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Impedisce lo scrolling della pagina */
+}
+
+.container {
+    height: 100vh; /* Altezza della viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.floating-svg {
+    position: absolute;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(20px, 200px); }
+    100% { transform: translate(0, 0); }
+}
+
+.centered-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-size: 16px;
+}
