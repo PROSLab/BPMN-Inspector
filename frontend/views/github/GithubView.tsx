@@ -1,72 +1,93 @@
-import React, { useEffect, useRef } from "react";
-//import { useSpring, animated } from "react-spring";
-import "./github.css";
-import { BsGithub } from "react-icons/all";
+import React, { useEffect } from 'react';
+import './github.css';
+import {BsGithub} from "react-icons/all";
 
-export default function GithubView() {
+const DVDPlayer: React.FC = () => {
+    useEffect(() => {
+        const dvdElements = Array.from(document.getElementsByClassName(
+            'dvdLogo'
+        )) as HTMLElement[];
+
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const dvdWidth = dvdElements[0].clientWidth;
+        const dvdHeight = dvdElements[0].clientHeight;
+        let maxPosX = (screenWidth - dvdWidth) * 0.5; // Riduci il range orizzontale al 60% dello schermo
+        let maxPosY = (screenHeight - dvdHeight) * 0.7; // Aumenta il range verticale al 90% dello schermo
+
+        const dvdsData = dvdElements.map((dvdElement) => {
+            const positionX = Math.random() * maxPosX;
+            const positionY = Math.random() * maxPosY;
+            const directionX = 1;
+            const directionY = 1;
+
+            return {
+                element: dvdElement,
+                positionX,
+                positionY,
+                directionX,
+                directionY,
+            };
+        });
+
+        const animateDVDs = () => {
+            requestAnimationFrame(animateDVDs);
+
+            dvdsData.forEach((dvdData) => {
+                const { element, positionX, positionY, directionX, directionY } =
+                    dvdData;
+
+                let newX = positionX + directionX;
+                let newY = positionY + directionY;
+
+                if (newX <= 0) {
+                    newX = 0;
+                    dvdData.directionX *= -1;
+                } else if (newX >= maxPosX) {
+                    newX = maxPosX;
+                    dvdData.directionX *= -1;
+                }
+
+                if (newY <= 0) {
+                    newY = 0;
+                    dvdData.directionY *= -1;
+                } else if (newY >= maxPosY) {
+                    newY = maxPosY;
+                    dvdData.directionY *= -1;
+                }
+
+                element.style.transform = `translate(${newX}px, ${newY}px)`;
+
+                dvdData.positionX = newX;
+                dvdData.positionY = newY;
+            });
+        };
+
+        animateDVDs();
+    }, []);
+
+    const dvdImages = Array.from({ length: 13 }).map((_, index) => (
+        <img
+            key={index}
+            className="dvdLogo"
+            src={`../../img/bounce/${index}.svg`}
+            alt={`DVD ${index}`}
+        />
+    ));
+
     const redirectToGitHub = () => {
         window.location.href = "https://github.com/PROSLab/BPMN-Inspector";
     };
 
-    const floatingIconsRef = useRef<(HTMLImageElement | null)[]>([]);
+    return <div className="dvd-container">
+        <button
+            className="centered-button"
+            onClick={redirectToGitHub}
+            style={{ backgroundColor: "#444444", position:"fixed", padding: '10px 20px',borderRadius: '15px', cursor: 'pointer',marginLeft:"30%", marginTop:"20%", zIndex:"9" }}
+        >
+            <BsGithub style={{ marginBottom: "3px", marginRight: "5px", height:"60px", width:"60px" }} /> GitHub Source Code
+        </button>
+        {dvdImages}</div>;
+};
 
-    useEffect(() => {
-        const floatingIcons = floatingIconsRef.current;
-        floatingIcons.forEach((icon) => {
-            const randomDelay = Math.random() * 2; // Ritardo casuale tra 0 e 2 secondi
-            const randomTranslateX = Math.floor(Math.random() * 100) + 1;
-            const randomTranslateY = Math.floor(Math.random() * 100) + 1;
-
-            if (icon) {
-                // Anima la posizione dell'icona
-                const animation = useSpring({
-                    from: { transform: `translate(0px, 0px)` },
-                    to: {
-                        transform: `translate(${randomTranslateX}px, ${randomTranslateY}px)`,
-                    },
-                    config: { duration: 2000, delay: randomDelay * 1000, reset: true },
-                    loop: true,
-                });
-
-                // Applica l'animazione all'icona
-                animated(icon as HTMLImageElement, animation);
-            }
-        });
-    }, []);
-
-    return (
-        <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-            <div className="svg-container">
-                <animated.img
-                    style={{ width: "50px", height: "50px" }}
-                    src="../../img/data.svg"
-                    alt="Immagine 1"
-                    className="floating-svg"
-                    ref={(el: HTMLImageElement) => (floatingIconsRef.current[0] = el as HTMLImageElement)}
-                />
-                <animated.img
-                    style={{ width: "50px", height: "50px" }}
-                    src="../../img/dataStore.svg"
-                    alt="Immagine 2"
-                    className="floating-svg"
-                    ref={(el: HTMLImageElement) => (floatingIconsRef.current[1] = el as HTMLImageElement)}
-                />
-                <animated.img
-                    style={{ width: "50px", height: "50px" }}
-                    src="../../img/end.svg"
-                    alt="Immagine 3"
-                    className="floating-svg"
-                    ref={(el: HTMLImageElement) => (floatingIconsRef.current[2] = el as HTMLImageElement)}
-                />
-                {/* Aggiungi altre immagini fluttuanti qui */}
-            </div>
-            <button
-                className="centered-button"
-                onClick={redirectToGitHub}
-                style={{ backgroundColor: "#444444" }}
-            >
-                <BsGithub style={{ marginBottom: "3px", marginRight: "5px" }} /> GitHub source code
-            </button>
-        </div>
-    );
-}
+export default DVDPlayer;

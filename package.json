@@ -58,6 +58,7 @@
     "react-keep-alive": "^2.5.2",
     "react-router-dom": "^6.8.2",
     "react-slideshow-image": "^4.2.1",
+    "react-spring": "^9.0.0",
     "react-toastify": "^9.1.1",
     "save-svg-as-png": "^1.4.17",
     "svgjs": "^2.6.2",
@@ -146,7 +147,8 @@
     "svgjs": "$svgjs",
     "file-saver": "$file-saver",
     "react-slideshow-image": "$react-slideshow-image",
-    "zingchart": "$zingchart"
+    "zingchart": "$zingchart",
+    "react-spring": "$react-spring"
   },
   "vaadin": {
     "dependencies": {
@@ -196,6 +198,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "ce7f6de91b15994048bc8cd76a19bd8e90032b86b501f91ff3b1e1965fb86503"
+    "hash": "c898caee8ddd64c0a7fef55bb00a645e355c1d44c846ddc40e2157f21d236bc5"
   }
 }

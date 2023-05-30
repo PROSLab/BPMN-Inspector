@@ -1,7 +1,7 @@
 ModelName,Validation,Exception
-BPMN model 1.bpmn,valid,
-BPMN model 2.bpmn,valid,
-BPMN model 3.bpmn,valid,
-BPMN model 4.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.
-BPMN model 5.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.
-BPMN model 6.bpmn,valid,
+diagram (2).bpmn,valid,
+Entscheid versenden - Baugesuch (7.8) - Copia.bpmn,valid,
+Entscheid versenden - Baugesuch (7.8).bpmn,valid,
+Errors - Copia.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.
+Errors.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.
+ita.bpmn,valid,

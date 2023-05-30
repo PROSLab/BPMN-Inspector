@@ -920,8 +920,6 @@ export default function PostProcessingView() {
         },
     };
 
-
-
     const seriesData = dataSets
         .filter((data) => parseFloat(data.percentage) !== 0)
         .map((data, index) => ({
@@ -972,8 +970,8 @@ export default function PostProcessingView() {
     zingchart.render({
         id: "myChart",
         data: myConfig,
-        height: "10%",
-        width: "50%",
+        height: "600px",
+        width: "100%",
     });
 
     return (
@@ -1149,7 +1147,7 @@ export default function PostProcessingView() {
                                         </button>
                                     </div>
 
-                                    <div id="chartVPC"  style={{marginRight: "auto"}}>
+                                    <div id="chartVPC"  style={{}}>
                                         <div id="myChart" style={{marginLeft: "100px"}}></div>
                                     </div>
 

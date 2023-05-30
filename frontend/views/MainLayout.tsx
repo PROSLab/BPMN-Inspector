@@ -35,6 +35,7 @@ export default function MenuOnLeftLayout() {
   const matches = useViewMatches();
   const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hideNavigation, setHideNavigation] = useState(false);
   const currentTitle = matches[matches.length - 1]?.handle?.title ?? 'Unknown';
   const menuRoutes = (routes[0]?.children || []).filter(
     (route) => route.path && route.handle && route.handle.icon && route.handle.title
@@ -124,32 +125,39 @@ export default function MenuOnLeftLayout() {
         }
     };
 
+    useEffect(() => {
+        const isTitleHidden = menuRoutes.some(({ handle: { title } }) => title === 'BPMN Models Inspection Dashboard');
+        setHideNavigation(isTitleHidden);
+    }, [menuRoutes]);
+
     return (
     <AppLayout className="block h-full" primarySection="drawer">
       <header slot="drawer">
         <h1 className="text-l m-0 center"><img style={{marginLeft:"4%", marginTop:"4%"}} src={logo} alt="" width="200"/></h1>
       </header>
       <Scroller slot="drawer" scroll-direction="vertical">
-        <nav>
-          {menuRoutes.map(({ path, handle: { icon, title } }) => (
-            <NavLink
-              className={({ isActive }) => `${css.navlink} ${isActive ? css.navlink_active : ''}`}
-              key={path}
-              to={path}
-            >
-              {({ isActive }) => (
-                <Item key={path} selected={isActive}>
-                  <span className={`${icon} ${css.navicon}`} aria-hidden="true"></span>
-                  {title}
-                </Item>
-              )}
-            </NavLink>
-          ))}
-        </nav>
+          <nav>
+              {menuRoutes.map(({ path, handle: { icon, title } }) => (
+                  currentTitle === 'BPMN Models Inspection Dashboard' ? null : (
+                      <NavLink
+                          className={({ isActive }) => `${css.navlink} ${isActive ? css.navlink_active : ''}`}
+                          key={path}
+                          to={path}
+                      >
+                          {({ isActive }) => (
+                              <Item key={path} selected={isActive}>
+                                  <span className={`${icon} ${css.navicon}`} aria-hidden="true"></span>
+                                  {title}
+                              </Item>
+                          )}
+                      </NavLink>
+                  )
+              ))}
+          </nav>
 
           {data && (
 
-              <div style={{position: 'absolute', bottom: '20%',height: "62%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
+              <div style={{position: 'absolute', height: "64%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
                   <a style={{marginLeft:'5%',fontWeight:"bold"}}>Model Dashboard </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are information about the collection of models inspected"}/>
                   <br/>
                   <a style={{color:'green',fontWeight:"bold", marginLeft:"5%"}}>{total}</a><a style={{marginLeft:"8%"}}>Total models inspected</a>
@@ -171,16 +179,16 @@ export default function MenuOnLeftLayout() {
                   {
                       (uniqueData.length > 0) ? (
                           <>
-                              <div style={{ marginTop: '-2%',marginBottom: '4%'}}>
+                              <div style={{ marginTop: '1%',marginLeft: '1%'}}>
                                   {uniqueData.includes("english") && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   english"}</span>}
                                   {uniqueData.includes("duplicated") && (uniqueData.includes("english") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6)) && " "}
                                   {uniqueData.includes("duplicated") && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   duplicated"}</span>}
                                   {(uniqueData.includes("english") || uniqueData.includes("duplicated")) && uniqueData.includes("invalid") && " "}
                                   {uniqueData.includes("invalid") && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   invalid"}</span>}
                               </div>
-                              <a style={{ marginLeft: '6%', fontWeight: "bold" }}>Models Excluded by Type: </a>
+                              <a style={{ marginLeft: '6%', fontWeight: "bold"}}>Models Excluded by Type: </a>
                               <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"These type of models are excluded from the analysis"} />
-                              <div style={{ marginTop: '-2%'}}>
+                              <div style={{ marginTop: '1%',marginLeft: '1%',}}>
                                    {uniqueData.includes("process") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   process"}</span>}
                                   {uniqueData.includes("choreography") && (uniqueData.includes("process") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6) || uniqueData.includes("english") || uniqueData.includes("duplicated") || uniqueData.includes("invalid")) && " "}
                                   {uniqueData.includes("choreography") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   choreography"}</span>}
