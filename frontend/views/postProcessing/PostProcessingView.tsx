@@ -1122,9 +1122,7 @@ export default function PostProcessingView() {
                                 <GrDocumentCsv /><a style={{ marginRight: '0.5em', color: '#10ad73', marginLeft: '8px' }}>Download Inspection report</a>
                             </button>
                         </div>
-
                     </>
-
                 )}
                 {activeTab === 'bpmn-element-combined-use' && (
                     <div>
