@@ -1,1 +1,11 @@
 ModelName,Validation,Exception
+Warenversand13_2d121daabba3486ea3752d869f0b5541.bpmn,valid,
+Warenversands_18034ca70a8c4940a637257a44cc4757.bpmn,valid,
+Warenversands_1dd15a5071d64e0f81f1c3dc3e929f9d.bpmn,valid,
+Warenversand_vorbereiten_9bdbc931870c48daa9d34a5b91e56c6e.bpmn,valid,
+Warenversand_vorbereiten_e7b6bf08f8b04596a8ca0ff163962d64.bpmn,valid,
+WD_Regressnahme_0abf0ac178b5445cb479e41c3efdfb0c.bpmn,valid,
+WD_Schufascoring_99d71b1a924f4e688e7b2d5f524f3475.bpmn,invalid,cvc-complex-type.4: Attribute 'targetRef' must appear on element 'messageFlow'.
+WD_Warenversand_db3b73499a5b407ab18f0b987f2ecdc1.bpmn,valid,
+WF-Schufa_4bd870948519452f9377c062520155d7.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.
+WF_Regressnahme_4a1c27d6e2a4445c96b030eedef71cb0.bpmn,valid,
