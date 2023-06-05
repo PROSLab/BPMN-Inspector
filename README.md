@@ -56,19 +56,32 @@ This analysis focuses on handling the syntactic violations that can occur in the
 
 ### BPMN Good Modeling Practices 
 
-Finally, the last analysis, investigates if the model's collection adheres to a set of established good modeling practices defined by this [work](https://www.sciencedirect.com/science/article/pii/S0169023X1630341X). To do that, BPMN inspector integrates a tool called [BEBoP](https://pros.unicam.it/bebop) (understandaBility vErifier for Business Process models). BEBoP is a tool that verifies the understandability of business process models, ensuring that they have been designed according to established good modeling practices. It automatically checks whether a model adheres to these practices. BPMN Inspector performs such an analysis for each model considering a set of forty good modeling practices and generates a *.csv* report containing boolean values to evaluate the model's adherence to each guideline.
+Finally, the last analysis, investigates if the model's collection adheres to a set of established good modeling practices defined by this [work](https://www.sciencedirect.com/science/article/pii/S0169023X1630341X). To do that, BPMN inspector integrates a tool called [BEBoP](https://pros.unicam.it/bebop) (understandaBility vErifier for Business Process models). BEBoP is a tool that verifies the understandability of business process models, ensuring that they have been designed according to established good modeling practices. It automatically checks whether a model adheres to these practices. <b>BPMN Inspector</b> performs such an analysis for each model considering a set of forty good modeling practices and generates a *.csv* report containing boolean values to evaluate the model's adherence to each guideline.
 In the web application, a radar graph is generated to indicate the violation of good modeling practices in terms of percentage, considering the total number of models in the collection.
 
-# How To Run
-
-The web application is available and ready to use at the following link:
-**[*Try me!*](https://pros.unicam.it/bpmn-inspector/)**.
 
 A tutorial on its usage is available by clicking the image below:
 **[*Tutorial*](https://youtube.com)**.
 
-The user can perform very simple steps to analyze a collection of BPMN models:
-- In the *HOME* page, the user can load one or more BPMN models file  from local storage with the corresponding button or one of the sample images by clicking on them;
+# How To Run
+
+There are several ways to use BPMN Inspector:
+
+- Using the web application available at the following link: **[*Try me!*](https://pros.unicam.it/bpmn-inspector/)**;
+- Pulling the Docker image from [DockerHub](https://hub.docker.com/r/proslab/bpmn-inspector);
+- Clone this repository and run the tool in local by executing the following comand:
+
+```bash
+\.mvnw
+```
+Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
+
+- Creating the Docker image from the main folder of the project by executing the following comand:
+
+```bash
+docker build -t bpmn-inspector-image .
+```
+Once launched, the application will be available at [http://localhost:5000](http://localhost:5000).
 
 
 # Technical Information
@@ -91,9 +104,6 @@ BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source f
 - [JDK](https://www.oracle.com/be/java/technologies/downloads/#java17) 17 or later;
 - [Python](https://www.python.org/downloads/) 3.9.X or higher.
 
-# How to run
-
-d
 
 # References
 
