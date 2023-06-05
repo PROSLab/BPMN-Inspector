@@ -53,7 +53,8 @@ BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source f
 ## Technical Requirements
 
 - [Node](https://nodejs.org/en) 16.14 or later;
-- [JDK](https://www.oracle.com/be/java/technologies/downloads/#java17) 17 or later.
+- [JDK](https://www.oracle.com/be/java/technologies/downloads/#java17) 17 or later;
+- [Python](https://www.python.org/downloads/) 3.9.X or higher.
 
 
 # References
