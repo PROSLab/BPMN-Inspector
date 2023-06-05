@@ -29,7 +29,7 @@ The web application is available and ready to use at the following link:
 **[BPMN Inspector](https://pros.unicam.it/bpmn-inspector/)**.
 
 A tutorial on its usage is available by clicking the image below:
-[![Watch the video](https://img.youtube.com/vi/0e2qnbSp9XY/maxresdefault.jpg)](https://youtu.be/0e2qnbSp9XY)
+TODO
 
 The user can perform very simple steps to analyze a collection of BPMN models:
 - In the *HOME* page, the user can load one or more BPMN models file  from local storage with the corresponding button or one of the sample images by clicking on them;
