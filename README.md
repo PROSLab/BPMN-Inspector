@@ -33,17 +33,21 @@ TODO
 
 The user can perform very simple steps to analyze a collection of BPMN models:
 - In the *HOME* page, the user can load one or more BPMN models file  from local storage with the corresponding button or one of the sample images by clicking on them;
-<p align="center">
-<img src="extra/images/home.png" width="90%" />
-</p>
+
 
 # Technical Information
 
 <p align="center">
-<img src="frontend/readme-img/hilla-logo.svg" width="300px" height="150px"/>
+<img src="frontend/img/readme-img/hilla-logo.svg" width="300px" height="150px"/>
 </p>
 
 BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source framework that integrates a Spring Boot Java backend with a reactive TypeScript frontend, which in this tool is React.
+
+<p align="center">
+  <img src="frontend/img/readme-img/spring-boot.png" width="300px" height="150px" />
+  <img src="frontend/img/readme-img/plus.png" width="70px" height="75px" style="margin-bottom: 20px;" />
+  <img src="frontend/img/readme-img/react.png" width="300px" height="150px" />
+</p>
 
 ## Technical Requirements
 
