@@ -19,6 +19,7 @@ BPMN Inspector is a Java tool for statistical and qualitative analysis of a BPMN
    * [Quickstart](#quickstart)
    * [How to run](#how-to-run)
    * [Technical Information](#technical-information)
+   * [References](#references)
 <!--te-->
 
 # Functionalities
@@ -53,3 +54,15 @@ BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source f
 
 - [Node](https://nodejs.org/en) 16.14 or later;
 - [JDK](https://www.oracle.com/be/java/technologies/downloads/#java17) 17 or later.
+
+
+# References
+
+To refers to BPMN Inspector you can cite the following papers:
+
+-
+-
+
+# License
+
+BPMN Inspector is under the [MIT](https://github.com/BPMN-Inspector/blob/master/LICENSE) license.
