@@ -13,7 +13,7 @@
 
 BPMN Inspector is a Java tool for statistical and qualitative analysis of a BPMN model collection. BPMN Inspector comes in the form of a web application that provides a user interface for inspecting several features of a model's collection.
 
-## Table of contents
+# Table of contents
 <!--ts-->
    * [Functionalities](#functionalities)
    * [Quickstart](#quickstart)
@@ -21,12 +21,12 @@ BPMN Inspector is a Java tool for statistical and qualitative analysis of a BPMN
    * [Technical Information](#technical-information)
 <!--te-->
 
-## Functionalities
+# Functionalities
 
-## Quickstart
+# Quickstart
 
 The web application is available and ready to use at the following link:
-**[BPMN Inspector](https://pros.unicam.it/bpmn-inspector/)**.
+**[*Try me!*](https://pros.unicam.it/bpmn-inspector/)**.
 
 A tutorial on its usage is available by clicking the image below:
 TODO
@@ -40,7 +40,7 @@ The user can perform very simple steps to analyze a collection of BPMN models:
 # Technical Information
 
 <p align="center">
-<img src="frontend/img/logo.png" width="300px" height="150px"/>
+<img src="frontend/readme-img/hilla-logo.svg" width="300px" height="150px"/>
 </p>
 
 BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source framework that integrates a Spring Boot Java backend with a reactive TypeScript frontend, which in this tool is React.
