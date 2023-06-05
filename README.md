@@ -42,7 +42,7 @@ The user can perform very simple steps to analyze a collection of BPMN models:
 <img src="frontend/img/readme-img/hilla-logo.svg" width="300px" height="150px"/>
 </p>
 
-BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source framework that integrates a Spring Boot Java backend with a reactive TypeScript frontend, which in this tool is React.
+BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source framework that integrates a <b>Spring Boot Java backend</b> with a reactive TypeScript frontend, which in this tool is <b>React</b>.
 
 <p align="center">
   <img src="frontend/img/readme-img/spring-boot.png" width="300px" height="150px" />
@@ -58,10 +58,10 @@ BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source f
 
 # References
 
-To refers to BPMN Inspector you can cite the following papers:
+To refers to BPMN Inspector you can cite the following research paper on which the tool was adopted:
 
 -
--
+
 
 # License
 
