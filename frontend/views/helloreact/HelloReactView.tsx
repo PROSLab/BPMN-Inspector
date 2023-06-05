@@ -368,7 +368,7 @@ export default function HelloReactView() {
             <div style={{display: "flex", flexDirection: "row", height: "100%"}}>
                 <div style={{flexDirection:"column"}} className="flex h-full items-left justify-left p-l text-left box-border">
                     <div>
-                        <a style={{fontSize:'40px',color:'black',marginLeft: "20%",fontWeight:"bold"}}>BPMN Explorer</a>
+                        <a style={{fontSize:'40px',color:'black',marginLeft: "19%",fontWeight:"bold"}}>BPMN Inspector</a>
                         <br />
                         <a style={{fontSize:'20px',color:'black',marginLeft: "10%"}}>Upload one or more .bpmn, .xml or .zip files.</a>
                         <div className="form-container">
