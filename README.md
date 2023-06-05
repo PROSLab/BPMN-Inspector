@@ -16,7 +16,6 @@ BPMN Inspector is a Java tool for statistical and qualitative analysis of a BPMN
 # Table of contents
 <!--ts-->
    * [Functionalities](#functionalities)
-   * [Quickstart](#quickstart)
    * [How to run](#how-to-run)
    * [Technical Information](#technical-information)
    * [References](#references)
@@ -60,7 +59,7 @@ This analysis focuses on handling the syntactic violations that can occur in the
 Finally, the last analysis, investigates if the model's collection adheres to a set of established good modeling practices defined by this [work](https://www.sciencedirect.com/science/article/pii/S0169023X1630341X). To do that, BPMN inspector integrates a tool called [BEBoP](https://pros.unicam.it/bebop) (understandaBility vErifier for Business Process models). BEBoP is a tool that verifies the understandability of business process models, ensuring that they have been designed according to established good modeling practices. It automatically checks whether a model adheres to these practices. BPMN Inspector performs such an analysis for each model considering a set of forty good modeling practices and generates a *.csv* report containing boolean values to evaluate the model's adherence to each guideline.
 In the web application, a radar graph is generated to indicate the violation of good modeling practices in terms of percentage, considering the total number of models in the collection.
 
-# Quickstart
+# How To Run
 
 The web application is available and ready to use at the following link:
 **[*Try me!*](https://pros.unicam.it/bpmn-inspector/)**.
