@@ -56,6 +56,7 @@
     "react-global-loader": "^1.2.4",
     "react-icons": "^4.7.1",
     "react-keep-alive": "^2.5.2",
+    "react-markdown": "^8.0.7",
     "react-router-dom": "^6.8.2",
     "react-slideshow-image": "^4.2.1",
     "react-spring": "^9.0.0",
