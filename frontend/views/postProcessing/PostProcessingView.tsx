@@ -1189,7 +1189,7 @@ export default function PostProcessingView() {
                         <div style={{display:'flex',width: "50%",flexDirection: "column"}}>
                             <div style={{width: "100%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Most Strong Correlations </a>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>15 Most Strong Correlations </a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
                                     <table style={{marginBottom:"15px"}}>
@@ -1211,7 +1211,7 @@ export default function PostProcessingView() {
                                         </tbody>
                                     </table>
 
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Most Inverse Correlations </a>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>15 Most Inverse Correlations </a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
                                     <table>

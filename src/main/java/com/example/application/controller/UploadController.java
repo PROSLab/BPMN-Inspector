@@ -561,8 +561,8 @@ public class UploadController {
                 lowestCorrelations.sort((a, b) -> Double.compare((double) a.get("correlation"), (double) b.get("correlation")));
 
         // Seleziona solo le prime 10 relazioni per ciascun array
-                highestCorrelations = highestCorrelations.stream().limit(10).collect(Collectors.toList());
-                lowestCorrelations = lowestCorrelations.stream().limit(10).collect(Collectors.toList());
+                highestCorrelations = highestCorrelations.stream().limit(15).collect(Collectors.toList());
+                lowestCorrelations = lowestCorrelations.stream().limit(15).collect(Collectors.toList());
 
         // Crea la mappa contenente gli array di relazioni
                 Map<String, List<Map<String, Object>>> correlationData = new HashMap<>();

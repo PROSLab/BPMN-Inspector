@@ -67,7 +67,7 @@ class ChartComponent extends Component<ChartComponentProps> {
         zingchart.render({
             id: 'myChart',
             data: myConfig,
-            height: '600px',
+            height: '800px',
             width: '100%',
         });
     }
@@ -75,7 +75,7 @@ class ChartComponent extends Component<ChartComponentProps> {
     render() {
         return (
             <div id="chartVPC">
-                <div id="myChart" style={{ marginLeft: '100px' }}></div>
+                <div id="myChart" style={{ marginLeft: '100px', marginTop:"-21px", zIndex:"-1" }}></div>
             </div>
         );
     }
