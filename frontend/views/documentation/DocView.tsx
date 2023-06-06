@@ -19,7 +19,6 @@ export default function DocView() {
 
     return (
         <div>
-            <h1>Contenuto Markdown</h1>
             <MarkdownComponent markdownContent={markdownContent} />
         </div>
     );

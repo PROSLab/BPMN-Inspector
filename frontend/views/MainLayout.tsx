@@ -8,13 +8,14 @@ import React, {Suspense, useEffect, useState} from 'react';
 import {NavLink, Outlet, useLocation} from 'react-router-dom';
 import css from './MainLayout.module.css';
 import logo from "./../img/logo.png"
-import {MdAlternateEmail, MdOutlineMarkEmailUnread} from "react-icons/all";
+import {MdAlternateEmail} from "react-icons/all";
 import {CiCircleQuestion} from "react-icons/ci";
 import {loader} from "react-global-loader";
 import axios from "axios";
 import PieChart from "Frontend/components/charts/PieChart";
 import {Pie} from "react-chartjs-2";
-
+import {HiAcademicCap} from "react-icons/hi";
+import Modal from 'react-modal';
 interface filesInfo {
     modelType: string;
     name: string;
@@ -31,6 +32,7 @@ type MenuRoute = ViewRouteObject &
     handle: Required<MenuProps>;
   }>;
 
+
 export default function MenuOnLeftLayout() {
   const matches = useViewMatches();
   const [filesInfo, setFilesInfo] = useState<Array<filesInfo>>([]);
@@ -40,6 +42,16 @@ export default function MenuOnLeftLayout() {
   const menuRoutes = (routes[0]?.children || []).filter(
     (route) => route.path && route.handle && route.handle.icon && route.handle.title
   ) as readonly MenuRoute[];
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
   const location = useLocation()
     const { data } = location.state || {};
@@ -157,7 +169,7 @@ export default function MenuOnLeftLayout() {
 
           {data && (
 
-              <div style={{position: 'absolute', height: "64%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
+              <div style={{position: 'absolute', top:"130px", height:"64%", width: "93%", backgroundColor: "#f6f6f6", border: "2px solid black", borderRadius: "10px", textAlign: "left", margin: "auto" }}>
                   <a style={{marginLeft:'5%',fontWeight:"bold"}}>Model Dashboard </a><CiCircleQuestion style={{fontSize:'18px',marginBottom:"3%",cursor:"help"}} title={"These are information about the collection of models inspected"}/>
                   <br/>
                   <a style={{color:'green',fontWeight:"bold", marginLeft:"5%"}}>{total}</a><a style={{marginLeft:"8%"}}>Total models inspected</a>
@@ -206,7 +218,47 @@ export default function MenuOnLeftLayout() {
               <hr style={{color: 'red', backgroundColor:'#5b5b65', border:'none', height: '1px', margin: '5px 5%', width: '90%'}} />
               <div style={{textAlign: 'center'}}>
                   <p style={{fontSize:"15px", color: '#eae9e9"', margin: '0'}}>Version: 1.0.0</p>
-                  <p style={{fontSize:'14px', marginBottom:"2%", marginTop:"0"}}> <MdAlternateEmail style={{marginBottom:"0.1cm"}}/> <a style={{marginLeft:"1%", fontSize:"14px"}} href="mailto:ivan.compagnucci@unicam.it"> Contact</a></p>
+                  <p style={{ fontSize: '16px', marginBottom: '2%', marginTop: '0' }}>
+                      <HiAcademicCap style={{ marginBottom: '0.1cm', fontSize: '18px' }} />
+                      <a
+                          style={{ marginLeft: '1%', fontSize: '14px', marginRight: '10%',  color: "#005fdb", cursor: "pointer"}}
+                          onClick={openModal}
+                      >
+                          References
+                      </a>
+                      <MdAlternateEmail style={{ marginBottom: '0.1cm' }} />
+                      <a style={{ marginLeft: '1%', fontSize: '14px' }} href="mailto:ivan.compagnucci@unicam.it">
+                          Contact
+                      </a>
+                  </p>
+
+                  <Modal
+                      style={{
+                          overlay: {
+                              backgroundColor: 'rgba(255, 255, 255, 0.67)', // Sfondo trasparente
+                              zIndex: 2 // Imposta un valore di z-index superiore rispetto al bottone
+                          },
+                          content: {
+                              width: '600px',
+                              height: '300px',
+                              margin: 'auto',
+                              borderRadius: '8px',
+                              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+                              zIndex: 2 // Imposta un valore di z-index superiore rispetto al bottone
+                          }
+                      }}
+                      isOpen={isModalOpen}
+                      onRequestClose={closeModal}
+                  >
+                      <h2><HiAcademicCap style={{marginBottom: '0.13cm', marginRight:"2%"}}/>References</h2>
+                      <p>Please cite the following references:</p>
+                      <ul>
+                          <li>Elemento 1</li>
+                          <li>Elemento 2</li>
+                      </ul>
+                      <button style={{color: 'white',backgroundColor:"#10ad73", fontSize: '15px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={closeModal}>Close</button>
+                  </Modal>
+
               </div>
           </div>
           </Scroller>

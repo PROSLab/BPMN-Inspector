@@ -57,6 +57,7 @@
     "react-icons": "^4.7.1",
     "react-keep-alive": "^2.5.2",
     "react-markdown": "^8.0.7",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.8.2",
     "react-slideshow-image": "^4.2.1",
     "react-spring": "^9.0.0",
@@ -72,6 +73,7 @@
     "@types/file-saver": "^2.0.5",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
+    "@types/react-modal": "^3.16.0",
     "@types/svg.js": "^2.3.1",
     "@types/zingchart": "^2.8.34",
     "@vitejs/plugin-react": "^2.2.0",
@@ -149,7 +151,9 @@
     "file-saver": "$file-saver",
     "react-slideshow-image": "$react-slideshow-image",
     "zingchart": "$zingchart",
-    "react-spring": "$react-spring"
+    "react-spring": "$react-spring",
+    "react-markdown": "$react-markdown",
+    "react-modal": "$react-modal"
   },
   "vaadin": {
     "dependencies": {
@@ -199,6 +203,6 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "c898caee8ddd64c0a7fef55bb00a645e355c1d44c846ddc40e2157f21d236bc5"
+    "hash": "b360348ff0920c23fc13e97a3970d6894a5320e2f7d77cb54c7693a566414b65"
   }
 }

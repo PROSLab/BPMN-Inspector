@@ -1,6 +1,6 @@
 .loader {
     position : fixed;
-    z-index: 9999;
+    z-index: 9990;
     background : url("/img/inspect.gif") 50% 50% no-repeat;
     height: 60%;
     width: 100%;
