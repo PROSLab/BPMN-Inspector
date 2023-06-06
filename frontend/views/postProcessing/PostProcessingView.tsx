@@ -6,7 +6,7 @@ import {toast} from "react-toastify";
 import { Chart, registerables } from 'chart.js';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import xmlLogo from "Frontend/img/xmlLogo.png"
-import VennChart from 'Frontend/components/charts/VennChart';
+import ChartComponent from 'Frontend/components/charts/VennChart';
 import zingchart from "zingchart";
 // @ts-ignore
 import ChartVenn from "Frontend/components/charts/ChartVenn";
@@ -932,47 +932,53 @@ export default function PostProcessingView() {
             scaleX: index + 1,
         }));
 
-    let minExit = '0%'; // Valore predefinito se seriesData è vuoto
+    let minExit = '0%';
 
     if (seriesData.length > 0) {
-        minExit  = `${seriesData[seriesData.length - 1].values[0]}%`;
+        minExit = `${seriesData[seriesData.length - 1].values[0]}%`;
     }
-    let myConfig = {
-        type: "funnel",
+
+    const myConfig = {
+        type: 'funnel',
         plot: {
-            startWidth: "dynamic",
+            startWidth: 'dynamic',
             minExit: minExit,
             valueBox: {
-                text: "%v%",
-                placement: "center",
-                fontFamily: "Tahoma",
-                fontColor: "#ffffff",
+                text: '%v%',
+                placement: 'center',
+                fontFamily: 'Tahoma',
+                fontColor: '#ffffff',
                 fontSize: 12,
-                fontWeight: "normal",
-                fontStyle: "normal",
+                fontWeight: 'normal',
+                fontStyle: 'normal',
             },
             animation: {
-                effect: "ANIMATION_FADE_IN"
-            }
+                effect: 'ANIMATION_FADE_IN',
+            },
         },
         scaleY: {
             labels: seriesData.map((data) => data.text),
             scaleLabel: {
-                fontFamily: "Arial",
+                fontFamily: 'Arial',
                 fontSize: 8,
-                fontWeight: "bold",
-                fontColor: "#333333",
+                fontWeight: 'bold',
+                fontColor: '#333333',
             },
         },
         series: seriesData,
     };
 
     zingchart.render({
-        id: "myChart",
+        id: 'myChart',
         data: myConfig,
-        height: "600px",
-        width: "100%",
+        height: '600px',
+        width: '100%',
     });
+
+    const dataSetsFunnel = seriesData.map((data) => ({
+        value: data.text.replace(/\n/g, '-'), // Rimuovi il "\n" e ripristina "-"
+        percentage: data.values[0].toString(),
+    }));
 
     return (
         <div style={{background:"#fafafb"}} className="flex flex-col h-full items-left justify-left p-l text-left box-border">
@@ -1145,8 +1151,8 @@ export default function PostProcessingView() {
                                         </button>
                                     </div>
 
-                                    <div id="chartVPC"  style={{}}>
-                                        <div id="myChart" style={{marginLeft: "100px"}}></div>
+                                    <div id="chartVPC" >
+                                        <ChartComponent dataSets={dataSetsFunnel}/>
                                     </div>
 
                                     <div>
@@ -1183,7 +1189,7 @@ export default function PostProcessingView() {
                         <div style={{display:'flex',width: "50%",flexDirection: "column"}}>
                             <div style={{width: "100%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Highest Correlations </a>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Most Strong Correlations </a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
                                     <table style={{marginBottom:"15px"}}>
@@ -1205,7 +1211,7 @@ export default function PostProcessingView() {
                                         </tbody>
                                     </table>
 
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Lowest Correlations </a>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>10 Most Inverse Correlations </a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
                                                       title={"This is a graph of the model size of the collection"}/>
                                     <table>

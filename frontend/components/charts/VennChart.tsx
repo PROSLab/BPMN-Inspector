@@ -1,65 +1,84 @@
-import React, { useEffect } from 'react';
-import zingchart from "zingchart";
+import React, { Component } from 'react';
+import zingchart from 'zingchart';
 
-const VennChart = () => {
-    useEffect(() => {
-        let myConfig = {
-            type: 'bar',
-            title: {
-                text: 'Data Basics',
-                fontSize: 24,
-            },
-            legend: {
-                draggable: true,
-            },
-            scaleX: {
-                // Set scale label
-                label: { text: 'Days' },
-                // Convert text on scale indices
-                labels: [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
+interface ChartComponentProps {
+    dataSets: { value: string; percentage: string }[];
+}
+
+class ChartComponent extends Component<ChartComponentProps> {
+    componentDidMount() {
+        this.renderChart();
+    }
+
+    componentDidUpdate() {
+        this.renderChart();
+    }
+
+    renderChart() {
+        const { dataSets } = this.props;
+
+        const seriesData = dataSets
+            .filter((data) => parseFloat(data.percentage) !== 0)
+            .map((data, index) => ({
+                values: [parseFloat(data.percentage)],
+                text: `${data.value.replace(/-/g, '\n')}`,
+                tooltip: {
+                    text: `${data.value}`,
+                },
+                scaleX: index + 1,
+            }));
+
+        let minExit = '0%';
+
+        if (seriesData.length > 0) {
+            minExit = `${seriesData[seriesData.length - 1].values[0]}%`;
+        }
+
+        const myConfig = {
+            type: 'funnel',
+            plot: {
+                startWidth: 'dynamic',
+                minExit: minExit,
+                valueBox: {
+                    text: '%v%',
+                    placement: 'center',
+                    fontFamily: 'Tahoma',
+                    fontColor: '#ffffff',
+                    fontSize: 12,
+                    fontWeight: 'normal',
+                    fontStyle: 'normal',
+                },
+                animation: {
+                    effect: 'ANIMATION_FADE_IN',
+                },
             },
             scaleY: {
-                // Scale label with unicode character
-                label: { text: 'Temperature (°F)' }
-            },
-            plot: {
-                // Animation docs here:
-                // https://www.zingchart.com/docs/tutorials/styling/animation#effect
-                animation: {
-                    effect: 'ANIMATION_EXPAND_BOTTOM',
-                    method: 'ANIMATION_STRONG_EASE_OUT',
-                    sequence: 'ANIMATION_BY_NODE',
-                    speed: 275,
-                }
-            },
-            series: [
-                {
-                    // plot 1 values, linear data
-                    values: [23,20,27,29,25,17,15],
-                    text: 'Week 1',
+                labels: seriesData.map((data) => data.text),
+                scaleLabel: {
+                    fontFamily: 'Arial',
+                    fontSize: 8,
+                    fontWeight: 'bold',
+                    fontColor: '#333333',
                 },
-                {
-                    // plot 2 values, linear data
-                    values: [35,42,33,49,35,47,35],
-                    text: 'Week 2'
-                },
-                {
-                    // plot 2 values, linear data
-                    values: [15,22,13,33,44,27,31],
-                    text: 'Week 3'
-                }
-            ]
+            },
+            series: seriesData,
         };
 
         zingchart.render({
             id: 'myChart',
             data: myConfig,
+            height: '600px',
+            width: '100%',
         });
+    }
 
+    render() {
+        return (
+            <div id="chartVPC">
+                <div id="myChart" style={{ marginLeft: '100px' }}></div>
+            </div>
+        );
+    }
+}
 
-    }, []);
-
-    return <div id="venn-chart" />;
-};
-
-export default VennChart;
+export default ChartComponent;
