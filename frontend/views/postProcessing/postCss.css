@@ -124,6 +124,7 @@ tbody td {
     cursor: pointer;
 }
 
-.canvas{
-    margin-left: -100px;
+html, body {
+    background-color: rgb(250, 250, 251); /* Sostituisci con il colore grigio desiderato */
+    height: 100%;
 }

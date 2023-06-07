@@ -75,7 +75,7 @@ class ChartComponent extends Component<ChartComponentProps> {
     render() {
         return (
             <div id="chartVPC">
-                <div id="myChart" style={{ marginLeft: '100px', marginTop:"-21px", zIndex:"-1" }}></div>
+                <div id="myChart" style={{ marginLeft: '100px', marginTop:"-19px", zIndex:"-1" }}></div>
             </div>
         );
     }

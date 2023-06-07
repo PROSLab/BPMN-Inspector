@@ -1499,7 +1499,6 @@ export default function PostProcessingView() {
                                                                     </span>
                                                                 ))}
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             ))}
@@ -1516,7 +1515,7 @@ export default function PostProcessingView() {
                </div>
 
             <input style={{position: 'fixed', marginBottom:'20px', marginRight:'1%', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
-            <button style={{position: 'fixed', marginLeft:'61%', marginTop: '-72px', zIndex: '9', fontSize: "17px", backgroundColor: 'white', color: '#10ad73', padding: '5px 13px', border: '2px solid #10ad73', borderRadius: '3px', cursor: 'pointer'}} onClick={downloadCompleteReport} type="submit">
+            <button style={{position: 'absolute', top:"8px", right:"42px", zIndex: '9', fontSize: "17px", backgroundColor: 'white', color: '#10ad73', padding: '5px 13px', border: '2px solid #10ad73', borderRadius: '3px', cursor: 'pointer'}} onClick={downloadCompleteReport} type="submit">
                 <GrDocumentCsv style={{fontStyle:"white",marginBottom: "2%"}}/><a style={{marginRight: '0.5em', color: "#10ad73", marginLeft: '8px', fontWeight: "bold"}}>Download complete report</a>
             </button>
         </div>
