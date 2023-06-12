@@ -79,7 +79,7 @@ In the web application, a radar graph is generated to indicate the violation of 
 <img src="frontend/img/readme-img/guidelines.png" width="1000px" height="480px"/>
 </p>
 
-A tutorial on its usage is available by clicking the image below:
+A video tutorial on its usage is available by clicking the following link:
 **[*Tutorial*](https://youtube.com)**.
 
 # How To Run
