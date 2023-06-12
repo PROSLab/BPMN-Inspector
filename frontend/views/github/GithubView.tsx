@@ -83,9 +83,10 @@ const DVDPlayer: React.FC = () => {
         <button
             className="centered-button"
             onClick={redirectToGitHub}
-            style={{ backgroundColor:"#10ad73", position: "fixed", padding: '10px 20px', borderRadius: '15px', cursor: 'pointer', marginLeft: "30%", marginTop: "20%", zIndex: 1 }}
+            style={{ backgroundColor:"#fafaff", color:"#10ad73",position: "fixed", padding: '10px 20px', borderRadius: '15px', cursor: 'pointer', marginLeft: "30%", marginTop: "20%", zIndex: 1 }}
         >
             <BsGithub style={{ marginBottom: "3px", marginRight: "5px", height:"60px", width:"60px" }} /> GitHub Source Code
+            <img style={{marginTop: "5px", position:"relative"}}  src="../../img/develop.gif" alt="Animated icons by Lordicon.com" width="70" height="70"/>
         </button>
         {dvdImages}</div>;
 };

@@ -1,9 +1,0 @@
-End Event - Sequence Flow;98.02%
-End Event - Sequence Flow - Lane;96.04%
-End Event - Sequence Flow - Lane - Expanded Pool;96.04%
-Task - End Event - Sequence Flow - Lane - Expanded Pool;94.06%
-Task - End Event - Message Flow - Sequence Flow - Lane - Expanded Pool;86.14%
-Task - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;86.14%
-Task - Exclusive Gateway - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;54.46%
-Task - Exclusive Gateway - Start Message Event - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;30.69%
-Task - Exclusive Gateway - Start Message Event - End Event - Intermediate Catch Message Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;16.83%

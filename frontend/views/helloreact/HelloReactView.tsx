@@ -424,21 +424,21 @@ export default function HelloReactView() {
                                 className={`nav-link ${activeTab === 'filtering' ? 'active' : ''}`}
                                 onClick={(e) => {e.preventDefault(); setActiveTab('filtering');}}
                                 style={{ color: '#10ad73'}}>
-                                Filter Models
+                                Upload Models
                             </a>
                         </li>
                         <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>    <a
                                 className={`nav-link ${activeTab === 'inspection' ? 'active' : ''}`}
                                 onClick={(e) => {e.preventDefault(); setActiveTab('inspection');}}
                                 style={{color: '#10ad73'}}>
-                                Inspect Models
+                                Filter Models
                             </a>
                         </li>
                         <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>    <a
                                 className={`nav-link ${activeTab === 'validation' ? 'active' : ''}`}
                                 onClick={(e) => {e.preventDefault(); setActiveTab('validation');}}
                                 style={{color: '#10ad73'}}>
-                                Validate Models
+                                Inspect Models
                             </a>
                         </li>
                     </ul>
@@ -446,8 +446,8 @@ export default function HelloReactView() {
                     {activeTab === 'filtering' && (
                         <>
                             <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={"../../img/filtering.gif"} alt="" width="140" height="140"/>
-                                <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >Filter, organize, and clean your sample of BPMN <br /> models easily and effectively.</p>
+                                <img style={{marginTop:"50px"}} src={"../../img/filtering.gif"} alt="Animated icons by Lordicon.com" width="140" height="140"/>
+                                <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >1. <a style={{color:"#a5b8da"}}>Upload</a> a collection of BPMN models.</p>
                             </div>
                         </>
 
@@ -455,8 +455,8 @@ export default function HelloReactView() {
                     {activeTab === 'inspection' && (
                         <>
                             <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={"../../img/inspection.gif"} alt="" width="140" height="140"/>
-                                <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >Inspect your BPMN model to obtain a comprehensive understanding of your process and identify up to 267 different BPMN elements.</p>
+                                <img style={{marginTop:"50px"}} src={"../../img/filter.gif"} alt="Animated icons by Lordicon.com" width="140" height="140"/>
+                                    <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >2. <a style={{color:"#c0b777"}}>Filter</a> the collection of BPMN models.</p>
                             </div>
                         </>
 
@@ -464,11 +464,18 @@ export default function HelloReactView() {
                     {activeTab === 'validation' && (
                         <>
                             <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={"../../img/validate.gif"} alt="" width="140" height="140"/>
-                                <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}}>Validate the semantic of your BPMN files and evaluate <br /> the adherence to 40 good modeling practices.</p>
+                                <div style={{display: "flex", flexDirection:"row"}}>
+                                    <img style={{marginTop: "50px"}} src="../../img/validate.gif" alt="Animated icons by Lordicon.com" width="130"
+                                         height="130"/>
+                                    <div>
+                                        <img style={{marginTop: "50px"}}  src="../../img/inspection.gif" alt="Animated icons by Lordicon.com" width="140" height="140"/>
+                                    </div>
+                                </div>
+                                <p style={{marginTop: "50px", fontSize:"18px", fontWeight:"bold"}}>3. <a
+                                    style={{color: "#cba991"}}>Inspect</a> the collection of BPMN models</p>
+
                             </div>
                         </>
-
                     )}
                 </div>
             </div>
