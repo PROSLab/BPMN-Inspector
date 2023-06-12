@@ -239,8 +239,8 @@ export default function MenuOnLeftLayout() {
                               zIndex: 2 // Imposta un valore di z-index superiore rispetto al bottone
                           },
                           content: {
-                              width: '600px',
-                              height: '300px',
+                              width: '750px',
+                              height: '430px',
                               margin: 'auto',
                               borderRadius: '8px',
                               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
@@ -250,11 +250,14 @@ export default function MenuOnLeftLayout() {
                       isOpen={isModalOpen}
                       onRequestClose={closeModal}
                   >
-                      <h2><HiAcademicCap style={{marginBottom: '0.13cm', marginRight:"2%"}}/>References</h2>
-                      <p>Please cite the following references:</p>
+                      <h2 style={{top:"10px"}}><HiAcademicCap style={{marginBottom: '0.13cm', marginRight:"2%"}}/>References</h2>
+                      <p>Tool's use case:</p>
                       <ul>
-                          <li>Elemento 1</li>
-                          <li>Elemento 2</li>
+                          <li>Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2023). <strong>A Study on the Usage of the BPMN Notation for Designing
+                              Process Collaboration, Choreography, and Conversation Models.</strong> In <em>Business & Information Systems Engineering</em> on the special issue <em>"The Impact of the Business Process Model and Notation."</em></li>
+                          <li style={{marginTop:"10px"}}>Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2021). <strong>Trends on the Usage of BPMN 2.0
+                              from Publicly Available Repositories.</strong> In <em>International Conference on Perspectives in Business
+                              Informatics Research</em>, LNBIP (Vol. 430, pp. 84–99). Springer </li>
                       </ul>
                       <button style={{color: 'white',backgroundColor:"#10ad73", fontSize: '15px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm'}} onClick={closeModal}>Close</button>
                   </Modal>
