@@ -1,6 +1,9 @@
-Message Flow - Sequence Flow;71.43%
-Start Event - Message Flow - Sequence Flow;42.86%
-Start Event - End Event - Message Flow - Sequence Flow;14.29%
-Start Event - End Event - Message Flow - Sequence Flow - Choreography Task;14.29%
-Start Event - End Event - Message Flow - Sequence Flow - Choreography Task - Choreography Message;14.29%
-Start Event - End Event - Message Flow - Sequence Flow - Choreography Task - Choreography Message - Choreography Participant;14.29%
+End Event - Sequence Flow;98.99%
+End Event - Sequence Flow - Lane;96.97%
+End Event - Sequence Flow - Lane - Expanded Pool;96.97%
+Task - End Event - Sequence Flow - Lane - Expanded Pool;94.95%
+Task - End Event - Message Flow - Sequence Flow - Lane - Expanded Pool;87.88%
+Task - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;87.88%
+Task - Exclusive Gateway - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;54.55%
+Task - Exclusive Gateway - Start Message Event - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;30.30%
+Task - Exclusive Gateway - Start Message Event - End Event - Intermediate Catch Message Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;16.16%
