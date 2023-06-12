@@ -29,6 +29,10 @@ BPMN Inspector is made available through a RESTful web application that allows u
 
 The BPMN models file can be uploaded in formats such as *.bpmn*, *.xml*, or a *.zip*. In the case of *.zip* format, the contents are extracted, and the extensions are examined to discard any types of file that do not conform to the *.bpmn* or *.xml* formats. After the uploading phase, is shown a preview page of the list of each model belonging to the collection. Each model presents a set of general information such as name, model type (Process Collaboration, Choreography, or Conversation), whether the model is valid, whether it is already in the list (duplicated), whether the label's model is in the English language and the file size. In this preview window, it is possible to filter the models and download them into a .zip file, or inspect the collection by optionally applying some filters. The collection can be filtered considering both or one of two aspects: model features or model type. Considering the model's features, they can be filtered by: (i) deleting duplicate models; (ii) deleting syntactically invalid models; and (iii) deleting models whose labels are in a language different than English. Regarding the model's type, they can be filtered by considering Process Collaboration, Choreography, and Conversation models differently.
 
+<p align="center">
+<img src="frontend/img/readme-img/preview.png" width="1000px" height="500px"/>
+</p>
+
 ## Model Collection Analysis
 
 This is the main phase of the application and consists of a set of analyses that are performed on the collection of BPMN models previously uploaded.
