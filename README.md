@@ -100,7 +100,7 @@ Once launched, the application will be available at [http://localhost:8080](http
 ```bash
 docker build -t bpmn-inspector-image .
 ```
-> Run the Docker container from the main folder of the project by executing the following comand:
+- Run the Docker container from the main folder of the project by executing the following comand:
 
 ```bash
 docker run -p 8080:8080 bpmn-inspector
