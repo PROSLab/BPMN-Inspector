@@ -58,7 +58,7 @@ import java.util.zip.ZipOutputStream;
 public class UploadController {
 
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "src/main/resources/bpmnModels/";
+    private static String UPLOADED_FOLDER = "./src/main/resources/bpmnModels/";
     private List<String> validModelFiles = new ArrayList<>();
     private int apiCallCount = 0;
     @PostMapping("/files")

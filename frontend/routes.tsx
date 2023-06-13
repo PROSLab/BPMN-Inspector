@@ -6,8 +6,6 @@ import DocView from "Frontend/views/documentation/DocView";
 import GithubView from "Frontend/views/github/GithubView";
 import PostProcessingView from "Frontend/views/postProcessing/PostProcessingView";
 
-// @ts-ignore
-const AboutView = lazy(async () => import('Frontend/views/about/AboutView.js'));
 export type MenuProps = Readonly<{
   icon?: string;
   title?: string;
