@@ -107,6 +107,10 @@ docker run -p 8080:8080 bpmn-inspector
 ```
 Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
 
+For the generation of the .jar file
+```bash
+mvn clean package -Pproduction
+```
 
 # Technical Information
 
