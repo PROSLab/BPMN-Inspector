@@ -64,7 +64,7 @@ Then the tool targeted groups of elements. It starts with the pair of elements t
 
 ### BPMN Syntactic Validation 
 
-This analysis focuses on handling the syntactic violations that can occur in the BPMN models. To check whether the collected models include syntactic errors, \Tool compares each model with the [standard BPMN XML schema provided by the OMG group]({https://wiki.xmldation.com). To do such an analysis, we developed a BPMN schema validator. The validator analyzes the entire collection and detects whether a model is syntactically valid or not. It generates a *.csv* report containing the list of the models analyzed and if invalid, also an array of the errors related to the model. In the web application, is automatically generated a histogram chart displays the type of errors and their count, along with a table that includes the error code and a link to the XMLdation wiki site providing a detailed description of the error.
+This analysis focuses on handling the syntactic violations that can occur in the BPMN models. To check whether the collected models include syntactic errors, BPMN Inspector compares each model with the [standard BPMN XML schema provided by the OMG group]({https://wiki.xmldation.com). To do such an analysis, we developed a BPMN schema validator. The validator analyzes the entire collection and detects whether a model is syntactically valid or not. It generates a *.csv* report containing the list of the models analyzed and if invalid, also an array of the errors related to the model. In the web application, is automatically generated a histogram chart displays the type of errors and their count, along with a table that includes the error code and a link to the XMLdation wiki site providing a detailed description of the error.
 
 <p align="center">
 <img src="frontend/img/readme-img/validation.png" width="1000px" height="480px"/>
@@ -100,8 +100,17 @@ Once launched, the application will be available at [http://localhost:8080](http
 ```bash
 docker build -t bpmn-inspector-image .
 ```
-Once launched, the application will be available at [http://localhost:5000](http://localhost:5000).
+- Run the Docker container from the main folder of the project by executing the following comand:
 
+```bash
+docker run -p 8080:8080 bpmn-inspector
+```
+Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
+
+For the generation of the .jar file
+```bash
+mvn clean package -Pproduction
+```
 
 # Technical Information
 
