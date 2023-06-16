@@ -446,7 +446,7 @@ export default function HelloReactView() {
                     {activeTab === 'filtering' && (
                         <>
                             <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={"../../img/filtering.gif"} alt="Animated icons by Lordicon.com" width="140" height="140"/>
+                                <img style={{marginTop:"50px"}} src={"../img/filtering.gif"} alt="Animated icons by Lordicon.com" width="140" height="140"/>
                                 <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >1. <a style={{color:"#a5b8da"}}>Upload</a> a collection of BPMN models.</p>
                             </div>
                         </>
@@ -454,7 +454,7 @@ export default function HelloReactView() {
                     {activeTab === 'inspection' && (
                         <>
                             <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={"../../img/filter.gif"} alt="Animated icons by Lordicon.com" width="140" height="140"/>
+                                <img style={{marginTop:"50px"}} src={"../img/filter.gif"} alt="Animated icons by Lordicon.com" width="140" height="140"/>
                                     <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >2. <a style={{color:"#c0b777"}}>Filter</a> the collection of BPMN models.</p>
                             </div>
                         </>
