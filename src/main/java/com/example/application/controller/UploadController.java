@@ -5500,7 +5500,7 @@ SUBPROCESS Collapsed EVENT + ADHOC
             if (exitCode == 0) {
                 System.out.println("Process Pearson-Python correctly executed.");
             } else {
-                System.out.println("Error during the processing of the Python script.");
+                System.out.println("Error during the processing of the Pearson correlation coefficient.");
             }
         }
     public void generateVennDataFromCsv() {
@@ -5584,9 +5584,9 @@ SUBPROCESS Collapsed EVENT + ADHOC
             }
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Process Combined correctly executed.");
+                System.out.println("Combined groups of elements correctly defined.");
             } else {
-                System.out.println("Error during the processing of the Python script.");
+                System.out.println("Error during the processing of determining the combined groups of elements script.");
             }
 
         } catch (IOException | InterruptedException e) {

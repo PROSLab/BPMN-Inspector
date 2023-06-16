@@ -11,8 +11,6 @@ df = pd.read_csv(csv_file, low_memory=False, delimiter=";", encoding="ISO-8859-1
 df = df.iloc[:, 2:-7]
 np.seterr(divide='ignore', invalid='ignore')
 filename = os.path.join(current_dir, "bpmn_combined.csv")
-header = df.columns.values.tolist()
-header.insert(0, '\\')
 
 if len(df) <= 1:
     print("Only one model is present")
@@ -20,6 +18,9 @@ if len(df) <= 1:
 
 # Trova gli elementi che sono presenti almeno una volta nel dataset
 present_elements = df.columns[df.any()].tolist()
+
+header = present_elements.copy()
+header.insert(0, '\\')
 
 with open(filename, 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile)
