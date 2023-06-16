@@ -347,7 +347,7 @@ export default function PostProcessingView() {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'bpmn_guidelines.csv');
+            link.setAttribute('download', 'bpmn_goodModelingPractices.csv');
             document.body.appendChild(link);
             link.click();
         });
@@ -799,7 +799,7 @@ export default function PostProcessingView() {
         labels: g, // Array di etichette
         datasets: [
             {
-                label: "% of guideline's satisfaction",
+                label: "% of good modeling practices's satisfaction",
                 backgroundColor: "rgba(16,173,115,0.7)",
                 borderColor: "rgba(8,59,12,0.6)",
                 data: percentageResult, // Array di valori delle percentuali
@@ -876,7 +876,7 @@ export default function PostProcessingView() {
         labels: labelsErr,
         datasets: [
             {
-                label: "% of guideline's satisfaction",
+                label: "% of good modeling practices's satisfaction",
                 backgroundColor: "rgb(16,173,115, 0.5)",
                 borderColor: "rgb(0,0,0)",
                 data: sortedErrorCounts.map(([_, count]) => count), // Array di valori delle percentuali
@@ -1060,7 +1060,7 @@ export default function PostProcessingView() {
                                 <div style={{display:"flex"}}>
                                 <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's usage</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                      title={"This is a graph of the element usage"}/>
+                                                      title={"This is a graph of the element's usage"}/>
                                     <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartEU')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                     </button>
@@ -1074,7 +1074,7 @@ export default function PostProcessingView() {
                                 <div style={{display:"flex"}}>
                                 <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>BPMN Element's Distribution</a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                      title={"This is a graph of the element distribution"}/>
+                                                      title={"This is a graph of the element's distribution"}/>
                                     <button style={{background:'white', border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                         <FaRegImage onClick={() => downloadSvg('chartED')} style={{fontSize:"30px", alignSelf:"right",marginBottom:"72%"}}/>
                                     </button>
@@ -1092,7 +1092,7 @@ export default function PostProcessingView() {
                                 <tr>
                                     <th style={{ width: '10%', textAlign: 'center'  }}>Rank (<span style={{ fontStyle: 'italic', whiteSpace: 'nowrap' }}>r</span>) <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Element rank by number of occurrences'} /></th>
                                     <th style={{ width: '20%', textAlign: 'center'  }}>Element</th>
-                                    <th style={{ width: '20%', textAlign: 'center'  }}>Occurrences <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Number of occurrences for each element in the collection'} /></th>
+                                    <th style={{ width: '20%', textAlign: 'center'  }}>Occurrences <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Number of occurrences of each element in the collection'} /></th>
                                     <th style={{ width: '20%', textAlign: 'center'  }}>Number of Models <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Number of models presenting at least one occurrence of this element'} /></th>
                                     <th style={{ width: '20%', textAlign: 'center'  }}>Probability Distribution <CiCircleQuestion style={{ fontSize: '18px', marginBottom: '3%', cursor: 'help' }} title={'Probability to find this element in a model considering this collection'} /></th>
                                 </tr>
@@ -1145,7 +1145,7 @@ export default function PostProcessingView() {
                                 <div style={{display:"flex", flexDirection:"column"}}>
                                     <div style={{ display: "flex", flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
                                         <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Most Combined Use</a>
-                                        <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the model size of the collection"} />
+                                        <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the combined used of groups of elements"} />
                                         <button style={{ background: 'white', border: "none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer' }}>
                                             <FaRegImage onClick={() => downloadSvg('chartVCON')} style={{ fontSize: "30px", alignSelf: "right", marginBottom: "71%" }} />
                                         </button>
@@ -1189,9 +1189,8 @@ export default function PostProcessingView() {
                         <div style={{display:'flex',width: "50%",flexDirection: "column"}}>
                             <div style={{width: "100%",paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                 <div>
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>15 Most Strong Correlations </a>
-                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                      title={"This is a graph of the model size of the collection"}/>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Most Strong Correlations </a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}/>
                                     <table style={{marginBottom:"15px"}}>
                                         <thead>
                                         <tr>
@@ -1211,9 +1210,8 @@ export default function PostProcessingView() {
                                         </tbody>
                                     </table>
 
-                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>15 Most Inverse Correlations </a>
-                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                      title={"This is a graph of the model size of the collection"}/>
+                                    <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Most Inverse Correlations </a>
+                                    <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}/>
                                     <table>
                                         <thead>
                                         <tr>
@@ -1257,7 +1255,7 @@ export default function PostProcessingView() {
                                         <div style={{display:"flex"}}>
                                             <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Syntactical errors</a>
                                             <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}
-                                                              title={"This is a graph of the model size of the collection"}/>
+                                                              title={"This is the graph of the number and type of errors in the collection"}/>
                                             <button style={{background:'white',border:"none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer'}}>
                                                 <FaRegImage onClick={() => downloadSvg('chartSE')} style={{fontSize:"30px", marginBottom:"71%", alignSelf:"right"}}/>
                                             </button>
@@ -1324,12 +1322,12 @@ export default function PostProcessingView() {
                                     <div style={{display: "flex", flexDirection: "row"}}>
                                         <div style={{width: "60%", marginRight:"10px", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
                                             <div style={{ display: "flex", flexDirection: "row", alignItems: "center", flexWrap: "wrap" }}>
-                                                <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Radar Guidelines</a>
-                                                <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the model size of the collection"} />
+                                                <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Good Modeling Practices Adherence</a>
+                                                <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the adherence's percentage of each good modeling practices"} />
                                                 <button style={{ background: 'white', border: "none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer' }}>
                                                     <FaRegImage onClick={() => downloadSvg('chartSE')} style={{ fontSize: "30px", alignSelf: "right", marginBottom: "71%" }} />
                                                 </button>
-                                                <a style={{ fontSize: '14px', color: 'black', fontStyle: "italic", marginBottom:"4%"}}>Click on the points of the radar for more information about the guideline.</a>
+                                                <a style={{ fontSize: '14px', color: 'black', fontStyle: "italic", marginBottom:"4%"}}>Click on the points of the radar for more information about the good modeling practices.</a>
                                             </div>
                                             <div id="chartSE" style={{position: "relative", height:"100vh", width:"100%"}}>
                                                 <Radar options={optionRadarChartData}  data={radarChartData} onClick={onClick} ref={chartRef}></Radar>
@@ -1338,7 +1336,7 @@ export default function PostProcessingView() {
                                                 <table style={{ marginRight: "10px" }}>
                                                     <thead>
                                                     <tr>
-                                                        <th>10 Most Met Guidelines</th>
+                                                        <th>Most Good Modeling Practices</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -1362,7 +1360,7 @@ export default function PostProcessingView() {
                                                 <table>
                                                     <thead>
                                                     <tr>
-                                                        <th>10 Most Violated Guidelines</th>
+                                                        <th>Most Violated Good Modeling Practices</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -1395,7 +1393,7 @@ export default function PostProcessingView() {
                                             </div>
                                         </div>
                                         <div style={{width: "40%", paddingRight: "10px", border: "2px solid #d8d8d8",background:"white", padding: "5px 15px 15px 15px", borderRadius: "12px 12px 12px 12px",lineHeight: "1.5714285714285714"}}>
-                                        <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>Guidelines List</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is a graph of the model size of the collection"}/>
+                                        <a style={{fontSize: '20px', color: 'black', fontWeight: "bold"}}>Good Modeling Practices List</a> <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}} title={"This is the list of forty good modeling practies"}/>
                                             <div style={{display:"flex", flexDirection: "column"}}>
                                                 <div style={{ marginTop: "10px", display: "flex", flexDirection: "column" }}>
                                                     {g.map((item, index) => (

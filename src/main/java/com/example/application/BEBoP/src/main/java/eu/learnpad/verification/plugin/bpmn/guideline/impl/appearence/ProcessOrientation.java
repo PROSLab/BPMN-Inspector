@@ -67,31 +67,33 @@ public class ProcessOrientation extends abstractGuideline {
 			}
 
 			// CONTROLLO PER VERIFICARE CHE IL PROCESSO SIA ORIZZONTALE
-			if (rootElement instanceof Process) {
-				Process process = (Process) rootElement;
-				IDProcess = process.getId();
-				for (FlowElement fe : process.getFlowElements()) {
-					if (fe instanceof SequenceFlow) {
-						for (BaseElement be : BPMNEdges.keySet()) {
-							if (BPMNEdges.get(be).getId().contains(fe.getId())) {
-								List<Point> points = BPMNEdges.get(be).getWaypoint();
-								if (points.size() == 2) {
-									Point point = null;
-									for (Point p1 : points) {
-										if (point == null) {
-											point = p1;
-										} else {
-											x += Math.abs(p1.getX() - point.getX());
-											y += Math.abs(p1.getY() - point.getY());
-											point = p1;
+			for (RootElement rootElem : diagram.getRootElements()) {
+				if (rootElem instanceof Process) {
+					Process process = (Process) rootElem;
+					IDProcess = process.getId();
+					for (FlowElement fe : process.getFlowElements()) {
+						if (fe instanceof SequenceFlow) {
+							for (BaseElement be : BPMNEdges.keySet()) {
+								BPMNEdge bpmnEdge = BPMNEdges.get(be);
+								if (bpmnEdge != null && bpmnEdge.getId() != null && bpmnEdge.getId().contains(fe.getId())) {
+									List<Point> points = bpmnEdge.getWaypoint();
+									if (points.size() == 2) {
+										Point point = null;
+										for (Point p1 : points) {
+											if (point == null) {
+												point = p1;
+											} else {
+												x += Math.abs(p1.getX() - point.getX());
+												y += Math.abs(p1.getY() - point.getY());
+												point = p1;
+											}
 										}
-
-									}
-									if (Float.compare(y, x) >= 0) {
-										z++;
-										String name = fe.getName() != null ? fe.getName()
-												: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
-										setElements(fe.getId(), IDProcess, name);
+										if (Float.compare(y, x) >= 0) {
+											z++;
+											String name = fe.getName() != null ? fe.getName()
+													: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
+											setElements(fe.getId(), IDProcess, name);
+										}
 									}
 								}
 							}
@@ -101,7 +103,7 @@ public class ProcessOrientation extends abstractGuideline {
 			}
 		}
 
-		if (num == 0 && z == 0) {
+			if (num == 0 && z == 0) {
 			this.status = true;
 			this.Suggestion += Messages.getString("ProcessOrientation.SuggestionOK", l); //$NON-NLS-1$
 

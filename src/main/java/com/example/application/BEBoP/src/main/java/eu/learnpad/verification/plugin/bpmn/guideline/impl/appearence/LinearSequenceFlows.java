@@ -42,8 +42,9 @@ public class LinearSequenceFlows extends abstractGuideline {
 					if (fe instanceof SequenceFlow) {
 						SequenceFlow sq = (SequenceFlow) fe;
 						for (BaseElement be : BPMNEdges.keySet()) {
-							if (BPMNEdges.get(be).getId().contains(sq.getId())) {
-								List<Point> points = BPMNEdges.get(be).getWaypoint();
+							BPMNEdge bpmnEdge = BPMNEdges.get(be);
+							if (bpmnEdge != null && bpmnEdge.getId() != null && bpmnEdge.getId().contains(sq.getId())) {
+								List<Point> points = bpmnEdge.getWaypoint();
 								if (points.size() > 4) {
 									num++;
 									String name = sq.getName() != null ? sq.getName()
@@ -74,6 +75,7 @@ public class LinearSequenceFlows extends abstractGuideline {
 				}
 			}
 		}
+
 
 		if (num > 0) {
 

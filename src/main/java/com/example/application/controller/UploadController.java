@@ -5509,8 +5509,12 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
         try (Reader reader = new FileReader(inputFilePath);
              Writer writer = new FileWriter(outputFilePath);
-             CSVParser parser = CSVFormat.DEFAULT.withDelimiter(';').parse(reader);
-             CSVPrinter printer = CSVFormat.DEFAULT.withDelimiter(';').print(writer)) {
+
+
+             CSVParser parser = CSVFormat.DEFAULT.withDelimiter(';').withIgnoreSurroundingSpaces().withIgnoreSurroundingSpaces(true)
+                     .withQuote('"').withIgnoreEmptyLines(true).parse(reader);
+             CSVPrinter printer = CSVFormat.DEFAULT.withDelimiter(';').withIgnoreSurroundingSpaces().withIgnoreSurroundingSpaces(true)
+                     .withQuote('"').withIgnoreEmptyLines(true).print(writer)) {
 
             boolean isHeader = true;
             int columnCount = -1;

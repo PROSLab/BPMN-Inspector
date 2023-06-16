@@ -450,7 +450,6 @@ export default function HelloReactView() {
                                 <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >1. <a style={{color:"#a5b8da"}}>Upload</a> a collection of BPMN models.</p>
                             </div>
                         </>
-
                     )}
                     {activeTab === 'inspection' && (
                         <>

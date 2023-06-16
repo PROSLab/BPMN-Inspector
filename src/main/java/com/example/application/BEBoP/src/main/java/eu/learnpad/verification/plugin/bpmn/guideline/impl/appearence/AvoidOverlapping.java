@@ -191,11 +191,30 @@ public class AvoidOverlapping extends abstractGuideline {
 					BPMNShape shape = BPMNUtils.findBPMNShape(diagram, fe);
 					Map<BaseElement, BPMNEdge> BPMNEdges = BPMNUtils.getAllBPMNEdge(diagram);
 					for (BaseElement base : BPMNEdges.keySet()) {
-						if (BPMNEdges.get(base).getId().contains(sqFlow.getId())) {
+						BPMNEdge bpmnEdge = BPMNEdges.get(base);
+						if (bpmnEdge != null && bpmnEdge.getId() != null && bpmnEdge.getId().contains(sqFlow.getId())) {
 							if (sqFlow.getSourceRef() instanceof FlowElement) {
 								if (fe.equals(sqFlow.getSourceRef()) || fe.equals(sqFlow.getTargetRef())) {
+									List<Point> points = bpmnEdge.getWaypoint();
+									Point first = null;
+									for (Point last : points) {
+										if (first == null) {
+											first = last;
+										} else {
+											if (flowCrossing(shape, first, last)) {
+												num++;
+												elementsBPMN.add(sqFlow);
+												String name = sqFlow.getName() != null ? sqFlow.getName()
+														: Messages.getString("Generic.LabelEmpty", l); //$NON-NLS-1$
+												setElements(sqFlow.getId(), IDProcess, name);
+												first = last;
+											} else {
+												first = last;
+											}
+										}
+									}
 								} else {
-									List<Point> points = BPMNEdges.get(base).getWaypoint();
+									List<Point> points = bpmnEdge.getWaypoint();
 									Point first = null;
 									for (Point last : points) {
 										if (first == null) {

@@ -292,7 +292,7 @@ public class ScopeAttachedEvents extends abstractGuideline {
 			if (name1 == null && name2 == null) {
 				return true;
 			} else {
-				if (name1.equals(name2)) {
+				if (name1 != null && name1.equals(name2)) {
 					return true;
 				}
 			}
