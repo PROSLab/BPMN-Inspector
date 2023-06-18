@@ -19,7 +19,7 @@ import { CiCircleQuestion } from "react-icons/ci";
 import {FaCircle, FaRegImage} from "react-icons/fa";
 import html2canvas from 'html2canvas';
 import {loader} from "react-global-loader";
-import {extractSets, VennDiagramChart} from "chartjs-chart-venn";
+import denied from "../../img/denied.png"
 
 interface filesInfoFiltered {
     name: string;
@@ -1134,7 +1134,7 @@ export default function PostProcessingView() {
                     <div>
                         {displayMsgCombined ? (
                             <div className="container">
-                                <img style={{width:"8%",height:"10%"}} src="../../img/denied.png" />
+                                <img style={{width:"8%",height:"10%"}} src={denied} />
                                 <p>{displayMsgCombined}</p>
                                 <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload more than one model</a></a>
                             </div>
@@ -1147,7 +1147,7 @@ export default function PostProcessingView() {
                                         <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Most Combined Use</a>
                                         <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the combined used of groups of elements"} />
                                         <button style={{ background: 'white', border: "none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer' }}>
-                                            <FaRegImage onClick={() => downloadSvg('chartVCON')} style={{ fontSize: "30px", alignSelf: "right", marginBottom: "71%" }} />
+                                            <FaRegImage onClick={() => downloadSvg('chartVPC')} style={{ fontSize: "30px", alignSelf: "right", marginBottom: "71%" }} />
                                         </button>
                                     </div>
 
@@ -1244,7 +1244,7 @@ export default function PostProcessingView() {
                     <div>
                         {displayMsgSyntactic ? (
                             <div className="container">
-                                <img style={{width:"8%",height:"10%"}} src="../../img/denied.png" />
+                                <img style={{width:"8%",height:"10%"}} src={denied} />
                                 <p>{displayMsgSyntactic}</p>
                                 <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload invalid models</a> for inspecting validation errors.</a>
                             </div>
@@ -1312,7 +1312,7 @@ export default function PostProcessingView() {
                     <div>
                         {displayMsgGoodModeling ? (
                             <div className="container">
-                                <img style={{width:"8%",height:"10%"}} src="../../img/denied.png" />
+                                <img style={{width:"8%",height:"10%"}} src={denied} />
                                 <p>{displayMsgGoodModeling}</p>
                                 <a><a href="" style={{cursor:"pointer"}} onClick={deleteFiles}>Upload Process Collaboration models</a> for inspecting good modeling practices.</a>
                             </div>
@@ -1325,11 +1325,11 @@ export default function PostProcessingView() {
                                                 <a style={{ fontSize: '25px', color: 'black', fontWeight: "bold" }}>Good Modeling Practices Adherence</a>
                                                 <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"This is a graph of the adherence's percentage of each good modeling practices"} />
                                                 <button style={{ background: 'white', border: "none", color: '#10ad73', fontSize: '14px', padding: '5px 5px', cursor: 'pointer' }}>
-                                                    <FaRegImage onClick={() => downloadSvg('chartSE')} style={{ fontSize: "30px", alignSelf: "right", marginBottom: "71%" }} />
+                                                    <FaRegImage onClick={() => downloadSvg('chartRD')} style={{ fontSize: "30px", alignSelf: "right", marginBottom: "71%" }} />
                                                 </button>
                                                 <a style={{ fontSize: '14px', color: 'black', fontStyle: "italic", marginBottom:"4%"}}>Click on the points of the radar for more information about the good modeling practices.</a>
                                             </div>
-                                            <div id="chartSE" style={{position: "relative", height:"100vh", width:"100%"}}>
+                                            <div id="chartRD" style={{position: "relative", height:"100vh", width:"100%"}}>
                                                 <Radar options={optionRadarChartData}  data={radarChartData} onClick={onClick} ref={chartRef}></Radar>
                                             </div>
                                             <div style={{ display: "flex", flexDirection: "row" }}>

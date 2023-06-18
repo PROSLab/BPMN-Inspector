@@ -3,6 +3,7 @@ import './github.css';
 import developer from "../../img/develop.gif"
 import {BsGithub} from "react-icons/all";
 
+
 const DVDPlayer: React.FC = () => {
     useEffect(() => {
         const dvdElements = Array.from(document.getElementsByClassName(
@@ -67,12 +68,13 @@ const DVDPlayer: React.FC = () => {
         animateDVDs();
     }, []);
 
+    const imgPath = "../../img/bounce/"
+
     const dvdImages = Array.from({ length: 13 }).map((_, index) => (
         <img
             key={index}
             className="dvdLogo"
-            src={`../../img/bounce/${index}.svg`}
-            alt={`DVD ${index}`}
+            src={`${imgPath}${index}.svg`}
         />
     ));
 

@@ -1,9 +1,9 @@
-Task - Sequence Flow;98.04%
-Task - End Event - Sequence Flow;95.10%
-Task - Exclusive Gateway - End Event - Sequence Flow;89.22%
-Task - Exclusive Gateway - End Event - Sequence Flow - Lane;72.55%
-Task - Exclusive Gateway - End Event - Sequence Flow - Lane - Expanded Pool;72.55%
-Task - Exclusive Gateway - Start Event - End Event - Sequence Flow - Lane - Expanded Pool;56.86%
-Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow - Lane - Expanded Pool;50.98%
-Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow - Lane - Expanded Pool - Association Undirected;4.90%
-Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow - Lane - Expanded Pool - Association Undirected - Text Annotation;4.90%
+End Event - Sequence Flow;80.00%
+End Event - Message Flow - Sequence Flow;60.00%
+Task - End Event - Message Flow - Sequence Flow;40.00%
+Task - Manual Task - End Event - Message Flow - Sequence Flow;40.00%
+Task - Manual Task - Collapsed SubProcess - End Event - Message Flow - Sequence Flow;40.00%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow;40.00%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane;40.00%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool;40.00%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;40.00%

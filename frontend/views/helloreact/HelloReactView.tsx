@@ -22,6 +22,10 @@ import { Router, Route } from 'react-router-dom';
 import {loader} from "react-global-loader";
 import {AiFillExclamationCircle} from "react-icons/ai";
 import {GiConfirmed} from "react-icons/gi";
+import uploadImg from "../../img/filtering.gif"
+import filterImg from "../../img/filter.gif"
+import inspect1Img from "../../img/validate.gif"
+import inspect2Img from "../../img/inspection.gif"
 
 export default function HelloReactView() {
     const [activeTab, setActiveTab] = useState('filtering');
@@ -446,7 +450,7 @@ export default function HelloReactView() {
                     {activeTab === 'filtering' && (
                         <>
                             <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={"../img/filtering.gif"} alt="Animated icons by Lordicon.com" width="140" height="140"/>
+                                <img style={{marginTop:"50px"}} src={uploadImg} alt="Animated icons by Lordicon.com" width="140" height="140"/>
                                 <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >1. <a style={{color:"#a5b8da"}}>Upload</a> a collection of BPMN models.</p>
                             </div>
                         </>
@@ -454,7 +458,7 @@ export default function HelloReactView() {
                     {activeTab === 'inspection' && (
                         <>
                             <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={"../img/filter.gif"} alt="Animated icons by Lordicon.com" width="140" height="140"/>
+                                <img style={{marginTop:"50px"}} src={filterImg} alt="Animated icons by Lordicon.com" width="140" height="140"/>
                                     <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >2. <a style={{color:"#c0b777"}}>Filter</a> the collection of BPMN models.</p>
                             </div>
                         </>
@@ -464,10 +468,10 @@ export default function HelloReactView() {
                         <>
                             <div className="icon-text-container">
                                 <div style={{display: "flex", flexDirection:"row"}}>
-                                    <img style={{marginTop: "50px"}} src="../../img/validate.gif" alt="Animated icons by Lordicon.com" width="130"
+                                    <img style={{marginTop: "50px"}} src={inspect1Img} alt="Animated icons by Lordicon.com" width="130"
                                          height="130"/>
                                     <div>
-                                        <img style={{marginTop: "50px"}}  src="../../img/inspection.gif" alt="Animated icons by Lordicon.com" width="140" height="140"/>
+                                        <img style={{marginTop: "50px"}}  src={inspect2Img} alt="Animated icons by Lordicon.com" width="140" height="140"/>
                                     </div>
                                 </div>
                                 <p style={{marginTop: "50px", fontSize:"18px", fontWeight:"bold"}}>3. <a
