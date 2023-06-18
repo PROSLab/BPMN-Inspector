@@ -1,6 +1,6 @@
-Message Flow - Sequence Flow;71.43%
-Start Event - Message Flow - Sequence Flow;42.86%
-Start Event - End Event - Message Flow - Sequence Flow;14.29%
-Start Event - End Event - Message Flow - Sequence Flow - Choreography Task;14.29%
-Start Event - End Event - Message Flow - Sequence Flow - Choreography Task - Choreography Message;14.29%
-Start Event - End Event - Message Flow - Sequence Flow - Choreography Task - Choreography Message - Choreography Participant;14.29%
+Start Event - End Event;50.00%
+Start Event - End Event - Message Flow;50.00%
+Start Event - End Event - Message Flow - Sequence Flow;50.00%
+Start Event - End Event - Message Flow - Sequence Flow - Choreography Task;50.00%
+Start Event - End Event - Message Flow - Sequence Flow - Choreography Task - Choreography Message;50.00%
+Start Event - End Event - Message Flow - Sequence Flow - Choreography Task - Choreography Message - Choreography Participant;50.00%

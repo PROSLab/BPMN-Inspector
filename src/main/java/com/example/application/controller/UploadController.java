@@ -103,18 +103,19 @@ public class UploadController {
             fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType, isEnglish, validationResult));
         });
 
-        try {
-            getFilteredFiles(data, fileInfos);
-
-        } catch (IOException | XPathExpressionException | ParserConfigurationException | SAXException e) {
-            throw new RuntimeException(e);
-        }
 
         if (apiCallCount > fileInfos.size()+1) {
             try {
+                getFilteredFiles(data, fileInfos);
                 evaluateGuidelines(data, fileInfos);
                 evaluateCombined(data, fileInfos);
             } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (XPathExpressionException e) {
+                throw new RuntimeException(e);
+            } catch (ParserConfigurationException e) {
+                throw new RuntimeException(e);
+            } catch (SAXException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -5490,9 +5491,9 @@ SUBPROCESS Collapsed EVENT + ADHOC
         String line;
         int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Process Pearson-Python correctly executed.");
+                System.out.println("=========== :: Process Pearson-Python correctly executed! :: ===========");
             } else {
-                System.out.println("Error during the processing of the Pearson correlation coefficient.");
+                System.out.println("=========== :: Error during the processing of the Pearson correlation coefficient. :: ===========");
             }
         }
     public void generateVennDataFromCsv() {
@@ -5573,9 +5574,9 @@ SUBPROCESS Collapsed EVENT + ADHOC
             String line;
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Combined groups of elements correctly defined.");
+                System.out.println("=========== :: Combined groups of elements correctly defined! :: ===========");
             } else {
-                System.out.println("Error during the processing of determining the combined groups of elements script.");
+                System.out.println("=========== :: Error during the processing of determining the combined groups of elements script. :: ===========");
             }
 
         } catch (IOException | InterruptedException e) {
