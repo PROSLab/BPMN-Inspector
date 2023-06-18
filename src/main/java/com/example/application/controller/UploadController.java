@@ -109,13 +109,7 @@ public class UploadController {
                 getFilteredFiles(data, fileInfos);
                 evaluateGuidelines(data, fileInfos);
                 evaluateCombined(data, fileInfos);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (XPathExpressionException e) {
-                throw new RuntimeException(e);
-            } catch (ParserConfigurationException e) {
-                throw new RuntimeException(e);
-            } catch (SAXException e) {
+            } catch (IOException | XPathExpressionException | SAXException | ParserConfigurationException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -283,6 +277,7 @@ public class UploadController {
                 e.printStackTrace();
             }
         }
+        System.out.println("=========== :: File uploaded successfully :: ===========");
         return "File uploaded successfully";
     }
     private String getFileExtension(String fileName) {
@@ -5261,7 +5256,7 @@ SUBPROCESS Collapsed EVENT + ADHOC
         System.out.println("Exception: "+e.getMessage());
         }
 
-        System.out.println("\n=========== :: Inspection succesfully DONE. The .csv file is ready :: ===========");
+        System.out.println("\n=========== :: Inspection successfully DONE :: ===========");
 
 
         FileReader fileReader = new FileReader("src/main/resources/bpmnCounterOutput/bpmn_elements.csv");
