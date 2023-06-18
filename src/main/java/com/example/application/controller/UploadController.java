@@ -290,6 +290,7 @@ public class UploadController {
     }
     @DeleteMapping("/deleteAllFiles")
     public String deleteAllFiles() throws IOException {
+
         File folder = new File(UPLOADED_FOLDER);
         File[] listOfFiles = folder.listFiles();
 
@@ -298,6 +299,7 @@ public class UploadController {
                 file.delete();
             }
         }
+        apiCallCount = 0;
         return "All files deleted successfully";
     }
     private String validateFile(String[] filteringArray,File file, List<fileInfo> fileInfos) throws SAXException {
