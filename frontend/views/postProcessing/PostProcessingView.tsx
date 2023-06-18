@@ -242,6 +242,7 @@ export default function PostProcessingView() {
                 console.log(response.data)
                 // @ts-ignore
                 setHighestCorrelations(highestCorrelations);
+                console.log(highestCorrelations)
                 // @ts-ignore
                 setLowestCorrelations(lowestCorrelations);
             })
@@ -426,7 +427,7 @@ export default function PostProcessingView() {
     }
 
     if (total === 1) {
-        displayMsgCombined = "The evaluation of the combined use of elements can be evaluate only in more than one model.";
+        displayMsgCombined = "The evaluation of the combined use of elements can be computed only considering more than one model.";
     }
 
     function downloadSvg(diagramId: string) {
@@ -1191,45 +1192,54 @@ export default function PostProcessingView() {
                                 <div>
                                     <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Most Strong Correlations </a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}/>
-                                    <table style={{marginBottom:"15px"}}>
-                                        <thead>
-                                        <tr>
-                                            <th>Element 1</th>
-                                            <th>Element 2</th>
-                                            <th style={{textAlign:"center"}}>Rho (ρ)</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody >
-                                        {highestCorrelations.map((relation, index) => (
-                                            <tr key={index} style={{fontSize:"13px"}}>
-                                                <td>{relation.element1}</td>
-                                                <td>{relation.element2}</td>
-                                                <td style={{textAlign:"center"}}>{relation.correlation}</td>
+                                    {highestCorrelations.length === 0 ? (
+                                        <p>Unable to calculate Pearson's correlation coefficient. Add more BPMN models.</p>
+                                    ) : (
+                                        <table style={{ marginBottom: "15px" }}>
+                                            <thead>
+                                            <tr>
+                                                <th>Element 1</th>
+                                                <th>Element 2</th>
+                                                <th style={{ textAlign: "center" }}>Rho (ρ)</th>
                                             </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                            {highestCorrelations.map((relation, index) => (
+                                                <tr key={index} style={{ fontSize: "13px" }}>
+                                                    <td>{relation.element1}</td>
+                                                    <td>{relation.element2}</td>
+                                                    <td style={{ textAlign: "center" }}>{relation.correlation}</td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    )}
+
 
                                     <a style={{fontSize: '25px', color: 'black', fontWeight: "bold"}}>Most Inverse Correlations </a>
                                     <CiCircleQuestion style={{fontSize: '18px', marginBottom: "3%", cursor: "help"}}/>
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>Element 1</th>
-                                            <th>Element 2</th>
-                                            <th style={{textAlign:"center"}}>Rho (ρ)</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {lowestCorrelations.map((relation, index) => (
-                                            <tr key={index} style={{fontSize:"13px"}}>
-                                                <td>{relation.element1}</td>
-                                                <td>{relation.element2}</td>
-                                                <td style={{textAlign:"center"}}>{relation.correlation}</td>
+                                    {lowestCorrelations.length === 0 ? (
+                                        <p>Unable to calculate Pearson's correlation coefficient. Add more BPMN models.</p>
+                                    ) : (
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>Element 1</th>
+                                                <th>Element 2</th>
+                                                <th style={{ textAlign: "center" }}>Rho (ρ)</th>
                                             </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                            {lowestCorrelations.map((relation, index) => (
+                                                <tr key={index} style={{ fontSize: "13px" }}>
+                                                    <td>{relation.element1}</td>
+                                                    <td>{relation.element2}</td>
+                                                    <td style={{ textAlign: "center" }}>{relation.correlation}</td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    )}
                                 </div>
                             </div>
                             <button style={{background: 'white',width:"100%", color: '#10ad73', fontSize: '14px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm' }} onClick={downloadCombinedFile}>

@@ -366,7 +366,6 @@ public class UploadController {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Errore nell'apertura del file di output: " + e.getMessage());
         }
 
         try {
@@ -509,13 +508,8 @@ public class UploadController {
         Path path = Paths.get("./src/main/resources/bpmnCounterOutput", fileName);
         Resource resource = new UrlResource(path.toUri());
 
-        if (!resource.exists()) {
-            // Restituisci una risposta di errore se il file non esiste
-            return ResponseEntity.notFound().build();
-        }
-
-// Leggi il file CSV e ottieni la matrice dei dati
         List<List<String>> matrix = new ArrayList<>();
+
         try (CSVReader reader = new CSVReader(new FileReader(resource.getFile()))) {
             String[] line;
             while ((line = reader.readNext()) != null) {
@@ -523,54 +517,57 @@ public class UploadController {
             }
         }
 
-// Crea gli array per le relazioni più alte e più basse
         List<Map<String, Object>> highestCorrelations = new ArrayList<>();
         List<Map<String, Object>> lowestCorrelations = new ArrayList<>();
 
-// Itera sulla matrice per trovare le relazioni
-        for (int i = 1; i < matrix.size(); i++) {
+        int rowCount = matrix.size();
+        int columnCount = matrix.get(0).size();
+
+        for (int i = 1; i < rowCount; i++) {
             List<String> row = matrix.get(i);
+
+            if (row.size() != columnCount) {
+                continue;
+            }
+
             String element1 = row.get(0);
 
-            for (int j = 1; j < row.size(); j++) {
-                String element2 = matrix.get(0).get(j);
+            for (int j = i + 1; j < columnCount; j++) {
+                String element2 = matrix.get(j).get(0);
+
                 double correlation = Double.parseDouble(row.get(j));
 
-                // Evita di considerare coppie di elementi con lo stesso nome
-                if (element1.equals(element2)) {
-                    continue;
-                }
-
-                // Crea la mappa con le informazioni di relazione
                 Map<String, Object> relation = new HashMap<>();
                 relation.put("element1", element1);
                 relation.put("element2", element2);
                 relation.put("correlation", correlation);
 
-                // Aggiungi la relazione all'array corretto in base al valore di correlazione
-                if (correlation >= 0.5 && correlation <= 1.0) {
+                if (correlation >= 0 && correlation <= 1.0) {
                     highestCorrelations.add(relation);
-                } else if (correlation >= -1.0 && correlation <= -0.5) {
+                } else if (correlation >= -1.0 && correlation <= -0.01) {
                     lowestCorrelations.add(relation);
                 }
             }
         }
 
-        // Ordina le relazioni in base al valore di correlazione
-                highestCorrelations.sort((a, b) -> Double.compare((double) b.get("correlation"), (double) a.get("correlation")));
-                lowestCorrelations.sort((a, b) -> Double.compare((double) a.get("correlation"), (double) b.get("correlation")));
+        highestCorrelations.sort((a, b) -> Double.compare((double) b.get("correlation"), (double) a.get("correlation")));
+        lowestCorrelations.sort((a, b) -> Double.compare((double) a.get("correlation"), (double) b.get("correlation")));
 
-        // Seleziona solo le prime 10 relazioni per ciascun array
-                highestCorrelations = highestCorrelations.stream().limit(15).collect(Collectors.toList());
-                lowestCorrelations = lowestCorrelations.stream().limit(15).collect(Collectors.toList());
+        int maxCorrelations = 15;
 
-        // Crea la mappa contenente gli array di relazioni
-                Map<String, List<Map<String, Object>>> correlationData = new HashMap<>();
-                correlationData.put("highestCorrelations", highestCorrelations);
-                correlationData.put("lowestCorrelations", lowestCorrelations);
+        if (highestCorrelations.size() > maxCorrelations) {
+            highestCorrelations = highestCorrelations.subList(0, maxCorrelations);
+        }
 
-        // Restituisci la risposta con la mappa di relazioni
-                return ResponseEntity.ok(correlationData);
+        if (lowestCorrelations.size() > maxCorrelations) {
+            lowestCorrelations = lowestCorrelations.subList(0, maxCorrelations);
+        }
+
+        Map<String, List<Map<String, Object>>> correlationData = new HashMap<>();
+        correlationData.put("highestCorrelations", highestCorrelations);
+        correlationData.put("lowestCorrelations", lowestCorrelations);
+
+        return ResponseEntity.ok(correlationData);
     }
 
     @GetMapping("/prepare-combinedset-report")
@@ -610,9 +607,6 @@ public class UploadController {
         }
         return ResponseEntity.ok().body(dataList);
     }
-
-
-
 
     @PostMapping("/download-filtered-models")
     public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException, InterruptedException {
@@ -5493,9 +5487,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
         Process process = processBuilder.start();
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         String line;
-        while ((line = errorReader.readLine()) != null) {
-            System.out.println(line);
-        }
         int exitCode = process.waitFor();
             if (exitCode == 0) {
                 System.out.println("Process Pearson-Python correctly executed.");
@@ -5579,9 +5570,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
             Process process = processBuilder.start();
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String line;
-            while ((line = errorReader.readLine()) != null) {
-                System.out.println(line);
-            }
             int exitCode = process.waitFor();
             if (exitCode == 0) {
                 System.out.println("Combined groups of elements correctly defined.");

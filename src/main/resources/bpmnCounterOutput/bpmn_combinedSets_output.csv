@@ -1,9 +1,9 @@
-End Event - Sequence Flow;80.00%
-End Event - Message Flow - Sequence Flow;60.00%
-Task - End Event - Message Flow - Sequence Flow;40.00%
-Task - Manual Task - End Event - Message Flow - Sequence Flow;40.00%
-Task - Manual Task - Collapsed SubProcess - End Event - Message Flow - Sequence Flow;40.00%
-Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow;40.00%
-Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane;40.00%
-Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool;40.00%
-Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;40.00%
+Task - Manual Task;66.67%
+Task - Manual Task - Collapsed SubProcess;66.67%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway;66.67%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event;66.67%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow;66.67%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow;66.67%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane;66.67%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool;66.67%
+Task - Manual Task - Collapsed SubProcess - Parallel Gateway - End Event - Message Flow - Sequence Flow - Lane - Collapsed Pool - Expanded Pool;66.67%
