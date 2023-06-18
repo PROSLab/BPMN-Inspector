@@ -2,7 +2,19 @@ import React, { useEffect } from 'react';
 import './github.css';
 import developer from "../../img/develop.gif"
 import {BsGithub} from "react-icons/all";
-
+import img0 from '../../img/bounce/0.svg';
+import img1 from '../../img/bounce/1.svg';
+import img2 from '../../img/bounce/2.svg';
+import img3 from '../../img/bounce/3.svg';
+import img4 from '../../img/bounce/4.svg';
+import img5 from '../../img/bounce/5.svg';
+import img6 from '../../img/bounce/6.svg';
+import img7 from '../../img/bounce/7.svg';
+import img8 from '../../img/bounce/8.svg';
+import img9 from '../../img/bounce/9.svg';
+import img10 from '../../img/bounce/10.svg';
+import img11 from '../../img/bounce/11.svg';
+import img12 from '../../img/bounce/12.svg';
 
 const DVDPlayer: React.FC = () => {
     useEffect(() => {
@@ -68,13 +80,25 @@ const DVDPlayer: React.FC = () => {
         animateDVDs();
     }, []);
 
-    const imgPath = "../../img/bounce/"
-
-    const dvdImages = Array.from({ length: 13 }).map((_, index) => (
+    const dvdImages = [
+        img0,
+        img1,
+        img2,
+        img3,
+        img4,
+        img5,
+        img6,
+        img7,
+        img8,
+        img9,
+        img10,
+        img11,
+        img12
+    ].map((src, index) => (
         <img
             key={index}
             className="dvdLogo"
-            src={`${imgPath}${index}.svg`}
+            src={src}
         />
     ));
 

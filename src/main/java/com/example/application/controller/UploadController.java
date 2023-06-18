@@ -5435,7 +5435,6 @@ SUBPROCESS Collapsed EVENT + ADHOC
                 }
             }
 
-            // Incremento del totale delle righe elaborate
             totalRows++;
 
             FileReader fileReader = new FileReader("src/main/resources/bpmnGuidelinesOutput/bpmn_guidelines.csv");
