@@ -131,6 +131,9 @@ const ReadmePage: React.FC = () => {
                     <img src={analysis4Img} width="75%" height="500px"/>
                 </p>
 
+                <p>
+                    A video tutorial on its usage is available by clicking the following link: <a href={"https://www.youtube.com/watch?v=pLDZyC60oRY&ab_channel=PROSLab-PROcessesandServicesLab"}> Tutorial. </a>
+                </p>
 
                 <h2 id="how-to-run">How To Run 🚀</h2>
 

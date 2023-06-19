@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/version-1.0-green" alt="Version">
 </p>
 
-BPMN Inspector is a Java tool for statistical and qualitative analysis of a BPMN model collection. BPMN Inspector comes in the form of a web application that provides a user interface for inspecting several features of a model's collection.
+BPMN Inspector is a RESTful web application that allows users to upload a set of BPMN models, optionally filter them, and then explore their features by performing a set of analyses.
 
 # Table of contents
 <!--ts-->
