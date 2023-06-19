@@ -5500,9 +5500,9 @@ SUBPROCESS Collapsed EVENT + ADHOC
 
 
              CSVParser parser = CSVFormat.DEFAULT.withDelimiter(';').withIgnoreSurroundingSpaces().withIgnoreSurroundingSpaces(true)
-                     .withQuote('"').withIgnoreEmptyLines(true).parse(reader);
+                     .withQuote('"').withIgnoreEmptyLines(true).withQuote(null).parse(reader);
              CSVPrinter printer = CSVFormat.DEFAULT.withDelimiter(';').withIgnoreSurroundingSpaces().withIgnoreSurroundingSpaces(true)
-                     .withQuote('"').withIgnoreEmptyLines(true).print(writer)) {
+                     .withQuote('"').withIgnoreEmptyLines(true).withQuote(null).print(writer)) {
 
             boolean isHeader = true;
             int columnCount = -1;
