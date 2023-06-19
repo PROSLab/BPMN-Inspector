@@ -407,7 +407,7 @@ public class UploadController {
             String sheetName = sheetNames[i];
 
             Sheet sheet = workbook.createSheet(sheetName);
-            CSVParser parser = CSVParser.parse(new File(csvFilePath), StandardCharsets.UTF_8, CSVFormat.DEFAULT);
+            CSVParser parser = CSVParser.parse(new File(csvFilePath), StandardCharsets.UTF_8, CSVFormat.DEFAULT.withDelimiter(';'));
             int rowNumber = 0;
 
             for (CSVRecord record : parser) {

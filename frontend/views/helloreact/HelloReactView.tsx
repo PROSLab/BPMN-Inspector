@@ -291,7 +291,7 @@ export default function HelloReactView() {
                         <button style={{background:'rgb(232,194,48)', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginLeft:'1%',marginBottom:'0.42cm'}} onClick={filterCollection}>
                             <GrDocumentDownload /><a style={{color: 'black', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Filter & Download</a>
                         </button>
-                        <input style={{position: 'absolute', top:"8px", right:"330px", zIndex: '9',fontSize: "17px", backgroundColor: 'white', color: 'red',fontWeight: "bold", padding: '5px 13px', border: '2px solid red', borderRadius: '3px', cursor: 'pointer'}} onClick={deleteFiles} type="submit" value="🕵️ Start a new inspection"/>
+                        <input style={{position: 'absolute', top:"8px", right:"42px", zIndex: '9',fontSize: "17px", backgroundColor: 'white', color: 'red',fontWeight: "bold", padding: '5px 13px', border: '2px solid red', borderRadius: '3px', cursor: 'pointer'}} onClick={deleteFiles} type="submit" value="🕵️ Start a new inspection"/>
                     </div>
                     </div>
                 </>

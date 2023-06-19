@@ -1,5 +1,6 @@
-Parallel Gateway - Sequence Flow;75.00%
-Task - Parallel Gateway - Sequence Flow;50.00%
-Task - Exclusive Gateway - Parallel Gateway - Sequence Flow;50.00%
-Task - Exclusive Gateway - Parallel Gateway - Start Event - Sequence Flow;25.00%
-Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow;25.00%
+Message Flow - Sequence Flow;71.43%
+Start Event - Message Flow - Sequence Flow;42.86%
+Start Event - End Event - Message Flow - Sequence Flow;14.29%
+Start Event - End Event - Message Flow - Sequence Flow - Choreography Task;14.29%
+Start Event - End Event - Message Flow - Sequence Flow - Choreography Task - Choreography Message;14.29%
+Start Event - End Event - Message Flow - Sequence Flow - Choreography Task - Choreography Message - Choreography Participant;14.29%
