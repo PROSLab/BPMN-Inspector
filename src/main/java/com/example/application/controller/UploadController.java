@@ -959,8 +959,8 @@ public class UploadController {
             bw.write("Association Undirected;");
             bw.write("Association Unidirectional;");
             bw.write("Association Bidirectional;");
-            bw.write("Association DataOutput;");
-            bw.write("Association DataInput;");
+            bw.write("Association Data Output;");
+            bw.write("Association Data Input;");
             bw.write("Group;");
             bw.write("Text Annotation;");
             bw.write("TotalElements;");

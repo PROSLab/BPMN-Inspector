@@ -1101,14 +1101,18 @@ export default function PostProcessingView() {
                                     .map((label, index) => ({
                                         label,
                                         usage: dataElementUsage.datasets[0].data[index],
-                                        distribution: dataElementDistr.datasets[0].data[index],
                                     }))
                                     .sort((a, b) => b.usage - a.usage)
-                                    .map((item, index) => ({
-                                        ...item,
-                                        rank: index + 1,
-                                        percentage: ((item.distribution as number) / totalModels) * 100,
-                                    }))
+                                    .map((item, index) => {
+                                        const distributionIndex = dataElementDistr.labels.indexOf(item.label);
+                                        const distribution = distributionIndex !== -1 ? dataElementDistr.datasets[0].data[distributionIndex] : '';
+                                        return {
+                                            ...item,
+                                            rank: index + 1,
+                                            distribution,
+                                            percentage: (distribution as number / totalModels) * 100,
+                                        };
+                                    })
                                     .map((item, index) => (
                                         <tr key={index}>
                                             <td style={{ width: '5%', textAlign: 'center' }}>{item.rank}</td>

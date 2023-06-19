@@ -1,1 +1,5 @@
-Task - Business Rule Task;100.00%
+Parallel Gateway - Sequence Flow;75.00%
+Task - Parallel Gateway - Sequence Flow;50.00%
+Task - Exclusive Gateway - Parallel Gateway - Sequence Flow;50.00%
+Task - Exclusive Gateway - Parallel Gateway - Start Event - Sequence Flow;25.00%
+Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow;25.00%

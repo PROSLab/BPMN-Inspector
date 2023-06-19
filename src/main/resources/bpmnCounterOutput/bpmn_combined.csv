@@ -1,14 +1,14 @@
-,Task,Send Task,User Task,Business Rule Task,Data Object,Exclusive Gateway,Parallel Gateway,Start Event,End Event,Sequence Flow,Default Flow,Association DataOutput,Association DataInput
-Task,1.0,0.46,0.46,-0.4,0.75,0.68,0.24,nan,-0.4,0.99,0.46,0.75,0.75
-Send Task,0.46,1.0,1.0,-0.25,-0.25,0.15,-0.56,nan,-0.25,0.35,1.0,-0.25,-0.25
-User Task,0.46,1.0,1.0,-0.25,-0.25,0.15,-0.56,nan,-0.25,0.35,1.0,-0.25,-0.25
-Business Rule Task,-0.4,-0.25,-0.25,1.0,-0.25,-0.58,0.06,nan,1.0,-0.34,-0.25,-0.25,-0.25
-Data Object,0.75,-0.25,-0.25,-0.25,1.0,0.63,0.69,nan,-0.25,0.81,-0.25,1.0,1.0
-Exclusive Gateway,0.68,0.15,0.15,-0.58,0.63,1.0,-0.1,nan,-0.58,0.73,0.15,0.63,0.63
-Parallel Gateway,0.24,-0.56,-0.56,0.06,0.69,-0.1,1.0,nan,0.06,0.28,-0.56,0.69,0.69
-Start Event,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan
-End Event,-0.4,-0.25,-0.25,1.0,-0.25,-0.58,0.06,nan,1.0,-0.34,-0.25,-0.25,-0.25
-Sequence Flow,0.99,0.35,0.35,-0.34,0.81,0.73,0.28,nan,-0.34,1.0,0.35,0.81,0.81
-Default Flow,0.46,1.0,1.0,-0.25,-0.25,0.15,-0.56,nan,-0.25,0.35,1.0,-0.25,-0.25
-Association DataOutput,0.75,-0.25,-0.25,-0.25,1.0,0.63,0.69,nan,-0.25,0.81,-0.25,1.0,1.0
-Association DataInput,0.75,-0.25,-0.25,-0.25,1.0,0.63,0.69,nan,-0.25,0.81,-0.25,1.0,1.0
+,Task,User Task,Service Task ,Script Task,Data Object,Exclusive Gateway,Parallel Gateway,Start Event,End Event,Sequence Flow,Default Flow,Association Data Output,Association Data Input
+Task,1.0,-0.76,-0.76,-0.23,-0.76,0.75,nan,-0.82,-0.65,1.0,-0.23,-0.76,-0.76
+User Task,-0.76,1.0,1.0,-0.33,1.0,-0.94,nan,0.33,0.0,-0.74,-0.33,1.0,1.0
+Service Task ,-0.76,1.0,1.0,-0.33,1.0,-0.94,nan,0.33,0.0,-0.74,-0.33,1.0,1.0
+Script Task,-0.23,-0.33,-0.33,1.0,-0.33,0.47,nan,0.33,0.82,-0.27,1.0,-0.33,-0.33
+Data Object,-0.76,1.0,1.0,-0.33,1.0,-0.94,nan,0.33,0.0,-0.74,-0.33,1.0,1.0
+Exclusive Gateway,0.75,-0.94,-0.94,0.47,-0.94,1.0,nan,-0.47,0.0,0.72,0.47,-0.94,-0.94
+Parallel Gateway,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan
+Start Event,-0.82,0.33,0.33,0.33,0.33,-0.47,nan,1.0,0.82,-0.82,0.33,0.33,0.33
+End Event,-0.65,0.0,0.0,0.82,0.0,0.0,nan,0.82,1.0,-0.67,0.82,0.0,0.0
+Sequence Flow,1.0,-0.74,-0.74,-0.27,-0.74,0.72,nan,-0.82,-0.67,1.0,-0.27,-0.74,-0.74
+Default Flow,-0.23,-0.33,-0.33,1.0,-0.33,0.47,nan,0.33,0.82,-0.27,1.0,-0.33,-0.33
+Association Data Output,-0.76,1.0,1.0,-0.33,1.0,-0.94,nan,0.33,0.0,-0.74,-0.33,1.0,1.0
+Association Data Input,-0.76,1.0,1.0,-0.33,1.0,-0.94,nan,0.33,0.0,-0.74,-0.33,1.0,1.0

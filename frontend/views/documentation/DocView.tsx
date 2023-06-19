@@ -140,17 +140,15 @@ const ReadmePage: React.FC = () => {
 
                 <ul>
                     <li>
-                        Using the web application available at the following link: <a href="https://pros.unicam.it/bpmn-inspector/"> Try me! 🚀</a>
-                    </li>
-                    <li>
-                        Pulling the Docker image from <a href="https://hub.docker.com/r/proslab/bpmn-inspector">DockerHub</a>
-                    </li>
-                    <li>
                         Clone this repository and run the tool locally by executing the following command:
                         <br />
-                        <code>.\.mvnw</code>
+                        <code>.\mvnw</code>
                         <br />
                         Once launched, the application will be available at <a href="http://localhost:8080">http://localhost:8080</a>.
+                    </li>
+
+                    <li>
+                        Pulling the Docker image from <a href="https://hub.docker.com/r/proslab/bpmn-inspector">DockerHub</a>
                     </li>
                     <li>
                         Creating the Docker image from the main folder of the project by executing the following command:
@@ -166,11 +164,7 @@ const ReadmePage: React.FC = () => {
                     </li>
                 </ul>
 
-                <p>
-                    For the generation of the .jar file:
-                </p>
 
-                <code>mvn clean package -Pproduction</code>
 
             <h2 id="technical-information">Technical Information 🔧</h2>
 
@@ -186,6 +180,12 @@ const ReadmePage: React.FC = () => {
                 <img src={springBootLogo} width="300px" height="150px" alt="Spring Boot Logo" />
                 <img src={reactLogo} width="300px" height="150px" alt="React Logo" />
             </p>
+
+            <p>
+                For the generation of the .jar file:
+            </p>
+
+            <code>mvn clean package -Pproduction</code>
 
             <h2 id="references">References 📑</h2>
 
