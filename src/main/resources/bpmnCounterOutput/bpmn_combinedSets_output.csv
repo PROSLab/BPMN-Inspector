@@ -1,0 +1,9 @@
+Task - Extended SubProcess;100.00%
+Task - Extended SubProcess - Extended SubProcess Loop Standard;100.00%
+Task - Extended SubProcess - Extended SubProcess Loop Standard - Extended Event SubProcess;100.00%
+Task - Extended SubProcess - Extended SubProcess Loop Standard - Extended Event SubProcess - Exclusive Gateway;100.00%
+Task - Extended SubProcess - Extended SubProcess Loop Standard - Extended Event SubProcess - Exclusive Gateway - Inclusive Gateway;100.00%
+Task - Extended SubProcess - Extended SubProcess Loop Standard - Extended Event SubProcess - Exclusive Gateway - Inclusive Gateway - Start Event;100.00%
+Task - Extended SubProcess - Extended SubProcess Loop Standard - Extended Event SubProcess - Exclusive Gateway - Inclusive Gateway - Start Event - End Event;100.00%
+Task - Extended SubProcess - Extended SubProcess Loop Standard - Extended Event SubProcess - Exclusive Gateway - Inclusive Gateway - Start Event - End Event - Intermediate Boundary Message Event;100.00%
+Task - Extended SubProcess - Extended SubProcess Loop Standard - Extended Event SubProcess - Exclusive Gateway - Inclusive Gateway - Start Event - End Event - Intermediate Boundary Message Event - Intermediate Boundary Timer Event;100.00%
