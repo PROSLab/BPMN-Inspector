@@ -290,11 +290,21 @@ public class UploadController {
         File folder = new File(UPLOADED_FOLDER);
         File[] listOfFiles = folder.listFiles();
 
+        File folderReports = new File("src/main/resources/bpmnCounterOutput/");
+        File[] listOfReports = folderReports.listFiles();
+
         for (File file : listOfFiles) {
             if (file.isFile()) {
                 file.delete();
             }
         }
+
+        for (File file : listOfReports) {
+            if (file.isFile() && !file.getName().equalsIgnoreCase("bpmn_combinedSets.csv") && !file.getName().equalsIgnoreCase("bpmn_combined.csv") && !file.getName().toLowerCase().endsWith(".py")) {
+                file.delete();
+            }
+        }
+
         apiCallCount = 0;
         return "All files deleted successfully";
     }
@@ -485,7 +495,6 @@ public class UploadController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
-
     @GetMapping("/download-combinedset-report")
     public ResponseEntity<Resource> downloadCombinedSetReport() throws IOException {
         String fileName = "bpmn_combinedSets_output.csv";
@@ -499,7 +508,6 @@ public class UploadController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }
-
     @GetMapping("/prepare-combined-report")
     public ResponseEntity<Map<String, List<Map<String, Object>>>> prepareCombinedReport() throws IOException, CsvValidationException {
         String fileName = "bpmn_combined.csv";
@@ -567,7 +575,6 @@ public class UploadController {
 
         return ResponseEntity.ok(correlationData);
     }
-
     @GetMapping("/prepare-combinedset-report")
     public ResponseEntity<List<Map<String, String>>> prepareCombinedSetsReport() throws IOException {
         String fileName = "bpmn_combinedSets_output.csv";
@@ -605,7 +612,6 @@ public class UploadController {
         }
         return ResponseEntity.ok().body(dataList);
     }
-
     @PostMapping("/download-filtered-models")
     public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException, InterruptedException {
 

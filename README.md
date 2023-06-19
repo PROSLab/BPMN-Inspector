@@ -80,13 +80,12 @@ In the web application, a radar graph is generated to indicate the violation of 
 </p>
 
 A video tutorial on its usage is available by clicking the following link:
-**[*Tutorial*](https://youtube.com)**.
+**[*Tutorial*](https://youtu.be/pLDZyC60oRY)**.
 
 # How To Run
 
 There are several ways to use BPMN Inspector:
 
-- Using the web application available at the following link: **[*Try me!*](https://pros.unicam.it/bpmn-inspector/)**;
 - Pulling the Docker image from [DockerHub](https://hub.docker.com/r/proslab/bpmn-inspector);
 - Clone this repository and run the tool in local by executing the following comand:
 
@@ -107,10 +106,7 @@ docker run -p 8080:8080 bpmn-inspector
 ```
 Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
 
-For the generation of the .jar file
-```bash
-mvn clean package -Pproduction
-```
+
 
 # Technical Information
 
@@ -132,6 +128,10 @@ BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source f
 - [JDK](https://www.oracle.com/be/java/technologies/downloads/#java17) 17 or later;
 - [Python](https://www.python.org/downloads/) 3.9.X or higher.
 
+For the generation of the .jar file:
+```bash
+mvn clean package -Pproduction
+```
 
 # References
 

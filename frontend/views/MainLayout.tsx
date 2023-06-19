@@ -198,9 +198,9 @@ export default function MenuOnLeftLayout() {
                                   {(uniqueData.includes("english") || uniqueData.includes("duplicated")) && uniqueData.includes("invalid") && " "}
                                   {uniqueData.includes("invalid") && <span style={{ marginLeft: '10px' }} className='badge bg-success'>{"   invalid"}</span>}
                               </div>
-                              <a style={{ marginLeft: '6%', fontWeight: "bold"}}>Models Excluded by Type: </a>
+                              <a style={{ marginLeft: '6%', fontWeight: "bold"}}>Models type excluded: </a>
                               <CiCircleQuestion style={{ fontSize: '18px', marginBottom: "3%", cursor: "help" }} title={"These type of models are excluded from the analysis"} />
-                              <div style={{ marginTop: '1%',marginLeft: '1%',}}>
+                              <div style={{ marginTop: '1%',marginLeft: '1%'}}>
                                    {uniqueData.includes("process") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   process"}</span>}
                                   {uniqueData.includes("choreography") && (uniqueData.includes("process") || uniqueData.includes(0) || uniqueData.includes(1) || uniqueData.includes(2) || uniqueData.includes(3) || uniqueData.includes(4) || uniqueData.includes(5) || uniqueData.includes(6) || uniqueData.includes("english") || uniqueData.includes("duplicated") || uniqueData.includes("invalid")) && " "}
                                   {uniqueData.includes("choreography") && <span style={{ marginLeft: '10px' }} className='badge bg-warning'>{"   choreography"}</span>}

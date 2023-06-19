@@ -204,11 +204,37 @@ export default function PostProcessingView() {
             method: "post",
             url: "/files",
             data: data,
-        }).then((response) => {
-            setFilesInfo(response.data);
-            loader.hide();
-        });
+        })
+            .then((response) => {
+                setFilesInfo(response.data);
+                loader.hide();
+
+                // Esegui le chiamate API aggiuntive qui
+                axios.get("/prepare-combined-report")
+                    .then((response) => {
+                        const { highestCorrelations, lowestCorrelations } = response.data as ApiResponse;
+                        console.log(response.data)
+                        setHighestCorrelations(highestCorrelations);
+                        console.log(highestCorrelations)
+                        setLowestCorrelations(lowestCorrelations);
+                    })
+                    .catch((error) => {
+                        console.log("Errore nel caricamento dei dati", error);
+                    });
+
+                axios.get('/prepare-combinedset-report')
+                    .then(response => {
+                        setDataSets(response.data);
+                    })
+                    .catch(error => {
+                        console.log('Errore nel caricamento dei dati', error);
+                    });
+            })
+            .catch((error) => {
+                console.log("Errore nel caricamento dei dati", error);
+            });
     }, []);
+
 
     console.log(filesInfo);
 
@@ -233,34 +259,6 @@ export default function PostProcessingView() {
         highestCorrelations: CorrelationData[];
         lowestCorrelations: CorrelationData[];
     }
-
-    useEffect(() => {
-        axios
-            .get("/prepare-combined-report")
-            .then((response) => {
-                const { highestCorrelations, lowestCorrelations } = response.data as ApiResponse;
-                console.log(response.data)
-                // @ts-ignore
-                setHighestCorrelations(highestCorrelations);
-                console.log(highestCorrelations)
-                // @ts-ignore
-                setLowestCorrelations(lowestCorrelations);
-            })
-            .catch((error) => {
-                console.log("Errore nel caricamento dei dati", error);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios.get('/prepare-combinedset-report')
-            .then(response => {
-                setDataSets(response.data);
-            })
-            .catch(error => {
-                console.log('Errore nel caricamento dei dati', error);
-            });
-    }, []);
-
 
     async function deleteFiles() {
         try {
@@ -800,7 +798,7 @@ export default function PostProcessingView() {
         labels: g, // Array di etichette
         datasets: [
             {
-                label: "% of good modeling practices's satisfaction",
+                label: "% of good modeling practices's adherence",
                 backgroundColor: "rgba(16,173,115,0.7)",
                 borderColor: "rgba(8,59,12,0.6)",
                 data: percentageResult, // Array di valori delle percentuali
@@ -877,7 +875,7 @@ export default function PostProcessingView() {
         labels: labelsErr,
         datasets: [
             {
-                label: "% of good modeling practices's satisfaction",
+                label: "% of good modeling practices's adherence",
                 backgroundColor: "rgb(16,173,115, 0.5)",
                 borderColor: "rgb(0,0,0)",
                 data: sortedErrorCounts.map(([_, count]) => count), // Array di valori delle percentuali
@@ -1431,7 +1429,7 @@ export default function PostProcessingView() {
                                                                   fontWeight: "bold",
                                                               }}
                                                           >
-                                                            Satisfaction: {radarChartData.datasets[0].data[index].toFixed(2)}%
+                                                            Adherence: {radarChartData.datasets[0].data[index].toFixed(2)}%
                                                           </span>{" "}- {descriptions[index].description}
                                                                 </div>
                                                             )}
@@ -1522,9 +1520,9 @@ export default function PostProcessingView() {
                 )}
                </div>
 
-            <input style={{position: 'fixed', marginBottom:'20px', marginRight:'1%', backgroundColor: 'red', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', right: '0', bottom: '0'}} onClick={deleteFiles} type="submit" value="Home"/>
+            <input style={{position: 'absolute', top:"8px", right:"330px", zIndex: '9',fontSize: "17px", backgroundColor: 'white', color: 'red',fontWeight: "bold", padding: '5px 13px', border: '2px solid red', borderRadius: '3px', cursor: 'pointer'}} onClick={deleteFiles} type="submit" value="🕵️ Start a new inspection"/>
             <button style={{position: 'absolute', top:"8px", right:"42px", zIndex: '9', fontSize: "17px", backgroundColor: 'white', color: '#10ad73', padding: '5px 13px', border: '2px solid #10ad73', borderRadius: '3px', cursor: 'pointer'}} onClick={downloadCompleteReport} type="submit">
-                <GrDocumentCsv style={{fontStyle:"white",marginBottom: "2%"}}/><a style={{marginRight: '0.5em', color: "#10ad73", marginLeft: '8px', fontWeight: "bold"}}>Download complete report</a>
+                <a style={{marginRight: '0.5em', color: "#10ad73", fontWeight: "bold"}}>📋 Download complete report</a>
             </button>
         </div>
     );

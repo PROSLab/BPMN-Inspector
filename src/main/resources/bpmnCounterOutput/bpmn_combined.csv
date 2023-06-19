@@ -1,18 +1,14 @@
-,Task,Send Task,User Task,Business Rule Task,Script Task,Data Object,Exclusive Gateway,Parallel Gateway,Start Event,End Event,Intermediate Throw Message Event,Intermediate Boundary Message Event,Intermediate Boundary Timer Event,Sequence Flow,Default Flow,Association DataOutput,Association DataInput
-Task,1.0,0.34,0.34,-0.29,-0.29,0.55,0.8,0.04,nan,-0.59,-0.29,-0.29,-0.29,0.98,-0.11,0.55,0.55
-Send Task,0.34,1.0,1.0,-0.14,-0.14,-0.14,0.04,-0.35,nan,-0.29,-0.14,-0.14,-0.14,0.32,0.34,-0.14,-0.14
-User Task,0.34,1.0,1.0,-0.14,-0.14,-0.14,0.04,-0.35,nan,-0.29,-0.14,-0.14,-0.14,0.32,0.34,-0.14,-0.14
-Business Rule Task,-0.29,-0.14,-0.14,1.0,-0.14,-0.14,-0.45,0.16,nan,0.49,-0.14,-0.14,-0.14,-0.2,-0.2,-0.14,-0.14
-Script Task,-0.29,-0.14,-0.14,-0.14,1.0,-0.14,-0.12,0.16,nan,0.49,-0.14,-0.14,-0.14,-0.32,0.88,-0.14,-0.14
-Data Object,0.55,-0.14,-0.14,-0.14,-0.14,1.0,0.36,0.66,nan,-0.29,-0.14,-0.14,-0.14,0.66,-0.2,1.0,1.0
-Exclusive Gateway,0.8,0.04,0.04,-0.45,-0.12,0.36,1.0,-0.22,nan,-0.58,-0.28,-0.28,-0.28,0.77,-0.1,0.36,0.36
-Parallel Gateway,0.04,-0.35,-0.35,0.16,0.16,0.66,-0.22,1.0,nan,-0.02,-0.35,-0.35,-0.35,0.15,-0.02,0.66,0.66
-Start Event,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan
-End Event,-0.59,-0.29,-0.29,0.49,0.49,-0.29,-0.58,-0.02,nan,1.0,0.49,0.49,0.49,-0.61,0.32,-0.29,-0.29
-Intermediate Throw Message Event,-0.29,-0.14,-0.14,-0.14,-0.14,-0.14,-0.28,-0.35,nan,0.49,1.0,1.0,1.0,-0.37,-0.2,-0.14,-0.14
-Intermediate Boundary Message Event,-0.29,-0.14,-0.14,-0.14,-0.14,-0.14,-0.28,-0.35,nan,0.49,1.0,1.0,1.0,-0.37,-0.2,-0.14,-0.14
-Intermediate Boundary Timer Event,-0.29,-0.14,-0.14,-0.14,-0.14,-0.14,-0.28,-0.35,nan,0.49,1.0,1.0,1.0,-0.37,-0.2,-0.14,-0.14
-Sequence Flow,0.98,0.32,0.32,-0.2,-0.32,0.66,0.77,0.15,nan,-0.61,-0.37,-0.37,-0.37,1.0,-0.15,0.66,0.66
-Default Flow,-0.11,0.34,0.34,-0.2,0.88,-0.2,-0.1,-0.02,nan,0.32,-0.2,-0.2,-0.2,-0.15,1.0,-0.2,-0.2
-Association DataOutput,0.55,-0.14,-0.14,-0.14,-0.14,1.0,0.36,0.66,nan,-0.29,-0.14,-0.14,-0.14,0.66,-0.2,1.0,1.0
-Association DataInput,0.55,-0.14,-0.14,-0.14,-0.14,1.0,0.36,0.66,nan,-0.29,-0.14,-0.14,-0.14,0.66,-0.2,1.0,1.0
+,Task,Send Task,User Task,Business Rule Task,Data Object,Exclusive Gateway,Parallel Gateway,Start Event,End Event,Sequence Flow,Default Flow,Association DataOutput,Association DataInput
+Task,1.0,0.46,0.46,-0.4,0.75,0.68,0.24,nan,-0.4,0.99,0.46,0.75,0.75
+Send Task,0.46,1.0,1.0,-0.25,-0.25,0.15,-0.56,nan,-0.25,0.35,1.0,-0.25,-0.25
+User Task,0.46,1.0,1.0,-0.25,-0.25,0.15,-0.56,nan,-0.25,0.35,1.0,-0.25,-0.25
+Business Rule Task,-0.4,-0.25,-0.25,1.0,-0.25,-0.58,0.06,nan,1.0,-0.34,-0.25,-0.25,-0.25
+Data Object,0.75,-0.25,-0.25,-0.25,1.0,0.63,0.69,nan,-0.25,0.81,-0.25,1.0,1.0
+Exclusive Gateway,0.68,0.15,0.15,-0.58,0.63,1.0,-0.1,nan,-0.58,0.73,0.15,0.63,0.63
+Parallel Gateway,0.24,-0.56,-0.56,0.06,0.69,-0.1,1.0,nan,0.06,0.28,-0.56,0.69,0.69
+Start Event,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan
+End Event,-0.4,-0.25,-0.25,1.0,-0.25,-0.58,0.06,nan,1.0,-0.34,-0.25,-0.25,-0.25
+Sequence Flow,0.99,0.35,0.35,-0.34,0.81,0.73,0.28,nan,-0.34,1.0,0.35,0.81,0.81
+Default Flow,0.46,1.0,1.0,-0.25,-0.25,0.15,-0.56,nan,-0.25,0.35,1.0,-0.25,-0.25
+Association DataOutput,0.75,-0.25,-0.25,-0.25,1.0,0.63,0.69,nan,-0.25,0.81,-0.25,1.0,1.0
+Association DataInput,0.75,-0.25,-0.25,-0.25,1.0,0.63,0.69,nan,-0.25,0.81,-0.25,1.0,1.0
