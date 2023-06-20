@@ -24,6 +24,7 @@ import org.eclipse.bpmn2.TextAnnotation;
 import org.eclipse.bpmn2.di.BPMNEdge;
 import org.eclipse.bpmn2.di.BPMNShape;
 import org.eclipse.bpmn2.impl.InteractionNodeImpl;
+import org.eclipse.dd.dc.Bounds;
 import org.eclipse.dd.dc.Point;
 
 import com.example.application.BEBoP.src.main.java.eu.learnpad.verification.plugin.bpmn.guideline.Messages;
@@ -43,23 +44,29 @@ public class AvoidOverlapping extends abstractGuideline {
 	}
 
 	private boolean shapeOverlapping(BPMNShape firstShape, BPMNShape secondShape) {
-		float x1 = firstShape.getBounds().getX();
-		float y1 = firstShape.getBounds().getY();
-		float w1 = firstShape.getBounds().getWidth();
-		float h1 = firstShape.getBounds().getHeight();
+		Bounds firstBounds = firstShape.getBounds();
+		Bounds secondBounds = secondShape.getBounds();
 
-		float x2 = secondShape.getBounds().getX();
-		float y2 = secondShape.getBounds().getY();
-		float w2 = secondShape.getBounds().getWidth();
-		float h2 = secondShape.getBounds().getHeight();
+		if (firstBounds == null || secondBounds == null) {
+			return false;
+		}
 
-		boolean inRangeHorizontaly = (isFloatInRange(x1, x2, x2 + w2) || isFloatInRange(x1 + w1, x2, x2 + w2)
+		float x1 = firstBounds.getX();
+		float y1 = firstBounds.getY();
+		float w1 = firstBounds.getWidth();
+		float h1 = firstBounds.getHeight();
+
+		float x2 = secondBounds.getX();
+		float y2 = secondBounds.getY();
+		float w2 = secondBounds.getWidth();
+		float h2 = secondBounds.getHeight();
+
+		boolean inRangeHorizontally = (isFloatInRange(x1, x2, x2 + w2) || isFloatInRange(x1 + w1, x2, x2 + w2)
 				|| isFloatInRange(x2, x1, x1 + w1) || isFloatInRange(x2 + w2, x1, x1 + w1));
-		boolean isVerticalyHorizontaly = (isFloatInRange(y1, y2, y2 + h2) || isFloatInRange(y1 + h1, y2, y2 + h2)
-				|| isFloatInRange(y2, y1, y1 + h1) || isFloatInRange(y2 + y2, y1, y1 + h1));
+		boolean inRangeVertically = (isFloatInRange(y1, y2, y2 + h2) || isFloatInRange(y1 + h1, y2, y2 + h2)
+				|| isFloatInRange(y2, y1, y1 + h1) || isFloatInRange(y2 + h2, y1, y1 + h1));
 
-		return (inRangeHorizontaly && isVerticalyHorizontaly);
-
+		return (inRangeHorizontally && inRangeVertically);
 	}
 
 	private boolean flowCrossing(BPMNShape shape, Point first, Point last) {
