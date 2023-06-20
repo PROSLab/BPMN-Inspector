@@ -616,7 +616,7 @@ public class UploadController {
 
             dataList.add(data);
         }
-        return ResponseEntity.ok().body(dataList);
+        return ResponseEntity.ok(dataList);
     }
     @PostMapping("/download-filtered-models")
     public ResponseEntity<Resource> downloadFilteredModels(@RequestBody String[] filteringArray) throws IOException, InterruptedException {
