@@ -107,8 +107,8 @@ public class UploadController {
         if (apiCallCount > fileInfos.size()+1) {
             try {
                 getFilteredFiles(data, fileInfos);
-                evaluateGuidelines(data, fileInfos);
                 evaluateCombined(data, fileInfos);
+                evaluateGuidelines(data, fileInfos);
             } catch (IOException | XPathExpressionException | SAXException | ParserConfigurationException e) {
                 throw new RuntimeException(e);
             }
@@ -589,7 +589,6 @@ public class UploadController {
         Resource resource = new UrlResource(path.toUri());
 
         if (!resource.exists()) {
-            // Restituisci una risposta di errore se il file non esiste
             return ResponseEntity.notFound().build();
         }
 
