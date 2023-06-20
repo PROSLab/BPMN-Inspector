@@ -300,7 +300,7 @@ public class UploadController {
         }
 
         for (File file : listOfReports) {
-            if (file.isFile() && !file.getName().equalsIgnoreCase("bpmn_combinedSets.csv") && !file.getName().equalsIgnoreCase("bpmn_combined.csv") && !file.getName().toLowerCase().endsWith(".py")) {
+            if (file.isFile() && !file.getName().equalsIgnoreCase("bpmn_combinedSets_output.csv") && !file.getName().equalsIgnoreCase("bpmn_combinedSets.csv") && !file.getName().equalsIgnoreCase("bpmn_combined.csv") && !file.getName().toLowerCase().endsWith(".py")) {
                 file.delete();
             }
         }
@@ -541,7 +541,14 @@ public class UploadController {
             for (int j = i + 1; j < columnCount; j++) {
                 String element2 = matrix.get(j).get(0);
 
-                double correlation = Double.parseDouble(row.get(j));
+                String correlationStr = row.get(j);
+                double correlation;
+
+                if (correlationStr.equalsIgnoreCase("nan")) {
+                    continue;
+                } else {
+                    correlation = Double.parseDouble(correlationStr);
+                }
 
                 Map<String, Object> relation = new HashMap<>();
                 relation.put("element1", element1);
