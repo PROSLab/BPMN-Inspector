@@ -138,6 +138,15 @@ const ReadmePage: React.FC = () => {
                 <h2 id="how-to-run">How To Run 🚀</h2>
 
                 <p>
+                    Prerequisites:
+                    <ul>
+                        <li> <a href={"https://nodejs.org/en"}>Node</a> 16.14 or later</li>
+                        <li> <a href={"https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html"}>JDK</a> 19 or later</li>
+                        <li> <a href={"https://www.python.org/downloads/"}>Python</a> 3.9.X or later</li>
+                    </ul>
+                </p>
+
+                <p>
                     There are several ways to use BPMN Inspector:
                 </p>
 

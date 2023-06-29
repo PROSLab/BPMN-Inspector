@@ -84,6 +84,17 @@ A video tutorial on its usage is available by clicking the following link:
 
 # How To Run
 
+## Prerequisites
+
+- [Node](https://nodejs.org/en) 16.14 or later;
+- [JDK](https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html) 19 or later;
+- [Python](https://www.python.org/downloads/) 3.9.X or higher.
+
+For the generation of the .jar file:
+```bash
+mvn clean package -Pproduction
+```
+
 There are several ways to use BPMN Inspector:
 
 - Pulling the Docker image from [DockerHub](https://hub.docker.com/r/proslab/bpmn-inspector);
@@ -121,17 +132,6 @@ BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source f
   <img src="frontend/img/readme-img/plus.png" width="70px" height="75px" style="margin-bottom: 20px;" />
   <img src="frontend/img/readme-img/react.png" width="300px" height="150px" />
 </p>
-
-## Prerequisites
-
-- [Node](https://nodejs.org/en) 16.14 or later;
-- [JDK](https://www.oracle.com/be/java/technologies/downloads/#java17) 17 or later;
-- [Python](https://www.python.org/downloads/) 3.9.X or higher.
-
-For the generation of the .jar file:
-```bash
-mvn clean package -Pproduction
-```
 
 # References
 
