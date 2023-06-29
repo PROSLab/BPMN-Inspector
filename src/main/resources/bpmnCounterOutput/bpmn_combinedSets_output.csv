@@ -1,7 +1,2 @@
-Task - Exclusive Gateway;90.00%
-Task - Exclusive Gateway - Sequence Flow;90.00%
-Task - Exclusive Gateway - Start Event - Sequence Flow;80.00%
-Task - Exclusive Gateway - Start Event - End Event - Sequence Flow;80.00%
-Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow;50.00%
-Task - Script Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow;10.00%
-Task - Script Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow - Default Flow;10.00%
+Start Event - Message Flow;66.67%
+Start Event - Message Flow - Sequence Flow;66.67%
