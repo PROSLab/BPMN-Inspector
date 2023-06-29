@@ -1,7 +1,10 @@
 ModelName,Validation,Exception
-diagram (2).bpmn,valid,
-Entscheid versenden - Baugesuch (7.8) - Copia.bpmn,valid,
-Entscheid versenden - Baugesuch (7.8).bpmn,valid,
-Errors - Copia.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.
-Errors.bpmn,invalid,cvc-complex-type.4: Attribute 'sourceRef' must appear on element 'messageFlow'.
-ita.bpmn,valid,
+0_1552924487627_8834631221712325.bpmn,valid,
+0_1552924489837_26172901713068611.bpmn,valid,
+0_1552924492840_3234151432881724.bpmn,valid,
+0_1596632032055_1521315029242411.bpmn,valid,
+0_1596632661831_1802628171623266.bpmn,valid,
+0_1596633099477_2534252815343125.bpmn,valid,
+0_1596633100391_2529131626102618.bpmn,valid,
+0_1596634925387_2832291024322114.bpmn,valid,
+0_1596634931897_3113029923189011.bpmn,valid,

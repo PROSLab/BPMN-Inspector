@@ -261,7 +261,8 @@ export default function HelloReactView() {
                                 <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by model features:</p>
                                 <CheckboxGroup
                                     theme=''
-                                    onValueChanged={({ detail: { value } }) => console.log(value)}
+                                    onValueChanged={({ detail: { value } }: { detail: { value: any } }) => console.log(value)}
+
                                 >
                                     <div style={{ flexDirection: 'column' }}>
                                     <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
@@ -274,7 +275,7 @@ export default function HelloReactView() {
                                 <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by model type:</p>
                                 <CheckboxGroup
                                     theme=''
-                                    onValueChanged={({ detail: { value } }) => console.log(value)}
+                                    onValueChanged={({ detail: { value } }: { detail: { value: any } }) => console.log(value)}
                                 >
                                     <Checkbox value='process' label='Remove Process Collaboration models' name="checkbox4" />
                                     <Checkbox value='choreography' label='Remove Choreography models' name="checkbox5" />
