@@ -1,2 +1,6 @@
-Start Event - Message Flow;66.67%
-Start Event - Message Flow - Sequence Flow;66.67%
+Task - Start Event;100.00%
+Task - Start Event - Sequence Flow;100.00%
+Task - Start Event - End Event - Sequence Flow;90.00%
+Task - Exclusive Gateway - Start Event - End Event - Sequence Flow;70.00%
+Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow;40.00%
+Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow - Expanded Pool;20.00%

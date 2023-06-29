@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:19-jre
 
 RUN apt-get update && apt-get install -y python3 python3-pip
 RUN pip3 install --upgrade pip

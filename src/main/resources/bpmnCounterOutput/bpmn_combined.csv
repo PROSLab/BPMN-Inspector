@@ -1,6 +1,14 @@
-,Task,Start Event,End Event,Message Flow,Sequence Flow
-Task,1.0,nan,1.0,-1.0,1.0
-Start Event,nan,nan,nan,nan,nan
-End Event,1.0,nan,1.0,-1.0,1.0
-Message Flow,-1.0,nan,-1.0,1.0,-1.0
-Sequence Flow,1.0,nan,1.0,-1.0,1.0
+,Task,Collapsed SubProcess,Exclusive Gateway,Parallel Gateway,Start Event,End Event,End Terminate Event,Intermediate Catch Message Event,Intermediate Boundary Message Event,Sequence Flow,Lane,Expanded Pool,Text Annotation
+Task,1.0,0.0,0.06,0.11,nan,-0.41,0.36,-0.24,-0.0,0.71,0.36,0.22,-0.12
+Collapsed SubProcess,0.0,1.0,-0.44,-0.23,nan,0.0,-0.11,-0.11,1.0,0.25,-0.11,-0.33,-0.11
+Exclusive Gateway,0.06,-0.44,1.0,0.01,nan,-0.39,0.33,-0.25,-0.44,0.43,0.33,-0.17,-0.06
+Parallel Gateway,0.11,-0.23,0.01,1.0,nan,0.0,-0.23,-0.23,-0.23,0.24,-0.23,-0.23,0.28
+Start Event,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan,nan
+End Event,-0.41,0.0,-0.39,0.0,nan,1.0,-0.75,0.75,0.0,-0.58,-0.75,0.0,0.0
+End Terminate Event,0.36,-0.11,0.33,-0.23,nan,-0.75,1.0,-0.11,-0.11,0.47,1.0,0.33,-0.11
+Intermediate Catch Message Event,-0.24,-0.11,-0.25,-0.23,nan,0.75,-0.11,1.0,-0.11,-0.39,-0.11,0.33,-0.11
+Intermediate Boundary Message Event,-0.0,1.0,-0.44,-0.23,nan,0.0,-0.11,-0.11,1.0,0.25,-0.11,-0.33,-0.11
+Sequence Flow,0.71,0.25,0.43,0.24,nan,-0.58,0.47,-0.39,0.25,1.0,0.47,-0.19,-0.11
+Lane,0.36,-0.11,0.33,-0.23,nan,-0.75,1.0,-0.11,-0.11,0.47,1.0,0.33,-0.11
+Expanded Pool,0.22,-0.33,-0.17,-0.23,nan,0.0,0.33,0.33,-0.33,-0.19,0.33,1.0,-0.33
+Text Annotation,-0.12,-0.11,-0.06,0.28,nan,0.0,-0.11,-0.11,-0.11,-0.11,-0.11,-0.33,1.0
