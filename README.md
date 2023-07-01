@@ -87,24 +87,26 @@ A video tutorial on its usage is available by clicking the following link:
 ## Prerequisites
 
 - [Node](https://nodejs.org/en) 16.14 or later;
-- [JDK](https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html) 19 or later;
+- [JDK](https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html) 19 or later (Be sure that you have set the JAVA_HOME environment variable pointing to version 19 of the Java JDK);
 - [Python](https://www.python.org/downloads/) 3.9.X or higher.
 
 For the generation of the .jar file:
-```bash
-mvn clean package -Pproduction
-```
 
-There are several ways to use BPMN Inspector:
 
-- Pulling the Docker image from [DockerHub](https://hub.docker.com/r/proslab/bpmn-inspector);
-- Clone this repository and run the tool in local by executing the following comand:
+There are several ways to run BPMN Inspector:
+
+1. Clone this repository and run the tool in local by executing the following comand:
 
 ```bash
 \.mvnw
 ```
 Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
 
+2. Pulling the Docker image from [DockerHub](https://hub.docker.com/r/proslab/bpmn-inspector);
+- Generate the .jar file for building the image   
+```bash
+mvn clean package -Pproduction
+```
 - Creating the Docker image from the main folder of the project by executing the following comand:
 
 ```bash
@@ -117,7 +119,7 @@ docker run -p 8080:8080 bpmn-inspector
 ```
 Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
 
-
+3. Import the project into an IDE and run the class "Application.java"
 
 # Technical Information
 

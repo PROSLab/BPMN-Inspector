@@ -141,18 +141,18 @@ const ReadmePage: React.FC = () => {
                     Prerequisites:
                     <ul>
                         <li> <a href={"https://nodejs.org/en"}>Node</a> 16.14 or later</li>
-                        <li> <a href={"https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html"}>JDK</a> 19 or later</li>
+                        <li> <a href={"https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html"}>JDK</a> 19 or later</li> <i>Be sure that you have set the JAVA_HOME environment variable pointing to version 19 of the Java JDK</i>
                         <li> <a href={"https://www.python.org/downloads/"}>Python</a> 3.9.X or later</li>
                     </ul>
                 </p>
 
                 <p>
-                    There are several ways to use BPMN Inspector:
+                    There are several ways to run BPMN Inspector:
                 </p>
 
                 <ul>
                     <li>
-                        Clone this repository and run the tool locally by executing the following command:
+                        1. Clone this repository and run the tool locally by executing the following command:
                         <br />
                         <code>.\mvnw</code>
                         <br />
@@ -160,8 +160,15 @@ const ReadmePage: React.FC = () => {
                     </li>
 
                     <li>
-                        Pulling the Docker image from <a href="https://hub.docker.com/r/proslab/bpmn-inspector">DockerHub</a>
+                        2. Pulling the Docker image from <a href="https://hub.docker.com/r/proslab/bpmn-inspector">DockerHub</a>
                     </li>
+
+                    <li>
+                        Generate the .jar file for building the image by executing the following command:
+                        <br />
+                        <code>mvn clean package -Pproduction</code>
+                    </li>
+
                     <li>
                         Creating the Docker image from the main folder of the project by executing the following command:
                         <br />
@@ -173,6 +180,10 @@ const ReadmePage: React.FC = () => {
                         <code>docker run -p 8080:8080 bpmn-inspector</code>
                         <br />
                         Once launched, the application will be available at <a href="http://localhost:8080">http://localhost:8080</a>.
+                    </li>
+
+                    <li>
+                        3. Import the project into an IDE and run the class "Application.java"
                     </li>
                 </ul>
 
