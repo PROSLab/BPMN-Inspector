@@ -160,7 +160,7 @@ const ReadmePage: React.FC = () => {
                     </li>
 
                     <li>
-                        2. Pulling the Docker image from <a href="https://hub.docker.com/r/proslab/bpmn-inspector">DockerHub</a>
+                        2. Use the docker image "Dockerfile" present in the folder of the project or available online at <a href="https://hub.docker.com/r/proslab/bpmn-inspector">DockerHub</a>
                     </li>
 
                     <li>

@@ -22,6 +22,7 @@ import { Router, Route } from 'react-router-dom';
 import {loader} from "react-global-loader";
 import {AiFillExclamationCircle} from "react-icons/ai";
 import {GiConfirmed} from "react-icons/gi";
+import bpmnDesk from "../../img/bpmnDesk.svg"
 import uploadImg from "../../img/filtering.gif"
 import filterImg from "../../img/filter.gif"
 import inspect1Img from "../../img/validate.gif"
@@ -134,6 +135,8 @@ export default function HelloReactView() {
                 console.error(error);
             }
         }
+
+
 
         let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
         let displayButton = filesInfo.length > 1;
@@ -300,6 +303,21 @@ export default function HelloReactView() {
         }
 
     const Home = () => {
+
+        const downloadTestModels = () => {
+            axios({
+                url: '/download-test-models',
+                method: 'GET',
+                responseType: 'blob',
+            }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'testModels.zip');
+                document.body.appendChild(link);
+                link.click();
+            });
+        };
         const onClick = async (e: any) => {
 
             e.preventDefault()
@@ -481,7 +499,22 @@ export default function HelloReactView() {
                             </div>
                         </>
                     )}
+                    <div style={{border: "solid 1px",
+                        fontSize: "16px",
+                        position: "relative",
+                        padding: '7px 40px',
+                        borderRadius: '5px',
+                        display: "flex",
+                        height: "60px",
+                        marginTop: "50px",
+                        textAlign: "center",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "#eeeeef"}}>
+                        No models to test? Download an example collection <a style={{cursor:"pointer", fontStyle:"italic",textDecoration: "underline", marginLeft:"5px"}} onClick={downloadTestModels}> here </a>
+                    </div>
                 </div>
+
             </div>
      )
     }

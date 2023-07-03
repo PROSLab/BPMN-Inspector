@@ -1,6 +1,5 @@
-Task - Start Event;100.00%
-Task - Start Event - Sequence Flow;100.00%
-Task - Start Event - End Event - Sequence Flow;90.00%
-Task - Exclusive Gateway - Start Event - End Event - Sequence Flow;70.00%
-Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow;40.00%
-Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow - Expanded Pool;20.00%
+Start Event - Sequence Flow;70.00%
+Start Event - End Event - Sequence Flow;50.00%
+Task - Start Event - End Event - Sequence Flow;40.00%
+Task - Exclusive Gateway - Start Event - End Event - Sequence Flow;30.00%
+Task - Exclusive Gateway - Parallel Gateway - Start Event - End Event - Sequence Flow;10.00%
