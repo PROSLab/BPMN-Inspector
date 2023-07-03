@@ -90,9 +90,6 @@ A video tutorial on its usage is available by clicking the following link:
 - [JDK](https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html) 19 or later (Be sure that you have set the JAVA_HOME environment variable pointing to version 19 of the Java JDK);
 - [Python](https://www.python.org/downloads/) 3.9.X or higher.
 
-For the generation of the .jar file:
-
-
 There are several ways to run BPMN Inspector:
 
 1. Clone this repository and run the tool in local by executing the following comand:
@@ -102,7 +99,7 @@ There are several ways to run BPMN Inspector:
 ```
 Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
 
-2. Pulling the Docker image from [DockerHub](https://hub.docker.com/r/proslab/bpmn-inspector);
+2. Use the docker image "Dockerfile" present in the folder of the project or available online at [DockerHub](https://hub.docker.com/r/proslab/bpmn-inspector);
 - Generate the .jar file for building the image   
 ```bash
 mvn clean package -Pproduction
