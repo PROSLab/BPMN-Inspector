@@ -747,7 +747,7 @@ export default function PostProcessingView() {
                 },
                 title: {
                     display: true,
-                    text: '# of Models',
+                    text: '# of Elements',
                     color: 'black',
                     font: {
                         size: 13,
