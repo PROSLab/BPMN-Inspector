@@ -13,6 +13,8 @@
 
 BPMN Inspector is a RESTful web application that allows users to upload a set of BPMN models, optionally filter them, and then explore their features by performing a set of analyses.
 
+
+
 # Table of contents
 <!--ts-->
    * [Functionalities](#functionalities)
@@ -133,6 +135,10 @@ BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source f
 </p>
 
 # References
+
+To refers to BPMN Inspector you can cite the following research paper:
+
+- Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2023). BPMN Inspector: A Tool for Extracting Features from BPMN Models. In BPM (Demos / Resources Forum) 2023: 122-126. **BPM 2023 Best Paper Award of the Demonstrations and Resources Forum**
 
 To refers to BPMN Inspector you can cite the following research paper on which the tool was adopted:
 

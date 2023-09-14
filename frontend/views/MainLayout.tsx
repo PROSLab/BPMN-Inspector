@@ -240,7 +240,7 @@ export default function MenuOnLeftLayout() {
                           },
                           content: {
                               width: '750px',
-                              height: '430px',
+                              height: '550px',
                               margin: 'auto',
                               borderRadius: '8px',
                               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
@@ -251,6 +251,17 @@ export default function MenuOnLeftLayout() {
                       onRequestClose={closeModal}
                   >
                       <h2 style={{top:"10px"}}><HiAcademicCap style={{marginBottom: '0.13cm', marginRight:"2%"}}/>References</h2>
+
+                      <p>Tool's paper:</p>
+
+                      <ul>
+                          <li>Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2023). <strong>Inspector: A Tool for Extracting Features from BPMN Models.</strong> In <em>BPM (Demos / Resources Forum) 2023: 122-126.</em>
+                            <pre>
+                              <strong style={{color:"#c5a81e"}}>BPM 2023 Best Paper Award of the Demonstrations and Resources Forum</strong>
+                            </pre>
+                          </li>
+                      </ul>
+
                       <p>Tool's use case:</p>
                       <ul>
                           <li>Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2023). <strong>A Study on the Usage of the BPMN Notation for Designing
