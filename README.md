@@ -13,7 +13,7 @@
 
 BPMN Inspector is a RESTful web application that allows users to upload a set of BPMN models, optionally filter them, and then explore their features by performing a set of analyses.
 
-[Report a bug!](mailto:ivan.compagnucci@unicam.it?subject=[GitHub]
+[Report a bug!](mailto:ivan.compagnucci@unicam.it)
 
 # Table of contents
 <!--ts-->
