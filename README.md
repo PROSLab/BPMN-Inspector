@@ -19,7 +19,6 @@ BPMN Inspector is a RESTful web application that allows users to upload a set of
 <!--ts-->
    * [Functionalities](#functionalities)
    * [How to run](#how-to-run)
-   * [Technical Information](#technical-information)
    * [References](#references)
 <!--te-->
 
@@ -119,20 +118,6 @@ docker run -p 8080:8080 bpmn-inspector
 Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
 
 3. Import the project into an IDE and run the class "Application.java"
-
-# Technical Information
-
-<p align="center">
-<img src="frontend/img/readme-img/hilla-logo.svg" width="300px" height="150px"/>
-</p>
-
-BPMN Inspector was developed using [Hilla](https://hilla.dev/), an open source framework that integrates a <b>Spring Boot Java backend</b> with a reactive TypeScript frontend, which in this tool is <b>React</b>.
-
-<p align="center">
-  <img src="frontend/img/readme-img/spring-boot.png" width="300px" height="150px" />
-  <img src="frontend/img/readme-img/plus.png" width="70px" height="75px" style="margin-bottom: 20px;" />
-  <img src="frontend/img/readme-img/react.png" width="300px" height="150px" />
-</p>
 
 # References
 
