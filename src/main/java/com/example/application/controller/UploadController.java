@@ -70,6 +70,7 @@ public class UploadController {
             boolean isValid;
             boolean isDuplicated;
             String isEnglish;
+            String modeler = null;
             String validationResult;
             apiCallCount++;
 
@@ -98,7 +99,7 @@ public class UploadController {
             } catch (SAXException | IOException | ParserConfigurationException e) {
                 throw new RuntimeException(e);
             }
-            fileInfos.add(new fileInfo(file.getName(), file.length(), isValid, isDuplicated, modelType, isEnglish, validationResult));
+            fileInfos.add(new fileInfo(file.getName(), modeler, file.length(), isValid, isDuplicated, modelType, isEnglish, validationResult));
         });
 
 

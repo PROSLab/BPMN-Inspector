@@ -76,6 +76,7 @@ export default function HelloReactView() {
         const [showAllFiles, setShowAllFiles] = useState<boolean>(false);
 
         interface filesInfo {
+            bpmnModeler: string;
             name: string;
             size: number;
             isValid: boolean;
@@ -135,8 +136,6 @@ export default function HelloReactView() {
                 console.error(error);
             }
         }
-
-
 
         let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
         let displayButton = filesInfo.length > 1;
@@ -215,6 +214,7 @@ export default function HelloReactView() {
 
                     <div className="file-info" >
                         <span className="file-info-item-name" style={{ fontSize: '15px', fontWeight:"bold"}}>File name</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Modeler</span>
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Model Type</span>
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Validation</span>
                         <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Duplicated</span>

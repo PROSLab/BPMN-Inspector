@@ -4,20 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class fileInfo {
+    private String bpmnModeler;
     public String name;
     public long size;
     public boolean isValid;
     public boolean isDuplicated;
     public String isEnglish;
+    public Map<String, Boolean> guidelineMap;
     public String modelType;
     public Map<String, Integer> elementMap;
-    public Map<String, Boolean> guidelineMap;
     public String errorLog;
 
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, String errorLog) {
+    public fileInfo(String name, String bpmnModeler,long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, String errorLog) {
         this.name = name;
         this.size = size;
+        this.bpmnModeler = bpmnModeler;
         this.isValid = isValid;
         this.isDuplicated = isDuplicated;
         this.modelType = modelType;
@@ -25,9 +27,10 @@ public class fileInfo {
         this.errorLog = errorLog;
     }
 
-    public fileInfo(String name, long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap, Map<String, Boolean> guidelineMap, String errorLog) {
+    public fileInfo(String name,String bpmnModeler,long size, boolean isValid, boolean isDuplicated,String modelType, String isEnglish, Map<String, Integer> elementMap, Map<String, Boolean> guidelineMap, String errorLog) {
         this.name = name;
         this.size = size;
+        this.bpmnModeler = bpmnModeler;
         this.isValid = isValid;
         this.isDuplicated = isDuplicated;
         this.modelType = modelType;
@@ -44,6 +47,14 @@ public class fileInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getbpmnModeler() {
+        return bpmnModeler;
+    }
+
+    public void setbpmnModeler(String bpmnModeler) {
+        this.bpmnModeler = bpmnModeler;
     }
 
     public long getSize() {
