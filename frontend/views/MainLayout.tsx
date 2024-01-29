@@ -10,6 +10,7 @@ import css from './MainLayout.module.css';
 import logo from "./../img/logo.png"
 import {MdAlternateEmail} from "react-icons/all";
 import {CiCircleQuestion} from "react-icons/ci";
+import { FaBug } from "react-icons/fa";
 import {loader} from "react-global-loader";
 import axios from "axios";
 import PieChart from "Frontend/components/charts/PieChart";
@@ -226,6 +227,11 @@ export default function MenuOnLeftLayout() {
                       >
                           References
                       </a>
+                      <FaBug style={{ marginBottom: '0.1cm' }} />
+                      <a style={{ marginLeft: '1%', fontSize: '14px' }} href="mailto:ivan.compagnucci@unicam.it">
+                          Report a Bug
+                      </a>
+                      <br/>
                       <MdAlternateEmail style={{ marginBottom: '0.1cm' }} />
                       <a style={{ marginLeft: '1%', fontSize: '14px' }} href="mailto:ivan.compagnucci@unicam.it">
                           Contact
@@ -264,8 +270,8 @@ export default function MenuOnLeftLayout() {
 
                       <p>Tool's use case:</p>
                       <ul>
-                          <li>Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2023). <strong>A Study on the Usage of the BPMN Notation for Designing
-                              Process Collaboration, Choreography, and Conversation Models.</strong> In <em>Business & Information Systems Engineering</em> on the special issue <em>"The Impact of the Business Process Model and Notation."</em></li>
+                          <li>Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2024). <strong>A Study on the Usage of the BPMN Notation for Designing
+                              Process Collaboration, Choreography, and Conversation Models.</strong> (Vol. 66, pp. 43-66). Springer. In <em>Business & Information Systems Engineering</em> on the special issue <em>"The Impact of the Business Process Model and Notation."</em></li>
                           <li style={{marginTop:"10px"}}>Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2021). <strong>Trends on the Usage of BPMN 2.0
                               from Publicly Available Repositories.</strong> In <em>International Conference on Perspectives in Business
                               Informatics Research</em>, LNBIP (Vol. 430, pp. 84–99). Springer </li>
