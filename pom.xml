@@ -176,11 +176,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.mvnpm.at.vaadin</groupId>
-            <artifactId>tabsheet</artifactId>
-            <version>23.3.7</version>
-        </dependency>
-        <dependency>
             <groupId>org.eclipse</groupId>
             <artifactId>org.eclipse.bpmn2</artifactId>
             <version>0.8.2-jboss</version>

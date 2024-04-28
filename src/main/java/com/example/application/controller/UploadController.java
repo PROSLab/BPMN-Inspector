@@ -9,6 +9,7 @@ import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 import static com.github.pemistahl.lingua.api.Language.*;
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.poi.ss.usermodel.Cell;
@@ -523,7 +524,7 @@ public class UploadController {
                 .body(resource);
     }
     @GetMapping("/prepare-combined-report")
-    public ResponseEntity<Map<String, List<Map<String, Object>>>> prepareCombinedReport() throws IOException {
+    public ResponseEntity<Map<String, List<Map<String, Object>>>> prepareCombinedReport() throws IOException, CsvValidationException {
         String fileName = "bpmn_combined.csv";
         Path path = Paths.get("./src/main/resources/bpmnCounterOutput", fileName);
         Resource resource = new UrlResource(path.toUri());
