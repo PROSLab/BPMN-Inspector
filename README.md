@@ -96,7 +96,7 @@ There are several ways to run BPMN Inspector:
 1. Clone this repository and run the tool in local by executing the following comand:
 
 ```bash
-\.mvnw
+.\mvnw
 ```
 Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
 
