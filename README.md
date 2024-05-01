@@ -100,7 +100,10 @@ There are several ways to run BPMN Inspector:
 ```
 Once launched, the application will be available at [http://localhost:8080](http://localhost:8080).
 
-2. Use the docker image "Dockerfile" present in the folder of the project or available online at [DockerHub](https://hub.docker.com/r/proslab/bpmn-inspector);
+2. (Recomended!) Pull the docker image "Dockerfile" present in the folder of the project or available online at [DockerHub](https://hub.docker.com/repository/docker/ivancompd/adaptive-shadow-image/general);
+
+2.1 Generate a Docker image locally
+
 - Generate the .jar file for building the image   
 ```bash
 mvn clean package -Pproduction
