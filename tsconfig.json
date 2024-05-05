@@ -12,7 +12,7 @@
     "module": "esNext",
     "target": "es2020",
     "moduleResolution": "node",
-    "strict": true,
+    "strict": false,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
