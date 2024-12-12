@@ -136,8 +136,6 @@ To refers to BPMN Inspector you can cite the following research paper on which t
 
 - Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2024). A Study on the Usage of the BPMN Notation for Designing Process Collaboration, Choreography, and Conversation Models. In Business & Information Systems Engineering (Vol. 66, pp. 43-66). Springer. on the special issue "The Impact of the Business Process Model and Notation."
 
-- Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2021). Trends on the Usage of BPMN 2.0 from Publicly Available Repositories. In International Conference on Perspectives in Business Informatics Research, LNBIP (Vol. 430, pp. 84–99). Springer.
-
 # License
 
 BPMN Inspector is under the [MIT](https://github.com/BPMN-Inspector/blob/master/LICENSE) license.
