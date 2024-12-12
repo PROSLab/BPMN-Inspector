@@ -228,12 +228,12 @@ export default function MenuOnLeftLayout() {
                           References
                       </a>
                       <FaBug style={{ marginBottom: '0.1cm' }} />
-                      <a style={{ marginLeft: '1%', fontSize: '14px' }} href="mailto:ivan.compagnucci@unicam.it">
+                      <a style={{ marginLeft: '1%', fontSize: '14px' }} href="mailto:ivan.compagnucci@gmail.com">
                           Report a Bug
                       </a>
                       <br/>
                       <MdAlternateEmail style={{ marginBottom: '0.1cm' }} />
-                      <a style={{ marginLeft: '1%', fontSize: '14px' }} href="mailto:ivan.compagnucci@unicam.it">
+                      <a style={{ marginLeft: '1%', fontSize: '14px' }} href="mailto:ivan.compagnucci@gmail.com">
                           Contact
                       </a>
                   </p>
