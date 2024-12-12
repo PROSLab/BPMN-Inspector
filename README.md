@@ -13,6 +13,10 @@
 
 BPMN Inspector is a RESTful web application that allows users to upload a set of BPMN models, optionally filter them, and then explore their features by performing a set of analyses.
 
+🏆 BPMN Inspector was awarded at the 21st International Conference on Business Process Management (September 11-15 2023, Utrecth) as the Best Paper Award of the Demonstration and Resources Forum with the paper entitled: BPMN Inspector: A Tool for Extracting Features from BPMN Models.
+
+The contribution was mentioned for its noteworthy “potential impact on BPM practitioners and educators” in the [BPM Newsletter of November 2023](https://bpm-conference.org/assets/docs/newsletter/BPM-newsletter-2023-11.pdf).
+
 [Report a bug!](mailto:ivan.compagnucci@gmail.com)
 
 # Table of contents
