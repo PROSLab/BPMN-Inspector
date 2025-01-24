@@ -9,6 +9,7 @@
   <a href="https://github.com/vaadin/hilla/releases"><img src="https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fdev%2Fhilla%2Fhilla%2Fmaven-metadata.xml" alt="Releases"></a>  
   <img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Build Status">
   <img src="https://img.shields.io/badge/version-1.0-green" alt="Version">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Version">
 </p>
 
 BPMN Inspector is a RESTful web application that allows users to upload a set of BPMN models, optionally filter them, and then explore their features by performing a set of analyses.
