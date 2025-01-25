@@ -132,10 +132,42 @@ To refers to BPMN Inspector you can cite the following research paper:
 
 - Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2023). BPMN Inspector: A Tool for Extracting Features from BPMN Models. In BPM (Demos / Resources Forum) 2023: 122-126. **BPM 2023 Best Paper Award of the Demonstrations and Resources Forum**
 
+```bash
+  @inproceedings{CompagnucciBPMNInspector,
+  author       = {Ivan Compagnucci and
+                  Flavio Corradini and
+                  Fabrizio Fornari and
+                  Barbara Re},
+  title        = {{BPMN} Inspector: {A} Tool for Extracting Features from {BPMN} Models},
+  booktitle    = {BPM Demo},
+  series       = {{CEUR} Workshop Proceedings},
+  volume       = {3469},
+  pages        = {122--126},
+  publisher    = {CEUR-WS.org},
+  year         = {2023},
+}
+```
+
 To refers to BPMN Inspector you can cite the following research paper on which the tool was adopted:
 
 - Compagnucci, I., Corradini, F., Fornari, F., & Re, B. (2024). A Study on the Usage of the BPMN Notation for Designing Process Collaboration, Choreography, and Conversation Models. In Business & Information Systems Engineering (Vol. 66, pp. 43-66). Springer. on the special issue "The Impact of the Business Process Model and Notation."
 
+```bash
+@article{CompagnucciBPMNStudy,
+  author       = {Ivan Compagnucci and
+                  Flavio Corradini and
+                  Fabrizio Fornari and
+                  Barbara Re},
+  title        = {A Study on the Usage of the {BPMN} Notation for Designing Process
+                  Collaboration, Choreography, and Conversation Models},
+  journal      = {Bus. Inf. Syst. Eng.},
+  volume       = {66},
+  number       = {1},
+  pages        = {43--66},
+  year         = {2024},
+}
+```
+
 # License
 
-BPMN Inspector is under the [MIT](https://github.com/BPMN-Inspector/blob/master/LICENSE) license.
+BPMN Inspector is under the [Apache 2.0](https://github.com/BPMN-Inspector/blob/master/LICENSE) license.
