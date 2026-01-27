@@ -2,7 +2,7 @@ import numpy as np
 import os
 import csv
 import time
-import matplotlib.pyplot as plt
+import csv
 import pandas as pd
 
 current_dir = os.path.dirname(os.path.abspath(__file__))

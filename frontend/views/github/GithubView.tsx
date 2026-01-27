@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './github.css';
 import developer from "../../img/develop.gif"
-import {BsGithub} from "react-icons/all";
+import { BsGithub } from "react-icons/all";
 import img0 from '../../img/bounce/0.svg';
 import img1 from '../../img/bounce/1.svg';
 import img2 from '../../img/bounce/2.svg';
@@ -110,10 +110,10 @@ const DVDPlayer: React.FC = () => {
         <button
             className="centered-button"
             onClick={redirectToGitHub}
-            style={{ backgroundColor:"#fafaff", color:"#10ad73",position: "fixed", padding: '10px 20px', borderRadius: '15px', cursor: 'pointer', marginLeft: "30%", marginTop: "20%", zIndex: 1 }}
+            style={{ backgroundColor: "#fafaff", color: "rgb(16, 173, 115)", position: "fixed", padding: '10px 20px', borderRadius: '15px', cursor: 'pointer', marginLeft: "30%", marginTop: "20%", zIndex: 1 }}
         >
-            <BsGithub style={{ marginBottom: "3px", marginRight: "5px", height:"60px", width:"60px" }} /> GitHub Source Code
-            <img style={{marginTop: "5px", position:"relative"}}  src={developer} alt="Animated icons by Lordicon.com" width="70" height="70"/>
+            <BsGithub style={{ marginBottom: "3px", marginRight: "5px", height: "60px", width: "60px" }} /> GitHub Source Code
+            <img style={{ marginTop: "5px", position: "relative" }} src={developer} alt="Animated icons by Lordicon.com" width="70" height="70" />
         </button>
         {dvdImages}</div>;
 };

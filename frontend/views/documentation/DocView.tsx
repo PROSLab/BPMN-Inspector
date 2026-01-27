@@ -135,16 +135,15 @@ const ReadmePage: React.FC = () => {
                     A video tutorial on its usage is available by clicking the following link: <a href={"https://www.youtube.com/watch?v=pLDZyC60oRY&ab_channel=PROSLab-PROcessesandServicesLab"}> Tutorial. </a>
                 </p>
 
-                <h2 id="how-to-run">How To Run 🚀</h2>
-
-                <p>
+                <div id="how-to-run">
+                    <h2>How To Run 🚀</h2>
                     Prerequisites:
                     <ul>
                         <li> <a href={"https://nodejs.org/en"}>Node</a> 16.14 or later</li>
                         <li> <a href={"https://www.oracle.com/java/technologies/javase/jdk19-archive-downloads.html"}>JDK</a> 19 or later</li> <i>Be sure that you have set the JAVA_HOME environment variable pointing to version 19 of the Java JDK</i>
                         <li> <a href={"https://www.python.org/downloads/"}>Python</a> 3.9.X or later</li>
                     </ul>
-                </p>
+                </div>
 
                 <p>
                     There are several ways to run BPMN Inspector:

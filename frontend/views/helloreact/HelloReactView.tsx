@@ -1,6 +1,6 @@
-import {Checkbox} from "@hilla/react-components/Checkbox.js";
-import {VAADIN_CSRF_HEADER} from "@hilla/frontend/CsrfUtils";
-import React, {ReactDOM, memo, useState, useEffect, ReactNode} from "react";
+import { Checkbox } from "@hilla/react-components/Checkbox.js";
+import { VAADIN_CSRF_HEADER } from "@hilla/frontend/CsrfUtils";
+import React, { ReactDOM, memo, useState, useEffect, ReactNode } from "react";
 import "./uploadtemplate.css";
 import "./fileList.css";
 import axios from 'axios';
@@ -10,18 +10,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import '@vaadin/vaadin-lumo-styles/badge.js'
 import '@vaadin/tabs';
 import { Slide } from 'react-slideshow-image';
-import {BsDiagram2} from "react-icons/bs";
-import {GrDocumentCsv, GrDocumentDownload} from "react-icons/gr";
-import {HiDocumentSearch} from "react-icons/hi";
+import { BsDiagram2 } from "react-icons/bs";
+import { GrDocumentCsv, GrDocumentDownload } from "react-icons/gr";
+import { HiDocumentSearch } from "react-icons/hi";
 import '@polymer/polymer/lib/elements/custom-style.js';
 import '@polymer/polymer/lib/elements/custom-style.js';
-import {CheckboxGroup} from "@hilla/react-components/CheckboxGroup.js";
-import {Link, RouterProvider} from "react-router-dom";
-import KeepAlive, {AliveScope} from 'react-activation'
+import { CheckboxGroup } from "@hilla/react-components/CheckboxGroup.js";
+import { Link, RouterProvider } from "react-router-dom";
+import KeepAlive, { AliveScope } from 'react-activation'
 import { Router, Route } from 'react-router-dom';
-import {loader} from "react-global-loader";
-import {AiFillExclamationCircle} from "react-icons/ai";
-import {GiConfirmed} from "react-icons/gi";
+import { loader } from "react-global-loader";
+import { AiFillExclamationCircle } from "react-icons/ai";
+import { GiConfirmed } from "react-icons/gi";
 import bpmnDesk from "../../img/bpmnDesk.svg"
 import uploadImg from "../../img/filtering.gif"
 import filterImg from "../../img/filter.gif"
@@ -37,7 +37,7 @@ export default function HelloReactView() {
     let filteringArray: any[] = [];
     const [show, setShow] = useState(true)
     const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
-    let selectedFile: any = null;
+    const [selectedFile, setSelectedFile] = useState<any>(null);
 
     const filterCollection = () => {
 
@@ -57,7 +57,7 @@ export default function HelloReactView() {
             data: filteringArray,
             responseType: 'blob',
         }).then(response => {
-            const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/zip'}));
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/zip' }));
             const link = document.createElement('a');
             link.href = url;
             document.body.appendChild(link);
@@ -140,23 +140,23 @@ export default function HelloReactView() {
         let filesToDisplay = showAllFiles ? filesInfo : filesInfo.slice(0, 1);
         let displayButton = filesInfo.length > 1;
 
-        const {valid, invalid} = filesInfo.reduce((counts, file) => {
+        const { valid, invalid } = filesInfo.reduce((counts, file) => {
             if (file.isValid) {
                 counts.valid++;
             } else {
                 counts.invalid++;
             }
             return counts;
-        }, {valid: 0, invalid: 0});
+        }, { valid: 0, invalid: 0 });
 
         const totalDuplicated = filesInfo.reduce((counts, file) => {
             if (file.isDuplicated) {
                 counts.totalDuplicated++;
             }
             return counts;
-        }, { totalDuplicated: 0});
+        }, { totalDuplicated: 0 });
 
-        const {totalProcess,totalChoreography,totalConversation} = filesInfo.reduce((counts, file) => {
+        const { totalProcess, totalChoreography, totalConversation } = filesInfo.reduce((counts, file) => {
             if (file.modelType === "Process Collaboration") {
                 counts.totalProcess++;
             }
@@ -167,7 +167,7 @@ export default function HelloReactView() {
                 counts.totalConversation++;
             }
             return counts;
-        }, { totalProcess: 0, totalChoreography: 0, totalConversation: 0});
+        }, { totalProcess: 0, totalChoreography: 0, totalConversation: 0 });
 
         const downloadFile = () => {
             axios({
@@ -202,65 +202,65 @@ export default function HelloReactView() {
         return (
             <>
                 <div className="flex flex-col h-full items-left justify-left p-l text-left box-border">
-                    <a style={{fontSize:'40px',color:'black',alignSelf:'left',fontWeight:"bold"}}>Preview of BPMN Models Uploaded</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left'}}>You have uploaded <a style={{color:'green',fontWeight:"bold"}}>{filesInfo.length}</a> models. The collection contains <a style={{color:'red',fontWeight:"bold"}}>{invalid}</a> invalids and <a style={{color:'red',fontWeight:"bold"}}>{totalDuplicated.totalDuplicated}</a> duplicated models.</a>
-                    <a style={{fontSize:'20px',color:'black',alignSelf:'left',marginBottom:'0.5cm'}}>The collection is composed by: Process Collaboration <a style={{color:'green',fontWeight:"bold"}}>{totalProcess}</a>, Choreography <a style={{color:'green',fontWeight:"bold"}}>{totalChoreography}</a>, Conversation <a style={{color:'green',fontWeight:"bold"}}>{totalConversation}</a>.</a>
+                    <a style={{ fontSize: '40px', color: 'black', alignSelf: 'left', fontWeight: "bold" }}>Preview of BPMN Models Uploaded</a>
+                    <a style={{ fontSize: '20px', color: 'black', alignSelf: 'left' }}>You have uploaded <a style={{ color: 'green', fontWeight: "bold" }}>{filesInfo.length}</a> models. The collection contains <a style={{ color: 'red', fontWeight: "bold" }}>{invalid}</a> invalids and <a style={{ color: 'red', fontWeight: "bold" }}>{totalDuplicated.totalDuplicated}</a> duplicated models.</a>
+                    <a style={{ fontSize: '20px', color: 'black', alignSelf: 'left', marginBottom: '0.5cm' }}>The collection is composed by: Process Collaboration <a style={{ color: 'green', fontWeight: "bold" }}>{totalProcess}</a>, Choreography <a style={{ color: 'green', fontWeight: "bold" }}>{totalChoreography}</a>, Conversation <a style={{ color: 'green', fontWeight: "bold" }}>{totalConversation}</a>.</a>
 
                     {displayButton && (
-                        <button style={{ backgroundColor: 'white', color: '#10ad73', padding: '5px 20px', border: 'none', borderBottom: '1px solid #10ad73', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize:'12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
+                        <button style={{ backgroundColor: 'white', color: 'rgb(16, 173, 115)', padding: '5px 20px', border: 'none', borderBottom: '1px solid rgb(16, 173, 115)', cursor: 'pointer', right: '0', bottom: '0', fontWeight: "bold", fontSize: '12px' }} onClick={() => setShowAllFiles(!showAllFiles)}>
                             {showAllFiles ? `Hide list` : `Click here to show all (${filesInfo.length} models)`}
                         </button>
                     )}
 
                     <div className="file-info" >
-                        <span className="file-info-item-name" style={{ fontSize: '15px', fontWeight:"bold"}}>File name</span>
-                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Modeler</span>
-                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Model Type</span>
-                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Validation</span>
-                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Duplicated</span>
-                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>Language</span>
-                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight:"bold"}}>File size</span>
+                        <span className="file-info-item-name" style={{ fontSize: '15px', fontWeight: "bold" }}>File name</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight: "bold" }}>Modeler</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight: "bold" }}>Model Type</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight: "bold" }}>Validation</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight: "bold" }}>Duplicated</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight: "bold" }}>Language</span>
+                        <span className="file-info-item" style={{ fontSize: '15px', fontWeight: "bold" }}>File size</span>
                     </div>
 
                     {filesToDisplay.map((file, index) =>
-                            <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
-                                <div className="file-info">
-                                    <p className="file-info-item-name file-name">
-                                        <BsDiagram2 /> {file.name}
-                                    </p>
-                                    <p className="file-info-item file-name">
-                                        {file.modelType}
-                                    </p>
-                                    <p className={`file-info-item file-name`}>
-                                        <span className={`badge badge-pill badge-success ${file.isValid ? 'Valid' : 'Invalid'}`} >{file.isValid ? "Valid" : "Invalid"}</span>
-                                    </p>
-                                    <p className={`file-info-item file-name`}>
-                                       <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
-                                          {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
-                                       </span>
-                                    </p>
-                                    <p className="file-info-item file-name">
-                                        {file.isEnglish}
-                                    </p>
-                                    <p className="file-info-item file-name">
-                                        {file.size} kb
-                                    </p>
+                        <div key={index} style={{ border: "2px solid rgba(0, 0, 0, 0.05)", padding: "1px", borderRadius: "5px", marginBottom: "1px", fontSize: "15px", color: "black" }}>
+                            <div className="file-info">
+                                <p className="file-info-item-name file-name">
+                                    <BsDiagram2 /> {file.name}
+                                </p>
+                                <p className="file-info-item file-name">
+                                    {file.modelType}
+                                </p>
+                                <p className={`file-info-item file-name`}>
+                                    <span className={`badge badge-pill badge-success ${file.isValid ? 'Valid' : 'Invalid'}`} >{file.isValid ? "Valid" : "Invalid"}</span>
+                                </p>
+                                <p className={`file-info-item file-name`}>
+                                    <span className={`badge badge-pill badge-success ${file.isDuplicated ? 'Invalid' : 'Valid'}`} >
+                                        {file.isDuplicated ? <AiFillExclamationCircle></AiFillExclamationCircle> : <GiConfirmed></GiConfirmed>}
+                                    </span>
+                                </p>
+                                <p className="file-info-item file-name">
+                                    {file.isEnglish}
+                                </p>
+                                <p className="file-info-item file-name">
+                                    {file.size} kb
+                                </p>
 
-                                </div>
                             </div>
+                        </div>
                     )}
 
                     {filesInfo.length > 2 &&
-                        <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more files.</p>
+                        <p style={{ display: showAllFiles ? "none" : "block", fontSize: '17px', marginLeft: '0.5cm' }}>... {filesInfo.length - 1} more files.</p>
                     }
                     {filesInfo.length === 2 &&
-                        <p style={{ display: showAllFiles ? "none" : "block", fontSize:'17px', marginLeft:'0.5cm'}}>... {filesInfo.length - 1} more file.</p>
+                        <p style={{ display: showAllFiles ? "none" : "block", fontSize: '17px', marginLeft: '0.5cm' }}>... {filesInfo.length - 1} more file.</p>
                     }
                     <div>
-                        <p style={{ fontSize: '20px', marginTop: "2%", color: 'black', fontWeight: "bold", marginBottom: '0.4em' }}>Filtering options <a style={{ fontSize: '14px', padding: "1px", color: 'black', fontStyle: "italic",fontWeight:"normal"}}>(Select a filtering constraint to inspect or download the models.)</a>
+                        <p style={{ fontSize: '20px', marginTop: "2%", color: 'black', fontWeight: "bold", marginBottom: '0.4em' }}>Filtering options <a style={{ fontSize: '14px', padding: "1px", color: 'black', fontStyle: "italic", fontWeight: "normal" }}>(Select a filtering constraint to inspect or download the models.)</a>
                         </p>
-                         <div style={{ display: 'flex' }}>
-                            <div style={{ marginRight: '20px', width:"25%" }}>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ marginRight: '20px', width: "25%" }}>
                                 <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by model features:</p>
                                 <CheckboxGroup
                                     theme=''
@@ -268,13 +268,13 @@ export default function HelloReactView() {
 
                                 >
                                     <div style={{ flexDirection: 'column' }}>
-                                    <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
-                                    <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
-                                    <Checkbox value='english' label='Remove non-English models' name="checkbox3" />
+                                        <Checkbox value='duplicated' label='Remove Duplicate models' name="checkbox1" />
+                                        <Checkbox value='invalid' label='Remove Invalid models' name="checkbox2" />
+                                        <Checkbox value='english' label='Remove non-English models' name="checkbox3" />
                                     </div>
                                 </CheckboxGroup>
                             </div>
-                            <div style={{ width:"30%"}}>
+                            <div style={{ width: "30%" }}>
                                 <p style={{ fontSize: '16px', marginBottom: '0.2em' }}>Filter by model type:</p>
                                 <CheckboxGroup
                                     theme=''
@@ -287,23 +287,22 @@ export default function HelloReactView() {
                             </div>
                         </div>
 
-                        <Link to="/inspect" state={{data: filteringArray}} >
-                            <button style={{background:'#10ad73', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '2%', marginBottom:'0.42cm'}} onClick={inspectionPage}>
-                                <HiDocumentSearch /><a style={{color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Filter & Inspect</a>
+                        <Link to="/inspect" state={{ data: filteringArray }} >
+                            <button style={{ background: 'rgb(16, 173, 115)', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '2%', marginBottom: '0.42cm' }} onClick={inspectionPage}>
+                                <HiDocumentSearch /><a style={{ color: 'white', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm', fontStyle: "italic" }}>Filter & Inspect</a>
                             </button>
                         </Link>
-                        <button style={{background:'rgb(232,194,48)', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginLeft:'1%',marginBottom:'0.42cm'}} onClick={filterCollection}>
-                            <GrDocumentDownload /><a style={{color: 'black', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm',fontStyle:"italic"}}>Filter & Download</a>
+                        <button style={{ background: 'rgb(232,194,48)', color: 'white', fontSize: '20px', padding: '10px 30px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm', marginLeft: '1%', marginBottom: '0.42cm' }} onClick={filterCollection}>
+                            <GrDocumentDownload /><a style={{ color: 'black', fontSize: '20px', padding: '10px 10px', cursor: 'pointer', marginTop: '0.42cm', fontStyle: "italic" }}>Filter & Download</a>
                         </button>
-                        <input style={{position: 'absolute', top:"8px", right:"42px", zIndex: '9',fontSize: "17px", backgroundColor: 'white', color: 'red',fontWeight: "bold", padding: '5px 13px', border: '2px solid red', borderRadius: '3px', cursor: 'pointer'}} onClick={deleteFiles} type="submit" value="🕵️ Start a new inspection"/>
+                        <input style={{ position: 'absolute', top: "8px", right: "42px", zIndex: '9', fontSize: "17px", backgroundColor: 'white', color: 'red', fontWeight: "bold", padding: '5px 13px', border: '2px solid red', borderRadius: '3px', cursor: 'pointer' }} onClick={deleteFiles} type="submit" value="🕵️ Start a new inspection" />
                     </div>
-                    </div>
-                </>
-            );
-        }
+                </div>
+            </>
+        );
+    }
 
     const Home = () => {
-
         const downloadTestModels = () => {
             axios({
                 url: '/download-test-models',
@@ -318,11 +317,11 @@ export default function HelloReactView() {
                 link.click();
             });
         };
+
         const onClick = async (e: any) => {
-
             e.preventDefault()
-            if(selectedFile === null) {
-                return toast.error('Insert at least one file!', {
+            if (selectedFile === null) {
+                toast.error('Insert at least one file!', {
                     position: "bottom-left",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -332,11 +331,10 @@ export default function HelloReactView() {
                     progress: undefined,
                     theme: "colored",
                 });
+                return;
             }
-                // @ts-ignore
             if (getExtension(selectedFile[0].name).toLowerCase() !== "zip" && getExtension(selectedFile[0].name).toLowerCase() !== "xml" && getExtension(selectedFile[0].name).toLowerCase() !== "bpmn") {
-
-                return toast.error('Insert at least one .bpmn, .xml or .zip!', {
+                toast.error('Insert at least one .bpmn, .xml or .zip!', {
                     position: "bottom-left",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -346,7 +344,8 @@ export default function HelloReactView() {
                     progress: undefined,
                     theme: "colored",
                 });
-                }
+                return;
+            }
 
             const formData = new FormData();
             Array.from(selectedFile).forEach((file: any) => {
@@ -354,33 +353,33 @@ export default function HelloReactView() {
             });
 
             try {
-                const response = await axios({
+                await axios({
                     method: "post",
                     url: "/upload",
                     data: formData,
                     headers: { "Content-Type": "multipart/form-data" },
                 });
-
-            } catch(error) {
+                setShowHome(false)
+                setShowResults(true)
+                toast.success('File uploaded successfully!', {
+                    position: "bottom-left",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            } catch (error) {
                 setShowHome(true)
                 setShowResults(false)
             }
-            setShowHome(false)
-            setShowResults(true)
-            return toast.success('File uploaded succesfully!', {
-                position: "bottom-left",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
-    }
+            return;
+        }
+
         const handleFileSelect = (event: any) => {
-            const files = event.target.files
-            selectedFile = files
+            setSelectedFile(event.target.files);
         }
 
         function getExtension(filename: string) {
@@ -388,32 +387,23 @@ export default function HelloReactView() {
         }
 
         return (
-            <div style={{display: "flex", flexDirection: "row", height: "100%"}}>
-                <div style={{flexDirection:"column"}} className="flex h-full items-left justify-left p-l text-left box-border">
-                    <div>
-                        <a style={{fontSize:'40px',color:'black',marginLeft: "19%",fontWeight:"bold"}}>BPMN Inspector</a>
-                        <br />
-                        <a style={{fontSize:'20px',color:'black',marginLeft: "10%"}}>Upload one or more .bpmn, .xml or .zip files.</a>
-                        <div className="form-container">
-                            <section className="flex flex-col h-full items-center p-l text-center box-border" style={{
-                                cursor: "pointer",
-                                borderStyle: "solid",
-                                marginLeft: "3%",
-                                marginRight: "60%",
-                                marginTop: "2em",
-                                marginBottom: "10px",
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "380px",
-                                width: "500px",
-                                border: "4px dashed #10ad73",
-                                padding: "10em",
-                                backgroundRepeat: 'no-repeat',
-                                backgroundPosition: 'center',
-                            }}>
-                                <div className="image-container">
+            <div className="flex flex-col h-full bg-white text-gray-800" style={{ overflowX: 'hidden' }}>
+                <div className="content-container mx-auto w-full flex flex-col items-center">
+                    {/* Header Section */}
+                    <div className="flex flex-col items-center justify-center pt-s pb-m px-m text-center w-full">
+                        <h1 className="text-3xl font-bold mb-xs mt-0" style={{ color: 'black' }}>BPMN Inspector</h1>
+                        <p className="text-lg text-gray-600">
+                            Upload one or more .bpmn, .xml or .zip files.
+                        </p>
+                    </div>
+
+                    {/* Main Content */}
+                    <div className="flex flex-col lg:flex-row w-full gap-xl items-center lg:items-start pb-xl px-m">
+
+                        {/* Left Side: Upload Area */}
+                        <div className="flex-1 w-full flex flex-col items-center justify-center">
+                            <section className="upload-area glass-panel flex flex-col items-center justify-center p-xl rounded-2xl w-full" style={{ minHeight: '420px', position: 'relative' }}>
+                                <div className="image-container pointer-events-none opacity-20 absolute inset-0">
                                     <svg className="float-svg-data"></svg>
                                     <svg className="float-svg-dataStore"></svg>
                                     <svg className="float-svg-end"></svg>
@@ -428,103 +418,124 @@ export default function HelloReactView() {
                                     <svg className="float-svg-task"></svg>
                                     <svg className="float-svg-xorGateway"></svg>
                                 </div>
-                                <form encType={"multipart/form-data"} onSubmit={onClick}>
-                                    <input style={{background:'white', width:'200px', color: '#10ad73', fontSize: '15px', padding: '1px 1px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}}
-                                           type="file" name="file" id="file" onChange={handleFileSelect} multiple/>
-                                    <br/>
-                                    <input style={{background:'#10ad73',textDecorationStyle:'dashed', color: 'white', fontSize: '20px', padding: '10px 40px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '0.42cm'}} type="submit" value="Upload models"/>
+
+                                <form encType="multipart/form-data" onSubmit={onClick} className="flex flex-col items-center z-10 w-full max-w-sm">
+                                    <div className="p-m bg-white/80 rounded-xl mb-m border border-gray-200 shadow-sm w-full flex flex-col items-center gap-m">
+                                        <div className="text-gray-400 mb-s">
+                                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                        </div>
+                                        <input
+                                            type="file"
+                                            name="file"
+                                            id="file"
+                                            onChange={handleFileSelect}
+                                            multiple
+                                            className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold hover:file:bg-gray-100 cursor-pointer w-full"
+                                        />
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="bg-green-600 hover:bg-green-700 text-white text-xl font-bold py-3 px-12 rounded-xl transition-all shadow-lg active:transform active:translate-y-1 w-full"
+                                        style={{ background: 'rgb(16, 173, 115)' }}
+                                    >
+                                        Upload models
+                                    </button>
                                 </form>
                             </section>
-                            <a style={{fontSize:'14px',marginLeft: "7%",color:'black',fontStyle:"italic",marginTop:'4cm',padding:"10px" }}>Note: Files not in the .bpmn or .xml format will be automatically deleted.</a>
+                            <p className="text-sm text-gray-500 italic mt-m text-center max-w-sm">
+                                Note: Files not in the .bpmn or .xml format will be automatically deleted.
+                            </p>
+                        </div>
+
+                        {/* Right Side: Slideshow/Tabs Area */}
+                        <div className="flex-1 w-full flex flex-col">
+                            <div className="glass-panel p-xl rounded-2xl w-full shadow-sm" style={{ minHeight: '420px' }}>
+                                <ul className="nav nav-tabs nav-fill mb-l" style={{ display: 'flex', listStyle: 'none', padding: 0, borderBottom: '1px solid #dee2e6' }}>
+                                    <li className="nav-item" style={{ flex: 1, textAlign: 'center' }}>
+                                        <button
+                                            onClick={(e) => { e.preventDefault(); setActiveTab('filtering'); }}
+                                            className={`nav-link w-full py-3 font-bold transition-all ${activeTab === 'filtering' ? 'active' : 'text-gray-400'}`}
+                                            style={{ color: activeTab === 'filtering' ? 'rgb(16, 173, 115)' : '#6c757d', background: 'transparent', border: 'none', cursor: 'pointer', borderBottom: activeTab === 'filtering' ? '3px solid rgb(16, 173, 115)' : '3px solid transparent' }}
+                                        >
+                                            Upload Models
+                                        </button>
+                                    </li>
+                                    <li className="nav-item" style={{ flex: 1, textAlign: 'center' }}>
+                                        <button
+                                            onClick={(e) => { e.preventDefault(); setActiveTab('inspection'); }}
+                                            className={`nav-link w-full py-3 font-bold transition-all ${activeTab === 'inspection' ? 'active' : ''}`}
+                                            style={{ color: activeTab === 'inspection' ? 'rgb(16, 173, 115)' : '#6c757d', background: 'transparent', border: 'none', cursor: 'pointer', borderBottom: activeTab === 'inspection' ? '3px solid rgb(16, 173, 115)' : '3px solid transparent' }}
+                                        >
+                                            Filter Models
+                                        </button>
+                                    </li>
+                                    <li className="nav-item" style={{ flex: 1, textAlign: 'center' }}>
+                                        <button
+                                            onClick={(e) => { e.preventDefault(); setActiveTab('validation'); }}
+                                            className={`nav-link w-full py-3 font-bold transition-all ${activeTab === 'validation' ? 'active' : ''}`}
+                                            style={{ color: activeTab === 'validation' ? 'rgb(16, 173, 115)' : '#6c757d', background: 'transparent', border: 'none', cursor: 'pointer', borderBottom: activeTab === 'validation' ? '3px solid rgb(16, 173, 115)' : '3px solid transparent' }}
+                                        >
+                                            Inspect Models
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <div className="flex flex-col items-center justify-center text-center p-m" style={{ minHeight: '220px' }}>
+                                    {activeTab === 'filtering' && (
+                                        <div className="flex flex-col items-center animate-fadeIn">
+                                            <img src={uploadImg} alt="Upload" width="120" height="120" className="mb-m" />
+                                            <p className="text-xl font-bold text-gray-800">
+                                                1. <span style={{ color: "#a5b8da" }}>Upload</span> a collection of BPMN models.
+                                            </p>
+                                        </div>
+                                    )}
+                                    {activeTab === 'inspection' && (
+                                        <div className="flex flex-col items-center animate-fadeIn">
+                                            <img src={filterImg} alt="Filter" width="120" height="120" className="mb-m" />
+                                            <p className="text-xl font-bold text-gray-800">
+                                                2. <span style={{ color: "#c0b777" }}>Filter</span> the collection of BPMN models.
+                                            </p>
+                                        </div>
+                                    )}
+                                    {activeTab === 'validation' && (
+                                        <div className="flex flex-col items-center animate-fadeIn">
+                                            <div className="flex gap-m mb-m items-center">
+                                                <img src={inspect1Img} alt="Inspect 1" width="110" height="110" />
+                                                <img src={inspect2Img} alt="Inspect 2" width="120" height="120" />
+                                            </div>
+                                            <p className="text-xl font-bold text-gray-800">
+                                                3. <span style={{ color: "#cba991" }}>Inspect</span> the collection of BPMN models.
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="mt-xl p-m bg-gray-50/80 rounded-xl flex items-center justify-center text-center border border-gray-100">
+                                    <span className="text-sm text-gray-600">
+                                        No models to test? Download an example collection
+                                        <button
+                                            onClick={downloadTestModels}
+                                            className="mx-1 font-bold underline decoration-dotted underline-offset-4"
+                                            style={{ background: 'transparent', border: 'none', padding: 0, color: 'rgb(16, 173, 115)' }}
+                                        >
+                                            here
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div style={{width:"100%",marginLeft:"80px",marginRight:"80px", marginTop:"110px"}}>
-                    <br />
-                    <ul className="nav nav-tabs nav-fill">
-                        <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>
-                            <a
-                                className={`nav-link ${activeTab === 'filtering' ? 'active' : ''}`}
-                                onClick={(e) => {e.preventDefault(); setActiveTab('filtering');}}
-                                style={{ color: '#10ad73'}}>
-                                Upload Models
-                            </a>
-                        </li>
-                        <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>    <a
-                                className={`nav-link ${activeTab === 'inspection' ? 'active' : ''}`}
-                                onClick={(e) => {e.preventDefault(); setActiveTab('inspection');}}
-                                style={{color: '#10ad73'}}>
-                                Filter Models
-                            </a>
-                        </li>
-                        <li className="nav-item" style={{padding: '5px 20px',fontWeight:"bold", cursor: 'pointer', fontSize:'15px',width:"30%" }}>    <a
-                                className={`nav-link ${activeTab === 'validation' ? 'active' : ''}`}
-                                onClick={(e) => {e.preventDefault(); setActiveTab('validation');}}
-                                style={{color: '#10ad73'}}>
-                                Inspect Models
-                            </a>
-                        </li>
-                    </ul>
-
-                    {activeTab === 'filtering' && (
-                        <>
-                            <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={uploadImg} alt="Animated icons by Lordicon.com" width="140" height="140"/>
-                                <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >1. <a style={{color:"#a5b8da"}}>Upload</a> a collection of BPMN models.</p>
-                            </div>
-                        </>
-                    )}
-                    {activeTab === 'inspection' && (
-                        <>
-                            <div className="icon-text-container">
-                                <img style={{marginTop:"50px"}} src={filterImg} alt="Animated icons by Lordicon.com" width="140" height="140"/>
-                                    <p style={{marginTop:"50px", fontSize:"18px",fontWeight:"bold"}} >2. <a style={{color:"#c0b777"}}>Filter</a> the collection of BPMN models.</p>
-                            </div>
-                        </>
-
-                    )}
-                    {activeTab === 'validation' && (
-                        <>
-                            <div className="icon-text-container">
-                                <div style={{display: "flex", flexDirection:"row"}}>
-                                    <img style={{marginTop: "50px"}} src={inspect1Img} alt="Animated icons by Lordicon.com" width="130"
-                                         height="130"/>
-                                    <div>
-                                        <img style={{marginTop: "50px"}}  src={inspect2Img} alt="Animated icons by Lordicon.com" width="140" height="140"/>
-                                    </div>
-                                </div>
-                                <p style={{marginTop: "50px", fontSize:"18px", fontWeight:"bold"}}>3. <a
-                                    style={{color: "#cba991"}}>Inspect</a> the collection of BPMN models</p>
-
-                            </div>
-                        </>
-                    )}
-                    <div style={{border: "solid 1px",
-                        fontSize: "16px",
-                        position: "relative",
-                        padding: '7px 40px',
-                        borderRadius: '5px',
-                        display: "flex",
-                        height: "60px",
-                        marginTop: "50px",
-                        textAlign: "center",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#eeeeef"}}>
-                        No models to test? Download an example collection <a style={{cursor:"pointer", fontStyle:"italic",textDecoration: "underline", marginLeft:"5px"}} onClick={downloadTestModels}> here </a>
-                    </div>
-                </div>
-
             </div>
-     )
+        );
     }
 
     //{ showResults ? <Results /> : null }
     //{ showHome ? <Home /> : null }
     return (
         <>
-            { showResults ? <Results /> : null }
-            { showHome ? <Home /> : null }
+            {showResults ? <Results /> : null}
+            {showHome ? <Home /> : null}
         </>
     );
 }
